@@ -1,0 +1,1581 @@
+{
+	"info": {
+		"_postman_id": "34ba5bdb-2a77-421e-893c-23113c0991d6",
+		"name": "OpenTravian",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "barracksProductions",
+			"item": [
+				{
+					"name": "barracksProductions POST",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"troopName\": \"Maceman\",\r\n    \"troopId\": 1,\r\n    \"troopCount\": 100,\r\n    \"troopProdTime\": 1000,\r\n    \"timeStarted\": 0,\r\n    \"timeCompleted\": 1000,\r\n    \"barrProdId\": 1,\r\n    \"lastUpdate\": 0,\r\n    \"troopsDoneAlready\": 0\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/barracksProductions",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"barracksProductions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "barracksProductions GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost/api/barracksProductions/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"barracksProductions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "barracksProductions PATCH",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"troopName\": \"Maceman\",\r\n    \"troopId\": 1,\r\n    \"troopCount\": 100,\r\n    \"troopProdTime\": 1000,\r\n    \"timeStarted\": 0,\r\n    \"timeCompleted\": 1000,\r\n    \"barrProdId\": 1,\r\n    \"lastUpdate\": 10,\r\n    \"troopsDoneAlready\": 1\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/barracksProductions/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"barracksProductions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "barracksProductions PUT",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"troopName\": \"Maceman\",\r\n    \"troopId\": 1,\r\n    \"troopCount\": 100,\r\n    \"troopProdTime\": 1000,\r\n    \"timeStarted\": 0,\r\n    \"timeCompleted\": 1000,\r\n    \"barrProdId\": 1,\r\n    \"lastUpdate\": 10,\r\n    \"troopsDoneAlready\": 1\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/barracksProductions/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"barracksProductions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "barracksProductions DELETE",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost/api/barracksProductions/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"barracksProductions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "resFieldUpgrades",
+			"item": [
+				{
+					"name": "resFieldUpgrades POST",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"rfid\": 1,\r\n    \"fieldType\": \"wood\",\r\n    \"fieldLevel\": 1,\r\n    \"timeStarted\": 0,\r\n    \"timeCompleted\": 2000,\r\n    \"upgradeId\": 1\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/resFieldUpgrades",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"resFieldUpgrades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "resFieldUpgrades GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost/api/resFieldUpgrades/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"resFieldUpgrades",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "resFieldUpgrades PATCH",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"rfid\": 2,\r\n    \"fieldType\": \"wood\",\r\n    \"fieldLevel\": 1,\r\n    \"timeStarted\": 0,\r\n    \"timeCompleted\": 2000,\r\n    \"upgradeId\": 1\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/resFieldUpgrades/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"resFieldUpgrades",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "resFieldUpgrades PUT",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"rfid\": 1,\r\n    \"fieldType\": \"wood\",\r\n    \"fieldLevel\": 2,\r\n    \"timeStarted\": 0,\r\n    \"timeCompleted\": 2000,\r\n    \"upgradeId\": 1\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/resFieldUpgrades/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"resFieldUpgrades",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "resFieldUpgrades DELETE",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost/api/resFieldUpgrades/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"resFieldUpgrades",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "sendTroops",
+			"item": [
+				{
+					"name": "sendTroops POST",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sendTroopsId\": 1,\r\n    \"sendType\": \"full\",\r\n    \"idVillageFrom\": 2,\r\n    \"idVillageTo\": 1,\r\n    \"timeSent\": 0,\r\n    \"timeArrived\": 5000,\r\n    \"troopTribe\": \"teuton\",\r\n    \"troop1num\": 100,\r\n    \"troop2num\": 0,\r\n    \"troop3num\": 0,\r\n    \"troop4num\": 0,\r\n    \"troop5num\": 0,\r\n    \"troop6num\": 0,\r\n    \"troop7num\": 0,\r\n    \"troop8num\": 0,\r\n    \"troop9num\": 0,\r\n    \"troop10num\": 5\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/sendTroops",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"sendTroops"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sendTroops GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost/api/sendTroops/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"sendTroops",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sendTroops PATCH",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sendTroopsId\": 1,\r\n    \"sendType\": \"full\",\r\n    \"idVillageFrom\": 2,\r\n    \"idVillageTo\": 1,\r\n    \"timeSent\": 0,\r\n    \"timeArrived\": 5000,\r\n    \"troopTribe\": \"teuton\",\r\n    \"troop1num\": 150,\r\n    \"troop2num\": 0,\r\n    \"troop3num\": 0,\r\n    \"troop4num\": 0,\r\n    \"troop5num\": 0,\r\n    \"troop6num\": 0,\r\n    \"troop7num\": 0,\r\n    \"troop8num\": 0,\r\n    \"troop9num\": 0,\r\n    \"troop10num\": 10\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/sendTroops/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"sendTroops",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sendTroops PUT",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sendTroopsId\": 1,\r\n    \"sendType\": \"full\",\r\n    \"idVillageFrom\": 2,\r\n    \"idVillageTo\": 1,\r\n    \"timeSent\": 0,\r\n    \"timeArrived\": 5000,\r\n    \"troopTribe\": \"teuton\",\r\n    \"troop1num\": 150,\r\n    \"troop2num\": 0,\r\n    \"troop3num\": 0,\r\n    \"troop4num\": 0,\r\n    \"troop5num\": 0,\r\n    \"troop6num\": 0,\r\n    \"troop7num\": 0,\r\n    \"troop8num\": 0,\r\n    \"troop9num\": 0,\r\n    \"troop10num\": 10\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/sendTroops/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"sendTroops",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sendTroops DELETE",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost/api/sendTroops/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"sendTroops",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "villageFieldLevels",
+			"item": [
+				{
+					"name": "villageFieldLevels POST",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"resField1Level\": 2,\r\n    \"resField2Level\": 1,\r\n    \"resField3Level\": 1,\r\n    \"resField4Level\": 1,\r\n    \"resField5Level\": 2,\r\n    \"resField6Level\": 1,\r\n    \"resField7Level\": 1,\r\n    \"resField8Level\": 1,\r\n    \"resField9Level\": 1,\r\n    \"resField10Level\": 1,\r\n    \"resField11Level\": 1,\r\n    \"resField12Level\": 1,\r\n    \"resField13Level\": 1,\r\n    \"resField14Level\": 1,\r\n    \"resField15Level\": 1,\r\n    \"resField16Level\": 1,\r\n    \"resField17Level\": 1,\r\n    \"resField18Level\": 1\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/villageFieldLevels",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageFieldLevels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageFieldLevels GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost/api/villageFieldLevels/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageFieldLevels",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageFieldLevels PATCH",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"resField1Level\": 2,\r\n    \"resField2Level\": 2,\r\n    \"resField3Level\": 1,\r\n    \"resField4Level\": 1,\r\n    \"resField5Level\": 2,\r\n    \"resField6Level\": 1,\r\n    \"resField7Level\": 1,\r\n    \"resField8Level\": 1,\r\n    \"resField9Level\": 1,\r\n    \"resField10Level\": 1,\r\n    \"resField11Level\": 1,\r\n    \"resField12Level\": 1,\r\n    \"resField13Level\": 1,\r\n    \"resField14Level\": 1,\r\n    \"resField15Level\": 1,\r\n    \"resField16Level\": 1,\r\n    \"resField17Level\": 1,\r\n    \"resField18Level\": 1\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/villageFieldLevels/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageFieldLevels",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageFieldLevels PUT",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"resField1Level\": 2,\r\n    \"resField2Level\": 2,\r\n    \"resField3Level\": 1,\r\n    \"resField4Level\": 1,\r\n    \"resField5Level\": 2,\r\n    \"resField6Level\": 1,\r\n    \"resField7Level\": 1,\r\n    \"resField8Level\": 1,\r\n    \"resField9Level\": 1,\r\n    \"resField10Level\": 1,\r\n    \"resField11Level\": 1,\r\n    \"resField12Level\": 1,\r\n    \"resField13Level\": 1,\r\n    \"resField14Level\": 1,\r\n    \"resField15Level\": 1,\r\n    \"resField16Level\": 1,\r\n    \"resField17Level\": 1,\r\n    \"resField18Level\": 1\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/villageFieldLevels/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageFieldLevels",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageFieldLevels DELETE",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost/api/villageFieldLevels/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageFieldLevels",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "villageFieldTypes",
+			"item": [
+				{
+					"name": "villageFieldTypes POST",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"resField1Type\": \"wood\",\r\n    \"resField2Type\": \"clay\",\r\n    \"resField3Type\": \"crop\",\r\n    \"resField4Type\": \"iron\",\r\n    \"resField5Type\": \"iron\",\r\n    \"resField6Type\": \"crop\",\r\n    \"resField7Type\": \"clay\",\r\n    \"resField8Type\": \"crop\",\r\n    \"resField9Type\": \"crop\",\r\n    \"resField10Type\": \"wood\",\r\n    \"resField11Type\": \"clay\",\r\n    \"resField12Type\": \"wood\",\r\n    \"resField13Type\": \"crop\",\r\n    \"resField14Type\": \"iron\",\r\n    \"resField15Type\": \"wood\",\r\n    \"resField16Type\": \"clay\",\r\n    \"resField17Type\": \"crop\",\r\n    \"resField18Type\": \"iron\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/villageFieldTypes",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageFieldTypes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageFieldTypes GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost/api/villageFieldTypes/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageFieldTypes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageFieldTypes PATCH",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"resField1Type\": \"clay\",\r\n    \"resField2Type\": \"clay\",\r\n    \"resField3Type\": \"crop\",\r\n    \"resField4Type\": \"iron\",\r\n    \"resField5Type\": \"iron\",\r\n    \"resField6Type\": \"crop\",\r\n    \"resField7Type\": \"clay\",\r\n    \"resField8Type\": \"crop\",\r\n    \"resField9Type\": \"crop\",\r\n    \"resField10Type\": \"wood\",\r\n    \"resField11Type\": \"clay\",\r\n    \"resField12Type\": \"wood\",\r\n    \"resField13Type\": \"crop\",\r\n    \"resField14Type\": \"iron\",\r\n    \"resField15Type\": \"wood\",\r\n    \"resField16Type\": \"clay\",\r\n    \"resField17Type\": \"crop\",\r\n    \"resField18Type\": \"iron\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/villageFieldTypes/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageFieldTypes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageFieldTypes PUT",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"resField1Type\": \"clay\",\r\n    \"resField2Type\": \"clay\",\r\n    \"resField3Type\": \"crop\",\r\n    \"resField4Type\": \"iron\",\r\n    \"resField5Type\": \"iron\",\r\n    \"resField6Type\": \"crop\",\r\n    \"resField7Type\": \"clay\",\r\n    \"resField8Type\": \"crop\",\r\n    \"resField9Type\": \"crop\",\r\n    \"resField10Type\": \"wood\",\r\n    \"resField11Type\": \"clay\",\r\n    \"resField12Type\": \"wood\",\r\n    \"resField13Type\": \"crop\",\r\n    \"resField14Type\": \"iron\",\r\n    \"resField15Type\": \"wood\",\r\n    \"resField16Type\": \"clay\",\r\n    \"resField17Type\": \"crop\",\r\n    \"resField18Type\": \"iron\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/villageFieldTypes/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageFieldTypes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageFieldTypes DELETE",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost/api/villageFieldTypes/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageFieldTypes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "villageMaxResources",
+			"item": [
+				{
+					"name": "villagemaxresoruces POST",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"maxWood\": 1000,\r\n    \"maxClay\": 1000,\r\n    \"maxIron\": 1000,\r\n    \"maxCrop\": 1000\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/villageMaxResources",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageMaxResources"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villagemaxresoruces GET",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost/api/villageMaxResources/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageMaxResources",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villagemaxresoruces PATCH",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"maxWood\": 2000,\r\n    \"maxClay\": 2000,\r\n    \"maxIron\": 2000,\r\n    \"maxCrop\": 2000\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/villageMaxResources/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageMaxResources",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villagemaxresoruces PUT",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"maxWood\": 2000,\r\n    \"maxClay\": 2000,\r\n    \"maxIron\": 2000,\r\n    \"maxCrop\": 2000\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/villageMaxResources/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageMaxResources",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villagemaxresoruces DELETE",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost/api/villageMaxResources/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageMaxResources",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "villageOwnTroops",
+			"item": [
+				{
+					"name": "villageOwnTroops POST",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"tribe\": \"teuton\",\r\n    \"troop1\": 200,\r\n    \"troop2\": 50,\r\n    \"troop3\": 0,\r\n    \"troop4\": 0,\r\n    \"troop5\": 0,\r\n    \"troop6\": 0,\r\n    \"troop7\": 0,\r\n    \"troop8\": 0,\r\n    \"troop9\": 0,\r\n    \"troop10\": 20\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/villageOwnTroops",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageOwnTroops"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageOwnTroops GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost/api/villageOwnTroops/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageOwnTroops",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageOwnTroops PATCH",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"tribe\": \"teuton\",\r\n    \"troop1\": 201,\r\n    \"troop2\": 50,\r\n    \"troop3\": 0,\r\n    \"troop4\": 0,\r\n    \"troop5\": 0,\r\n    \"troop6\": 0,\r\n    \"troop7\": 0,\r\n    \"troop8\": 0,\r\n    \"troop9\": 0,\r\n    \"troop10\": 20\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/villageOwnTroops/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageOwnTroops",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageOwnTroops PUT",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"tribe\": \"teuton\",\r\n    \"troop1\": 201,\r\n    \"troop2\": 50,\r\n    \"troop3\": 0,\r\n    \"troop4\": 0,\r\n    \"troop5\": 0,\r\n    \"troop6\": 0,\r\n    \"troop7\": 0,\r\n    \"troop8\": 0,\r\n    \"troop9\": 0,\r\n    \"troop10\": 20\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/villageOwnTroops/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageOwnTroops",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageOwnTroops DELETE",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost/api/villageOwnTroops/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageOwnTroops",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "villageProductions",
+			"item": [
+				{
+					"name": "villageProductions POST",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"productionWood\": 200,\r\n    \"productionClay\": 200,\r\n    \"productionIron\": 200,\r\n    \"productionCrop\": 200\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/villageProductions",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageProductions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageProductions GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost/api/villageProductions/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageProductions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageProductions PATCH",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"productionWood\": 250,\r\n    \"productionClay\": 250,\r\n    \"productionIron\": 250,\r\n    \"productionCrop\": 250\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/villageProductions/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageProductions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageProductions PUT",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"productionWood\": 250,\r\n    \"productionClay\": 250,\r\n    \"productionIron\": 250,\r\n    \"productionCrop\": 250\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/villageProductions/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageProductions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageProductions DELETE",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost/api/villageProductions/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageProductions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "villageReinforcements",
+			"item": [
+				{
+					"name": "villageReinforcements POST",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"reinforcementId\": 1,\r\n    \"idVillage\": 2,\r\n    \"idVillageFrom\": 1,\r\n    \"tribe\": \"gaul\",\r\n    \"troop1\": 50,\r\n    \"troop2\": 0,\r\n    \"troop3\": 0,\r\n    \"troop4\": 0,\r\n    \"troop5\": 0,\r\n    \"troop6\": 0,\r\n    \"troop7\": 0,\r\n    \"troop8\": 0,\r\n    \"troop9\": 0,\r\n    \"troop10\": 10\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/villageReinforcements",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageReinforcements"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageReinforcements GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost/api/villageReinforcements/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageReinforcements",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageReinforcements PATCH",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"reinforcementId\": 1,\r\n    \"idVillage\": 2,\r\n    \"idVillageFrom\": 1,\r\n    \"tribe\": \"gaul\",\r\n    \"troop1\": 100,\r\n    \"troop2\": 0,\r\n    \"troop3\": 0,\r\n    \"troop4\": 0,\r\n    \"troop5\": 0,\r\n    \"troop6\": 0,\r\n    \"troop7\": 0,\r\n    \"troop8\": 0,\r\n    \"troop9\": 0,\r\n    \"troop10\": 10\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/villageReinforcements/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageReinforcements",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageReinforcements PUT",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"reinforcementId\": 1,\r\n    \"idVillage\": 2,\r\n    \"idVillageFrom\": 1,\r\n    \"tribe\": \"gaul\",\r\n    \"troop1\": 100,\r\n    \"troop2\": 0,\r\n    \"troop3\": 0,\r\n    \"troop4\": 0,\r\n    \"troop5\": 0,\r\n    \"troop6\": 0,\r\n    \"troop7\": 0,\r\n    \"troop8\": 0,\r\n    \"troop9\": 0,\r\n    \"troop10\": 10\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/villageReinforcements/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageReinforcements",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageReinforcements DELETE",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost/api/villageReinforcements/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageReinforcements",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "villageResources",
+			"item": [
+				{
+					"name": "villageResources POST",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"currentWood\": 200,\r\n    \"currentClay\": 200,\r\n    \"currentIron\": 200,\r\n    \"currentCrop\": 200,\r\n    \"lastUpdate\": 1593986238\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/villageResources",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageResources"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageResources GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost/api/villageResources/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageResources",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageResources PATCH",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"currentWood\": 300,\r\n    \"currentClay\": 300,\r\n    \"currentIron\": 300,\r\n    \"currentCrop\": 300,\r\n    \"lastUpdate\": 1593986238\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/villageResources/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageResources",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageResources PUT",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"currentWood\": 300,\r\n    \"currentClay\": 300,\r\n    \"currentIron\": 300,\r\n    \"currentCrop\": 300,\r\n    \"lastUpdate\": 1593986238\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/villageResources/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageResources",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageResources DELETE",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost/api/villageResources/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageResources",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

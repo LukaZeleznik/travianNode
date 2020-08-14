@@ -1,0 +1,87 @@
+version: '3'
+
+services:
+
+    nodejs:
+        build:
+            context: NodeJs
+            dockerfile: Dockerfile
+        image: nodejs
+        container_name: nodejs
+        restart: unless-stopped
+        depends_on:
+            - db
+        env_file: .env
+        command: nodemon -L app.js
+        environment:
+        - MONGO_USERNAME=$MONGO_USERNAME
+        - MONGO_PASSWORD=$MONGO_PASSWORD
+        - MONGO_HOSTNAME=db
+        - MONGO_PORT=$MONGO_PORT
+        - MONGO_DB=$MONGO_DB 
+        ports:
+        - "8080:8080"
+        volumes:
+        - ./nodejs:/home/node/app
+        - ./nodejs/node_modules:/home/node/app/node_modules
+        networks:
+        - app-network
+        
+        #command: ./nodejs/wait-for.sh db:27017 -- /home/node/app/node_modules/.bin/nodemon app.js
+    db:
+        image: mongo:4.2.8
+        container_name: mongo
+        restart: unless-stopped
+        env_file: .env
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=$MONGO_USERNAME
+            - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
+        ports:
+            - "27017:27017"
+        volumes:  
+            - dbdata:/data/db   
+        networks:
+            - app-network
+
+    nginx:
+        build:
+            context: nginx
+            dockerfile: Dockerfile
+        image: nginx:mainline
+        container_name: nginx
+        restart: unless-stopped
+        ports:
+            - "80:80"
+            - "81:81"
+        volumes:
+            - ./nginx/www:/var/www/
+            - ./nginx/conf.d:/etc/nginx/conf.d
+            - ./nginx/certbot-etc:/etc/letsencrypt
+            - ./nginx/certbot-var:/var/lib/letsencrypt
+        networks:
+            - app-network
+    
+#    certbot:
+#        image: certbot/certbot
+#        container_name: certbot
+#        volumes:
+#            - ./nginx/certbot-etc:/etc/letsencrypt
+#            - ./nginx/certbot-var:/var/lib/letsencrypt
+#            - ./nginx/opentravian:/var/www/opentravian
+#        depends_on:
+#            - nodejs
+#        command: certonly --webroot --webroot-path=/var/www/html --email luka.zeleznik10@gmail.com --agree-tos --no-eff-email --staging -d luki.ml
+
+networks:
+    app-network:
+        driver: bridge
+              
+volumes:
+    dbdata:
+    node_modules:
+#    web-root:
+#        driver: local
+#        driver_opts:
+#            type: none
+#            device: /home/luki/node_project/views/
+#            o: bind

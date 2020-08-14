@@ -1,0 +1,3945 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "OpenTravian",
+    "contact": {},
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost/api",
+      "variables": {}
+    }
+  ],
+  "paths": {
+    "/barracksProductions": {
+      "post": {
+        "tags": [
+          "barracksProductions"
+        ],
+        "summary": "barracksProductions POST",
+        "operationId": "barracksProductionsPOST",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/barracksProductionsPOSTRequest"
+              },
+              "example": {
+                "idVillage": 1,
+                "troopName": "Maceman",
+                "troopId": 1,
+                "troopCount": 100,
+                "troopProdTime": 1000,
+                "timeStarted": 0,
+                "timeCompleted": 1000,
+                "barrProdId": 1,
+                "lastUpdate": 0,
+                "troopsDoneAlready": 0
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/barracksProductions/1": {
+      "get": {
+        "tags": [
+          "barracksProductions"
+        ],
+        "summary": "barracksProductions GET",
+        "operationId": "barracksProductionsGET",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "patch": {
+        "tags": [
+          "barracksProductions"
+        ],
+        "summary": "barracksProductions PATCH",
+        "operationId": "barracksProductionsPATCH",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/barracksProductionsPATCHRequest"
+              },
+              "example": {
+                "idVillage": 1,
+                "troopName": "Maceman",
+                "troopId": 1,
+                "troopCount": 100,
+                "troopProdTime": 1000,
+                "timeStarted": 0,
+                "timeCompleted": 1000,
+                "barrProdId": 1,
+                "lastUpdate": 10,
+                "troopsDoneAlready": 1
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "barracksProductions"
+        ],
+        "summary": "barracksProductions PUT",
+        "operationId": "barracksProductionsPUT",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/barracksProductionsPUTRequest"
+              },
+              "example": {
+                "idVillage": 1,
+                "troopName": "Maceman",
+                "troopId": 1,
+                "troopCount": 100,
+                "troopProdTime": 1000,
+                "timeStarted": 0,
+                "timeCompleted": 1000,
+                "barrProdId": 1,
+                "lastUpdate": 10,
+                "troopsDoneAlready": 1
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "barracksProductions"
+        ],
+        "summary": "barracksProductions DELETE",
+        "operationId": "barracksProductionsDELETE",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "application/json"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/resFieldUpgrades": {
+      "post": {
+        "tags": [
+          "resFieldUpgrades"
+        ],
+        "summary": "resFieldUpgrades POST",
+        "operationId": "resFieldUpgradesPOST",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/resFieldUpgradesPOSTRequest"
+              },
+              "example": {
+                "idVillage": 1,
+                "rfid": 1,
+                "fieldType": "wood",
+                "fieldLevel": 1,
+                "timeStarted": 0,
+                "timeCompleted": 2000,
+                "upgradeId": 1
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/resFieldUpgrades/1": {
+      "get": {
+        "tags": [
+          "resFieldUpgrades"
+        ],
+        "summary": "resFieldUpgrades GET",
+        "operationId": "resFieldUpgradesGET",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "patch": {
+        "tags": [
+          "resFieldUpgrades"
+        ],
+        "summary": "resFieldUpgrades PATCH",
+        "operationId": "resFieldUpgradesPATCH",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/resFieldUpgradesPATCHRequest"
+              },
+              "example": {
+                "idVillage": 1,
+                "rfid": 2,
+                "fieldType": "wood",
+                "fieldLevel": 1,
+                "timeStarted": 0,
+                "timeCompleted": 2000,
+                "upgradeId": 1
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "resFieldUpgrades"
+        ],
+        "summary": "resFieldUpgrades PUT",
+        "operationId": "resFieldUpgradesPUT",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/resFieldUpgradesPUTRequest"
+              },
+              "example": {
+                "idVillage": 1,
+                "rfid": 1,
+                "fieldType": "wood",
+                "fieldLevel": 2,
+                "timeStarted": 0,
+                "timeCompleted": 2000,
+                "upgradeId": 1
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "resFieldUpgrades"
+        ],
+        "summary": "resFieldUpgrades DELETE",
+        "operationId": "resFieldUpgradesDELETE",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "application/json"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/sendTroops": {
+      "post": {
+        "tags": [
+          "sendTroops"
+        ],
+        "summary": "sendTroops POST",
+        "operationId": "sendTroopsPOST",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/sendTroopsPOSTRequest"
+              },
+              "example": {
+                "sendTroopsId": 1,
+                "sendType": "full",
+                "idVillageFrom": 2,
+                "idVillageTo": 1,
+                "timeSent": 0,
+                "timeArrived": 5000,
+                "troopTribe": "teuton",
+                "troop1num": 100,
+                "troop2num": 0,
+                "troop3num": 0,
+                "troop4num": 0,
+                "troop5num": 0,
+                "troop6num": 0,
+                "troop7num": 0,
+                "troop8num": 0,
+                "troop9num": 0,
+                "troop10num": 5
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/sendTroops/1": {
+      "get": {
+        "tags": [
+          "sendTroops"
+        ],
+        "summary": "sendTroops GET",
+        "operationId": "sendTroopsGET",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "patch": {
+        "tags": [
+          "sendTroops"
+        ],
+        "summary": "sendTroops PATCH",
+        "operationId": "sendTroopsPATCH",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/sendTroopsPATCHRequest"
+              },
+              "example": {
+                "sendTroopsId": 1,
+                "sendType": "full",
+                "idVillageFrom": 2,
+                "idVillageTo": 1,
+                "timeSent": 0,
+                "timeArrived": 5000,
+                "troopTribe": "teuton",
+                "troop1num": 150,
+                "troop2num": 0,
+                "troop3num": 0,
+                "troop4num": 0,
+                "troop5num": 0,
+                "troop6num": 0,
+                "troop7num": 0,
+                "troop8num": 0,
+                "troop9num": 0,
+                "troop10num": 10
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "sendTroops"
+        ],
+        "summary": "sendTroops PUT",
+        "operationId": "sendTroopsPUT",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/sendTroopsPUTRequest"
+              },
+              "example": {
+                "sendTroopsId": 1,
+                "sendType": "full",
+                "idVillageFrom": 2,
+                "idVillageTo": 1,
+                "timeSent": 0,
+                "timeArrived": 5000,
+                "troopTribe": "teuton",
+                "troop1num": 150,
+                "troop2num": 0,
+                "troop3num": 0,
+                "troop4num": 0,
+                "troop5num": 0,
+                "troop6num": 0,
+                "troop7num": 0,
+                "troop8num": 0,
+                "troop9num": 0,
+                "troop10num": 10
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "sendTroops"
+        ],
+        "summary": "sendTroops DELETE",
+        "operationId": "sendTroopsDELETE",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "application/json"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/villageFieldLevels": {
+      "post": {
+        "tags": [
+          "villageFieldLevels"
+        ],
+        "summary": "villageFieldLevels POST",
+        "operationId": "villageFieldLevelsPOST",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/villageFieldLevelsPOSTRequest"
+              },
+              "example": {
+                "idVillage": 1,
+                "resField1Level": 2,
+                "resField2Level": 1,
+                "resField3Level": 1,
+                "resField4Level": 1,
+                "resField5Level": 2,
+                "resField6Level": 1,
+                "resField7Level": 1,
+                "resField8Level": 1,
+                "resField9Level": 1,
+                "resField10Level": 1,
+                "resField11Level": 1,
+                "resField12Level": 1,
+                "resField13Level": 1,
+                "resField14Level": 1,
+                "resField15Level": 1,
+                "resField16Level": 1,
+                "resField17Level": 1,
+                "resField18Level": 1
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/villageFieldLevels/1": {
+      "get": {
+        "tags": [
+          "villageFieldLevels"
+        ],
+        "summary": "villageFieldLevels GET",
+        "operationId": "villageFieldLevelsGET",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "patch": {
+        "tags": [
+          "villageFieldLevels"
+        ],
+        "summary": "villageFieldLevels PATCH",
+        "operationId": "villageFieldLevelsPATCH",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/villageFieldLevelsPATCHRequest"
+              },
+              "example": {
+                "idVillage": 1,
+                "resField1Level": 2,
+                "resField2Level": 2,
+                "resField3Level": 1,
+                "resField4Level": 1,
+                "resField5Level": 2,
+                "resField6Level": 1,
+                "resField7Level": 1,
+                "resField8Level": 1,
+                "resField9Level": 1,
+                "resField10Level": 1,
+                "resField11Level": 1,
+                "resField12Level": 1,
+                "resField13Level": 1,
+                "resField14Level": 1,
+                "resField15Level": 1,
+                "resField16Level": 1,
+                "resField17Level": 1,
+                "resField18Level": 1
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "villageFieldLevels"
+        ],
+        "summary": "villageFieldLevels PUT",
+        "operationId": "villageFieldLevelsPUT",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/villageFieldLevelsPUTRequest"
+              },
+              "example": {
+                "idVillage": 1,
+                "resField1Level": 2,
+                "resField2Level": 2,
+                "resField3Level": 1,
+                "resField4Level": 1,
+                "resField5Level": 2,
+                "resField6Level": 1,
+                "resField7Level": 1,
+                "resField8Level": 1,
+                "resField9Level": 1,
+                "resField10Level": 1,
+                "resField11Level": 1,
+                "resField12Level": 1,
+                "resField13Level": 1,
+                "resField14Level": 1,
+                "resField15Level": 1,
+                "resField16Level": 1,
+                "resField17Level": 1,
+                "resField18Level": 1
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "villageFieldLevels"
+        ],
+        "summary": "villageFieldLevels DELETE",
+        "operationId": "villageFieldLevelsDELETE",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "application/json"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/villageFieldTypes": {
+      "post": {
+        "tags": [
+          "villageFieldTypes"
+        ],
+        "summary": "villageFieldTypes POST",
+        "operationId": "villageFieldTypesPOST",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/villageFieldTypesPOSTRequest"
+              },
+              "example": {
+                "idVillage": 1,
+                "resField1Type": "wood",
+                "resField2Type": "clay",
+                "resField3Type": "crop",
+                "resField4Type": "iron",
+                "resField5Type": "iron",
+                "resField6Type": "crop",
+                "resField7Type": "clay",
+                "resField8Type": "crop",
+                "resField9Type": "crop",
+                "resField10Type": "wood",
+                "resField11Type": "clay",
+                "resField12Type": "wood",
+                "resField13Type": "crop",
+                "resField14Type": "iron",
+                "resField15Type": "wood",
+                "resField16Type": "clay",
+                "resField17Type": "crop",
+                "resField18Type": "iron"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/villageFieldTypes/1": {
+      "get": {
+        "tags": [
+          "villageFieldTypes"
+        ],
+        "summary": "villageFieldTypes GET",
+        "operationId": "villageFieldTypesGET",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "patch": {
+        "tags": [
+          "villageFieldTypes"
+        ],
+        "summary": "villageFieldTypes PATCH",
+        "operationId": "villageFieldTypesPATCH",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/villageFieldTypesPATCHRequest"
+              },
+              "example": {
+                "idVillage": 1,
+                "resField1Type": "clay",
+                "resField2Type": "clay",
+                "resField3Type": "crop",
+                "resField4Type": "iron",
+                "resField5Type": "iron",
+                "resField6Type": "crop",
+                "resField7Type": "clay",
+                "resField8Type": "crop",
+                "resField9Type": "crop",
+                "resField10Type": "wood",
+                "resField11Type": "clay",
+                "resField12Type": "wood",
+                "resField13Type": "crop",
+                "resField14Type": "iron",
+                "resField15Type": "wood",
+                "resField16Type": "clay",
+                "resField17Type": "crop",
+                "resField18Type": "iron"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "villageFieldTypes"
+        ],
+        "summary": "villageFieldTypes PUT",
+        "operationId": "villageFieldTypesPUT",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/villageFieldTypesPUTRequest"
+              },
+              "example": {
+                "idVillage": 1,
+                "resField1Type": "clay",
+                "resField2Type": "clay",
+                "resField3Type": "crop",
+                "resField4Type": "iron",
+                "resField5Type": "iron",
+                "resField6Type": "crop",
+                "resField7Type": "clay",
+                "resField8Type": "crop",
+                "resField9Type": "crop",
+                "resField10Type": "wood",
+                "resField11Type": "clay",
+                "resField12Type": "wood",
+                "resField13Type": "crop",
+                "resField14Type": "iron",
+                "resField15Type": "wood",
+                "resField16Type": "clay",
+                "resField17Type": "crop",
+                "resField18Type": "iron"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "villageFieldTypes"
+        ],
+        "summary": "villageFieldTypes DELETE",
+        "operationId": "villageFieldTypesDELETE",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "application/json"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/villageMaxResources": {
+      "post": {
+        "tags": [
+          "villageMaxResources"
+        ],
+        "summary": "villagemaxresoruces POST",
+        "operationId": "villagemaxresorucesPOST",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/villagemaxresorucesPOSTRequest"
+              },
+              "example": {
+                "idVillage": 1,
+                "maxWood": 1000,
+                "maxClay": 1000,
+                "maxIron": 1000,
+                "maxCrop": 1000
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/villageMaxResources/1": {
+      "get": {
+        "tags": [
+          "villageMaxResources"
+        ],
+        "summary": "villagemaxresoruces GET",
+        "operationId": "villagemaxresorucesGET",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "application/json"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "patch": {
+        "tags": [
+          "villageMaxResources"
+        ],
+        "summary": "villagemaxresoruces PATCH",
+        "operationId": "villagemaxresorucesPATCH",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/villagemaxresorucesPATCHRequest"
+              },
+              "example": {
+                "idVillage": 1,
+                "maxWood": 2000,
+                "maxClay": 2000,
+                "maxIron": 2000,
+                "maxCrop": 2000
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "villageMaxResources"
+        ],
+        "summary": "villagemaxresoruces PUT",
+        "operationId": "villagemaxresorucesPUT",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/villagemaxresorucesPUTRequest"
+              },
+              "example": {
+                "idVillage": 1,
+                "maxWood": 2000,
+                "maxClay": 2000,
+                "maxIron": 2000,
+                "maxCrop": 2000
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "villageMaxResources"
+        ],
+        "summary": "villagemaxresoruces DELETE",
+        "operationId": "villagemaxresorucesDELETE",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "application/json"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/villageOwnTroops": {
+      "post": {
+        "tags": [
+          "villageOwnTroops"
+        ],
+        "summary": "villageOwnTroops POST",
+        "operationId": "villageOwnTroopsPOST",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/villageOwnTroopsPOSTRequest"
+              },
+              "example": {
+                "idVillage": 1,
+                "tribe": "teuton",
+                "troop1": 200,
+                "troop2": 50,
+                "troop3": 0,
+                "troop4": 0,
+                "troop5": 0,
+                "troop6": 0,
+                "troop7": 0,
+                "troop8": 0,
+                "troop9": 0,
+                "troop10": 20
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/villageOwnTroops/1": {
+      "get": {
+        "tags": [
+          "villageOwnTroops"
+        ],
+        "summary": "villageOwnTroops GET",
+        "operationId": "villageOwnTroopsGET",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "patch": {
+        "tags": [
+          "villageOwnTroops"
+        ],
+        "summary": "villageOwnTroops PATCH",
+        "operationId": "villageOwnTroopsPATCH",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/villageOwnTroopsPATCHRequest"
+              },
+              "example": {
+                "idVillage": 1,
+                "tribe": "teuton",
+                "troop1": 201,
+                "troop2": 50,
+                "troop3": 0,
+                "troop4": 0,
+                "troop5": 0,
+                "troop6": 0,
+                "troop7": 0,
+                "troop8": 0,
+                "troop9": 0,
+                "troop10": 20
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "villageOwnTroops"
+        ],
+        "summary": "villageOwnTroops PUT",
+        "operationId": "villageOwnTroopsPUT",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/villageOwnTroopsPUTRequest"
+              },
+              "example": {
+                "idVillage": 1,
+                "tribe": "teuton",
+                "troop1": 201,
+                "troop2": 50,
+                "troop3": 0,
+                "troop4": 0,
+                "troop5": 0,
+                "troop6": 0,
+                "troop7": 0,
+                "troop8": 0,
+                "troop9": 0,
+                "troop10": 20
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "villageOwnTroops"
+        ],
+        "summary": "villageOwnTroops DELETE",
+        "operationId": "villageOwnTroopsDELETE",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "application/json"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/villageProductions": {
+      "post": {
+        "tags": [
+          "villageProductions"
+        ],
+        "summary": "villageProductions POST",
+        "operationId": "villageProductionsPOST",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/villageProductionsPOSTRequest"
+              },
+              "example": {
+                "idVillage": 1,
+                "productionWood": 200,
+                "productionClay": 200,
+                "productionIron": 200,
+                "productionCrop": 200
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/villageProductions/1": {
+      "get": {
+        "tags": [
+          "villageProductions"
+        ],
+        "summary": "villageProductions GET",
+        "operationId": "villageProductionsGET",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "patch": {
+        "tags": [
+          "villageProductions"
+        ],
+        "summary": "villageProductions PATCH",
+        "operationId": "villageProductionsPATCH",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/villageProductionsPATCHRequest"
+              },
+              "example": {
+                "idVillage": 1,
+                "productionWood": 250,
+                "productionClay": 250,
+                "productionIron": 250,
+                "productionCrop": 250
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "villageProductions"
+        ],
+        "summary": "villageProductions PUT",
+        "operationId": "villageProductionsPUT",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/villageProductionsPUTRequest"
+              },
+              "example": {
+                "idVillage": 1,
+                "productionWood": 250,
+                "productionClay": 250,
+                "productionIron": 250,
+                "productionCrop": 250
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "villageProductions"
+        ],
+        "summary": "villageProductions DELETE",
+        "operationId": "villageProductionsDELETE",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "application/json"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/villageReinforcements": {
+      "post": {
+        "tags": [
+          "villageReinforcements"
+        ],
+        "summary": "villageReinforcements POST",
+        "operationId": "villageReinforcementsPOST",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/villageReinforcementsPOSTRequest"
+              },
+              "example": {
+                "reinforcementId": 1,
+                "idVillage": 2,
+                "idVillageFrom": 1,
+                "tribe": "gaul",
+                "troop1": 50,
+                "troop2": 0,
+                "troop3": 0,
+                "troop4": 0,
+                "troop5": 0,
+                "troop6": 0,
+                "troop7": 0,
+                "troop8": 0,
+                "troop9": 0,
+                "troop10": 10
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/villageReinforcements/1": {
+      "get": {
+        "tags": [
+          "villageReinforcements"
+        ],
+        "summary": "villageReinforcements GET",
+        "operationId": "villageReinforcementsGET",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "patch": {
+        "tags": [
+          "villageReinforcements"
+        ],
+        "summary": "villageReinforcements PATCH",
+        "operationId": "villageReinforcementsPATCH",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/villageReinforcementsPATCHRequest"
+              },
+              "example": {
+                "reinforcementId": 1,
+                "idVillage": 2,
+                "idVillageFrom": 1,
+                "tribe": "gaul",
+                "troop1": 100,
+                "troop2": 0,
+                "troop3": 0,
+                "troop4": 0,
+                "troop5": 0,
+                "troop6": 0,
+                "troop7": 0,
+                "troop8": 0,
+                "troop9": 0,
+                "troop10": 10
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "villageReinforcements"
+        ],
+        "summary": "villageReinforcements PUT",
+        "operationId": "villageReinforcementsPUT",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/villageReinforcementsPUTRequest"
+              },
+              "example": {
+                "reinforcementId": 1,
+                "idVillage": 2,
+                "idVillageFrom": 1,
+                "tribe": "gaul",
+                "troop1": 100,
+                "troop2": 0,
+                "troop3": 0,
+                "troop4": 0,
+                "troop5": 0,
+                "troop6": 0,
+                "troop7": 0,
+                "troop8": 0,
+                "troop9": 0,
+                "troop10": 10
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "villageReinforcements"
+        ],
+        "summary": "villageReinforcements DELETE",
+        "operationId": "villageReinforcementsDELETE",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "application/json"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/villageResources": {
+      "post": {
+        "tags": [
+          "villageResources"
+        ],
+        "summary": "villageResources POST",
+        "operationId": "villageResourcesPOST",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/villageResourcesPOSTRequest"
+              },
+              "example": {
+                "idVillage": 1,
+                "currentWood": 200,
+                "currentClay": 200,
+                "currentIron": 200,
+                "currentCrop": 200,
+                "lastUpdate": 1593986238
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/villageResources/1": {
+      "get": {
+        "tags": [
+          "villageResources"
+        ],
+        "summary": "villageResources GET",
+        "operationId": "villageResourcesGET",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "patch": {
+        "tags": [
+          "villageResources"
+        ],
+        "summary": "villageResources PATCH",
+        "operationId": "villageResourcesPATCH",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/villageResourcesPATCHRequest"
+              },
+              "example": {
+                "idVillage": 1,
+                "currentWood": 300,
+                "currentClay": 300,
+                "currentIron": 300,
+                "currentCrop": 300,
+                "lastUpdate": 1593986238
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "villageResources"
+        ],
+        "summary": "villageResources PUT",
+        "operationId": "villageResourcesPUT",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/villageResourcesPUTRequest"
+              },
+              "example": {
+                "idVillage": 1,
+                "currentWood": 300,
+                "currentClay": 300,
+                "currentIron": 300,
+                "currentCrop": 300,
+                "lastUpdate": 1593986238
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "villageResources"
+        ],
+        "summary": "villageResources DELETE",
+        "operationId": "villageResourcesDELETE",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "application/json"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "barracksProductionsPOSTRequest": {
+        "title": "barracksProductionsPOSTRequest",
+        "required": [
+          "idVillage",
+          "troopName",
+          "troopId",
+          "troopCount",
+          "troopProdTime",
+          "timeStarted",
+          "timeCompleted",
+          "barrProdId",
+          "lastUpdate",
+          "troopsDoneAlready"
+        ],
+        "type": "object",
+        "properties": {
+          "idVillage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troopName": {
+            "type": "string"
+          },
+          "troopId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troopCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troopProdTime": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timeStarted": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timeCompleted": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "barrProdId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lastUpdate": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troopsDoneAlready": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "idVillage": 1,
+          "troopName": "Maceman",
+          "troopId": 1,
+          "troopCount": 100,
+          "troopProdTime": 1000,
+          "timeStarted": 0,
+          "timeCompleted": 1000,
+          "barrProdId": 1,
+          "lastUpdate": 0,
+          "troopsDoneAlready": 0
+        }
+      },
+      "barracksProductionsPATCHRequest": {
+        "title": "barracksProductionsPATCHRequest",
+        "required": [
+          "idVillage",
+          "troopName",
+          "troopId",
+          "troopCount",
+          "troopProdTime",
+          "timeStarted",
+          "timeCompleted",
+          "barrProdId",
+          "lastUpdate",
+          "troopsDoneAlready"
+        ],
+        "type": "object",
+        "properties": {
+          "idVillage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troopName": {
+            "type": "string"
+          },
+          "troopId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troopCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troopProdTime": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timeStarted": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timeCompleted": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "barrProdId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lastUpdate": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troopsDoneAlready": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "idVillage": 1,
+          "troopName": "Maceman",
+          "troopId": 1,
+          "troopCount": 100,
+          "troopProdTime": 1000,
+          "timeStarted": 0,
+          "timeCompleted": 1000,
+          "barrProdId": 1,
+          "lastUpdate": 10,
+          "troopsDoneAlready": 1
+        }
+      },
+      "barracksProductionsPUTRequest": {
+        "title": "barracksProductionsPUTRequest",
+        "required": [
+          "idVillage",
+          "troopName",
+          "troopId",
+          "troopCount",
+          "troopProdTime",
+          "timeStarted",
+          "timeCompleted",
+          "barrProdId",
+          "lastUpdate",
+          "troopsDoneAlready"
+        ],
+        "type": "object",
+        "properties": {
+          "idVillage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troopName": {
+            "type": "string"
+          },
+          "troopId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troopCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troopProdTime": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timeStarted": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timeCompleted": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "barrProdId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lastUpdate": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troopsDoneAlready": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "idVillage": 1,
+          "troopName": "Maceman",
+          "troopId": 1,
+          "troopCount": 100,
+          "troopProdTime": 1000,
+          "timeStarted": 0,
+          "timeCompleted": 1000,
+          "barrProdId": 1,
+          "lastUpdate": 10,
+          "troopsDoneAlready": 1
+        }
+      },
+      "resFieldUpgradesPOSTRequest": {
+        "title": "resFieldUpgradesPOSTRequest",
+        "required": [
+          "idVillage",
+          "rfid",
+          "fieldType",
+          "fieldLevel",
+          "timeStarted",
+          "timeCompleted",
+          "upgradeId"
+        ],
+        "type": "object",
+        "properties": {
+          "idVillage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rfid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fieldType": {
+            "type": "string"
+          },
+          "fieldLevel": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timeStarted": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timeCompleted": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "upgradeId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "idVillage": 1,
+          "rfid": 1,
+          "fieldType": "wood",
+          "fieldLevel": 1,
+          "timeStarted": 0,
+          "timeCompleted": 2000,
+          "upgradeId": 1
+        }
+      },
+      "resFieldUpgradesPATCHRequest": {
+        "title": "resFieldUpgradesPATCHRequest",
+        "required": [
+          "idVillage",
+          "rfid",
+          "fieldType",
+          "fieldLevel",
+          "timeStarted",
+          "timeCompleted",
+          "upgradeId"
+        ],
+        "type": "object",
+        "properties": {
+          "idVillage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rfid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fieldType": {
+            "type": "string"
+          },
+          "fieldLevel": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timeStarted": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timeCompleted": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "upgradeId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "idVillage": 1,
+          "rfid": 2,
+          "fieldType": "wood",
+          "fieldLevel": 1,
+          "timeStarted": 0,
+          "timeCompleted": 2000,
+          "upgradeId": 1
+        }
+      },
+      "resFieldUpgradesPUTRequest": {
+        "title": "resFieldUpgradesPUTRequest",
+        "required": [
+          "idVillage",
+          "rfid",
+          "fieldType",
+          "fieldLevel",
+          "timeStarted",
+          "timeCompleted",
+          "upgradeId"
+        ],
+        "type": "object",
+        "properties": {
+          "idVillage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rfid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fieldType": {
+            "type": "string"
+          },
+          "fieldLevel": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timeStarted": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timeCompleted": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "upgradeId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "idVillage": 1,
+          "rfid": 1,
+          "fieldType": "wood",
+          "fieldLevel": 2,
+          "timeStarted": 0,
+          "timeCompleted": 2000,
+          "upgradeId": 1
+        }
+      },
+      "sendTroopsPOSTRequest": {
+        "title": "sendTroopsPOSTRequest",
+        "required": [
+          "sendTroopsId",
+          "sendType",
+          "idVillageFrom",
+          "idVillageTo",
+          "timeSent",
+          "timeArrived",
+          "troopTribe",
+          "troop1num",
+          "troop2num",
+          "troop3num",
+          "troop4num",
+          "troop5num",
+          "troop6num",
+          "troop7num",
+          "troop8num",
+          "troop9num",
+          "troop10num"
+        ],
+        "type": "object",
+        "properties": {
+          "sendTroopsId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sendType": {
+            "type": "string"
+          },
+          "idVillageFrom": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idVillageTo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timeSent": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timeArrived": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troopTribe": {
+            "type": "string"
+          },
+          "troop1num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop2num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop3num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop4num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop5num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop6num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop7num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop8num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop9num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop10num": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "sendTroopsId": 1,
+          "sendType": "full",
+          "idVillageFrom": 2,
+          "idVillageTo": 1,
+          "timeSent": 0,
+          "timeArrived": 5000,
+          "troopTribe": "teuton",
+          "troop1num": 100,
+          "troop2num": 0,
+          "troop3num": 0,
+          "troop4num": 0,
+          "troop5num": 0,
+          "troop6num": 0,
+          "troop7num": 0,
+          "troop8num": 0,
+          "troop9num": 0,
+          "troop10num": 5
+        }
+      },
+      "sendTroopsPATCHRequest": {
+        "title": "sendTroopsPATCHRequest",
+        "required": [
+          "sendTroopsId",
+          "sendType",
+          "idVillageFrom",
+          "idVillageTo",
+          "timeSent",
+          "timeArrived",
+          "troopTribe",
+          "troop1num",
+          "troop2num",
+          "troop3num",
+          "troop4num",
+          "troop5num",
+          "troop6num",
+          "troop7num",
+          "troop8num",
+          "troop9num",
+          "troop10num"
+        ],
+        "type": "object",
+        "properties": {
+          "sendTroopsId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sendType": {
+            "type": "string"
+          },
+          "idVillageFrom": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idVillageTo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timeSent": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timeArrived": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troopTribe": {
+            "type": "string"
+          },
+          "troop1num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop2num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop3num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop4num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop5num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop6num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop7num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop8num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop9num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop10num": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "sendTroopsId": 1,
+          "sendType": "full",
+          "idVillageFrom": 2,
+          "idVillageTo": 1,
+          "timeSent": 0,
+          "timeArrived": 5000,
+          "troopTribe": "teuton",
+          "troop1num": 150,
+          "troop2num": 0,
+          "troop3num": 0,
+          "troop4num": 0,
+          "troop5num": 0,
+          "troop6num": 0,
+          "troop7num": 0,
+          "troop8num": 0,
+          "troop9num": 0,
+          "troop10num": 10
+        }
+      },
+      "sendTroopsPUTRequest": {
+        "title": "sendTroopsPUTRequest",
+        "required": [
+          "sendTroopsId",
+          "sendType",
+          "idVillageFrom",
+          "idVillageTo",
+          "timeSent",
+          "timeArrived",
+          "troopTribe",
+          "troop1num",
+          "troop2num",
+          "troop3num",
+          "troop4num",
+          "troop5num",
+          "troop6num",
+          "troop7num",
+          "troop8num",
+          "troop9num",
+          "troop10num"
+        ],
+        "type": "object",
+        "properties": {
+          "sendTroopsId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sendType": {
+            "type": "string"
+          },
+          "idVillageFrom": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idVillageTo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timeSent": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timeArrived": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troopTribe": {
+            "type": "string"
+          },
+          "troop1num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop2num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop3num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop4num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop5num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop6num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop7num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop8num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop9num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop10num": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "sendTroopsId": 1,
+          "sendType": "full",
+          "idVillageFrom": 2,
+          "idVillageTo": 1,
+          "timeSent": 0,
+          "timeArrived": 5000,
+          "troopTribe": "teuton",
+          "troop1num": 150,
+          "troop2num": 0,
+          "troop3num": 0,
+          "troop4num": 0,
+          "troop5num": 0,
+          "troop6num": 0,
+          "troop7num": 0,
+          "troop8num": 0,
+          "troop9num": 0,
+          "troop10num": 10
+        }
+      },
+      "villageFieldLevelsPOSTRequest": {
+        "title": "villageFieldLevelsPOSTRequest",
+        "required": [
+          "idVillage",
+          "resField1Level",
+          "resField2Level",
+          "resField3Level",
+          "resField4Level",
+          "resField5Level",
+          "resField6Level",
+          "resField7Level",
+          "resField8Level",
+          "resField9Level",
+          "resField10Level",
+          "resField11Level",
+          "resField12Level",
+          "resField13Level",
+          "resField14Level",
+          "resField15Level",
+          "resField16Level",
+          "resField17Level",
+          "resField18Level"
+        ],
+        "type": "object",
+        "properties": {
+          "idVillage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField1Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField2Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField3Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField4Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField5Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField6Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField7Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField8Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField9Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField10Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField11Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField12Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField13Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField14Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField15Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField16Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField17Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField18Level": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "idVillage": 1,
+          "resField1Level": 2,
+          "resField2Level": 1,
+          "resField3Level": 1,
+          "resField4Level": 1,
+          "resField5Level": 2,
+          "resField6Level": 1,
+          "resField7Level": 1,
+          "resField8Level": 1,
+          "resField9Level": 1,
+          "resField10Level": 1,
+          "resField11Level": 1,
+          "resField12Level": 1,
+          "resField13Level": 1,
+          "resField14Level": 1,
+          "resField15Level": 1,
+          "resField16Level": 1,
+          "resField17Level": 1,
+          "resField18Level": 1
+        }
+      },
+      "villageFieldLevelsPATCHRequest": {
+        "title": "villageFieldLevelsPATCHRequest",
+        "required": [
+          "idVillage",
+          "resField1Level",
+          "resField2Level",
+          "resField3Level",
+          "resField4Level",
+          "resField5Level",
+          "resField6Level",
+          "resField7Level",
+          "resField8Level",
+          "resField9Level",
+          "resField10Level",
+          "resField11Level",
+          "resField12Level",
+          "resField13Level",
+          "resField14Level",
+          "resField15Level",
+          "resField16Level",
+          "resField17Level",
+          "resField18Level"
+        ],
+        "type": "object",
+        "properties": {
+          "idVillage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField1Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField2Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField3Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField4Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField5Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField6Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField7Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField8Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField9Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField10Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField11Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField12Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField13Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField14Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField15Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField16Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField17Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField18Level": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "idVillage": 1,
+          "resField1Level": 2,
+          "resField2Level": 2,
+          "resField3Level": 1,
+          "resField4Level": 1,
+          "resField5Level": 2,
+          "resField6Level": 1,
+          "resField7Level": 1,
+          "resField8Level": 1,
+          "resField9Level": 1,
+          "resField10Level": 1,
+          "resField11Level": 1,
+          "resField12Level": 1,
+          "resField13Level": 1,
+          "resField14Level": 1,
+          "resField15Level": 1,
+          "resField16Level": 1,
+          "resField17Level": 1,
+          "resField18Level": 1
+        }
+      },
+      "villageFieldLevelsPUTRequest": {
+        "title": "villageFieldLevelsPUTRequest",
+        "required": [
+          "idVillage",
+          "resField1Level",
+          "resField2Level",
+          "resField3Level",
+          "resField4Level",
+          "resField5Level",
+          "resField6Level",
+          "resField7Level",
+          "resField8Level",
+          "resField9Level",
+          "resField10Level",
+          "resField11Level",
+          "resField12Level",
+          "resField13Level",
+          "resField14Level",
+          "resField15Level",
+          "resField16Level",
+          "resField17Level",
+          "resField18Level"
+        ],
+        "type": "object",
+        "properties": {
+          "idVillage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField1Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField2Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField3Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField4Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField5Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField6Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField7Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField8Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField9Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField10Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField11Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField12Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField13Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField14Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField15Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField16Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField17Level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField18Level": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "idVillage": 1,
+          "resField1Level": 2,
+          "resField2Level": 2,
+          "resField3Level": 1,
+          "resField4Level": 1,
+          "resField5Level": 2,
+          "resField6Level": 1,
+          "resField7Level": 1,
+          "resField8Level": 1,
+          "resField9Level": 1,
+          "resField10Level": 1,
+          "resField11Level": 1,
+          "resField12Level": 1,
+          "resField13Level": 1,
+          "resField14Level": 1,
+          "resField15Level": 1,
+          "resField16Level": 1,
+          "resField17Level": 1,
+          "resField18Level": 1
+        }
+      },
+      "villageFieldTypesPOSTRequest": {
+        "title": "villageFieldTypesPOSTRequest",
+        "required": [
+          "idVillage",
+          "resField1Type",
+          "resField2Type",
+          "resField3Type",
+          "resField4Type",
+          "resField5Type",
+          "resField6Type",
+          "resField7Type",
+          "resField8Type",
+          "resField9Type",
+          "resField10Type",
+          "resField11Type",
+          "resField12Type",
+          "resField13Type",
+          "resField14Type",
+          "resField15Type",
+          "resField16Type",
+          "resField17Type",
+          "resField18Type"
+        ],
+        "type": "object",
+        "properties": {
+          "idVillage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField1Type": {
+            "type": "string"
+          },
+          "resField2Type": {
+            "type": "string"
+          },
+          "resField3Type": {
+            "type": "string"
+          },
+          "resField4Type": {
+            "type": "string"
+          },
+          "resField5Type": {
+            "type": "string"
+          },
+          "resField6Type": {
+            "type": "string"
+          },
+          "resField7Type": {
+            "type": "string"
+          },
+          "resField8Type": {
+            "type": "string"
+          },
+          "resField9Type": {
+            "type": "string"
+          },
+          "resField10Type": {
+            "type": "string"
+          },
+          "resField11Type": {
+            "type": "string"
+          },
+          "resField12Type": {
+            "type": "string"
+          },
+          "resField13Type": {
+            "type": "string"
+          },
+          "resField14Type": {
+            "type": "string"
+          },
+          "resField15Type": {
+            "type": "string"
+          },
+          "resField16Type": {
+            "type": "string"
+          },
+          "resField17Type": {
+            "type": "string"
+          },
+          "resField18Type": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "idVillage": 1,
+          "resField1Type": "wood",
+          "resField2Type": "clay",
+          "resField3Type": "crop",
+          "resField4Type": "iron",
+          "resField5Type": "iron",
+          "resField6Type": "crop",
+          "resField7Type": "clay",
+          "resField8Type": "crop",
+          "resField9Type": "crop",
+          "resField10Type": "wood",
+          "resField11Type": "clay",
+          "resField12Type": "wood",
+          "resField13Type": "crop",
+          "resField14Type": "iron",
+          "resField15Type": "wood",
+          "resField16Type": "clay",
+          "resField17Type": "crop",
+          "resField18Type": "iron"
+        }
+      },
+      "villageFieldTypesPATCHRequest": {
+        "title": "villageFieldTypesPATCHRequest",
+        "required": [
+          "idVillage",
+          "resField1Type",
+          "resField2Type",
+          "resField3Type",
+          "resField4Type",
+          "resField5Type",
+          "resField6Type",
+          "resField7Type",
+          "resField8Type",
+          "resField9Type",
+          "resField10Type",
+          "resField11Type",
+          "resField12Type",
+          "resField13Type",
+          "resField14Type",
+          "resField15Type",
+          "resField16Type",
+          "resField17Type",
+          "resField18Type"
+        ],
+        "type": "object",
+        "properties": {
+          "idVillage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField1Type": {
+            "type": "string"
+          },
+          "resField2Type": {
+            "type": "string"
+          },
+          "resField3Type": {
+            "type": "string"
+          },
+          "resField4Type": {
+            "type": "string"
+          },
+          "resField5Type": {
+            "type": "string"
+          },
+          "resField6Type": {
+            "type": "string"
+          },
+          "resField7Type": {
+            "type": "string"
+          },
+          "resField8Type": {
+            "type": "string"
+          },
+          "resField9Type": {
+            "type": "string"
+          },
+          "resField10Type": {
+            "type": "string"
+          },
+          "resField11Type": {
+            "type": "string"
+          },
+          "resField12Type": {
+            "type": "string"
+          },
+          "resField13Type": {
+            "type": "string"
+          },
+          "resField14Type": {
+            "type": "string"
+          },
+          "resField15Type": {
+            "type": "string"
+          },
+          "resField16Type": {
+            "type": "string"
+          },
+          "resField17Type": {
+            "type": "string"
+          },
+          "resField18Type": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "idVillage": 1,
+          "resField1Type": "clay",
+          "resField2Type": "clay",
+          "resField3Type": "crop",
+          "resField4Type": "iron",
+          "resField5Type": "iron",
+          "resField6Type": "crop",
+          "resField7Type": "clay",
+          "resField8Type": "crop",
+          "resField9Type": "crop",
+          "resField10Type": "wood",
+          "resField11Type": "clay",
+          "resField12Type": "wood",
+          "resField13Type": "crop",
+          "resField14Type": "iron",
+          "resField15Type": "wood",
+          "resField16Type": "clay",
+          "resField17Type": "crop",
+          "resField18Type": "iron"
+        }
+      },
+      "villageFieldTypesPUTRequest": {
+        "title": "villageFieldTypesPUTRequest",
+        "required": [
+          "idVillage",
+          "resField1Type",
+          "resField2Type",
+          "resField3Type",
+          "resField4Type",
+          "resField5Type",
+          "resField6Type",
+          "resField7Type",
+          "resField8Type",
+          "resField9Type",
+          "resField10Type",
+          "resField11Type",
+          "resField12Type",
+          "resField13Type",
+          "resField14Type",
+          "resField15Type",
+          "resField16Type",
+          "resField17Type",
+          "resField18Type"
+        ],
+        "type": "object",
+        "properties": {
+          "idVillage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resField1Type": {
+            "type": "string"
+          },
+          "resField2Type": {
+            "type": "string"
+          },
+          "resField3Type": {
+            "type": "string"
+          },
+          "resField4Type": {
+            "type": "string"
+          },
+          "resField5Type": {
+            "type": "string"
+          },
+          "resField6Type": {
+            "type": "string"
+          },
+          "resField7Type": {
+            "type": "string"
+          },
+          "resField8Type": {
+            "type": "string"
+          },
+          "resField9Type": {
+            "type": "string"
+          },
+          "resField10Type": {
+            "type": "string"
+          },
+          "resField11Type": {
+            "type": "string"
+          },
+          "resField12Type": {
+            "type": "string"
+          },
+          "resField13Type": {
+            "type": "string"
+          },
+          "resField14Type": {
+            "type": "string"
+          },
+          "resField15Type": {
+            "type": "string"
+          },
+          "resField16Type": {
+            "type": "string"
+          },
+          "resField17Type": {
+            "type": "string"
+          },
+          "resField18Type": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "idVillage": 1,
+          "resField1Type": "clay",
+          "resField2Type": "clay",
+          "resField3Type": "crop",
+          "resField4Type": "iron",
+          "resField5Type": "iron",
+          "resField6Type": "crop",
+          "resField7Type": "clay",
+          "resField8Type": "crop",
+          "resField9Type": "crop",
+          "resField10Type": "wood",
+          "resField11Type": "clay",
+          "resField12Type": "wood",
+          "resField13Type": "crop",
+          "resField14Type": "iron",
+          "resField15Type": "wood",
+          "resField16Type": "clay",
+          "resField17Type": "crop",
+          "resField18Type": "iron"
+        }
+      },
+      "villagemaxresorucesPOSTRequest": {
+        "title": "villagemaxresorucesPOSTRequest",
+        "required": [
+          "idVillage",
+          "maxWood",
+          "maxClay",
+          "maxIron",
+          "maxCrop"
+        ],
+        "type": "object",
+        "properties": {
+          "idVillage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxWood": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxClay": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxIron": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxCrop": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "idVillage": 1,
+          "maxWood": 1000,
+          "maxClay": 1000,
+          "maxIron": 1000,
+          "maxCrop": 1000
+        }
+      },
+      "villagemaxresorucesPATCHRequest": {
+        "title": "villagemaxresorucesPATCHRequest",
+        "required": [
+          "idVillage",
+          "maxWood",
+          "maxClay",
+          "maxIron",
+          "maxCrop"
+        ],
+        "type": "object",
+        "properties": {
+          "idVillage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxWood": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxClay": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxIron": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxCrop": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "idVillage": 1,
+          "maxWood": 2000,
+          "maxClay": 2000,
+          "maxIron": 2000,
+          "maxCrop": 2000
+        }
+      },
+      "villagemaxresorucesPUTRequest": {
+        "title": "villagemaxresorucesPUTRequest",
+        "required": [
+          "idVillage",
+          "maxWood",
+          "maxClay",
+          "maxIron",
+          "maxCrop"
+        ],
+        "type": "object",
+        "properties": {
+          "idVillage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxWood": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxClay": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxIron": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxCrop": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "idVillage": 1,
+          "maxWood": 2000,
+          "maxClay": 2000,
+          "maxIron": 2000,
+          "maxCrop": 2000
+        }
+      },
+      "villageOwnTroopsPOSTRequest": {
+        "title": "villageOwnTroopsPOSTRequest",
+        "required": [
+          "idVillage",
+          "tribe",
+          "troop1",
+          "troop2",
+          "troop3",
+          "troop4",
+          "troop5",
+          "troop6",
+          "troop7",
+          "troop8",
+          "troop9",
+          "troop10"
+        ],
+        "type": "object",
+        "properties": {
+          "idVillage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tribe": {
+            "type": "string"
+          },
+          "troop1": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop2": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop3": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop4": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop5": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop6": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop7": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop8": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop9": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop10": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "idVillage": 1,
+          "tribe": "teuton",
+          "troop1": 200,
+          "troop2": 50,
+          "troop3": 0,
+          "troop4": 0,
+          "troop5": 0,
+          "troop6": 0,
+          "troop7": 0,
+          "troop8": 0,
+          "troop9": 0,
+          "troop10": 20
+        }
+      },
+      "villageOwnTroopsPATCHRequest": {
+        "title": "villageOwnTroopsPATCHRequest",
+        "required": [
+          "idVillage",
+          "tribe",
+          "troop1",
+          "troop2",
+          "troop3",
+          "troop4",
+          "troop5",
+          "troop6",
+          "troop7",
+          "troop8",
+          "troop9",
+          "troop10"
+        ],
+        "type": "object",
+        "properties": {
+          "idVillage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tribe": {
+            "type": "string"
+          },
+          "troop1": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop2": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop3": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop4": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop5": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop6": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop7": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop8": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop9": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop10": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "idVillage": 1,
+          "tribe": "teuton",
+          "troop1": 201,
+          "troop2": 50,
+          "troop3": 0,
+          "troop4": 0,
+          "troop5": 0,
+          "troop6": 0,
+          "troop7": 0,
+          "troop8": 0,
+          "troop9": 0,
+          "troop10": 20
+        }
+      },
+      "villageOwnTroopsPUTRequest": {
+        "title": "villageOwnTroopsPUTRequest",
+        "required": [
+          "idVillage",
+          "tribe",
+          "troop1",
+          "troop2",
+          "troop3",
+          "troop4",
+          "troop5",
+          "troop6",
+          "troop7",
+          "troop8",
+          "troop9",
+          "troop10"
+        ],
+        "type": "object",
+        "properties": {
+          "idVillage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tribe": {
+            "type": "string"
+          },
+          "troop1": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop2": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop3": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop4": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop5": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop6": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop7": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop8": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop9": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop10": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "idVillage": 1,
+          "tribe": "teuton",
+          "troop1": 201,
+          "troop2": 50,
+          "troop3": 0,
+          "troop4": 0,
+          "troop5": 0,
+          "troop6": 0,
+          "troop7": 0,
+          "troop8": 0,
+          "troop9": 0,
+          "troop10": 20
+        }
+      },
+      "villageProductionsPOSTRequest": {
+        "title": "villageProductionsPOSTRequest",
+        "required": [
+          "idVillage",
+          "productionWood",
+          "productionClay",
+          "productionIron",
+          "productionCrop"
+        ],
+        "type": "object",
+        "properties": {
+          "idVillage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "productionWood": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "productionClay": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "productionIron": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "productionCrop": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "idVillage": 1,
+          "productionWood": 200,
+          "productionClay": 200,
+          "productionIron": 200,
+          "productionCrop": 200
+        }
+      },
+      "villageProductionsPATCHRequest": {
+        "title": "villageProductionsPATCHRequest",
+        "required": [
+          "idVillage",
+          "productionWood",
+          "productionClay",
+          "productionIron",
+          "productionCrop"
+        ],
+        "type": "object",
+        "properties": {
+          "idVillage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "productionWood": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "productionClay": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "productionIron": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "productionCrop": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "idVillage": 1,
+          "productionWood": 250,
+          "productionClay": 250,
+          "productionIron": 250,
+          "productionCrop": 250
+        }
+      },
+      "villageProductionsPUTRequest": {
+        "title": "villageProductionsPUTRequest",
+        "required": [
+          "idVillage",
+          "productionWood",
+          "productionClay",
+          "productionIron",
+          "productionCrop"
+        ],
+        "type": "object",
+        "properties": {
+          "idVillage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "productionWood": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "productionClay": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "productionIron": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "productionCrop": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "idVillage": 1,
+          "productionWood": 250,
+          "productionClay": 250,
+          "productionIron": 250,
+          "productionCrop": 250
+        }
+      },
+      "villageReinforcementsPOSTRequest": {
+        "title": "villageReinforcementsPOSTRequest",
+        "required": [
+          "reinforcementId",
+          "idVillage",
+          "idVillageFrom",
+          "tribe",
+          "troop1",
+          "troop2",
+          "troop3",
+          "troop4",
+          "troop5",
+          "troop6",
+          "troop7",
+          "troop8",
+          "troop9",
+          "troop10"
+        ],
+        "type": "object",
+        "properties": {
+          "reinforcementId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idVillage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idVillageFrom": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tribe": {
+            "type": "string"
+          },
+          "troop1": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop2": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop3": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop4": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop5": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop6": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop7": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop8": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop9": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop10": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "reinforcementId": 1,
+          "idVillage": 2,
+          "idVillageFrom": 1,
+          "tribe": "gaul",
+          "troop1": 50,
+          "troop2": 0,
+          "troop3": 0,
+          "troop4": 0,
+          "troop5": 0,
+          "troop6": 0,
+          "troop7": 0,
+          "troop8": 0,
+          "troop9": 0,
+          "troop10": 10
+        }
+      },
+      "villageReinforcementsPATCHRequest": {
+        "title": "villageReinforcementsPATCHRequest",
+        "required": [
+          "reinforcementId",
+          "idVillage",
+          "idVillageFrom",
+          "tribe",
+          "troop1",
+          "troop2",
+          "troop3",
+          "troop4",
+          "troop5",
+          "troop6",
+          "troop7",
+          "troop8",
+          "troop9",
+          "troop10"
+        ],
+        "type": "object",
+        "properties": {
+          "reinforcementId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idVillage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idVillageFrom": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tribe": {
+            "type": "string"
+          },
+          "troop1": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop2": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop3": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop4": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop5": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop6": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop7": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop8": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop9": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop10": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "reinforcementId": 1,
+          "idVillage": 2,
+          "idVillageFrom": 1,
+          "tribe": "gaul",
+          "troop1": 100,
+          "troop2": 0,
+          "troop3": 0,
+          "troop4": 0,
+          "troop5": 0,
+          "troop6": 0,
+          "troop7": 0,
+          "troop8": 0,
+          "troop9": 0,
+          "troop10": 10
+        }
+      },
+      "villageReinforcementsPUTRequest": {
+        "title": "villageReinforcementsPUTRequest",
+        "required": [
+          "reinforcementId",
+          "idVillage",
+          "idVillageFrom",
+          "tribe",
+          "troop1",
+          "troop2",
+          "troop3",
+          "troop4",
+          "troop5",
+          "troop6",
+          "troop7",
+          "troop8",
+          "troop9",
+          "troop10"
+        ],
+        "type": "object",
+        "properties": {
+          "reinforcementId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idVillage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idVillageFrom": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tribe": {
+            "type": "string"
+          },
+          "troop1": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop2": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop3": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop4": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop5": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop6": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop7": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop8": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop9": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "troop10": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "reinforcementId": 1,
+          "idVillage": 2,
+          "idVillageFrom": 1,
+          "tribe": "gaul",
+          "troop1": 100,
+          "troop2": 0,
+          "troop3": 0,
+          "troop4": 0,
+          "troop5": 0,
+          "troop6": 0,
+          "troop7": 0,
+          "troop8": 0,
+          "troop9": 0,
+          "troop10": 10
+        }
+      },
+      "villageResourcesPOSTRequest": {
+        "title": "villageResourcesPOSTRequest",
+        "required": [
+          "idVillage",
+          "currentWood",
+          "currentClay",
+          "currentIron",
+          "currentCrop",
+          "lastUpdate"
+        ],
+        "type": "object",
+        "properties": {
+          "idVillage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentWood": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentClay": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentIron": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentCrop": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lastUpdate": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "idVillage": 1,
+          "currentWood": 200,
+          "currentClay": 200,
+          "currentIron": 200,
+          "currentCrop": 200,
+          "lastUpdate": 1593986238
+        }
+      },
+      "villageResourcesPATCHRequest": {
+        "title": "villageResourcesPATCHRequest",
+        "required": [
+          "idVillage",
+          "currentWood",
+          "currentClay",
+          "currentIron",
+          "currentCrop",
+          "lastUpdate"
+        ],
+        "type": "object",
+        "properties": {
+          "idVillage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentWood": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentClay": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentIron": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentCrop": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lastUpdate": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "idVillage": 1,
+          "currentWood": 300,
+          "currentClay": 300,
+          "currentIron": 300,
+          "currentCrop": 300,
+          "lastUpdate": 1593986238
+        }
+      },
+      "villageResourcesPUTRequest": {
+        "title": "villageResourcesPUTRequest",
+        "required": [
+          "idVillage",
+          "currentWood",
+          "currentClay",
+          "currentIron",
+          "currentCrop",
+          "lastUpdate"
+        ],
+        "type": "object",
+        "properties": {
+          "idVillage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentWood": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentClay": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentIron": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentCrop": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lastUpdate": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "idVillage": 1,
+          "currentWood": 300,
+          "currentClay": 300,
+          "currentIron": 300,
+          "currentCrop": 300,
+          "lastUpdate": 1593986238
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "barracksProductions"
+    },
+    {
+      "name": "resFieldUpgrades"
+    },
+    {
+      "name": "sendTroops"
+    },
+    {
+      "name": "villageFieldLevels"
+    },
+    {
+      "name": "villageFieldTypes"
+    },
+    {
+      "name": "villageMaxResources"
+    },
+    {
+      "name": "villageOwnTroops"
+    },
+    {
+      "name": "villageProductions"
+    },
+    {
+      "name": "villageReinforcements"
+    },
+    {
+      "name": "villageResources"
+    }
+  ]
+}
