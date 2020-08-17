@@ -387,10 +387,6 @@ export default {
     text-align: center;
   }
 
-  .navbar-toggler{
-    /*display: none; */
-  }
-
   .navbar-brand{
     text-align: center;
     margin-left: auto;
