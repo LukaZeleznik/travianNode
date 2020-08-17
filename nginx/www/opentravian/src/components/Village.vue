@@ -45,9 +45,19 @@
                               <p id="demo2"></p>
                             </router-link>
                           </div>
+
+                          <div class="hexIn" v-else-if="index == 7">
+                            <router-link class="hexLink"  :to="{ path: '/villageBuilding/' + index }">
+                              <div class='img' v-bind:style="'background-color:'+villageBuildingColor">
+                                  <p style="top:35%;opacity:1;color:black">{{villageBuildingTypes[index]}}</p>
+                              </div>
+                              <h1 id="demo1"></h1>
+                              <p id="demo2"></p>
+                            </router-link>
+                          </div>
                           
                           <div class="hexIn" v-else>
-                              <router-link class="hexLink" :to="{ path: '/villageBuilding/' + index }">
+                              <router-link class="hexLink" :to="{ path: '/village' }">
                                 <div class='img' v-bind:style="'background-color:'+villageBuildingColor">
                                     <p style="top:35%;opacity:1;color:black">{{villageBuildingLevels[index]}}</p>
                                 </div>
@@ -77,7 +87,7 @@
           </div>
 
           <!-- Troop Movements and other stuff on the right -->
-          <div class="col-md-4 text-center mb-3">
+          <div class="col-md-4 text-center mb-3 rightSide">
 
               <div class="h3">Troop Movements:</div>
             <div  v-if="villageIncomingAttacks.length > 0 || villageOutgoingAttacks.length > 0 || 
@@ -150,7 +160,7 @@ export default {
       villageMaxResources : [0,0,0,0],
       villageBuildingLevels : [],
       villageBuildingTypes : [],
-      villageBuildingColors : ["","SlateGray","SlateGray","SlateGray","","SlateGray","SlateGray","SlateGray","SlateGray","SlateGray","SlateGray","Green","SlateGray","SlateGray","SlateGray","SlateGray","SlateGray","SlateGray","","SlateGray","SlateGray","SlateGray"],
+      villageBuildingColors : ["","SlateGray","SlateGray","SlateGray","","SlateGray","SlateGray","SaddleBrown","SlateGray","SlateGray","SlateGray","Green","SlateGray","SlateGray","SlateGray","SlateGray","SlateGray","SlateGray","","SlateGray","SlateGray","SlateGray"],
       villageProduction : [0,0,0,0],
       villageResFieldUpgrades : [],
       villageOwnTroops : [],
@@ -173,6 +183,7 @@ export default {
     this.fetchVillageReinforcements();
     this.fetchVillageResFieldUpgrades();
     this.villageBuildingTypes[11] = "Resources";
+    this.villageBuildingTypes[7] = "Barracks";
   },
 
   methods: {

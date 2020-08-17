@@ -59,15 +59,15 @@
               </ul>                
           </div>          
             
-          <div class="h3 pl-5 ml-4 my-3" v-if="villageResFieldUpgrades.length > 0">Buildings:</div>          
-          <div class="d-flex justify-content-between  pl-5 ml-4" v-if="villageResFieldUpgrades.length > 0">
+          <div class="h3 pl-5 ml-4 my-3 upgrageResFieldsText" v-if="villageResFieldUpgrades.length > 0">Buildings:</div>          
+          <div class="d-flex justify-content-between pl-5 ml-4 upgrageResFieldData" v-if="villageResFieldUpgrades.length > 0">
               <h5><img style="width: 1.0rem;height: 0.9rem;" src="/images/del.gif"> 
                 {{ villageResFieldUpgrades[0].fieldType }} 
                 (Level {{ villageResFieldUpgrades[0].fieldLevel }})</h5>
-              <h5>in <span id="upgradeCD1">{{ villageResFieldUpgradesTimeLeft[0] }}</span> seconds</h5>
-              <h5>done at {{ new Date(villageResFieldUpgrades[0].timeCompleted*1000).toLocaleTimeString('sl-SI')}} </h5>
+              <h5 class="text-center">in <span id="upgradeCD1">{{ villageResFieldUpgradesTimeLeft[0] }}</span> seconds</h5>
+              <h5 class="text-right">done at {{ new Date(villageResFieldUpgrades[0].timeCompleted*1000).toLocaleTimeString('sl-SI')}} </h5>
           </div>
-          <div class="d-flex justify-content-between  pl-5 ml-4" v-if="villageResFieldUpgrades.length == 2">
+          <div class="d-flex justify-content-between pl-5 ml-4 upgrageResFieldData" v-if="villageResFieldUpgrades.length == 2">
               <h5><img style="width: 1.0rem;height: 0.9rem;" src="/images/del.gif"> 
                 {{ villageResFieldUpgrades[1].fieldType }} 
                 (Level {{ villageResFieldUpgrades[1].fieldLevel }})</h5>
@@ -77,26 +77,26 @@
         </div>
 
         <!-- Troop Movements and other stuff on the right -->
-        <div class="col-md-4 text-center mb-3">
+        <div class="col-md-4 text-center mb-3 rightSide">
 
           <div class="h3">Troop Movements:</div>
           <div  v-if="villageIncomingAttacks.length > 0 || villageOutgoingAttacks.length > 0 || 
                       villageIncomingReinforcements.length > 0 || villageOutgoingReinforcements.length > 0">
             <div class="d-flex justify-content-between" v-if="villageIncomingAttacks.length > 0">
               <h5 style="color:Red"><img style="width: 1.2rem;" src="/images/att_inc.gif"><strong> {{villageIncomingAttacks.length}} Attacks</strong></h5>
-              <h5>in <span id="incAtt">{{villageIncomingAttacks[0].timeArrived}}</span></h5>
+              <h5>in <span id="incAtt">{{villageIncomingAttacksTimeLeft[0]}}</span> seconds</h5>
             </div>
             <div class="d-flex justify-content-between" v-if="villageOutgoingAttacks.length > 0">
               <h5 style="color:Orange"><img style="width: 1.2rem;" src="/images/att_out.gif"><strong> {{villageOutgoingAttacks.length}} Attacks</strong></h5>
-              <h5>in <span id="outAtt">{{villageOutgoingAttacks[0].timeArrived}}</span></h5>
+              <h5>in <span id="outAtt">{{villageOutgoingAttacksTimeLeft[0]}}</span> seconds</h5>
             </div>
             <div class="d-flex justify-content-between" v-if="villageIncomingReinforcements.length > 0">
               <h5 style="color:Orange"><img style="width: 1.2rem;" src="/images/reinf_inc.gif"><strong> {{villageIncomingReinforcements.length}} Reinf.</strong></h5>
-              <h5>in <span id="incAtt">{{villageIncomingReinforcements[0].timeArrived}}</span></h5>
+              <h5>in <span id="incReinf">{{villageIncomingReinforcementsTimeLeft[0]}}</span> seconds</h5>
             </div>
             <div class="d-flex justify-content-between" v-if="villageOutgoingReinforcements.length > 0">
               <h5 style="color:Green"><img style="width: 1.2rem;" src="/images/reinf_out.gif"><strong> {{villageOutgoingReinforcements.length}} Reinf.</strong></h5>
-              <h5>in <span id="incAtt">{{villageOutgoingReinforcements[0].timeArrived}}</span></h5>
+              <h5>in <span id="outReinf">{{villageOutgoingReinforcementsTimeLeft[0]}}</span> seconds</h5>
             </div>
           </div>
           <div class="h5" v-else>
@@ -161,6 +161,10 @@ export default {
       villageIncomingReinforcements : [],
       villageOutgoingAttacks : [],
       villageOutgoingReinforcements : [],
+      villageIncomingAttacksTimeLeft : [],
+      villageIncomingReinforcementsTimeLeft : [],
+      villageOutgoingAttacksTimeLeft : [],
+      villageOutgoingReinforcementsTimeLeft : [],
     };
   },
 
@@ -175,6 +179,7 @@ export default {
     this.fetchVillageReinforcements();
     this.fetchVillageResFieldUpgrades();
     this.startUpgradeInterval();
+    this.startTroopMovementsInterval();
     //this.calculateProduction();
     //this.calculateResources();
   },
@@ -250,9 +255,7 @@ export default {
       .then( () => {
         this.villageResFieldUpgrades = this.$store.getters.getVillageResFieldUpgrades;
         if(this.villageResFieldUpgrades.length < 1) return;
-        this.fetchVillageResources();
         this.villageResFieldUpgradesTimeLeft[0] = (this.villageResFieldUpgrades[0].timeCompleted - Math.floor(new Date().getTime()/1000));
-        //this.villageResFieldUpgradesTimeLeft[1] = Math.floor((this.villageResFieldUpgrades[1].timeCompleted*1000 - new Date().getTime() - 3600) / 1000);
       });
     },
     fetchVillageOwnTroops(){
@@ -283,6 +286,11 @@ export default {
         this.villageOutgoingReinforcements = this.$store.getters.getVillageOutgoingReinforcements;
         this.villageIncomingAttacks = this.$store.getters.getVillageIncomingAttacks;
         this.villageIncomingReinforcements = this.$store.getters.getVillageIncomingReinforcements;
+
+        if(this.villageIncomingAttacks.length > 0){this.villageIncomingAttacksTimeLeft[0] = (this.villageIncomingAttacks[0].timeArrived - Math.floor(new Date().getTime()/1000));}
+        if(this.villageIncomingReinforcements.length > 0){this.villageIncomingReinforcementsTimeLeft[0] = (this.villageIncomingReinforcements[0].timeArrived - Math.floor(new Date().getTime()/1000));}
+        if(this.villageOutgoingAttacks.length > 0){this.villageOutgoingAttacksTimeLeft[0] = (this.villageOutgoingAttacks[0].timeArrived - Math.floor(new Date().getTime()/1000));}
+        if(this.villageOutgoingReinforcements.length > 0){this.villageOutgoingReinforcementsTimeLeft[0] = (this.villageOutgoingReinforcements[0].timeArrived - Math.floor(new Date().getTime()/1000));}
       });
     },
     startIntervals(){
@@ -331,10 +339,77 @@ export default {
         else if(this.villageResFieldUpgradesTimeLeft[0] == 0 ){
           this.fetchVillageResFieldUpgrades();
           this.fetchVillageResFieldLevels();
+          this.fetchVillageResources();
+          this.fetchVillageProduction();
           clearInterval(upgradeCD1Interval);
+        }
+      }, 1000);
+    },
+    startTroopMovementsInterval(){
+      setInterval( ()=> {
+        //if(!this.villageResFieldUpgradesTimeLeft) return;
+        if(this.villageIncomingAttacksTimeLeft[0] > 0){
+          this.$set(this.villageIncomingAttacksTimeLeft, 0, this.villageIncomingAttacksTimeLeft[0]-1);
+        }
+        if(this.villageIncomingReinforcementsTimeLeft[0] > 0){
+          this.$set(this.villageIncomingReinforcementsTimeLeft, 0, this.villageIncomingReinforcementsTimeLeft[0]-1);
+        }
+        if(this.villageOutgoingAttacksTimeLeft[0] > 0){
+          this.$set(this.villageOutgoingAttacksTimeLeft, 0, this.villageOutgoingAttacksTimeLeft[0]-1);
+        }
+        if(this.villageOutgoingReinforcementsTimeLeft[0] > 0){
+          this.$set(this.villageOutgoingReinforcementsTimeLeft, 0, this.villageOutgoingReinforcementsTimeLeft[0]-1);
+        }
+        
+        if(this.villageIncomingAttacksTimeLeft[0] == 0 || this.villageIncomingReinforcementsTimeLeft[0] == 0 || this.villageOutgoingAttacksTimeLeft[0] == 0 || this.villageOutgoingReinforcementsTimeLeft[0] == 0){
+          this.fetchVillageOwnTroops();
+          this.fetchVillageTroopMovements();
         }
       }, 1000);
     }
   }
 }
 </script>
+
+<style>
+@media (max-width: 600px) {
+  #villageResources{
+    margin-right: -15px;
+    margin-left: -15px;
+  }
+
+  #villageResources .flex-row {
+    flex-wrap: wrap;
+  }
+
+  #villageResources .flex-row .list-group-item{
+    width: 50%;
+    text-align: center;
+  }
+
+  .navbar-toggler{
+    /*display: none; */
+  }
+
+  .navbar-brand{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .rightSide{
+    margin-top: 5%;
+  }
+  
+  .upgrageResFieldsText{
+    text-align: center;
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+  }
+
+  .upgrageResFieldData{
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+  }
+}
+</style>

@@ -9,6 +9,8 @@ import Login from './components/Login.vue';
 import ResourceField from './components/ResourceField.vue';
 import Village from './components/Village.vue';
 import VillageBuilding from './components/VillageBuilding.vue';
+import SendTroops from './components/SendTroops.vue';
+import Map from './components/Map.vue';
 import App from './components/app.vue';
 
 //import App from './App.vue'
@@ -34,6 +36,8 @@ const router = new VueRouter({
       {path: '/resourceField/:rfid', name: 'resourceField', component: ResourceField},
       {path: '/village', name: 'village', component: Village},
       {path: '/villageBuilding/:vbid', name: 'villageBuilding', component: VillageBuilding},
+      {path: '/sendTroops/:vid', name: 'sendTroops', component: SendTroops},
+      {path: '/map', name: 'map', component: Map},
   ],
 });
 
@@ -107,15 +111,6 @@ const store = new Vuex.Store({
           context.commit('increment',payload)
       },
       async fetchVillageResources(context){
-        /*
-          await fetch('http://localhost:8080/api/villageResources/1')
-          .then(res => res.json())
-          .then(res => {
-              let villageResources = [res.data.currentWood,res.data.currentClay,res.data.currentIron,res.data.currentCrop];
-              context.commit('setVillageResources', villageResources);
-          })
-          .catch(err => console.log(err));
-          */
           let villageRes = await(await(await fetch('http://localhost:8080/api/villageResources/1')).json()).data;
           let villageMaxRes = await(await(await fetch('http://localhost:8080/api/villageMaxResources/1')).json()).data;
           let villageProd = await(await(await fetch('http://localhost:8080/api/villageProductions/1')).json()).data;          
@@ -257,7 +252,7 @@ const store = new Vuex.Store({
                       if(troopMovement.sendType == "full" || troopMovement.sendType == "raid"){
                           villageOutgoingAttacks.push(troopMovement);
                       }
-                      else if(troopMovement.sendType == "reinforcement"){
+                      else if(troopMovement.sendType == "reinforcement" || troopMovement.sendType == "return"){
                           villageOutgoingReinforcements.push(troopMovement);
                       }
                   }
@@ -265,7 +260,7 @@ const store = new Vuex.Store({
                       if(troopMovement.sendType == "full" || troopMovement.sendType == "raid"){
                           villageIncomingAttacks.push(troopMovement);
                       }
-                      else if(troopMovement.sendType == "reinforcement"){
+                      else if(troopMovement.sendType == "reinforcement" || troopMovement.sendType == "return"){
                           villageIncomingReinforcements.push(troopMovement);
                       }
                   }

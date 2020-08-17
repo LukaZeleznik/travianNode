@@ -38,13 +38,14 @@
                         <tr>
                             <th scope="row" class="align-middle" v-if="troopInfoLookup">
                                 <img style="width: 1.2rem;height: 1rem;" src="/images/maceman.gif">Maceman (Available: {{Math.floor(villageOwnTroops[0])}})
-                                
-                                <img style="width: 1.2rem;height: 1rem;" src="/images/wood.gif"> {{troopInfoLookup["Teuton"][0][1]}} |
-                                <img style="width: 1.2rem;height: 1rem;" src="/images/clay.gif"> {{troopInfoLookup["Teuton"][0][2]}} |
-                                <img style="width: 1.2rem;height: 1rem;" src="/images/iron.gif"> {{troopInfoLookup["Teuton"][0][3]}} |
-                                <img style="width: 1.2rem;height: 1rem;" src="/images/crop.gif"> {{troopInfoLookup["Teuton"][0][4]}} |
-                                <img style="width: 1.2rem;height: 1rem;" src="/images/consum.gif"> {{troopInfoLookup["Teuton"][0][10]}} |
-                                <img style="width: 1.2rem;height: 1rem;" src="/images/clock.gif"> {{troopInfoLookup["Teuton"][0][11]}}
+                                <span class="troopRequirements">
+                                    <img style="width: 1.2rem;height: 1rem;" src="/images/wood.gif"> {{troopInfoLookup["Teuton"][0][1]}} |
+                                    <img style="width: 1.2rem;height: 1rem;" src="/images/clay.gif"> {{troopInfoLookup["Teuton"][0][2]}} |
+                                    <img style="width: 1.2rem;height: 1rem;" src="/images/iron.gif"> {{troopInfoLookup["Teuton"][0][3]}} |
+                                    <img style="width: 1.2rem;height: 1rem;" src="/images/crop.gif"> {{troopInfoLookup["Teuton"][0][4]}} |
+                                    <img style="width: 1.2rem;height: 1rem;" src="/images/consum.gif"> {{troopInfoLookup["Teuton"][0][10]}} |
+                                    <img style="width: 1.2rem;height: 1rem;" src="/images/clock.gif"> {{troopInfoLookup["Teuton"][0][11]}}
+                                </span>
                             </th>
                             <td class="align-middle">
                                 <div class="input-group input-group-sm mb-3 align-middle">
@@ -223,3 +224,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+@media (max-width: 600px) {
+    .troopRequirements{
+        display: none;
+    }
+}
+</style>
