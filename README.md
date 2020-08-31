@@ -3,7 +3,7 @@
 Full stack web application using node.js, express.js, vue.js and NginX.
 
 # Requirements
--Docker
+- Docker
 
 # Usage
 
