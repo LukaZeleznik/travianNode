@@ -1,6 +1,6 @@
 # OpenAir
 
-Full stack web application using node.js, express.js, vue.js and NginX.
+Full stack web application using Node.js, Express.js, Vue.js and NginX.
 
 # Requirements
 - Docker
@@ -14,4 +14,4 @@ Full stack web application using node.js, express.js, vue.js and NginX.
 5. Open up your browser and navigate to localhost/resources
 6. Play!
 
-![OpenAir Travian](https://i.imgur.com/q8y2Y93.png)
+![OpenAir Travian](https://i.imgur.com/cnzcfUQ.png)
