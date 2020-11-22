@@ -1,0 +1,15 @@
+[{
+  "_id": {
+    "$oid": "5fba70da2b009d00121673bf"
+  },
+  "idVillage": 1,
+  "troopId": 1,
+  "troopCount": 121,
+  "troopName": "Macemen",
+  "troopProdTime": 10,
+  "timeStarted": 1606054106,
+  "timeCompleted": 1606055316,
+  "lastUpdate": 1606054122,
+  "troopsDoneAlready": 1.6,
+  "__v": 0
+}]

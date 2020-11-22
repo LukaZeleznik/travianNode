@@ -1,0 +1,22 @@
+[{
+  "_id": {
+    "$oid": "5fba70b72b009d00121673bd"
+  },
+  "sendType": "return",
+  "idVillageFrom": 2,
+  "idVillageTo": 1,
+  "timeSent": 1606054071,
+  "timeArrived": 1606054081,
+  "troopTribe": "teuton",
+  "troop1num": 5,
+  "troop2num": 0,
+  "troop3num": 0,
+  "troop4num": 0,
+  "troop5num": 0,
+  "troop6num": 0,
+  "troop7num": 0,
+  "troop8num": 0,
+  "troop9num": 0,
+  "troop10num": 0,
+  "__v": 0
+}]

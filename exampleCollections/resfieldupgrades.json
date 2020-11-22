@@ -1,0 +1,12 @@
+[{
+  "_id": {
+    "$oid": "5fba70c62b009d00121673be"
+  },
+  "idVillage": 1,
+  "rfid": 2,
+  "fieldType": "Claypit",
+  "fieldLevel": 6,
+  "timeStarted": 1606054087,
+  "timeCompleted": 1606054176,
+  "__v": 0
+}]

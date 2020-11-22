@@ -3,6 +3,7 @@
     <div class="container">
       <div class="d-flex justify-content-center" id="villageResources">
         <ul class="list-group list-group-horizontal flex-row">
+          
           <li class="list-group-item">
               <img style="width: 1.2rem;height: 0.9rem;" src="/images/wood.gif">
               <span id="currentWood">{{ parseInt(villageResources[0]) }}</span>/<span id="maxWood">{{ villageMaxResources[0] }}</span>
@@ -348,20 +349,26 @@ export default {
     startTroopMovementsInterval(){
       setInterval( ()=> {
         //if(!this.villageResFieldUpgradesTimeLeft) return;
+        let change = false;
+
         if(this.villageIncomingAttacksTimeLeft[0] > 0){
           this.$set(this.villageIncomingAttacksTimeLeft, 0, this.villageIncomingAttacksTimeLeft[0]-1);
+          change = true;
         }
         if(this.villageIncomingReinforcementsTimeLeft[0] > 0){
           this.$set(this.villageIncomingReinforcementsTimeLeft, 0, this.villageIncomingReinforcementsTimeLeft[0]-1);
+          change = true;
         }
         if(this.villageOutgoingAttacksTimeLeft[0] > 0){
           this.$set(this.villageOutgoingAttacksTimeLeft, 0, this.villageOutgoingAttacksTimeLeft[0]-1);
+          change = true;
         }
         if(this.villageOutgoingReinforcementsTimeLeft[0] > 0){
           this.$set(this.villageOutgoingReinforcementsTimeLeft, 0, this.villageOutgoingReinforcementsTimeLeft[0]-1);
+          change = true;
         }
         
-        if(this.villageIncomingAttacksTimeLeft[0] == 0 || this.villageIncomingReinforcementsTimeLeft[0] == 0 || this.villageOutgoingAttacksTimeLeft[0] == 0 || this.villageOutgoingReinforcementsTimeLeft[0] == 0){
+        if(change && (this.villageIncomingAttacksTimeLeft[0] == 0 || this.villageIncomingReinforcementsTimeLeft[0] == 0 || this.villageOutgoingAttacksTimeLeft[0] == 0 || this.villageOutgoingReinforcementsTimeLeft[0] == 0)){
           this.fetchVillageOwnTroops();
           this.fetchVillageTroopMovements();
         }

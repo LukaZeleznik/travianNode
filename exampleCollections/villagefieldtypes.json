@@ -1,0 +1,49 @@
+[{
+  "_id": {
+    "$oid": "5f0b891d6ce57d0012d2316a"
+  },
+  "idVillage": 2,
+  "resField1Type": "wood",
+  "resField2Type": "clay",
+  "resField3Type": "crop",
+  "resField4Type": "iron",
+  "resField5Type": "iron",
+  "resField6Type": "crop",
+  "resField7Type": "clay",
+  "resField8Type": "crop",
+  "resField9Type": "crop",
+  "resField10Type": "wood",
+  "resField11Type": "clay",
+  "resField12Type": "wood",
+  "resField13Type": "crop",
+  "resField14Type": "iron",
+  "resField15Type": "wood",
+  "resField16Type": "clay",
+  "resField17Type": "crop",
+  "resField18Type": "iron",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f12fd4878e7450012cee9c8"
+  },
+  "idVillage": 1,
+  "resField1Type": "wood",
+  "resField2Type": "clay",
+  "resField3Type": "crop",
+  "resField4Type": "iron",
+  "resField5Type": "iron",
+  "resField6Type": "crop",
+  "resField7Type": "clay",
+  "resField8Type": "crop",
+  "resField9Type": "crop",
+  "resField10Type": "wood",
+  "resField11Type": "clay",
+  "resField12Type": "wood",
+  "resField13Type": "crop",
+  "resField14Type": "iron",
+  "resField15Type": "wood",
+  "resField16Type": "clay",
+  "resField17Type": "crop",
+  "resField18Type": "iron",
+  "__v": 0
+}]

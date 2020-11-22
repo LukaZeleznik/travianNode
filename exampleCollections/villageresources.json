@@ -1,0 +1,23 @@
+[{
+  "_id": {
+    "$oid": "5f024df6099fc0001235afd7"
+  },
+  "idVillage": 1,
+  "currentWood": 19847.599999999995,
+  "currentClay": 18109.26666666668,
+  "currentIron": 19072.18333333339,
+  "currentCrop": 13968.038888888892,
+  "lastUpdate": 1606005340,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f0b89ad6ce57d0012d23172"
+  },
+  "idVillage": 2,
+  "currentWood": 200,
+  "currentClay": 200,
+  "currentIron": 200,
+  "currentCrop": 200,
+  "lastUpdate": 1593986238,
+  "__v": 0
+}]

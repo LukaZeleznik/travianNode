@@ -1,0 +1,49 @@
+[{
+  "_id": {
+    "$oid": "5f0b8833d5007d0012a89c18"
+  },
+  "idVillage": 2,
+  "resField1Level": 2,
+  "resField2Level": 1,
+  "resField3Level": 1,
+  "resField4Level": 1,
+  "resField5Level": 2,
+  "resField6Level": 1,
+  "resField7Level": 1,
+  "resField8Level": 1,
+  "resField9Level": 1,
+  "resField10Level": 1,
+  "resField11Level": 1,
+  "resField12Level": 1,
+  "resField13Level": 1,
+  "resField14Level": 1,
+  "resField15Level": 1,
+  "resField16Level": 1,
+  "resField17Level": 1,
+  "resField18Level": 1,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f12fd5378e7450012cee9c9"
+  },
+  "idVillage": 1,
+  "resField1Level": 13,
+  "resField2Level": 6,
+  "resField3Level": 6,
+  "resField4Level": 5,
+  "resField5Level": 3,
+  "resField6Level": 3,
+  "resField7Level": 5,
+  "resField8Level": 2,
+  "resField9Level": 1,
+  "resField10Level": 2,
+  "resField11Level": 3,
+  "resField12Level": 2,
+  "resField13Level": 2,
+  "resField14Level": 2,
+  "resField15Level": 3,
+  "resField16Level": 4,
+  "resField17Level": 2,
+  "resField18Level": 2,
+  "__v": 0
+}]

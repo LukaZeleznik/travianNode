@@ -1,0 +1,35 @@
+[{
+  "_id": {
+    "$oid": "5f0b897c6ce57d0012d2316d"
+  },
+  "idVillage": 2,
+  "tribe": "teuton",
+  "troop1": 0,
+  "troop2": 0,
+  "troop3": 0,
+  "troop4": 0,
+  "troop5": 0,
+  "troop6": 0,
+  "troop7": 0,
+  "troop8": 0,
+  "troop9": 0,
+  "troop10": 0,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f12fcf478e7450012cee9c3"
+  },
+  "idVillage": 1,
+  "tribe": "teuton",
+  "troop1": 224,
+  "troop2": 0,
+  "troop3": 0,
+  "troop4": 0,
+  "troop5": 0,
+  "troop6": 0,
+  "troop7": 0,
+  "troop8": 0,
+  "troop9": 0,
+  "troop10": 0,
+  "__v": 0
+}]

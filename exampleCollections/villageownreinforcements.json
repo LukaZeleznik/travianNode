@@ -1,0 +1,58 @@
+[{
+  "_id": {
+    "$oid": "5f0b8a001021c20012efe71c"
+  },
+  "reinforcementId": 1,
+  "idVillage": 2,
+  "idVillageFrom": 1,
+  "tribe": "gaul",
+  "troop1": 50,
+  "troop2": 0,
+  "troop3": 0,
+  "troop4": 0,
+  "troop5": 0,
+  "troop6": 0,
+  "troop7": 0,
+  "troop8": 0,
+  "troop9": 0,
+  "troop10": 10,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f0b8a56bcb0fc001287ec97"
+  },
+  "reinforcementId": 2,
+  "idVillage": 2,
+  "idVillageFrom": 1,
+  "tribe": "gaul",
+  "troop1": 50,
+  "troop2": 0,
+  "troop3": 0,
+  "troop4": 0,
+  "troop5": 0,
+  "troop6": 0,
+  "troop7": 0,
+  "troop8": 0,
+  "troop9": 0,
+  "troop10": 10,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f12fd3078e7450012cee9c7"
+  },
+  "reinforcementId": 3,
+  "idVillage": 1,
+  "idVillageFrom": 2,
+  "tribe": "gaul",
+  "troop1": 50,
+  "troop2": 0,
+  "troop3": 0,
+  "troop4": 0,
+  "troop5": 0,
+  "troop6": 0,
+  "troop7": 0,
+  "troop8": 0,
+  "troop9": 0,
+  "troop10": 10,
+  "__v": 0
+}]

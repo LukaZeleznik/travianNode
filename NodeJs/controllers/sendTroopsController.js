@@ -7,7 +7,7 @@ exports.view = function (req, res) {
         if (err)
             res.send(err);
         res.json({
-            message: 'Loading troops..',
+            message: 'Loading sendTroops..',
             data: sendTroops
         });
     });
@@ -19,6 +19,20 @@ exports.new = function (req, res) {
     let idVillageTo = req.body.idVillageTo;
     let currentUnixTime =  Math.round(new Date().getTime()/1000);
     let currentUnixTimePlus10 =  Math.round(new Date().getTime()/1000)+10;
+
+    let totalTroops = 0;
+    for(let i = 1; i < 11; i++){
+        let name = "troop"+i+"num";
+        totalTroops += req.body[name];        
+    }
+
+    if(totalTroops <= 0){
+        res.json({
+            message: 'No troops sent!',
+            data: ""
+        });
+        return;
+    }
 
     (async () => {
         if(req.body.sendType == "full"){

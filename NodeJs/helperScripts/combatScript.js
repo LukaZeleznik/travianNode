@@ -123,13 +123,13 @@ module.exports = {
         
         if(totalAttPoints > realDefPoints && constants.attackType == "raid"){
             winner = "attacker";
-            x = 1*Math.pow((realDefPoints/totalAttPoints),constants.troopsNumCoef);
+            let x = 1*Math.pow((realDefPoints/totalAttPoints),constants.troopsNumCoef);
             casualtiesPercentWinner = (x/(1+x));
             casualtiesPercentLoser = 1 - casualtiesPercentWinner;    
         }
         else if(totalAttPoints <= realDefPoints && constants.attackType == "raid"){
             winner = "defender";
-            x = 1*Math.pow((totalAttPoints/realDefPoints),constants.troopsNumCoef);
+            let x = 1*Math.pow((totalAttPoints/realDefPoints),constants.troopsNumCoef);
             casualtiesPercentWinner =  (x/(1+x));
             casualtiesPercentLoser = 1 - casualtiesPercentWinner;
         }
@@ -150,13 +150,13 @@ module.exports = {
         let defendersTroopsAfter = [];
 
         if(winner == "attacker"){
-            for(i = 0; i < 10; i++){
+            for(let i = 0; i < 10; i++){
                 attackersTroopsAfter[i] =  Math.round((attackerTroops[i]*(1-casualtiesPercentWinner)));
                 defendersTroopsAfter[i] =  Math.round((defenderTroops[i]*(1-casualtiesPercentLoser)));
             }
         }
         else if(winner == "defender"){
-            for(i = 0; i < 10; i++){
+            for(let i = 0; i < 10; i++){
                 attackersTroopsAfter[i] =  Math.round((attackerTroops[i]*(1-casualtiesPercentLoser)));
                 defendersTroopsAfter[i] =  Math.round((defenderTroops[i]*(1-casualtiesPercentWinner)));
             }

@@ -1,0 +1,21 @@
+[{
+  "_id": {
+    "$oid": "5f0b89926ce57d0012d2316f"
+  },
+  "idVillage": 2,
+  "productionWood": 200,
+  "productionClay": 200,
+  "productionIron": 200,
+  "productionCrop": 200,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f12fcca78e7450012cee9c2"
+  },
+  "idVillage": 1,
+  "productionWood": 7400,
+  "productionClay": 1680,
+  "productionIron": 930,
+  "productionCrop": 1370,
+  "__v": 0
+}]

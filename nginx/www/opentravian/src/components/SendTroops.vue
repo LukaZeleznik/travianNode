@@ -43,65 +43,11 @@
                   </tr>
               </thead>
               <tbody>
-                  <tr>
-                      <td class="align-middle">
+                  <tr v-if="villageOwnTroops.length > 0">
+                      <td class="align-middle" v-for="(villageOwnTroop, index) in villageOwnTroops" v-bind:key="index"> 
                           <div class="input-group input-group-sm align-middle">
-                              <input type="number" class="form-control mr-2" min="0" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                              <a href="#" style="color:green"><strong>({{villageOwnTroops[0]}})</strong></a>
-                          </div>
-                      </td>
-                      <td class="align-middle">
-                          <div class="input-group input-group-sm align-middle">
-                              <input type="number" class="form-control mr-2" min="0" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                              <a href="#" style="color:green"><strong>({{villageOwnTroops[1]}})</strong></a>
-                          </div>
-                      </td>
-                      <td class="align-middle">
-                          <div class="input-group input-group-sm align-middle">
-                              <input type="number" class="form-control mr-2" min="0" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                              <a href="#" style="color:green"><strong>({{villageOwnTroops[2]}})</strong></a>
-                          </div>
-                      </td>
-                      <td class="align-middle">
-                          <div class="input-group input-group-sm align-middle">
-                              <input type="number" class="form-control mr-2" min="0" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                              <a href="#" style="color:green"><strong>({{villageOwnTroops[3]}})</strong></a>
-                          </div>
-                      </td>
-                      <td class="align-middle">
-                          <div class="input-group input-group-sm align-middle">
-                              <input type="number" class="form-control mr-2" min="0" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                              <a href="#" style="color:green"><strong>({{villageOwnTroops[4]}})</strong></a>
-                          </div>
-                      </td>
-                      <td class="align-middle">
-                          <div class="input-group input-group-sm align-middle">
-                              <input type="number" class="form-control mr-2" min="0" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                              <a href="#" style="color:green"><strong>({{villageOwnTroops[5]}})</strong></a>
-                          </div>
-                      </td>
-                      <td class="align-middle">
-                          <div class="input-group input-group-sm align-middle">
-                              <input type="number" class="form-control mr-2" min="0" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                              <a href="#" style="color:green"><strong>({{villageOwnTroops[6]}})</strong></a>
-                          </div>
-                      </td>
-                      <td class="align-middle">
-                          <div class="input-group input-group-sm align-middle">
-                              <input type="number" class="form-control mr-2" min="0" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                              <a href="#" style="color:green"><strong>({{villageOwnTroops[7]}})</strong></a>
-                          </div>
-                      </td>
-                      <td class="align-middle">
-                          <div class="input-group input-group-sm align-middle">
-                              <input type="number" class="form-control mr-2" min="0" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                              <a href="#" style="color:green"><strong>({{villageOwnTroops[8]}})</strong></a>
-                          </div>
-                      </td>
-                      <td class="align-middle">
-                          <div class="input-group input-group-sm align-middle">
-                              <input type="number" class="form-control mr-2" min="0" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                              <a href="#" style="color:green"><strong>({{villageOwnTroops[9]}})</strong></a>
+                              <input :id="'troopInput'+index" type="number" class="form-control mr-2" min="0" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                              <a href="#" v-on:click="insertTroopData(index)" style="color:green"><strong>({{villageOwnTroop}})</strong></a>
                           </div>
                       </td>
                   </tr>
@@ -330,7 +276,33 @@ export default {
       } else {
         return false
       }
+    },
+    insertTroopData(index){
+        document.querySelector("#troopInput"+index).value = this.villageOwnTroops[index];
     }
   }
 }
 </script>
+
+<style scoped>
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+    -moz-appearance: textfield;
+    }
+
+    tbody .input-group a>strong{
+        vertical-align: middle;
+    }
+
+    .table td, .table th{
+        padding-left: .5rem;
+        padding-right: .5rem;
+    }
+</style>

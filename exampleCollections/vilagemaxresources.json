@@ -1,0 +1,21 @@
+[{
+  "_id": {
+    "$oid": "5f0b89636ce57d0012d2316b"
+  },
+  "idVillage": 2,
+  "maxWood": 2000,
+  "maxClay": 2000,
+  "maxIron": 2000,
+  "maxCrop": 2000,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f12fa6f78e7450012cee9c0"
+  },
+  "idVillage": 1,
+  "maxWood": 20000,
+  "maxClay": 20000,
+  "maxIron": 20000,
+  "maxCrop": 20000,
+  "__v": 0
+}]
