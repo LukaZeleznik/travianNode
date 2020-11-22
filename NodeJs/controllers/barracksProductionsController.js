@@ -25,13 +25,15 @@ exports.new = function (req, res) {
         let idVillage = req.body.idVillage;
         let currentUnixTime = Math.round(new Date().getTime()/1000);
 
+        let tribe = fetch 
+
         let villageResourcesApiUrl = 'http://localhost:8080/api/villageResources/' + idVillage;
         let villageResources = await(await(await fetch(villageResourcesApiUrl)).json()).data;
 
-        let requirementWood = troopInfo.Teuton[req.body.troopId-1][1] * req.body.troopCount;
-        let requirementClay = troopInfo.Teuton[req.body.troopId-1][2] * req.body.troopCount;
-        let requirementIron = troopInfo.Teuton[req.body.troopId-1][3] * req.body.troopCount;
-        let requirementCrop = troopInfo.Teuton[req.body.troopId-1][4] * req.body.troopCount;
+        let requirementWood = troopInfo["Teuton"][req.body.troopId-1][4] * req.body.troopCount;
+        let requirementClay = troopInfo["Teuton"][req.body.troopId-1][5] * req.body.troopCount;
+        let requirementIron = troopInfo["Teuton"][req.body.troopId-1][6] * req.body.troopCount;
+        let requirementCrop = troopInfo["Teuton"][req.body.troopId-1][7] * req.body.troopCount;
 
         if( villageResources.currentWood < requirementWood || villageResources.currentClay < requirementClay || 
           villageResources.currentIron < requirementIron || villageResources.currentCrop < requirementCrop ){
