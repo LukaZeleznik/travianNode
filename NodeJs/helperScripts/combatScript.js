@@ -84,16 +84,16 @@ module.exports = {
         for(let i = 0; i < 10; i++){
             if(attacker.tribe == "teuton"){
                 if(i >= 4 && i <= 5){
-                    totalCalAttPoints += troopInfoLookup["Teuton"][i][1] * attackerTroops[i];
+                    totalCalAttPoints += troopInfoLookup["Teuton"][i]["attack"] * attackerTroops[i];
                 }
                 else{
-                    totalInfAttPoints += troopInfoLookup["Teuton"][i][1] * attackerTroops[i];
+                    totalInfAttPoints += troopInfoLookup["Teuton"][i]["attack"] * attackerTroops[i];
                 }
             }
 
             if(defender.tribe == "teuton"){
-                totalInfDefPoints += troopInfoLookup["Teuton"][i][2] * defenderTroops[i];
-                totalCalDefPoints += troopInfoLookup["Teuton"][i][3] * defenderTroops[i];
+                totalInfDefPoints += troopInfoLookup["Teuton"][i]["infantryDefense"] * defenderTroops[i];
+                totalCalDefPoints += troopInfoLookup["Teuton"][i]["cavalryDefense"] * defenderTroops[i];
             }
         }
 

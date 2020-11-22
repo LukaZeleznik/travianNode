@@ -126,7 +126,7 @@
           <div class="h3 mt-3">Troops:</div>
           <div class="h5" v-if="villageOwnTroops.length > 0">
             <div class="d-flex justify-content-center" v-for="(villageOwnTroop, index) in villageOwnTroops" :key="index">
-                  <h5 v-if="villageOwnTroop"><img src="/images/maceman.gif">  {{Math.floor(villageOwnTroop)}} ({{villageOwnTroop}}) Macemen </h5>
+                  <h5 v-if="villageOwnTroop"><img src="/images/maceman.gif">  {{Math.floor(villageOwnTroop)}} ({{villageOwnTroop}}) clubswinger </h5>
                   <!-- TODO needs troopInfoLookup -->
             </div>
           </div>

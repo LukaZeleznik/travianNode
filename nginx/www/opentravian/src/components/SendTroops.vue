@@ -30,7 +30,7 @@
           <table class="table table-bordered w-100 m-auto" v-if="!isMobile()">
               <thead >
                   <tr>
-                    <th scope="col">Macemen</th>
+                    <th scope="col">clubswinger</th>
                     <th scope="col">Spearman</th>
                     <th scope="col">Axeman</th>
                     <th scope="col">Scout</th>
@@ -111,7 +111,7 @@
             <table class="table table-bordered w-100 m-auto">
                 <thead>
                     <tr>
-                      <th scope="col">Macemen</th>
+                      <th scope="col">clubswinger</th>
                       <th scope="col">Spearman</th>
                       <th scope="col">Axeman</th>
                       <th scope="col">Scout</th>

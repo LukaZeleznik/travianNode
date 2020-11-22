@@ -37,14 +37,14 @@
                     <tbody>
                         <tr>
                             <th scope="row" class="align-middle" v-if="troopInfoLookup">
-                                <img style="width: 1.2rem;height: 1rem;" src="/images/maceman.gif">Maceman (Available: {{Math.floor(villageOwnTroops[0])}})
+                                <img style="width: 1.2rem;height: 1rem;" src="/images/maceman.gif">{{troopInfoLookup["Teuton"][0]["name"]}} (Available: {{Math.floor(villageOwnTroops[0])}})
                                 <span class="troopRequirements">
-                                    <img style="width: 1.2rem;height: 1rem;" src="/images/wood.gif"> {{troopInfoLookup["Teuton"][0][4]}} |
-                                    <img style="width: 1.2rem;height: 1rem;" src="/images/clay.gif"> {{troopInfoLookup["Teuton"][0][5]}} |
-                                    <img style="width: 1.2rem;height: 1rem;" src="/images/iron.gif"> {{troopInfoLookup["Teuton"][0][6]}} |
-                                    <img style="width: 1.2rem;height: 1rem;" src="/images/crop.gif"> {{troopInfoLookup["Teuton"][0][7]}} |
-                                    <img style="width: 1.2rem;height: 1rem;" src="/images/consum.gif"> {{troopInfoLookup["Teuton"][0][10]}} |
-                                    <img style="width: 1.2rem;height: 1rem;" src="/images/clock.gif"> {{troopInfoLookup["Teuton"][0][11]}}
+                                    <img style="width: 1.2rem;height: 1rem;" src="/images/wood.gif"> {{troopInfoLookup["Teuton"][0]["wood"]}} |
+                                    <img style="width: 1.2rem;height: 1rem;" src="/images/clay.gif"> {{troopInfoLookup["Teuton"][0]["clay"]}} |
+                                    <img style="width: 1.2rem;height: 1rem;" src="/images/iron.gif"> {{troopInfoLookup["Teuton"][0]["iron"]}} |
+                                    <img style="width: 1.2rem;height: 1rem;" src="/images/crop.gif"> {{troopInfoLookup["Teuton"][0]["crop"]}} |
+                                    <img style="width: 1.2rem;height: 1rem;" src="/images/consum.gif"> {{troopInfoLookup["Teuton"][0]["consumption"]}} |
+                                    <img style="width: 1.2rem;height: 1rem;" src="/images/clock.gif"> {{troopInfoLookup["Teuton"][0]["time"]}}
                                 </span>
                             </th>
                             <td class="align-middle">
@@ -53,7 +53,7 @@
                                 </div>
                             </td>
                             <td class="align-middle">
-                                <a @click="insertTroops(1);" href="#" style="color:green" v-if="troopInfoLookup && villageResources"><strong>(<span id="maxTroops1">{{Math.floor(Math.min(villageResources[0]/troopInfoLookup["Teuton"][0][1],villageResources[1]/troopInfoLookup["Teuton"][0][2],villageResources[2]/troopInfoLookup["Teuton"][0][3],villageResources[3]/troopInfoLookup["Teuton"][0][4]))}}</span>)</strong></a>
+                                <a @click="insertTroops(1);" href="#" style="color:green" v-if="troopInfoLookup && villageResources"><strong>(<span id="maxTroops1">{{Math.floor(Math.min(villageResources[0]/troopInfoLookup["Teuton"][0]["wood"],villageResources[1]/troopInfoLookup["Teuton"][0]["clay"],villageResources[2]/troopInfoLookup["Teuton"][0]["iron"],villageResources[3]/troopInfoLookup["Teuton"][0]["crop"]))}}</span>)</strong></a>
                             </td>
                         </tr>
                     </tbody>
