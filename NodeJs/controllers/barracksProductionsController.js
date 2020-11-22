@@ -30,10 +30,10 @@ exports.new = function (req, res) {
         let villageResourcesApiUrl = 'http://localhost:8080/api/villageResources/' + idVillage;
         let villageResources = await(await(await fetch(villageResourcesApiUrl)).json()).data;
 
-        let requirementWood = troopInfo["Teuton"][req.body.troopId-1][4] * req.body.troopCount;
-        let requirementClay = troopInfo["Teuton"][req.body.troopId-1][5] * req.body.troopCount;
-        let requirementIron = troopInfo["Teuton"][req.body.troopId-1][6] * req.body.troopCount;
-        let requirementCrop = troopInfo["Teuton"][req.body.troopId-1][7] * req.body.troopCount;
+        let requirementWood = troopInfo["Teuton"][req.body.troopId-1]["wood"] * req.body.troopCount;
+        let requirementClay = troopInfo["Teuton"][req.body.troopId-1]["clay"] * req.body.troopCount;
+        let requirementIron = troopInfo["Teuton"][req.body.troopId-1]["iron"] * req.body.troopCount;
+        let requirementCrop = troopInfo["Teuton"][req.body.troopId-1]["crop"] * req.body.troopCount;
 
         if( villageResources.currentWood < requirementWood || villageResources.currentClay < requirementClay || 
           villageResources.currentIron < requirementIron || villageResources.currentCrop < requirementCrop ){
@@ -68,10 +68,10 @@ exports.new = function (req, res) {
         barracksProductions.troopId = req.body.troopId;
         barracksProductions.troopCount = req.body.troopCount;
         
-        barracksProductions.troopName = troopInfo.Teuton[req.body.troopId-1][0];
-        barracksProductions.troopProdTime = Math.floor(troopInfo.Teuton[req.body.troopId-1][11] / 100);
+        barracksProductions.troopName = troopInfo.Teuton[req.body.troopId-1]["name"];
+        barracksProductions.troopProdTime = Math.floor(troopInfo.Teuton[req.body.troopId-1]["time"] / 100);
         barracksProductions.timeStarted = currentUnixTime;
-        barracksProductions.timeCompleted = currentUnixTime + Math.floor(req.body.troopCount * troopInfo.Teuton[req.body.troopId-1][11] / 100);
+        barracksProductions.timeCompleted = currentUnixTime + Math.floor(req.body.troopCount * troopInfo.Teuton[req.body.troopId-1]["time"] / 100);
         barracksProductions.lastUpdate = currentUnixTime;
         barracksProductions.troopsDoneAlready = 0;
 
