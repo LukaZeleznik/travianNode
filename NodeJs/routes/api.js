@@ -12,6 +12,7 @@ const villageOwnTroopsController = require('../controllers/villageOwnTroopsContr
 const villageReinforcementsController = require('../controllers/villageReinforcementsController');
 const sendTroopsController = require('../controllers/sendTroopsController');
 const barracksProductionsController = require('../controllers/barracksProductionsController');
+const userController = require('../controllers/userController');
 /*
 router.get('/', function(req, res){
     shark.index(req,res);
@@ -118,5 +119,15 @@ router.route('/barracksProductions/:barrProdId')
     .put(barracksProductionsController.update)
     .patch(barracksProductionsController.update)
     .delete(barracksProductionsController.delete);
+
+router.route('/user')
+    .post(userController.new);
+    /*
+router.route('/user/:user')
+    .get(userController.view)
+    .put(userController.update)
+    .patch(userController.update)
+    .delete(userController.delete);
+    */
 
 module.exports = router;
