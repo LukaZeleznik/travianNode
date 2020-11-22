@@ -39,10 +39,10 @@
                             <th scope="row" class="align-middle" v-if="troopInfoLookup">
                                 <img style="width: 1.2rem;height: 1rem;" src="/images/maceman.gif">Maceman (Available: {{Math.floor(villageOwnTroops[0])}})
                                 <span class="troopRequirements">
-                                    <img style="width: 1.2rem;height: 1rem;" src="/images/wood.gif"> {{troopInfoLookup["Teuton"][0][1]}} |
-                                    <img style="width: 1.2rem;height: 1rem;" src="/images/clay.gif"> {{troopInfoLookup["Teuton"][0][2]}} |
-                                    <img style="width: 1.2rem;height: 1rem;" src="/images/iron.gif"> {{troopInfoLookup["Teuton"][0][3]}} |
-                                    <img style="width: 1.2rem;height: 1rem;" src="/images/crop.gif"> {{troopInfoLookup["Teuton"][0][4]}} |
+                                    <img style="width: 1.2rem;height: 1rem;" src="/images/wood.gif"> {{troopInfoLookup["Teuton"][0][4]}} |
+                                    <img style="width: 1.2rem;height: 1rem;" src="/images/clay.gif"> {{troopInfoLookup["Teuton"][0][5]}} |
+                                    <img style="width: 1.2rem;height: 1rem;" src="/images/iron.gif"> {{troopInfoLookup["Teuton"][0][6]}} |
+                                    <img style="width: 1.2rem;height: 1rem;" src="/images/crop.gif"> {{troopInfoLookup["Teuton"][0][7]}} |
                                     <img style="width: 1.2rem;height: 1rem;" src="/images/consum.gif"> {{troopInfoLookup["Teuton"][0][10]}} |
                                     <img style="width: 1.2rem;height: 1rem;" src="/images/clock.gif"> {{troopInfoLookup["Teuton"][0][11]}}
                                 </span>
@@ -62,7 +62,7 @@
                     <button type="button" class="btn btn-success w-75 m-auto mt-3" @click="train();">Train</button>
                 </div>
                 <h5 class="mt-4 text-danger" id="errorMessage"></h5>                
-                <table class="table table-bordered w-75 m-auto" v-if="villageBarracksProduction && villageBarracksProduction.length > 0">
+                <table class="table table-bordered w-75 m-auto" v-if="villageBarracksProductions && villageBarracksProductions.length > 0">
                     <thead >
                         <tr>
                             <th scope="col">Training</th>
@@ -71,18 +71,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr  v-for="(villageBarracksProduction, index) in villageBarracksProductions" :key="index">
                             <th scope="row" class="align-middle">
                                 <img style="width: 1.2rem;height: 1rem;" src="/img/maceman.gif">{{
-                                    Math.ceil(villageBarracksProduction[0].troopCount - villageBarracksProduction[0].troopsDoneAlready)
-                                    }} {{villageBarracksProduction[0].troopName}}
+                                    Math.ceil(villageBarracksProduction.troopCount - villageBarracksProduction.troopsDoneAlready)
+                                    }} {{villageBarracksProduction.troopName}}
                                 <br />
                             </th>
                             <td class="align-middle">
-                                <span class="trainCD">{{villageBarracksProduction[0].timeCompleted - Math.floor(new Date().getTime()/1000) }}</span>s
+                                <span class="trainCD">{{ villageBarracksProductionsTimeLeft[index] }}</span>s
                             </td>
                             <td class="align-middle">
-                                {{new Date(villageBarracksProduction[0].timeCompleted*1000).toLocaleTimeString('sl-SI')}}
+                                {{new Date(villageBarracksProduction.timeCompleted*1000).toLocaleTimeString('sl-SI')}}
                             </td>
                         </tr>
                     </tbody>
@@ -117,7 +117,8 @@ export default {
       villageBuildingLevel : undefined,
       villageBuildingName : undefined,
       villageOwnTroops: undefined,
-      villageBarracksProduction : undefined,
+      villageBarracksProductions : undefined,
+      villageBarracksProductionsTimeLeft : [],
       maxTroopsToTrain : undefined,
     };
   },
@@ -131,6 +132,7 @@ export default {
     //this.fetchVillageBarracksProduction();
     //this.calculateMaxTroopsToTrain();
     this.fetchTroopInfoLookup();
+    this.startCountdownInterval();
   },
 
   methods: {
@@ -168,12 +170,20 @@ export default {
       });
     },
     fetchVillageBarracksProduction(){
-        this.villageBarracksProduction = this.$store.getters.getVillageBarracksProduction;
+        this.villageBarracksProductions = this.$store.getters.getVillageBarracksProduction;
+        this.villageBarracksProductionsTimeLeft = [];
+        for(let i = 0; i < this.villageBarracksProductions.length; i++){
+            this.villageBarracksProductionsTimeLeft[i] = this.villageBarracksProductions[i].timeCompleted - Math.floor(new Date().getTime()/1000);
+        }
 
         this.$store.dispatch('fetchVillageBarracksProduction')
         .then( () => {
-            this.villageBarracksProduction = this.$store.getters.getVillageBarracksProduction;
-            this.startCountdownInterval();
+            this.villageBarracksProductions = this.$store.getters.getVillageBarracksProduction;
+            this.villageBarracksProductionsTimeLeft = [];
+            for(let i = 0; i < this.villageBarracksProductions.length; i++){
+                this.villageBarracksProductionsTimeLeft[i] = this.villageBarracksProductions[i].timeCompleted - Math.floor(new Date().getTime()/1000);
+            }
+            //this.startCountdownInterval();
         });
     },
     insertTroops(id){        
@@ -209,17 +219,15 @@ export default {
         }
     },
     startCountdownInterval(){
-      var countdownInterval = setInterval( ()=> {
-        document.getElementsByClassName("trainCD").forEach(timeLeft =>{
-            if(Number(timeLeft.innerText) > 0){
-                timeLeft.innerText = Number(timeLeft.innerText)-1;
+        console.log("KLICANO");
+        setInterval( ()=> {
+            for(let i = 0; i < this.villageBarracksProductionsTimeLeft.length; i++){
+                this.$set(this.villageBarracksProductionsTimeLeft, i, this.villageBarracksProductionsTimeLeft[i] - 1);
+                if(this.villageBarracksProductionsTimeLeft[i] < 0){
+                    this.fetchVillageOwnTroops();
+                }
             }
-            else{
-                this.fetchVillageOwnTroops();
-                clearInterval(countdownInterval);
-            }
-        });
-      }, 1000);
+        }, 1000);
     }
   }
 }
