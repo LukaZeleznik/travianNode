@@ -1,28 +1,5 @@
 <template>
   <div>
-    <div class="container">
-      <div class="d-flex justify-content-center" id="villageResources">
-        <ul class="list-group list-group-horizontal flex-row">
-          <li class="list-group-item">
-              <img style="width: 1.2rem;height: 0.9rem;" src="/images/wood.gif">
-              <span id="currentWood">{{ Math.floor(villageResources[0]) }}</span>/<span id="maxWood">{{ villageMaxResources[0] }}</span>
-          </li>
-          <li class="list-group-item">
-              <img style="width: 1.2rem;height: 0.9rem;" src="/images/clay.gif">
-              <span id="currentClay">{{ Math.floor(villageResources[1]) }}</span>/<span id="maxClay">{{ villageMaxResources[1] }}</span>
-          </li>
-          <li class="list-group-item">
-              <img style="width: 1.2rem;height: 0.9rem;" src="/images/iron.gif">
-              <span id="currentIron">{{ Math.floor(villageResources[2]) }}</span>/<span id="maxIron">{{ villageMaxResources[2] }}</span>
-          </li>
-          <li class="list-group-item">
-              <img style="width: 1.2rem;height: 0.9rem;" src="/images/crop.gif">
-              <span id="currentCrop">{{ Math.floor(villageResources[3]) }}</span>/<span id="maxCrop">{{ villageMaxResources[3] }}</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
     <!-- Main Body -->
     <div class="container mt-4">
       <div class="row">
@@ -156,8 +133,6 @@
 export default {
   data() {
     return {
-      villageResources : [],
-      villageMaxResources : [0,0,0,0],
       villageBuildingLevels : [],
       villageBuildingTypes : [],
       villageBuildingColors : ["","SlateGray","SlateGray","SlateGray","","SlateGray","SlateGray","SaddleBrown","SlateGray","SlateGray","SlateGray","Green","SlateGray","SlateGray","SlateGray","SlateGray","SlateGray","SlateGray","","SlateGray","SlateGray","SlateGray"],
@@ -178,9 +153,6 @@ export default {
   },
 
   created() {
-    this.fetchVillageResources();
-    this.fetchVillageMaxResources();
-    this.fetchVillageProduction();
     this.fetchVillageTroopMovements();
     this.fetchVillageOwnTroops();
     this.fetchVillageReinforcements();
@@ -192,38 +164,12 @@ export default {
   },
 
   methods: {
-    fetchVillageResources(){
-      this.villageResources = this.$store.getters.getVillageResources;      
-      this.$store.dispatch('fetchVillageResources')
-      .then( () => {
-        this.villageResources = this.$store.getters.getVillageResources;
-      });
-    },
-    fetchVillageMaxResources(){
-      this.villageMaxResources = this.$store.getters.getVillageMaxResources;
-
-      this.$store.dispatch('fetchVillageMaxResources')
-      .then( () => {
-        this.villageMaxResources = this.$store.getters.getVillageMaxResources;
-      });
-    },
     fetchVillageResFieldLevels(){
       this.villageResFieldLevels = this.$store.getters.getVillageResFieldLevels;
 
       this.$store.dispatch('fetchVillageResFieldLevels')
       .then( () => {
         this.villageResFieldLevels = this.$store.getters.getVillageResFieldLevels;
-      });
-    },
-    fetchVillageProduction(){
-      this.villageProduction = this.$store.getters.getVillageProduction;
-
-      this.$store.dispatch('fetchVillageProduction')
-      .then( () => {
-        this.villageProduction = this.$store.getters.getVillageProduction;
-      })
-      .then( () => {
-        this.startIntervals();
       });
     },
     fetchVillageResFieldUpgrades(){
@@ -272,43 +218,6 @@ export default {
         if(this.villageOutgoingReinforcements.length > 0){this.villageOutgoingReinforcementsTimeLeft[0] = (this.villageOutgoingReinforcements[0].timeArrived - Math.floor(new Date().getTime()/1000));}
       });
     },
-    startIntervals(){
-      var woodInterval = setInterval( ()=> {
-        if(parseInt(this.villageResources[0]) < this.villageMaxResources[0]){
-          this.$set(this.villageResources, 0, this.villageResources[0]+1);
-        }
-        else if(this.villageResources[0] == this.villageMaxResources[0]){
-          clearInterval(woodInterval);
-        }
-      }, 1000*3600 / this.villageProduction[0]);
-
-      var clayInterval = setInterval( ()=> {
-        if(parseInt(this.villageResources[1]) < this.villageMaxResources[1]){
-          this.$set(this.villageResources, 1, this.villageResources[1]+1);
-        }
-        else if(this.villageResources[1] == this.villageMaxResources[1]){
-          clearInterval(clayInterval);
-        }
-      }, 1000*3600 / this.villageProduction[1]);
-
-      var ironInterval = setInterval( ()=> {
-        if(parseInt(this.villageResources[2]) < this.villageMaxResources[2]){
-          this.$set(this.villageResources, 2, this.villageResources[2]+1);
-        }
-        else if(this.villageResources[2] == this.villageMaxResources[2]){
-          clearInterval(ironInterval);
-        }
-      }, 1000*3600 / this.villageProduction[2]);
-        
-      var cropInterval = setInterval( ()=> {
-        if(parseInt(this.villageResources[3]) < this.villageMaxResources[3]){
-          this.$set(this.villageResources, 3, this.villageResources[3]+1);
-        }
-        else if(this.villageResources[3] == this.villageMaxResources[3]){
-          clearInterval(cropInterval);
-        }
-      }, 1000*3600 / this.villageProduction[3]);
-    },
     startUpgradeInterval(){
       var upgradeCD1Interval = setInterval( ()=> {
         //if(!this.villageResFieldUpgradesTimeLeft) return;
@@ -318,8 +227,6 @@ export default {
         else if(this.villageResFieldUpgradesTimeLeft[0] == 0 ){
           this.fetchVillageResFieldUpgrades();
           this.fetchVillageResFieldLevels();
-          this.fetchVillageResources();
-          this.fetchVillageProduction();
           clearInterval(upgradeCD1Interval);
         }
       }, 1000);

@@ -22,6 +22,7 @@ Vue.component('resources', require('./components/Resources.vue').default);
 Vue.component('resourceField', require('./components/ResourceField.vue').default);
 Vue.component('village', require('./components/Village.vue').default);
 Vue.component('app', require('./components/app.vue').default);
+Vue.component('villageResources', require('./components/VillageResources.vue').default);
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
