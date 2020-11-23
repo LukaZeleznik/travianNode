@@ -153,6 +153,7 @@ export default {
   },
 
   created() {
+    this.fetchVillageProduction();
     this.fetchVillageTroopMovements();
     this.fetchVillageOwnTroops();
     this.fetchVillageReinforcements();
@@ -170,6 +171,17 @@ export default {
       this.$store.dispatch('fetchVillageResFieldLevels')
       .then( () => {
         this.villageResFieldLevels = this.$store.getters.getVillageResFieldLevels;
+      });
+    },
+    fetchVillageProduction(){
+      this.villageProduction = this.$store.getters.getVillageProduction;
+
+      this.$store.dispatch('fetchVillageProduction')
+      .then( () => {
+        this.villageProduction = this.$store.getters.getVillageProduction;
+      })
+      .then( () => {
+        this.startIntervals();
       });
     },
     fetchVillageResFieldUpgrades(){
@@ -227,6 +239,7 @@ export default {
         else if(this.villageResFieldUpgradesTimeLeft[0] == 0 ){
           this.fetchVillageResFieldUpgrades();
           this.fetchVillageResFieldLevels();
+          this.fetchVillageProduction();
           clearInterval(upgradeCD1Interval);
         }
       }, 1000);
