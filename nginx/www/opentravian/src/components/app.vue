@@ -1,7 +1,7 @@
 <template>
     <div class="container">
-        <navbar></navbar>
-        <villageResources></villageResources>
+        <navbarMenu></navbarMenu>
+        <navbarResources></navbarResources>
         <router-view></router-view>
     </div>
 </template>

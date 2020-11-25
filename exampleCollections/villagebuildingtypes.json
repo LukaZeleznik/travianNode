@@ -1,0 +1,49 @@
+[{
+  "_id": {
+    "$oid": "5f0b891d6ce57d0012d2316a"
+  },
+  "idVillage": 2,
+  "Field1Type": 0,
+  "Field2Type": 0,
+  "Field3Type": 0,
+  "Field4Type": 0,
+  "Field5Type": 0,
+  "Field6Type": 0,
+  "Field7Type": 1,
+  "Field8Type": 0,
+  "Field9Type": 0,
+  "Field10Type": 0,
+  "Field11Type": 0,
+  "Field12Type": 0,
+  "Field13Type": 0,
+  "Field14Type": 0,
+  "Field15Type": 0,
+  "Field16Type": 0,
+  "Field17Type": 0,
+  "Field18Type": 0,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f12fd4878e7450012cee9c8"
+  },
+  "idVillage": 1,
+  "Field1Type": 0,
+  "Field2Type": 0,
+  "Field3Type": 0,
+  "Field4Type": 0,
+  "Field5Type": 0,
+  "Field6Type": 0,
+  "Field7Type": 1,
+  "Field8Type": 0,
+  "Field9Type": 0,
+  "Field10Type": 0,
+  "Field11Type": 0,
+  "Field12Type": 0,
+  "Field13Type": 0,
+  "Field14Type": 0,
+  "Field15Type": 0,
+  "Field16Type": 0,
+  "Field17Type": 0,
+  "Field18Type": 0,
+  "__v": 0
+}]

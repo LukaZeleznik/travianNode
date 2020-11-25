@@ -13,6 +13,8 @@ const villageReinforcementsController = require('../controllers/villageReinforce
 const sendTroopsController = require('../controllers/sendTroopsController');
 const barracksProductionsController = require('../controllers/barracksProductionsController');
 const userController = require('../controllers/userController');
+const villageBuildingLevelsController = require('../controllers/villageBuildingLevelsController');
+const villageBuildingTypesController = require('../controllers/villageBuildingTypesController');
 /*
 router.get('/', function(req, res){
     shark.index(req,res);
@@ -129,5 +131,21 @@ router.route('/user/:user')
     .patch(userController.update)
     .delete(userController.delete);
     */
+
+router.route('/villageBuildingLevels')
+   .post(villageBuildingLevelsController.new);
+router.route('/villageBuildingLevels/:idVillage')
+   .get(villageBuildingLevelsController.view)
+   .put(villageBuildingLevelsController.update)
+   .patch(villageBuildingLevelsController.update)
+   .delete(villageBuildingLevelsController.delete);
+
+router.route('/villageBuildingTypes')
+   .post(villageBuildingTypesController.new);
+router.route('/villageBuildingTypes/:idVillage')
+   .get(villageBuildingTypesController.view)
+   .put(villageBuildingTypesController.update)
+   .patch(villageBuildingTypesController.update)
+   .delete(villageBuildingTypesController.delete);
 
 module.exports = router;

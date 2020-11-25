@@ -2,7 +2,6 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
 
-
 import Resources from './components/Resources.vue';
 import ExampleComponent from './components/ExampleComponent.vue';
 import Login from './components/Login.vue';
@@ -13,16 +12,19 @@ import SendTroops from './components/SendTroops.vue';
 import Map from './components/Map.vue';
 import App from './components/app.vue';
 
-//import App from './App.vue'
-
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('navbar', require('./components/Navbar.vue').default);
-Vue.component('login', require('./components/Login.vue').default);
-Vue.component('resources', require('./components/Resources.vue').default);
-Vue.component('resourceField', require('./components/ResourceField.vue').default);
-Vue.component('village', require('./components/Village.vue').default);
-Vue.component('app', require('./components/app.vue').default);
-Vue.component('villageResources', require('./components/VillageResources.vue').default);
+// Navbar
+Vue.component('navbarMenu', require('./components/Main/Navbar/Menu.vue').default);
+Vue.component('navbarResources', require('./components/Main/Navbar/Resources.vue').default);
+// Sidebars
+Vue.component('sidebarTroops', require('./components/Main/Sidebar/Troops.vue').default);
+Vue.component('sidebarTroopMovements', require('./components/Main/Sidebar/TroopMovements.vue').default);
+Vue.component('sidebarProduction', require('./components/Main/Sidebar/Production.vue').default);
+//Footer
+Vue.component('footerBuildingQueue', require('./components/Main/Footer/BuildingQueue.vue').default);
+//Village
+Vue.component('villageFields', require('./components/Village/Fields.vue').default);
+//Resources
+Vue.component('resourcesFields', require('./components/Resources/Fields.vue').default);
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
@@ -331,6 +333,9 @@ const store = new Vuex.Store({
       getVillageBarracksProduction: state => {
           return state.villageBarracksProduction;
       },
+      getVillageBuildingLevels: state => {
+        return state.villageBarracksProduction;
+    },
   }
 })
 

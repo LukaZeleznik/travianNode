@@ -8,111 +8,21 @@
         <div class="col-md-8 col-sm-12 col-12">
           <div class="h2 text-center mb-4"><strong>VillageName</strong></div>
 
-          <div class="grid">
-              <ul id="hexGrid" style="padding-left: 0px;">
-                  <li class="hex" v-for="(villageResFieldColor, index) in villageResFieldColors" :key="index">
-                      <div class="hexIn" v-if="index == 0 || index == 4 || index == 18">
-                      </div>
-
-                      <div class="hexIn" v-else-if="index == 11">
-                        <router-link class="hexLink" :to="{ name: 'village' }">
-                          <div class='img' v-bind:style="'background-color:'+villageResFieldColor">
-                              <p style="top:35%;opacity:1;color:black">{{villageResFieldLevels[index]}}</p>
-                          </div>
-                          <h1 id="demo1"></h1>
-                          <p id="demo2"></p>
-                        </router-link>
-                      </div>
-                      
-                      <div class="hexIn" v-else>
-                        <router-link class="hexLink" :to="{ path: '/resourceField/' + index }">
-                          <div class='img' v-bind:style="'background-color:'+villageResFieldColor">
-                              <p style="top:35%;opacity:1;color:black">{{villageResFieldLevels[index]}}</p>
-                          </div>
-                          <h1 id="demo1"></h1>
-                          <p id="demo2"></p>
-                        </router-link>
-                      </div>
-                  </li>
-              </ul>                
-          </div>          
+            <!-- Fields -->
+            <resourcesFields></resourcesFields>
             
-          <div class="h3 pl-5 ml-4 my-3 upgrageResFieldsText" v-if="villageResFieldUpgrades.length > 0">Buildings:</div>          
-          <div class="d-flex justify-content-between pl-5 ml-4 upgrageResFieldData" v-if="villageResFieldUpgrades.length > 0">
-              <h5><img style="width: 1.0rem;height: 0.9rem;" src="/images/del.gif"> 
-                {{ villageResFieldUpgrades[0].fieldType }} 
-                (Level {{ villageResFieldUpgrades[0].fieldLevel }})</h5>
-              <h5 class="text-center">in <span id="upgradeCD1">{{ villageResFieldUpgradesTimeLeft[0] }}</span> seconds</h5>
-              <h5 class="text-right">done at {{ new Date(villageResFieldUpgrades[0].timeCompleted*1000).toLocaleTimeString('sl-SI')}} </h5>
-          </div>
-          <div class="d-flex justify-content-between pl-5 ml-4 upgrageResFieldData" v-if="villageResFieldUpgrades.length == 2">
-              <h5><img style="width: 1.0rem;height: 0.9rem;" src="/images/del.gif"> 
-                {{ villageResFieldUpgrades[1].fieldType }} 
-                (Level {{ villageResFieldUpgrades[1].fieldLevel }})</h5>
-              <!--<h5>in <span id="upgradeCD1">{{ new Date(villageResFieldUpgrades[1].timeCompleted*1000 - Math.floor(new Date().getTime())).toLocaleTimeString() }}</span> hours</h5>-->
-              <h5>done at {{ new Date(villageResFieldUpgrades[1].timeCompleted*1000).toLocaleTimeString('sl-SI') }} </h5>
-          </div>
+            <!-- Footer Queue -->
+            <footerBuildingQueue></footerBuildingQueue>
         </div>
 
-        <!-- Troop Movements and other stuff on the right -->
+        <!-- Sidebar -->
         <div class="col-md-4 text-center mb-3 rightSide">
-
-          <div class="h3">Troop Movements:</div>
-          <div  v-if="villageIncomingAttacks.length > 0 || villageOutgoingAttacks.length > 0 || 
-                      villageIncomingReinforcements.length > 0 || villageOutgoingReinforcements.length > 0">
-            <div class="d-flex justify-content-between" v-if="villageIncomingAttacks.length > 0">
-              <h5 style="color:Red"><img style="width: 1.2rem;" src="/images/att_inc.gif"><strong> {{villageIncomingAttacks.length}} Attacks</strong></h5>
-              <h5>in <span id="incAtt">{{villageIncomingAttacksTimeLeft[0]}}</span> seconds</h5>
-            </div>
-            <div class="d-flex justify-content-between" v-if="villageOutgoingAttacks.length > 0">
-              <h5 style="color:Orange"><img style="width: 1.2rem;" src="/images/att_out.gif"><strong> {{villageOutgoingAttacks.length}} Attacks</strong></h5>
-              <h5>in <span id="outAtt">{{villageOutgoingAttacksTimeLeft[0]}}</span> seconds</h5>
-            </div>
-            <div class="d-flex justify-content-between" v-if="villageIncomingReinforcements.length > 0">
-              <h5 style="color:Orange"><img style="width: 1.2rem;" src="/images/reinf_inc.gif"><strong> {{villageIncomingReinforcements.length}} Reinf.</strong></h5>
-              <h5>in <span id="incReinf">{{villageIncomingReinforcementsTimeLeft[0]}}</span> seconds</h5>
-            </div>
-            <div class="d-flex justify-content-between" v-if="villageOutgoingReinforcements.length > 0">
-              <h5 style="color:Green"><img style="width: 1.2rem;" src="/images/reinf_out.gif"><strong> {{villageOutgoingReinforcements.length}} Reinf.</strong></h5>
-              <h5>in <span id="outReinf">{{villageOutgoingReinforcementsTimeLeft[0]}}</span> seconds</h5>
-            </div>
-          </div>
-          <div class="h5" v-else>
-            <div class="text-center">
-              <h5>None</h5>
-            </div>
-          </div>
-
-          <div class="h3 mt-3">Production:</div>
-          <div class="d-flex justify-content-between">
-              <h5><img style="width: 1.5rem;height: 1rem;" src="/images/wood.gif"> Wood:</h5>
-              <h5><strong>{{villageProduction[0]}}</strong> per hour</h5>
-          </div>
-          <div class="d-flex justify-content-between">
-              <h5><img style="width: 1.5rem;height: 1rem;" src="/images/clay.gif"> Clay:</h5>
-              <h5><strong>{{villageProduction[1]}}</strong> per hour</h5>
-          </div>
-          <div class="d-flex justify-content-between">
-              <h5><img style="width: 1.5rem;height: 1rem;" src="/images/iron.gif"> Iron:</h5>
-              <h5><strong>{{villageProduction[2]}}</strong> per hour</h5>
-          </div>
-          <div class="d-flex justify-content-between">
-              <h5><img style="width: 1.5rem;height: 1rem;" src="/images/crop.gif"> Crop:</h5>
-              <h5><strong>{{villageProduction[3]}}</strong> per hour</h5>
-          </div>
-
-          <div class="h3 mt-3">Troops:</div>
-          <div class="h5" v-if="villageOwnTroops.length > 0">
-            <div class="d-flex justify-content-center" v-for="(villageOwnTroop, index) in villageOwnTroops" :key="index">
-                  <h5 v-if="villageOwnTroop"><img src="/images/maceman.gif">  {{Math.floor(villageOwnTroop)}} ({{villageOwnTroop}}) clubswinger </h5>
-                  <!-- TODO needs troopInfoLookup -->
-            </div>
-          </div>
-          <div class="h5" v-else>
-            <div class="text-center">
-              <h5>None</h5>
-            </div>
-          </div>
+            <!-- Troop Movements -->
+            <sidebarTroopMovements></sidebarTroopMovements>
+            <!-- Production -->
+            <sidebarProduction></sidebarProduction>
+            <!-- Troops -->
+            <sidebarTroops></sidebarTroops>
         </div>
       </div>
     </div>

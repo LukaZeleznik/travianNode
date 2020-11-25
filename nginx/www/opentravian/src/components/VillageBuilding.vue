@@ -1,8 +1,8 @@
 <template>
     <div>
-        <div class="container">
+        <div class="container" v-if="buildingInfoLookup">
             <div class="justify-content-center text-center">
-                <h1 class="my-4"> Barracks Level 1</h1>
+                <h1 class="my-4">{{buildingInfoLookup[1]["name"]}} Level 1</h1>
                 <h6 class="my-4">All foot soldier are trained in the barracks. The higher the level of the barracks, the faster the troops are trained.</h6>
                 <table class="table table-bordered w-75 m-auto">
                     <thead>
@@ -90,14 +90,15 @@ export default {
   data() {
     return {
       troopInfoLookup: undefined,
+      buildingInfoLookup: undefined,
       villageResources : undefined,
       maxResources : undefined,
-      villageBuildingLevel : undefined,
-      villageBuildingName : undefined,
       villageOwnTroops: undefined,
       villageBarracksProductions : undefined,
       villageBarracksProductionsTimeLeft : [],
       maxTroopsToTrain : undefined,
+      villageBuildingLevel : 0,
+      villageBuildingType : undefined,
     };
   },
 
@@ -110,10 +111,21 @@ export default {
     //this.fetchVillageBarracksProduction();
     //this.calculateMaxTroopsToTrain();
     this.fetchTroopInfoLookup();
+    this.fetchBuildingInfoLookup();
     this.startCountdownInterval();
+    this.fetchVillageBuildingTypes();
+    this.fetchVillageBuildingLevels();
   },
 
   methods: {
+    fetchBuildingInfoLookup(){
+        fetch('/infoTables/buildingInfoLookup.json')
+        .then(res => res.json())
+        .then(res => {
+            this.buildingInfoLookup = res;
+        })        
+        .catch(err => console.log(err));
+    },
     fetchTroopInfoLookup(){
         fetch('/infoTables/troopInfoLookup.json')
         .then(res => res.json())
@@ -127,7 +139,7 @@ export default {
 
         this.$store.dispatch('fetchVillageResources')
         .then( () => {
-        this.villageResources = this.$store.getters.getVillageResources;
+            this.villageResources = this.$store.getters.getVillageResources;
         });
     },
     fetchVillageMaxResources(){
@@ -135,7 +147,7 @@ export default {
 
         this.$store.dispatch('fetchVillageMaxResources')
         .then( () => {
-        this.villageMaxResources = this.$store.getters.getVillageMaxResources;
+            this.villageMaxResources = this.$store.getters.getVillageMaxResources;
         });
     },
     fetchVillageOwnTroops(){
@@ -163,6 +175,36 @@ export default {
             }
             //this.startCountdownInterval();
         });
+    },
+    fetchVillageBuildingTypes(){
+        fetch('http://localhost:8080/api/villageBuildingTypes/1')
+        .then(res => res.json())
+        .then(res => { //TODO
+            let rfid = this.$route.params.rfid;
+            
+            if (rfid > 4) rfid--;
+            if (rfid > 10) rfid--;
+            if (rfid > 16) rfid--;
+
+            console.log(rfid);
+
+            let key = "resField"+rfid+"Type";
+            this.resFieldType = res.data[key];
+
+            if(this.resFieldType == "wood"){
+                this.resFieldTypeLong = "Woodcutter";
+            }
+            else if(this.resFieldType == "clay"){
+                this.resFieldTypeLong = "Claypit";
+            }
+            else if(this.resFieldType == "iron"){
+                this.resFieldTypeLong = "Ironmine";
+            }
+            else if(this.resFieldType == "crop"){
+                this.resFieldTypeLong = "Cropland";
+            }
+        })
+        .catch(err => console.log(err));
     },
     insertTroops(id){        
         document.getElementById("unit"+id).value =  document.getElementById("maxTroops"+id).innerHTML;
