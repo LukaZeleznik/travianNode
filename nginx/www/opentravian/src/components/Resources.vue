@@ -7,14 +7,11 @@
         <!-- Resource Fields -->
         <div class="col-md-8 col-sm-12 col-12">
           <div class="h2 text-center mb-4"><strong>VillageName</strong></div>
-
             <!-- Fields -->
             <resourcesFields></resourcesFields>
-            
             <!-- Footer Queue -->
             <footerBuildingQueue></footerBuildingQueue>
         </div>
-
         <!-- Sidebar -->
         <div class="col-md-4 text-center mb-3 rightSide">
             <!-- Troop Movements -->
