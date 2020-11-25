@@ -113,8 +113,6 @@ export default {
     this.fetchTroopInfoLookup();
     this.fetchBuildingInfoLookup();
     this.startCountdownInterval();
-    this.fetchVillageBuildingTypes();
-    this.fetchVillageBuildingLevels();
   },
 
   methods: {

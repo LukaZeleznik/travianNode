@@ -302,50 +302,43 @@ const store = new Vuex.Store({
         .then(res => res.json())
         .then(res => {
             let villageBuildingTypes = [
-                0,
                 res.data.field1Type,
                 res.data.field2Type,
                 res.data.field3Type,
-                0,
                 res.data.field4Type,
                 res.data.field5Type,
                 res.data.field6Type,
                 res.data.field7Type,
                 res.data.field8Type,
                 res.data.field9Type,
-                0, //Resources
                 res.data.field10Type,
                 res.data.field11Type,
                 res.data.field12Type,
                 res.data.field13Type,
                 res.data.field14Type,
                 res.data.field15Type,
-                0,
                 res.data.field16Type,
                 res.data.field17Type,
                 res.data.field18Type
             ];
+            console.log(villageBuildingTypes);
 
             let villageBuildingLevels = [
-                0,
                 res.data.field1Level,
                 res.data.field2Level,
                 res.data.field3Level,
-                0,
                 res.data.field4Level,
                 res.data.field5Level,
                 res.data.field6Level,
                 res.data.field7Level,
                 res.data.field8Level,
                 res.data.field9Level,
-                0, //Resources
                 res.data.field10Level,
                 res.data.field11Level,
                 res.data.field12Level,
                 res.data.field13Level,
                 res.data.field14Level,
                 res.data.field15Level,
-                0,
                 res.data.field16Level,
                 res.data.field17Level,
                 res.data.field18Level
@@ -353,7 +346,6 @@ const store = new Vuex.Store({
             
             let villageBuildingColors = villageBuildingTypes.map(type => {
                 if(type == 0){ return "SlateGray"}
-                else if(type == "resources"){ return "Green"}
                 else if(type > 0){ return "Orange"}
                 else {return ""}
             });

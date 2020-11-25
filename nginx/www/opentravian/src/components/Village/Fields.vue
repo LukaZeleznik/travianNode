@@ -2,11 +2,11 @@
     <div>
         <div class="grid">
             <ul id="hexGrid" style="padding-left: 0px;">
-                <li class="hex" v-for="(villageBuildingColor, index) in villageBuildingColors" :key="index">
-                    <div class="hexIn" v-if="index == 0 || index == 4 || index == 18"></div>
-                    <div class="hexIn" v-else-if="index == 11">
+                <li class="hex" v-for="index in 22" :key="index">
+                    <div class="hexIn" v-if="index == 1 || index == 5 || index == 19"></div>
+                    <div class="hexIn" v-else-if="index == 12">
                         <router-link class="hexLink" :to="{ name: 'resources' }">
-                            <div class='img' v-bind:style="'background-color:' + villageBuildingColor">
+                            <div class='img' v-bind:style="'background-color:' + villageBuildingColors[index-1]">
                                 <p style="top:35%;opacity:1;color:black">Resources</p>
                             </div>
                             <h1 id="demo1"></h1>
@@ -14,9 +14,9 @@
                         </router-link>
                     </div>
                     <div class="hexIn" v-else>
-                        <router-link class="hexLink" :to="{ path: '/villageBuilding/' + index }">
-                            <div class='img' v-bind:style="'background-color:' + villageBuildingColor">
-                                <p style="top:35%;opacity:1;color:black">{{villageBuildingNames[index]}}</p>
+                        <router-link class="hexLink" :to="{ path: '/villageBuilding/' + realIndexes[index] }">
+                            <div class='img' v-bind:style="'background-color:' + villageBuildingColors[realIndexes[index]-1]">
+                                <p style="top:35%;opacity:1;color:black">{{villageBuildingNames[realIndexes[index]-1]}}</p>
                             </div>
                             <h1 id="demo1"></h1>
                             <p id="demo2"></p>
@@ -37,6 +37,8 @@ export default {
             villageBuildingTypes: [],
             villageBuildingColors: [],
             villageBuildingNames: [],
+            realIndexes: [1,1,1,2,3,3,4,5,6,7,8,9,10,10,11,12,13,14,15,16,16,17,18],
+            indexes: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22],
         };
     },
     created() {
@@ -53,8 +55,6 @@ export default {
             this.villageBuildingTypes   = this.$store.getters.getVillageBuildingTypes;
             this.villageBuildingColors  = this.$store.getters.getVillageBuildingColors;
 
-            console.log("TYPES: " + this.villageBuildingTypes);
-
             this.$store.dispatch('fetchVillageBuildingsData')
             .then( () => {
                 this.villageBuildingLevels  = this.$store.getters.getVillageBuildingLevels;
@@ -65,11 +65,11 @@ export default {
         },
         convertBuildingTypeToName(){
             const buildingInfoLookup = require('../../../public/infoTables/buildingInfoLookup.json');
-            
+            console.log(this.villageBuildingTypes);
             this.villageBuildingNames = this.villageBuildingTypes.map(type => {
                 return buildingInfoLookup[type]['name'];
             });
-            console.log(this.villageBuildingNames);
+
         }
     }
 }
