@@ -3,7 +3,6 @@ import VueRouter from 'vue-router';
 import Vuex from 'vuex';
 
 import Resources from './components/Resources.vue';
-import ExampleComponent from './components/ExampleComponent.vue';
 import Login from './components/Login.vue';
 import ResourceField from './components/ResourceField.vue';
 import Village from './components/Village.vue';
@@ -15,14 +14,20 @@ import App from './components/app.vue';
 // Navbar
 Vue.component('navbarMenu', require('./components/Main/Navbar/Menu.vue').default);
 Vue.component('navbarResources', require('./components/Main/Navbar/Resources.vue').default);
+
 // Sidebars
 Vue.component('sidebarTroops', require('./components/Main/Sidebar/Troops.vue').default);
 Vue.component('sidebarTroopMovements', require('./components/Main/Sidebar/TroopMovements.vue').default);
 Vue.component('sidebarProduction', require('./components/Main/Sidebar/Production.vue').default);
+
 //Footer
 Vue.component('footerBuildingQueue', require('./components/Main/Footer/BuildingQueue.vue').default);
-//Village
+
+// Village
 Vue.component('villageFields', require('./components/Village/Fields.vue').default);
+Vue.component('villageBuilding0', require('./components/Village/Buildings/0.vue').default);
+Vue.component('villageBuilding1', require('./components/Village/Buildings/1.vue').default);
+
 //Resources
 Vue.component('resourcesFields', require('./components/Resources/Fields.vue').default);
 
@@ -32,7 +37,6 @@ Vue.use(Vuex);
 const router = new VueRouter({
   mode: 'history',
   routes: [
-      {path: '/home', name: 'home', component: ExampleComponent},
       {path: '/', redirect: '/resources'},
       {path: '/login', name: 'login', component: Login},
       {path: '/resources', name: 'resources', component: Resources},

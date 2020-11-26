@@ -1,7 +1,8 @@
 [
     {
         "id": 0,
-        "name": "Empty building spot"
+        "name": "Empty Building Site",
+        "desc": ""
     },
     {
         "id": 1,
@@ -13,8 +14,8 @@
         "consumption": [4,2,2,2,2,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4],
         "constructionTime": [1992,2604,3324,4158,5124,6252,7566,9072,10818,12852,15220,17950,21130,24810,29080,34030,39770,46440,54170,63130],
         "culturePoints": [1, 1, 2, 2, 2, 3, 4, 4, 5, 6, 7, 9, 11, 13, 15, 18, 22, 27, 32, 38],
-        "buildingModifier": [1,1.1,1.2,1.4,1.5,1.7,1.9,2.1,2.3,2.6,2.9,3.2,3.5,3.9,4.4,4.9,5.4,6.0,6.7,7.4],
-        "description": "In the barracks, infantry can be trained. The higher its level, the faster the troops are trained.",
+        "buildingModifier": [1,0.9,0.81,0.7290,0.6561,0.5905,0.5314,0.4783,0.4305,0.3874,0.3487,0.3138,0.2824,0.2542,0.2288,0.2059,0.1853,0.1668,0.1501,0.1351],
+        "desc": "In the barracks, infantry can be trained. The higher its level, the faster the troops are trained.",
         "requirements": {
             "2": 10,
             "3": 8

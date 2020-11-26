@@ -32,7 +32,6 @@ export default {
 
   data() {
     return {
-      villageProduction: [0, 0, 0, 0],
       villageBuildingLevels : [],
       villageBuildingTypes : [],
       villageBuildingColors : ["","SlateGray","SlateGray","SlateGray","","SlateGray","SlateGray","SlateGray","SlateGray","SlateGray","SlateGray","Green","SlateGray","SlateGray","SlateGray","SlateGray","SlateGray","SlateGray","","SlateGray","SlateGray","SlateGray"],
@@ -50,30 +49,16 @@ export default {
   },
 
   created() {
-    this.fetchVillageProduction();
     this.fetchVillageTroopMovements();
     this.fetchVillageOwnTroops();
     this.fetchVillageReinforcements();
     this.fetchVillageResFieldUpgrades();
     this.startTroopMovementsInterval();
-    this.fetchVillageProduction();
     this.villageBuildingTypes[11] = "Resources";
     this.villageBuildingTypes[7] = "Barracks";
   },
 
   methods: {
-      fetchVillageProduction() {
-            this.villageProduction = this.$store.getters.getVillageProduction;
-
-            this.$store
-                .dispatch("fetchVillageProduction")
-                .then(() => {
-                    this.villageProduction = this.$store.getters.getVillageProduction;
-                })
-                .then(() => {
-                    this.startIntervals();
-                })
-        },
     fetchVillageResFieldLevels(){
       this.villageResFieldLevels = this.$store.getters.getVillageResFieldLevels;
 
