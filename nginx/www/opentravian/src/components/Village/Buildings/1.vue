@@ -9,27 +9,28 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row" class="align-middle" style="min-width:650px" v-if="troopInfoLookup">
-                        <img style="width: 1.2rem;height: 1rem;" src="/images/maceman.gif">{{ troopInfoLookup["Teuton"][0]["name"] }} (Available: {{Math.floor(villageOwnTroops[0])}})
-                        <span class="troopRequirements">
-                            <img style="width: 1.2rem;height: 1rem;" src="/images/wood.gif">    {{ troopInfoLookup["Teuton"][0]["wood"] }} |
-                            <img style="width: 1.2rem;height: 1rem;" src="/images/clay.gif">    {{ troopInfoLookup["Teuton"][0]["clay"] }} |
-                            <img style="width: 1.2rem;height: 1rem;" src="/images/iron.gif">    {{ troopInfoLookup["Teuton"][0]["iron"] }} |
-                            <img style="width: 1.2rem;height: 1rem;" src="/images/crop.gif">    {{ troopInfoLookup["Teuton"][0]["crop"] }} |
-                            <img style="width: 1.2rem;height: 1rem;" src="/images/consum.gif">  {{ troopInfoLookup["Teuton"][0]["consumption"] }} |
-                            <img style="width: 1.2rem;height: 1rem;" src="/images/clock.gif">   {{ new Date (troopInfoLookup["Teuton"][0]["time"] * 1000).toISOString().substr(11, 8) }}
+                <tr v-for="(troop, index) in troopList" :key="index">
+                    <th scope="row" class="align-middle text-left" style="min-width:650px">
+                        <img :src="'/images/troops/' + userTribe + '/' + troop['id'] + '.gif'"> {{ troop['name'] }} (Available: {{Math.floor(villageOwnTroops[index])}})
+                        <span class="troopRequirements float-right">
+                            <img src="/images/resources/wood.gif">    {{ troop['wood'] }} |
+                            <img src="/images/resources/clay.gif">    {{ troop['clay'] }} |
+                            <img src="/images/resources/iron.gif">    {{ troop['iron'] }} |
+                            <img src="/images/resources/crop.gif">    {{ troop['crop'] }} |
+                            <img src="/images/consum.gif">  {{ troop['consumption'] }} |
+                            <img src="/images/clock.gif">   {{ new Date (troop['time'] * 1000).toISOString().substr(11, 8) }}
                         </span>
                     </th>
                     <td class="align-middle">
                         <div class="input-group input-group-sm mb-3 align-middle">
-                            <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="unit1">
+                            <input type="text" class="form-control trainTroop" :data-troopId="troop['id']" aria-label="Small" aria-describedby="inputGroup-sizing-sm" :id="'troop' + troop['id']">
                         </div>
                     </td>
                     <td class="align-middle">
-                        <a @click="insertTroops(1);" href="#" style="color:green" v-if="troopInfoLookup && villageResources"><strong>(<span id="maxTroops1">{{Math.floor(Math.min(villageResources[0]/troopInfoLookup["Teuton"][0]["wood"],villageResources[1]/troopInfoLookup["Teuton"][0]["clay"],villageResources[2]/troopInfoLookup["Teuton"][0]["iron"],villageResources[3]/troopInfoLookup["Teuton"][0]["crop"]))}}</span>)</strong></a>
+                        <a @click="insertTroops(troop['id']);" href="#" style="color:green" v-if="troopInfoLookup && villageResources"><strong>(<span :id="'maxTroops' + troop['id']">{{Math.floor(Math.min(villageResources[0]/troop["wood"],villageResources[1]/troop["clay"],villageResources[2]/troop["iron"],villageResources[3]/troop["crop"]))}}</span>)</strong></a>
                     </td>
                 </tr>
+
             </tbody>
         </table>
         <div class="btn-group my-4 w-75" role="group" aria-label="Train">
@@ -47,7 +48,7 @@
             <tbody>
                 <tr  v-for="(villageBarracksProduction, index) in villageBarracksProductions" :key="index">
                     <th scope="row" class="align-middle">
-                        <img style="width: 1.2rem;height: 1rem;" src="/img/maceman.gif">{{
+                        <img :src="'/images/troops/' + userTribe + '/' + (villageBarracksProduction.troopId) + '.gif'">{{
                             Math.ceil(villageBarracksProduction.troopCount - villageBarracksProduction.troopsDoneAlready)
                             }} {{villageBarracksProduction.troopName}}
                         <br />
@@ -66,12 +67,12 @@
         <h5> <p>Training time at level {{ villageBuildingDataProp['level']+1 }}: {{ buildingInfoLookup[villageBuildingDataProp['type']]['buildingModifier'][villageBuildingDataProp['level']]*100 }} percent</p></h5>
         <h4> <p>Cost for upgrading to Level {{ villageBuildingDataProp['level']+1 }}:</p></h4>
         <h5> <p>
-            <img style="width: 1.5rem;height: 1rem;" src="/images/wood.gif">    {{ buildingInfoLookup[villageBuildingDataProp['type']]['wood'][villageBuildingDataProp['level']] }} |
-            <img style="width: 1.5rem;height: 1rem;" src="/images/clay.gif">    {{ buildingInfoLookup[villageBuildingDataProp['type']]['clay'][villageBuildingDataProp['level']] }} |
-            <img style="width: 1.5rem;height: 1rem;" src="/images/iron.gif">    {{ buildingInfoLookup[villageBuildingDataProp['type']]['iron'][villageBuildingDataProp['level']] }} |
-            <img style="width: 1.5rem;height: 1rem;" src="/images/crop.gif">    {{ buildingInfoLookup[villageBuildingDataProp['type']]['crop'][villageBuildingDataProp['level']] }} |
-            <img style="width: 1.5rem;height: 1rem;" src="/images/consum.gif">  {{ buildingInfoLookup[villageBuildingDataProp['type']]['consumption'][villageBuildingDataProp['level']] }} |
-            <img style="width: 1.5rem;height: 1rem;" src="/images/clock.gif">   {{ new Date(buildingInfoLookup[villageBuildingDataProp['type']]['constructionTime'][villageBuildingDataProp['level']] * 1000).toISOString().substr(11, 8) }}</p>
+            <img src="/images/resources/wood.gif">    {{ buildingInfoLookup[villageBuildingDataProp['type']]['wood'][villageBuildingDataProp['level']] }} |
+            <img src="/images/resources/clay.gif">    {{ buildingInfoLookup[villageBuildingDataProp['type']]['clay'][villageBuildingDataProp['level']] }} |
+            <img src="/images/resources/iron.gif">    {{ buildingInfoLookup[villageBuildingDataProp['type']]['iron'][villageBuildingDataProp['level']] }} |
+            <img src="/images/resources/crop.gif">    {{ buildingInfoLookup[villageBuildingDataProp['type']]['crop'][villageBuildingDataProp['level']] }} |
+            <img src="/images/consum.gif">  {{ buildingInfoLookup[villageBuildingDataProp['type']]['consumption'][villageBuildingDataProp['level']] }} |
+            <img src="/images/clock.gif">   {{ new Date(buildingInfoLookup[villageBuildingDataProp['type']]['constructionTime'][villageBuildingDataProp['level']] * 1000).toISOString().substr(11, 8) }}</p>
         </h5>
         <h6> <a>Upgrade to Level {{ villageBuildingDataProp['level']+1 }}</a> </h6>
     </div>
@@ -89,10 +90,12 @@ export default {
         return {
             troopInfoLookup: undefined,
             buildingInfoLookup: undefined,
-            villageResources : undefined,
+            villageResources: undefined,
             villageOwnTroops: undefined,
-            villageBarracksProductions : undefined,
-            villageBarracksProductionsTimeLeft : [],
+            villageBarracksProductions: undefined,
+            villageBarracksProductionsTimeLeft: [],
+            troopList: [],
+            userTribe: "Teuton",
         };
     },
 
@@ -101,6 +104,7 @@ export default {
         this.fetchVillageResources();
         this.fetchVillageOwnTroops();
         this.startCountdownInterval();
+        this.getTroopList();
     },
 
     methods: {
@@ -118,6 +122,7 @@ export default {
         },
         fetchVillageOwnTroops(){
             this.villageOwnTroops = this.$store.getters.getVillageOwnTroops;
+            console.log(this.villageOwnTroop)
 
             this.$store.dispatch('fetchVillageOwnTroops')
             .then( () => {
@@ -143,15 +148,37 @@ export default {
             });
         },
         insertTroops(id){        
-            document.getElementById("unit"+id).value =  document.getElementById("maxTroops"+id).innerHTML;
+            console.log(document.getElementById("maxTroops"+id).innerHTML);
+            document.getElementById("troop"+id).value = document.getElementById("maxTroops"+id).innerHTML;
+        },
+        getTroopList(){
+            Object.keys(this.troopInfoLookup).forEach((tribe) => {
+                if(tribe == this.userTribe){
+                    Object.keys(this.troopInfoLookup[tribe]).forEach( (troop) =>{
+                        if(this.troopInfoLookup[tribe][troop]['buildingId'] == this.villageBuildingDataProp['type']){
+                            this.troopList.push(this.troopInfoLookup[tribe][troop]);
+                        }
+                    });
+                }
+            });
+            console.log(this.troopList);
         },
         async train(){
-            let troop1num = document.getElementById("unit1").value;
+            let elementList = document.querySelectorAll(".trainTroop");
+            let troopNum;
+            let troopId;
+
+            for(let element of elementList){
+                troopId = element.getAttribute("data-troopId");
+                troopNum = element.value;
+                element.value = '';
+                if(troopNum>0) break;
+            }
 
             let troopData = {
                 "idVillage": 1,
-                "troopId": 1,
-                "troopCount": troop1num
+                "troopId": troopId,
+                "troopCount": troopNum
             }
 
             let barracksProductionsResponse = await fetch('http://localhost:8080/api/barracksProductions', {
@@ -163,8 +190,6 @@ export default {
             });
 
             let barracksProductionsResponseJson = await barracksProductionsResponse.json();
-
-            console.log(barracksProductionsResponseJson);
 
             if(barracksProductionsResponseJson.message == "New barracksProductions created"){
                 this.fetchVillageOwnTroops();

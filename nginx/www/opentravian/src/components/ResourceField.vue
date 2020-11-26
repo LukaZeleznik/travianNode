@@ -15,10 +15,10 @@
             </h4>
             <h5 class="mb-3"> 
                 <div v-if="resFieldTypeLong && resourceInfoLookup && resFieldLevel">
-                    <img style="width: 1.5rem;height: 1rem;" src="/images/wood.gif"> {{resourceInfoLookup[resFieldTypeLong].wood[resFieldLevel]}} |
-                    <img style="width: 1.5rem;height: 1rem;" src="/images/clay.gif"> {{resourceInfoLookup[resFieldTypeLong].clay[resFieldLevel]}} |
-                    <img style="width: 1.5rem;height: 1rem;" src="/images/iron.gif"> {{resourceInfoLookup[resFieldTypeLong].iron[resFieldLevel]}} |
-                    <img style="width: 1.5rem;height: 1rem;" src="/images/crop.gif"> {{resourceInfoLookup[resFieldTypeLong].crop[resFieldLevel]}} |
+                    <img style="width: 1.5rem;height: 1rem;" src="/images/resources/wood.gif"> {{resourceInfoLookup[resFieldTypeLong].wood[resFieldLevel]}} |
+                    <img style="width: 1.5rem;height: 1rem;" src="/images/resources/clay.gif"> {{resourceInfoLookup[resFieldTypeLong].clay[resFieldLevel]}} |
+                    <img style="width: 1.5rem;height: 1rem;" src="/images/resources/iron.gif"> {{resourceInfoLookup[resFieldTypeLong].iron[resFieldLevel]}} |
+                    <img style="width: 1.5rem;height: 1rem;" src="/images/resources/crop.gif"> {{resourceInfoLookup[resFieldTypeLong].crop[resFieldLevel]}} |
                     <img style="width: 1.5rem;height: 1rem;" src="/images/consum.gif"> {{resourceInfoLookup[resFieldTypeLong].consumption[resFieldLevel]}} |
                     <img style="width: 1.5rem;height: 1rem;" src="/images/clock.gif"> {{resourceInfoLookup[resFieldTypeLong].constructionTime[resFieldLevel]}}s
                 </div>

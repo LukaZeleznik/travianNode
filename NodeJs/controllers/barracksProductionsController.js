@@ -69,9 +69,9 @@ exports.new = function (req, res) {
         barracksProductions.troopCount = req.body.troopCount;
         
         barracksProductions.troopName = troopInfo.Teuton[req.body.troopId-1]["name"];
-        barracksProductions.troopProdTime = Math.floor(troopInfo.Teuton[req.body.troopId-1]["time"] / 100);
+        barracksProductions.troopProdTime = Math.floor(troopInfo.Teuton[req.body.troopId-1]["time"]);
         barracksProductions.timeStarted = currentUnixTime;
-        barracksProductions.timeCompleted = currentUnixTime + Math.floor(req.body.troopCount * troopInfo.Teuton[req.body.troopId-1]["time"] / 100);
+        barracksProductions.timeCompleted = currentUnixTime + Math.floor(req.body.troopCount * troopInfo.Teuton[req.body.troopId-1]["time"]);
         barracksProductions.lastUpdate = currentUnixTime;
         barracksProductions.troopsDoneAlready = 0;
 

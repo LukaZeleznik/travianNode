@@ -12,7 +12,8 @@
           "speed":7,
           "capacity":60,
           "consumption":1,
-          "time":1000
+          "time":1000,
+          "buildingId":1
        },
        {
           "name":"Spearman",
@@ -26,7 +27,8 @@
           "speed":7,
           "capacity":40,
           "consumption":1,
-          "time":1120
+          "time":1120,
+          "buildingId":1
        },
        {
           "name":"Axeman",
@@ -40,7 +42,8 @@
           "speed":6,
           "capacity":50,
           "consumption":1,
-          "time":1200
+          "time":1200,
+          "buildingId":1
        },
        {
           "name":"Scout",
@@ -54,7 +57,8 @@
           "speed":9,
           "capacity":0,
           "consumption":1,
-          "time":1120
+          "time":1120,
+          "buildingId":1
        },
        {
           "name":"Paladin",
@@ -68,7 +72,8 @@
           "speed":10,
           "capacity":110,
           "consumption":2,
-          "time":2400
+          "time":2400,
+          "buildingId":0
        },
        {
           "name":"Teutonic Knight",
@@ -82,7 +87,8 @@
           "speed":9,
           "capacity":80,
           "consumption":3,
-          "time":2960
+          "time":2960,
+          "buildingId":0
        },
        {
           "name":"Ram",
@@ -96,7 +102,8 @@
           "speed":4,
           "capacity":0,
           "consumption":3,
-          "time":4200
+          "time":4200,
+          "buildingId":0
        },
        {
           "name":"Catapult",
@@ -110,7 +117,8 @@
           "speed":3,
           "capacity":0,
           "consumption":6,
-          "time":9000
+          "time":9000,
+          "buildingId":0
        },
        {
           "name":"Chief",
@@ -124,21 +132,23 @@
           "speed":4,
           "capacity":0,
           "consumption":4,
-          "time":70500
+          "time":70500,
+          "buildingId":0
        },
        {
-          "name":"Chief",
-          "attack":40,
-          "infantryDefense":60,
-          "cavalryDefense":40,
-          "wood":35500,
-          "clay":26600,
-          "iron":25000,
-          "crop":27200,
-          "speed":4,
-          "capacity":0,
-          "consumption":4,
-          "time":70500
+          "name":"Settler",
+          "attack":10,
+          "infantryDefense":80,
+          "cavalryDefense":80,
+          "wood":7200,
+          "clay":5500,
+          "iron":5800,
+          "crop":6500,
+          "speed":5,
+          "capacity":3000,
+          "consumption":1,
+          "time":31000,
+          "buildingId":0
        }
     ],
     "Roman":[
@@ -154,7 +164,8 @@
           "speed":6,
           "capacity":50,
           "consumption":1,
-          "time":1992
+          "time":1992,
+          "buildingId":1
        },
        {
           "name":"Praetorian",
@@ -168,7 +179,8 @@
           "speed":5,
           "capacity":20,
           "consumption":1,
-          "time":2184
+          "time":2184,
+          "buildingId":1
        },
        {
           "name":"Imperian",
@@ -182,7 +194,8 @@
           "speed":7,
           "capacity":50,
           "consumption":1,
-          "time":2400
+          "time":2400,
+          "buildingId":1
        },
        {
           "name":"Equites Legati",
@@ -196,7 +209,8 @@
           "speed":16,
           "capacity":0,
           "consumption":2,
-          "time":1692
+          "time":1692,
+          "buildingId":0
        },
        {
           "name":"Equites Imperatoris",
@@ -210,7 +224,8 @@
           "speed":14,
           "capacity":100,
           "consumption":3,
-          "time":3300
+          "time":3300,
+          "buildingId":0
        },
        {
           "name":"Equites Caesaris",
@@ -224,7 +239,8 @@
           "speed":10,
           "capacity":70,
           "consumption":4,
-          "time":4392
+          "time":4392,
+          "buildingId":0
        },
        {
           "name":"Ram",
@@ -238,7 +254,8 @@
           "speed":4,
           "capacity":0,
           "consumption":3,
-          "time":4584
+          "time":4584,
+          "buildingId":0
        },
        {
           "name":"Fire Catapult",
@@ -252,7 +269,8 @@
           "speed":3,
           "capacity":0,
           "consumption":6,
-          "time":9000
+          "time":9000,
+          "buildingId":0
        },
        {
           "name":"Senator",
@@ -266,7 +284,8 @@
           "speed":4,
           "capacity":0,
           "consumption":5,
-          "time":90684
+          "time":90684,
+          "buildingId":0
        },
        {
           "name":"Settler",
@@ -280,7 +299,8 @@
           "speed":5,
           "capacity":3000,
           "consumption":1,
-          "time":26892
+          "time":26892,
+          "buildingId":0
        }
     ],
     "Gaul":[
@@ -296,7 +316,8 @@
           "speed":7,
           "capacity":35,
           "consumption":1,
-          "time":1284
+          "time":1284,
+          "buildingId":1
        },
        {
           "name":"Swordsmen",
@@ -310,7 +331,8 @@
           "speed":6,
           "capacity":45,
           "consumption":1,
-          "time":1800
+          "time":1800,
+          "buildingId":1
        },
        {
           "name":"Pathfinder",
@@ -324,7 +346,8 @@
           "speed":17,
           "capacity":0,
           "consumption":2,
-          "time":1692
+          "time":1692,
+          "buildingId":1
        },
        {
           "name":"Theutates Thunder",
@@ -338,7 +361,8 @@
           "speed":19,
           "capacity":75,
           "consumption":2,
-          "time":3084
+          "time":3084,
+          "buildingId":0
        },
        {
           "name":"Druidrider",
@@ -352,7 +376,8 @@
           "speed":16,
           "capacity":35,
           "consumption":2,
-          "time":3192
+          "time":3192,
+          "buildingId":0
        },
        {
           "name":"Haeduan",
@@ -366,7 +391,8 @@
           "speed":13,
           "capacity":65,
           "consumption":3,
-          "time":3900
+          "time":3900,
+          "buildingId":0
        },
        {
           "name":"Ram",
@@ -380,7 +406,8 @@
           "speed":4,
           "capacity":0,
           "consumption":3,
-          "time":4992
+          "time":4992,
+          "buildingId":0
        },
        {
           "name":"Trebuchet",
@@ -394,7 +421,8 @@
           "speed":3,
           "capacity":0,
           "consumption":6,
-          "time":9000
+          "time":9000,
+          "buildingId":0
        },
        {
           "name":"Chieftain",
@@ -408,7 +436,8 @@
           "speed":5,
           "capacity":0,
           "consumption":4,
-          "time":90684
+          "time":90684,
+          "buildingId":0
        },
        {
           "name":"Settler",
@@ -422,7 +451,8 @@
           "speed":5,
           "capacity":3000,
           "consumption":1,
-          "time":22692
+          "time":22692,
+          "buildingId":0
        }
     ]
  }
