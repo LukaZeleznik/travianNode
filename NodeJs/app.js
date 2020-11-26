@@ -2,27 +2,25 @@ const setTimezone = require('set-tz');
 setTimezone('Europe/Ljubljana');
 
 const express = require('express');
+const passport = require('passport');
 const schedule = require('node-schedule');
-const app = express();
-const router = express.Router();
-const db = require('./db');
-//const sharks = require('./routes/sharks');
 const api = require('./routes/api');
-var cors = require('cors');
+const cors = require('cors');
+const db = require('./db');
 
-
-//const path = __dirname + '/views/';
-const port = process.env.PORT || 8080;
+const app = express();
 
 app.engine('html', require('ejs').renderFile);
-//app.set('view engine', 'html');
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
-//app.use(express.static(path));
-//app.use('/sharks', sharks);
 app.use('/api', api);
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+const port = process.env.PORT || 8080;
 app.listen(port, function () {
     console.log(`Example app listening on ${port}!`);
-  });
+});

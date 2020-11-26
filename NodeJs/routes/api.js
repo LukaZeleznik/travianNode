@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
+const passport = require('passport');
+
 //const shark = require('../controllers/sharks');
 const scheduleController = require('../controllers/scheduleController');
 const villageResourcesController = require('../controllers/villageResourcesController');
@@ -14,6 +17,7 @@ const sendTroopsController = require('../controllers/sendTroopsController');
 const barracksProductionsController = require('../controllers/barracksProductionsController');
 const userController = require('../controllers/userController');
 const villageBuildingsDataController = require('../controllers/villageBuildingsDataController');
+const auth = require('../auth/auth');
 /*
 router.get('/', function(req, res){
     shark.index(req,res);
@@ -27,10 +31,64 @@ router.get('/', function (req, res) {
     });
 });
 
+router.route('/register')
+    .post(
+        passport.authenticate('signup', {
+            session: false
+        }),
+        async (req, res, next) => {
+            res.json({
+                message: 'Signup successful',
+                user: req.user
+            });
+        }
+    );
+
+router.route('/login')
+    .post(
+        async (req, res, next) => {
+            passport.authenticate(
+                'login',
+                async (err, user, info) => {
+                    try {
+                        if (err || !user) {
+                            const error = new Error('An error occurred.');
+
+                            return next(error);
+                        }
+
+                        req.login(
+                            user, {
+                                session: false
+                            },
+                            async (error) => {
+                                if (error) return next(error);
+
+                                const body = {
+                                    _id: user._id,
+                                    email: user.email
+                                };
+                                const token = jwt.sign({
+                                    user: body
+                                }, 'TOP_SECRET');
+
+                                return res.json({
+                                    token
+                                });
+                            }
+                        );
+                    } catch (error) {
+                        return next(error);
+                    }
+                }
+            )(req, res, next);
+        }
+    );
+
 router.route('/schedule')
     .post(scheduleController.new)
     .get(scheduleController.view);
-    /*
+/*
 router.route('/schedule/:idTask')
     .get(scheduleController.view)
     .put(scheduleController.update)
@@ -123,7 +181,7 @@ router.route('/barracksProductions/:barrProdId')
 
 router.route('/user')
     .post(userController.new);
-    /*
+/*
 router.route('/user/:user')
     .get(userController.view)
     .put(userController.update)
@@ -132,11 +190,11 @@ router.route('/user/:user')
     */
 
 router.route('/villageBuildingsData')
-   .post(villageBuildingsDataController.new);
+    .post(villageBuildingsDataController.new);
 router.route('/villageBuildingsData/:idVillage')
-   .get(villageBuildingsDataController.view)
-   .put(villageBuildingsDataController.update)
-   .patch(villageBuildingsDataController.update)
-   .delete(villageBuildingsDataController.delete);
+    .get(villageBuildingsDataController.view)
+    .put(villageBuildingsDataController.update)
+    .patch(villageBuildingsDataController.update)
+    .delete(villageBuildingsDataController.delete);
 
 module.exports = router;
