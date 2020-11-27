@@ -27,7 +27,7 @@
                         </div>
                     </td>
                     <td class="align-middle">
-                        <a @click="insertTroops(troop['id']);" href="#" style="color:green" v-if="troopInfoLookup && villageResources"><strong>(<span :id="'maxTroops' + troop['id']">{{Math.floor(Math.min(villageResources[0]/troop["wood"],villageResources[1]/troop["clay"],villageResources[2]/troop["iron"],villageResources[3]/troop["crop"]))}}</span>)</strong></a>
+                        <a @click="insertTroops(troop['id']);" href="#" style="color:green" v-if="troopInfoLookup && villageResources"><strong>(<span :id="'maxTroops' + troop['id']">{{ calculateMaxTroops(troop) }}</span>)</strong></a>
                     </td>
                 </tr>
 
@@ -63,18 +63,18 @@
             </tbody>
         </table>
         
-        <h5 class="mt-5"> <p>Current training time: {{ buildingInfoLookup[villageBuildingDataProp['type']]['buildingModifier'][villageBuildingDataProp['level']-1]*100 }} percent</p></h5>
-        <h5> <p>Training time at level {{ villageBuildingDataProp['level']+1 }}: {{ buildingInfoLookup[villageBuildingDataProp['type']]['buildingModifier'][villageBuildingDataProp['level']]*100 }} percent</p></h5>
-        <h4> <p>Cost for upgrading to Level {{ villageBuildingDataProp['level']+1 }}:</p></h4>
+        <h5 class="mt-5"> <p>Current training time: {{ buildingInfoLookup[$parent.villageBuildingType]['buildingModifier'][$parent.villageBuildingLevel-1]*100 }} percent</p></h5>
+        <h5> <p>Training time at level {{ $parent.villageBuildingLevel+1 }}: {{ buildingInfoLookup[$parent.villageBuildingType]['buildingModifier'][$parent.villageBuildingLevel]*100 }} percent</p></h5>
+        <h4> <p>Cost for upgrading to Level {{ $parent.villageBuildingLevel+1 }}:</p></h4>
         <h5> <p>
-            <img src="/images/resources/wood.gif">    {{ buildingInfoLookup[villageBuildingDataProp['type']]['wood'][villageBuildingDataProp['level']] }} |
-            <img src="/images/resources/clay.gif">    {{ buildingInfoLookup[villageBuildingDataProp['type']]['clay'][villageBuildingDataProp['level']] }} |
-            <img src="/images/resources/iron.gif">    {{ buildingInfoLookup[villageBuildingDataProp['type']]['iron'][villageBuildingDataProp['level']] }} |
-            <img src="/images/resources/crop.gif">    {{ buildingInfoLookup[villageBuildingDataProp['type']]['crop'][villageBuildingDataProp['level']] }} |
-            <img src="/images/consum.gif">  {{ buildingInfoLookup[villageBuildingDataProp['type']]['consumption'][villageBuildingDataProp['level']] }} |
-            <img src="/images/clock.gif">   {{ new Date(buildingInfoLookup[villageBuildingDataProp['type']]['constructionTime'][villageBuildingDataProp['level']] * 1000).toISOString().substr(11, 8) }}</p>
+            <img src="/images/resources/wood.gif">      {{ buildingInfoLookup[$parent.villageBuildingType]['wood'][$parent.villageBuildingLevel] }} |
+            <img src="/images/resources/clay.gif">      {{ buildingInfoLookup[$parent.villageBuildingType]['clay'][$parent.villageBuildingLevel] }} |
+            <img src="/images/resources/iron.gif">      {{ buildingInfoLookup[$parent.villageBuildingType]['iron'][$parent.villageBuildingLevel] }} |
+            <img src="/images/resources/crop.gif">      {{ buildingInfoLookup[$parent.villageBuildingType]['crop'][$parent.villageBuildingLevel] }} |
+            <img src="/images/consum.gif">              {{ buildingInfoLookup[$parent.villageBuildingType]['consumption'][$parent.villageBuildingLevel] }} |
+            <img src="/images/clock.gif">               {{ new Date(buildingInfoLookup[$parent.villageBuildingType]['constructionTime'][$parent.villageBuildingLevel] * 1000).toISOString().substr(11, 8) }}</p>
         </h5>
-        <h6> <a>Upgrade to Level {{ villageBuildingDataProp['level']+1 }}</a> </h6>
+        <h6> <a>Upgrade to Level {{ $parent.villageBuildingLevel+1 }}</a> </h6>
     </div>
 </template>
 
@@ -82,15 +82,11 @@
 <script>
 
 export default {
-    props: {
-        villageBuildingDataProp: Object
-    },
-
     data() {
         return {
-            troopInfoLookup: undefined,
-            buildingInfoLookup: undefined,
-            villageResources: undefined,
+            troopInfoLookup: this.$parent.troopInfoLookup,
+            buildingInfoLookup: this.$parent.buildingInfoLookup,
+            villageResources: this.$parent.villageResources,
             villageOwnTroops: undefined,
             villageBarracksProductions: undefined,
             villageBarracksProductionsTimeLeft: [],
@@ -100,29 +96,15 @@ export default {
     },
 
     created() {
-        this.importRequiredLookups();
-        this.fetchVillageResources();
         this.fetchVillageOwnTroops();
+        this.$parent.fetchVillageResources();
         this.startCountdownInterval();
         this.getTroopList();
     },
 
     methods: {
-        importRequiredLookups(){
-            this.buildingInfoLookup = require('../../../../public/infoTables/buildingInfoLookup.json');
-            this.troopInfoLookup = require('../../../../public/infoTables/troopInfoLookup.json');
-        },
-        fetchVillageResources(){
-            this.villageResources = this.$store.getters.getVillageResources;
-
-            this.$store.dispatch('fetchVillageResources')
-            .then( () => {
-                this.villageResources = this.$store.getters.getVillageResources;
-            });
-        },
         fetchVillageOwnTroops(){
             this.villageOwnTroops = this.$store.getters.getVillageOwnTroops;
-            console.log(this.villageOwnTroop)
 
             this.$store.dispatch('fetchVillageOwnTroops')
             .then( () => {
@@ -155,13 +137,12 @@ export default {
             Object.keys(this.troopInfoLookup).forEach((tribe) => {
                 if(tribe == this.userTribe){
                     Object.keys(this.troopInfoLookup[tribe]).forEach( (troop) =>{
-                        if(this.troopInfoLookup[tribe][troop]['buildingId'] == this.villageBuildingDataProp['type']){
+                        if(this.troopInfoLookup[tribe][troop]['buildingId'] == this.$parent.villageBuildingType){
                             this.troopList.push(this.troopInfoLookup[tribe][troop]);
                         }
                     });
                 }
             });
-            console.log(this.troopList);
         },
         async train(){
             let elementList = document.querySelectorAll(".trainTroop");
@@ -181,23 +162,19 @@ export default {
                 "troopCount": troopNum
             }
 
-            let barracksProductionsResponse = await fetch('http://localhost:8080/api/barracksProductions', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(troopData),
-            });
-
+            let barracksProductionsResponse = await this.$root.doApiPostRequest("barracksProductions","POST",troopData);
             let barracksProductionsResponseJson = await barracksProductionsResponse.json();
 
             if(barracksProductionsResponseJson.message == "New barracksProductions created"){
                 this.fetchVillageOwnTroops();
-                this.fetchVillageResources();
+                this.$parent.fetchVillageResources();
             }
             else{
                 document.getElementById("errorMessage").innerText = barracksProductionsResponseJson.message;
             }
+        },
+        calculateMaxTroops(troop){
+            return Math.floor(Math.min(this.villageResources[0]/troop["wood"],this.villageResources[1]/troop["clay"],this.villageResources[2]/troop["iron"],this.villageResources[3]/troop["crop"]))
         },
         startCountdownInterval(){
             setInterval( ()=> {

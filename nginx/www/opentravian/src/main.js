@@ -424,9 +424,23 @@ const store = new Vuex.Store({
 Vue.config.productionTip = false;
 
 new Vue({
-  el: '#app',
-  components: { App },
-  router,
-  store,
-  render: h => h(App)
+    el: '#app',
+    components: { App },
+    router,
+    store,
+    render: h => h(App),
+
+    methods: {
+        async doApiRequest(path,method,data){
+            let response = await fetch('http://localhost:8080/api/' + path, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+            return response;
+        }
+    },
+
 });
