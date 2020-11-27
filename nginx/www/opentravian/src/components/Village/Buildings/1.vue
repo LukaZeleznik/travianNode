@@ -54,10 +54,10 @@
                         <br />
                     </th>
                     <td class="align-middle">
-                        <span class="trainCD">{{ new Date(villageBarracksProductionsTimeLeft[index]*1000).toISOString().substr(11, 8) }}</span>
+                        <span class="trainCD">{{ $root.secondsToTimeRemaining(villageBarracksProductionsTimeLeft[index]*1000) }}</span>
                     </td>
                     <td class="align-middle">
-                        {{new Date(villageBarracksProduction.timeCompleted*1000).toLocaleTimeString('sl-SI')}}
+                        {{ $root.secondsToTimeCompleted(villageBarracksProduction.timeCompleted*1000) }}
                     </td>
                 </tr>
             </tbody>
@@ -162,7 +162,7 @@ export default {
                 "troopCount": troopNum
             }
 
-            let barracksProductionsResponse = await this.$root.doApiPostRequest("barracksProductions","POST",troopData);
+            let barracksProductionsResponse = await this.$root.doApiRequest("barracksProductions","POST",troopData);
             let barracksProductionsResponseJson = await barracksProductionsResponse.json();
 
             if(barracksProductionsResponseJson.message == "New barracksProductions created"){
