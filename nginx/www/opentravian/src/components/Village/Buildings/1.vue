@@ -18,7 +18,7 @@
                             <img src="/images/resources/iron.gif">    {{ troop['iron'] }} |
                             <img src="/images/resources/crop.gif">    {{ troop['crop'] }} |
                             <img src="/images/consum.gif">  {{ troop['consumption'] }} |
-                            <img src="/images/clock.gif">   {{ new Date (troop['time'] * 1000).toISOString().substr(11, 8) }}
+                            <img src="/images/clock.gif">   {{ $root.secondsToTimeRemaining(troop['time'] * 1000) }}
                         </span>
                     </th>
                     <td class="align-middle">
@@ -72,7 +72,7 @@
             <img src="/images/resources/iron.gif">      {{ buildingInfoLookup[$parent.villageBuildingType]['iron'][$parent.villageBuildingLevel] }} |
             <img src="/images/resources/crop.gif">      {{ buildingInfoLookup[$parent.villageBuildingType]['crop'][$parent.villageBuildingLevel] }} |
             <img src="/images/consum.gif">              {{ buildingInfoLookup[$parent.villageBuildingType]['consumption'][$parent.villageBuildingLevel] }} |
-            <img src="/images/clock.gif">               {{ new Date(buildingInfoLookup[$parent.villageBuildingType]['constructionTime'][$parent.villageBuildingLevel] * 1000).toISOString().substr(11, 8) }}</p>
+            <img src="/images/clock.gif">               {{ $root.secondsToTimeRemaining(buildingInfoLookup[$parent.villageBuildingType]['constructionTime'][$parent.villageBuildingLevel] * 1000) }}</p>
         </h5>
         <h6> <a>Upgrade to Level {{ $parent.villageBuildingLevel+1 }}</a> </h6>
     </div>
