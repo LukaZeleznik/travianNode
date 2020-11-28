@@ -20,6 +20,11 @@ app.use('/api', api);
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.json({ error: err });
+});
+
 const port = process.env.PORT || 8080;
 app.listen(port, function () {
     console.log(`Example app listening on ${port}!`);

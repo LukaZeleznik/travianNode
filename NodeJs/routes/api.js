@@ -31,7 +31,6 @@ router.get('/', function (req, res) {
         message: 'Welcome to RESTHub crafted with love!',
     });
 });
-
 router.route('/register')
     .post(
         passport.authenticate('signup', {
@@ -86,6 +85,19 @@ router.route('/login')
         }
     );
 
+router.route('/profile')
+    .get(passport.authenticate('jwt', {
+            session: false
+        }),
+        (req, res, next) => {
+            res.json({
+                message: 'You made it to the secure route',
+                user: req.user,
+                token: req.query.secret_token
+            })
+        }
+    );
+
 router.route('/schedule')
     .post(scheduleController.new)
     .get(scheduleController.view);
@@ -99,7 +111,7 @@ router.route('/schedule/:idTask')
 router.route('/villageResources')
     .post(villageResourcesController.new);
 router.route('/villageResources/:idVillage')
-    .get(villageResourcesController.view)
+    .get(passport.authenticate('jwt', { session: false }), villageResourcesController.view)
     .put(villageResourcesController.update)
     .patch(villageResourcesController.update)
     .delete(villageResourcesController.delete);
