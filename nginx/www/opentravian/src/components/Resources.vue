@@ -62,32 +62,11 @@ export default {
     this.fetchVillageProduction();
     this.fetchVillageOwnTroops();
     this.fetchVillageReinforcements();
-    this.fetchVillageResFieldUpgrades();
-    this.fetchVillageBuildingUpgrades();
     this.startUpgradeInterval();
     this.startTroopMovementsInterval();
-    //this.calculateProduction();
-    //this.calculateResources();
   },
 
   methods: {
-    calculateResources(){
-      fetch('http://localhost:8080/api/getCurrentResources/1')
-      .then(res => res.json())
-      .then(res => {
-        console.log(res);
-        //this.villageResources = [res.currentWood,res.currentClay,res.currentIron,res.currentCrop];
-        this.fetchVillageResources();
-      })
-        .catch(err => console.log(err));
-    },
-    calculateProduction(){
-      fetch('http://localhost:8080/api/calculateProduction/1')
-      .then( () => {
-        //this.fetchVillageProduction();
-      })
-        .catch(err => console.log(err));
-    },
     fetchVillageResources(){
       this.villageResources = this.$store.getters.getVillageResources;
 
@@ -121,30 +100,7 @@ export default {
       .then( () => {
         this.villageProduction = this.$store.getters.getVillageProduction;
       })
-      .then( () => {
-        this.startIntervals();
-      });
-    },
-    fetchVillageResFieldUpgrades(){
-      console.log("fetching village resfieldupgrades");
-      this.villageResFieldUpgrades = this.$store.getters.getVillageResFieldUpgrades;
 
-      this.$store.dispatch('fetchVillageResFieldUpgrades')
-      .then( () => {
-        this.villageResFieldUpgrades = this.$store.getters.getVillageResFieldUpgrades;
-        if(this.villageResFieldUpgrades.length < 1) return;
-        this.villageResFieldUpgradesTimeLeft[0] = (this.villageResFieldUpgrades[0].timeCompleted - Math.floor(new Date().getTime()/1000));
-      });
-    },
-    fetchVillageBuildingUpgrades(){
-      this.villageBuildingUpgrades = this.$store.getters.getVillageBuildingUpgrades;
-
-      this.$store.dispatch('fetchVillageBuildingUpgrades')
-      .then( () => {
-        this.villageBuildingUpgrades = this.$store.getters.getVillageBuildingUpgrades;
-        if(this.villageBuildingUpgrades.length < 1) return;
-        this.villageBuildingUpgradesTimeLeft[0] = (this.villageBuildingUpgrades[0].timeCompleted - Math.floor(new Date().getTime()/1000));
-      });
     },
     fetchVillageOwnTroops(){
       this.villageOwnTroops = this.$store.getters.getVillageOwnTroops;
@@ -188,7 +144,6 @@ export default {
           this.$set(this.villageResFieldUpgradesTimeLeft, 0, this.villageResFieldUpgradesTimeLeft[0]-1);
         }
         else if(this.villageResFieldUpgradesTimeLeft[0] == 0 ){
-          this.fetchVillageResFieldUpgrades();
           this.fetchVillageResFieldLevels();
           this.fetchVillageResources();
           this.fetchVillageProduction();
@@ -198,7 +153,6 @@ export default {
     },
     startTroopMovementsInterval(){
       setInterval( ()=> {
-        //if(!this.villageResFieldUpgradesTimeLeft) return;
         let change = false;
 
         if(this.villageIncomingAttacksTimeLeft[0] > 0){

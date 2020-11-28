@@ -59,13 +59,10 @@ export default {
     created() {
         this.startResFieldUpgradeInterval();
         this.startBuildingUpgradeInterval();
+        this.fetchVillageResFieldUpgrades();
+        this.fetchVillageBuildingUpgrades();
     },
     watch: {
-        '$store.getters.getVillageResFieldUpgrades': function() {
-            this.villageResFieldUpgrades = this.$store.getters.getVillageResFieldUpgrades;
-            if(this.villageResFieldUpgrades.length < 1) return;
-            this.villageResFieldUpgradesTimeLeft[0] = (this.villageResFieldUpgrades[0].timeCompleted - Math.floor(new Date().getTime()/1000));
-        },
         '$store.getters.getVillageBuildingUpgrades': function() {
             this.villageBuildingUpgrades = this.$store.getters.getVillageBuildingUpgrades;
             if(this.villageBuildingUpgrades.length < 1) return;
@@ -73,6 +70,38 @@ export default {
         },
     },
     methods: {
+        fetchVillageResFieldUpgrades(){
+            console.log("fetching village resfieldupgrades");
+            this.villageResFieldUpgrades = this.$store.getters.getVillageResFieldUpgrades;
+
+            this.$store.dispatch('fetchVillageResFieldUpgrades')
+            .then( () => {
+                this.villageResFieldUpgrades = this.$store.getters.getVillageResFieldUpgrades;
+                if(this.villageResFieldUpgrades.length < 1) return;
+                this.villageResFieldUpgradesTimeLeft[0] = (this.villageResFieldUpgrades[0].timeCompleted - Math.floor(new Date().getTime()/1000));
+            });
+        },
+        fetchVillageBuildingUpgrades(){
+            this.villageBuildingUpgrades = this.$store.getters.getVillageBuildingUpgrades;
+
+            this.$store.dispatch('fetchVillageBuildingUpgrades')
+            .then( () => {
+                this.villageBuildingUpgrades = this.$store.getters.getVillageBuildingUpgrades;
+                if(this.villageBuildingUpgrades.length < 1) return;
+                this.villageBuildingUpgradesTimeLeft[0] = (this.villageBuildingUpgrades[0].timeCompleted - Math.floor(new Date().getTime()/1000));
+            });
+        },
+        fetchVillageProduction(){
+            this.villageProduction = this.$store.getters.getVillageProduction;
+
+            this.$store.dispatch('fetchVillageProduction')
+            .then( () => {
+                this.villageProduction = this.$store.getters.getVillageProduction;
+            })
+            .then( () => {
+                this.startIntervals();
+            });
+        },
         startResFieldUpgradeInterval(){
             var upgradeCD1Interval = setInterval( ()=> {
                 if(this.villageResFieldUpgradesTimeLeft[0] > 0){
@@ -80,6 +109,9 @@ export default {
                 }
                 else if(this.villageResFieldUpgradesTimeLeft[0] == 0 ){
                     clearInterval(upgradeCD1Interval);
+                    this.fetchVillageResFieldUpgrades();
+                    this.fetchVillageBuildingUpgrades();
+                    this.fetchVillageProduction();
                 }
             }, 1000);
         },
@@ -90,6 +122,9 @@ export default {
                 }
                 else if(this.villageBuildingUpgradesTimeLeft[0] == 0 ){
                     clearInterval(upgradeCD2Interval);
+                    this.fetchVillageResFieldUpgrades();
+                    this.fetchVillageBuildingUpgrades();
+                    this.fetchVillageProduction();
                 }
             }, 1000);
         },

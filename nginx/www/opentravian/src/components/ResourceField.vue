@@ -79,16 +79,7 @@ export default {
       else{
         document.getElementById("errorMessage").innerText = resFieldUpgradeResponseJson.message;
       }
-    },
-    calculateResources(){
-      fetch('http://localhost:8080/api/getCurrentResources/1')
-      .then(res => res.json())
-      .then(res => {
-        console.log(res);
-        //this.villageResources = [res.currentWood,res.currentClay,res.currentIron,res.currentCrop];
-        this.fetchVillageResources();
-      })
-        .catch(err => console.log(err));
+      this.fetchVillageResources();
     },
     fetchVillageResources(){
       this.villageResources = this.$store.getters.getVillageResources;

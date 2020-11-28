@@ -300,66 +300,7 @@ const store = new Vuex.Store({
                             }
                         }
                     }
-              context.commit('setVillageResFieldTypes', villageResFieldTypes);
-              context.commit('setVillageResFieldColors', villageResFieldColors);
-          })
-          .catch(err => console.log(err));
-      },
-      async fetchVillageProduction(context){
-          await fetch('http://localhost:8080/api/villageProductions/1')
-          .then(res => res.json())
-          .then(res => {
-              let villageProduction = [res.data.productionWood,res.data.productionClay,res.data.productionIron,res.data.productionCrop];
-              context.commit('setVillageProduction', villageProduction);
-          })
-          .catch(err => console.log(err));
-      },
-      async fetchVillageResFieldUpgrades(context){
-          await fetch('http://localhost:8080/api/resFieldUpgrades/1')
-          .then(res => res.json())
-          .then(res => {
-              let villageResFieldUpgrades = res.data;
-              context.commit('setVillageResFieldUpgrades', villageResFieldUpgrades);
-          })
-          .catch(err => console.log(err));
-      },
-      async fetchVillageBuildingUpgrades(context){
-        await fetch('http://localhost:8080/api/villageBuildingUpgrades/1')
-        .then(res => res.json())
-        .then(res => {
-            let villageBuildingUpgrades = res.data;
-            context.commit('setVillageBuildingUpgrades', villageBuildingUpgrades);
-        })
-        .catch(err => console.log(err));
-    },
-      async fetchVillageOwnTroops(context){
-          await fetch('http://localhost:8080/api/villageOwnTroops/1')
-          .then(res => res.json())
-          .then(res => {        
-              let villageOwnTroops = [res.data.troop1,res.data.troop2,res.data.troop3,res.data.troop4,res.data.troop5,
-                res.data.troop6,res.data.troop7,res.data.troop8,res.data.troop9,res.data.troop10];
-              context.commit('setVillageOwnTroops', villageOwnTroops);
-          })
-          .catch(err => console.log(err));
-      },
-      async fetchVillageReinforcements(context){
-          await fetch('http://localhost:8080/api/villageReinforcements/1')
-          .then(res => res.json())
-          .then(res => {
-            let villageReinforcements = res.data;
-            context.commit('setVillageReinforcements', villageReinforcements);
-          })
-          .catch(err => console.log(err));
-      },
-      async fetchVillageTroopMovements(context){
-          await fetch('http://localhost:8080/api/sendTroops/1')
-          .then(res => res.json())
-          .then(res => {
-              
-              let villageOutgoingAttacks = [];
-              let villageOutgoingReinforcements = [];
-              let villageIncomingAttacks = [];
-              let villageIncomingReinforcements = [];
+
                     context.commit('setVillageOutgoingAttacks', villageOutgoingAttacks);
                     context.commit('setVillageOutgoingReinforcements', villageOutgoingReinforcements);
                     context.commit('setVillageIncomingAttacks', villageIncomingAttacks);
@@ -423,47 +364,6 @@ const store = new Vuex.Store({
                         res.data.field18Level
                     ];
 
-              context.commit('setVillageOutgoingAttacks', villageOutgoingAttacks);
-              context.commit('setVillageOutgoingReinforcements', villageOutgoingReinforcements);
-              context.commit('setVillageIncomingAttacks', villageIncomingAttacks);
-              context.commit('setVillageIncomingReinforcements', villageIncomingReinforcements);    
-          })
-          .catch(err => console.log(err));
-      },
-      async fetchVillageBarracksProduction(context){
-          await fetch('http://localhost:8080/api/barracksProductions/1')
-          .then(res => res.json())
-          .then(res => {
-            let villageBarracksProduction = res.data;
-            context.commit('setVillageBarracksProduction', villageBarracksProduction);
-          })
-          .catch(err => console.log(err));
-      },
-      async fetchVillageBuildingFields(context){
-        await fetch('http://localhost:8080/api/villageBuildingFields/1')
-        .then(res => res.json())
-        .then(res => {
-            let villageBuildingTypes = [
-                res.data.field1Type,
-                res.data.field2Type,
-                res.data.field3Type,
-                res.data.field4Type,
-                res.data.field5Type,
-                res.data.field6Type,
-                res.data.field7Type,
-                res.data.field8Type,
-                res.data.field9Type,
-                res.data.field10Type,
-                res.data.field11Type,
-                res.data.field12Type,
-                res.data.field13Type,
-                res.data.field14Type,
-                res.data.field15Type,
-                res.data.field16Type,
-                res.data.field17Type,
-                res.data.field18Type
-            ];
-            console.log(villageBuildingTypes);
                     let villageBuildingColors = villageBuildingTypes.map(type => {
                         if (type == 0) {
                             return "SlateGray"
