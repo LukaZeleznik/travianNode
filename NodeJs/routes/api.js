@@ -27,12 +27,12 @@ router.get('/', function (req, res) {
 });
 router.route('/register')
     .post(
-        passport.authenticate('signup', {
+        passport.authenticate('register', {
             session: false
         }),
         async (req, res, next) => {
             res.json({
-                message: 'Signup successful',
+                message: 'Registration successful',
                 user: req.user
             });
         }
@@ -105,7 +105,7 @@ router.route('/schedule/:idTask')
 router.route('/villageResources')
     .post(villageResourcesController.new);
 router.route('/villageResources/:idVillage')
-    .get(passport.authenticate('jwt', { session: false }), villageResourcesController.view)
+    .get(villageResourcesController.view)
     .put(villageResourcesController.update)
     .patch(villageResourcesController.update)
     .delete(villageResourcesController.delete);
