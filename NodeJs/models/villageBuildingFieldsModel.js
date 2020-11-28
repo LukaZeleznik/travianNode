@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const villageBuildingsDataSchema = new Schema ({
+const villageBuildingFieldsSchema = new Schema ({
         idVillage: { type: Number, required: true, unique: true },
         field1Level: { type: Number, required: true },
         field2Level: { type: Number, required: true },
@@ -41,8 +41,8 @@ const villageBuildingsDataSchema = new Schema ({
         field18Type: { type: Number, required: true }
 });
 
-var villageBuildingsData = module.exports = mongoose.model('villageBuildingsData', villageBuildingsDataSchema);
+var villageBuildingFields = module.exports = mongoose.model('villageBuildingFields', villageBuildingFieldsSchema);
 
 module.exports.get = function (callback, limit) {
-    villageBuildingsData.find(callback).limit(limit);
+    villageBuildingFields.find(callback).limit(limit);
 }

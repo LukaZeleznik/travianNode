@@ -41,18 +41,18 @@ export default {
         };
     },
     created() {
-        this.fetchvillageBuildingsData();
+        this.fetchvillageBuildingFields();
     },
     watch: {
         
     },
     methods: {
-        fetchvillageBuildingsData(){
+        fetchvillageBuildingFields(){
             this.villageBuildingLevels  = this.$store.getters.getVillageBuildingLevels;
             this.villageBuildingTypes   = this.$store.getters.getVillageBuildingTypes;
             this.villageBuildingColors  = this.$store.getters.getVillageBuildingColors;
 
-            this.$store.dispatch('fetchVillageBuildingsData')
+            this.$store.dispatch('fetchVillageBuildingFields')
             .then( () => {
                 this.villageBuildingLevels  = this.$store.getters.getVillageBuildingLevels;
                 this.villageBuildingTypes   = this.$store.getters.getVillageBuildingTypes;

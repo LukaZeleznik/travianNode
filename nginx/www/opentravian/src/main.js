@@ -242,7 +242,7 @@ const store = new Vuex.Store({
           .catch(err => console.log(err));
       },
       async fetchVillageBuildingUpgrades(context){
-        await fetch('http://localhost:8080/api/BuildingUpgrades/1')
+        await fetch('http://localhost:8080/api/villageBuildingUpgrades/1')
         .then(res => res.json())
         .then(res => {
             let villageBuildingUpgrades = res.data;
@@ -314,8 +314,8 @@ const store = new Vuex.Store({
           })
           .catch(err => console.log(err));
       },
-      async fetchVillageBuildingsData(context){
-        await fetch('http://localhost:8080/api/villageBuildingsData/1')
+      async fetchVillageBuildingFields(context){
+        await fetch('http://localhost:8080/api/villageBuildingFields/1')
         .then(res => res.json())
         .then(res => {
             let villageBuildingTypes = [

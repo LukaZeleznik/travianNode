@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const buildingUpgradesSchema = new Schema ({
+const villageBuildingUpgradesSchema = new Schema ({
         idVillage:      { type: Number, required: true },
         vbid:           { type: Number, required: true },
         buildingType:   { type: Number, required: true },
@@ -10,8 +10,8 @@ const buildingUpgradesSchema = new Schema ({
         timeCompleted:  { type: Number, required: true }
 });
 
-var buildingUpgrades = module.exports = mongoose.model('buildingUpgrades', buildingUpgradesSchema);
+var villageBuildingUpgrades = module.exports = mongoose.model('villageBuildingUpgrades', villageBuildingUpgradesSchema);
 
 module.exports.get = function (callback, limit) {
-    buildingUpgrades.find(callback).limit(limit);
+    villageBuildingUpgrades.find(callback).limit(limit);
 }

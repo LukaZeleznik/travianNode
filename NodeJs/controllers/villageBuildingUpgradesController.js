@@ -1,15 +1,15 @@
 const path = require('path');
 const fetch = require("node-fetch");
-const buildingUpgradesModel = require('../models/buildingUpgradesModel');
+const villageBuildingUpgradesModel = require('../models/villageBuildingUpgradesModel');
 
 
 exports.view = function (req, res) {
-    buildingUpgradesModel.find({idVillage: req.params.idVillage}, function (err, buildingUpgrades) {
+    villageBuildingUpgradesModel.find({idVillage: req.params.idVillage}, function (err, villageBuildingUpgrades) {
         if (err)
             res.send(err);
         res.json({
             message: 'Loading resources..',
-            data: buildingUpgrades
+            data: villageBuildingUpgrades
         });
     });
 };
@@ -27,10 +27,10 @@ exports.new = async function (req, res) {
         let villageResourcesApiUrl = 'http://localhost:8080/api/villageResources/' + idVillage;
         let villageResources = await(await(await fetch(villageResourcesApiUrl)).json()).data;
 
-        let villageBuildingsDataApiUrl = 'http://localhost:8080/api/villageBuildingsData/' + idVillage;
-        let villageBuildingsData = await(await(await fetch(villageBuildingsDataApiUrl)).json()).data;
-        let villageBuildingLevel = Number(villageBuildingsData["field"+buildingFieldId+"Level"]);
-        let villageBuildingType = Number(villageBuildingsData["field"+buildingFieldId+"Type"]);
+        let villageBuildingFieldsApiUrl = 'http://localhost:8080/api/villageBuildingFields/' + idVillage;
+        let villageBuildingFields = await(await(await fetch(villageBuildingFieldsApiUrl)).json()).data;
+        let villageBuildingLevel = Number(villageBuildingFields["field"+buildingFieldId+"Level"]);
+        let villageBuildingType = Number(villageBuildingFields["field"+buildingFieldId+"Type"]);
 
         let requirementWood = buildingInfo[villageBuildingType]["wood"][villageBuildingLevel];
         let requirementClay = buildingInfo[villageBuildingType]["clay"][villageBuildingLevel];
@@ -71,15 +71,15 @@ exports.new = async function (req, res) {
         console.log("requirementConstructionTime :" + requirementConstructionTime);
         console.log("timeCompleted :" + timeCompleted);
         
-        var buildingUpgrades = new buildingUpgradesModel();
-        buildingUpgrades.idVillage = req.body.idVillage;
-        buildingUpgrades.vbid = req.body.vbid;
-        buildingUpgrades.buildingType = villageBuildingType;
-        buildingUpgrades.buildingLevel = villageBuildingLevel;
-        buildingUpgrades.timeStarted = currentUnixTime;
-        buildingUpgrades.timeCompleted = timeCompleted;
+        var villageBuildingUpgrades = new villageBuildingUpgradesModel();
+        villageBuildingUpgrades.idVillage = req.body.idVillage;
+        villageBuildingUpgrades.vbid = req.body.vbid;
+        villageBuildingUpgrades.buildingType = villageBuildingType;
+        villageBuildingUpgrades.buildingLevel = villageBuildingLevel;
+        villageBuildingUpgrades.timeStarted = currentUnixTime;
+        villageBuildingUpgrades.timeCompleted = timeCompleted;
 
-        let buildingUpgrade = buildingUpgrades.save(async function (err,buildingUpgrade) {
+        let buildingUpgrade = villageBuildingUpgrades.save(async function (err,buildingUpgrade) {
             if (err){
                 res.json(err);
             }
@@ -106,8 +106,8 @@ exports.new = async function (req, res) {
                 console.log("scheduled");
 
                 res.json({
-                    message: 'New buildingdUpgrade created',
-                    data: buildingUpgrades
+                    message: 'New villageBuildingdUpgrade created',
+                    data: villageBuildingUpgrades
                 });
             }
         });
@@ -116,35 +116,35 @@ exports.new = async function (req, res) {
 };
 
 exports.update = function (req, res) {
-    buildingUpgradesModel.findOne({_id: req.params.upgradeId}, function (err, buildingUpgrades) {
+    villageBuildingUpgradesModel.findOne({_id: req.params.upgradeId}, function (err, villageBuildingUpgrades) {
         if (err)
             res.send(err);
         
-            buildingUpgrades.idVillage = req.body.idVillage;
-            buildingUpgrades.vbid = req.body.vbid;
-            buildingUpgrades.buildingType = req.body.buildingType;
-            buildingUpgrades.buildingLevel = req.body.buildingLevel;
-            buildingUpgrades.timeStarted = req.body.timeStarted;
-            buildingUpgrades.timeCompleted = req.body.timeCompleted;
+            villageBuildingUpgrades.idVillage = req.body.idVillage;
+            villageBuildingUpgrades.vbid = req.body.vbid;
+            villageBuildingUpgrades.buildingType = req.body.buildingType;
+            villageBuildingUpgrades.buildingLevel = req.body.buildingLevel;
+            villageBuildingUpgrades.timeStarted = req.body.timeStarted;
+            villageBuildingUpgrades.timeCompleted = req.body.timeCompleted;
 
-            buildingUpgrades.save(function (err) {
+            villageBuildingUpgrades.save(function (err) {
             if (err)
                 res.json(err);
             res.json({
-                message: 'buildingUpgrades Info updated',
-                data: buildingUpgrades
+                message: 'villageBuildingUpgrades Info updated',
+                data: villageBuildingUpgrades
             });
         });
     });
 };
 
 exports.delete = function (req, res) {
-    buildingUpgradesModel.deleteOne({_id: req.params.upgradeId}, function (err, buildingUpgrades) {
+    villageBuildingUpgradesModel.deleteOne({_id: req.params.upgradeId}, function (err, villageBuildingUpgrades) {
         if (err)
             res.send(err);
         res.json({
             status: "success",
-            message: 'buildingUpgrades deleted'
+            message: 'villageBuildingUpgrades deleted'
         });
     });
 };

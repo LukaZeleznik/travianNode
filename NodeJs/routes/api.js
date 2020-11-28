@@ -3,7 +3,6 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
-//const shark = require('../controllers/sharks');
 const scheduleController = require('../controllers/scheduleController');
 const villageResourcesController = require('../controllers/villageResourcesController');
 const villageMaxResourcesController = require('../controllers/villageMaxResourcesController');
@@ -11,19 +10,14 @@ const villageFieldLevelsController = require('../controllers/villageFieldLevelsC
 const villageFieldTypesController = require('../controllers/villageFieldTypesController');
 const villageProductionsController = require('../controllers/villageProductionsController');
 const resFieldUpgradesController = require('../controllers/resFieldUpgradesController');
-const buildingUpgradesController = require('../controllers/buildingUpgradesController');
+const villageBuildingUpgradesController = require('../controllers/villageBuildingUpgradesController');
 const villageOwnTroopsController = require('../controllers/villageOwnTroopsController');
 const villageReinforcementsController = require('../controllers/villageReinforcementsController');
 const sendTroopsController = require('../controllers/sendTroopsController');
 const barracksProductionsController = require('../controllers/barracksProductionsController');
 const userController = require('../controllers/userController');
-const villageBuildingsDataController = require('../controllers/villageBuildingsDataController');
+const villageBuildingFieldsController = require('../controllers/villageBuildingFieldsController');
 const auth = require('../auth/auth');
-/*
-router.get('/', function(req, res){
-    shark.index(req,res);
-});
-*/
 
 router.get('/', function (req, res) {
     res.json({
@@ -202,21 +196,21 @@ router.route('/user/:user')
     .delete(userController.delete);
     */
 
-router.route('/villageBuildingsData')
-    .post(villageBuildingsDataController.new);
-router.route('/villageBuildingsData/:idVillage')
-    .get(villageBuildingsDataController.view)
-    .put(villageBuildingsDataController.update)
-    .patch(villageBuildingsDataController.update)
-    .delete(villageBuildingsDataController.delete);
+router.route('/villageBuildingFields')
+    .post(villageBuildingFieldsController.new);
+router.route('/villageBuildingFields/:idVillage')
+    .get(villageBuildingFieldsController.view)
+    .put(villageBuildingFieldsController.update)
+    .patch(villageBuildingFieldsController.update)
+    .delete(villageBuildingFieldsController.delete);
 
-router.route('/buildingUpgrades')
-    .post(buildingUpgradesController.new);
-router.route('/buildingUpgrades/:idVillage')
-    .get(buildingUpgradesController.view);
-router.route('/buildingUpgrades/:upgradeId')
-    .put(buildingUpgradesController.update)
-    .patch(buildingUpgradesController.update)
-    .delete(buildingUpgradesController.delete);
+router.route('/villageBuildingUpgrades')
+    .post(villageBuildingUpgradesController.new);
+router.route('/villageBuildingUpgrades/:idVillage')
+    .get(villageBuildingUpgradesController.view);
+router.route('/villageBuildingUpgrades/:upgradeId')
+    .put(villageBuildingUpgradesController.update)
+    .patch(villageBuildingUpgradesController.update)
+    .delete(villageBuildingUpgradesController.delete);
 
 module.exports = router;

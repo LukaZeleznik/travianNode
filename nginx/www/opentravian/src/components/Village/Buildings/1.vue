@@ -182,7 +182,7 @@ export default {
                 "vbid": this.$route.params.vbid,
             }
 
-            let buildingUpgradeResponse = await this.$root.doApiRequest("buildingUpgrades", "POST", buildingData)
+            let buildingUpgradeResponse = await this.$root.doApiRequest("villageBuildingUpgrades", "POST", buildingData)
 
             let buildingUpgradeResponseJson = await buildingUpgradeResponse.json();
 

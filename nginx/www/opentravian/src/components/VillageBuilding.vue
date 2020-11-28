@@ -40,7 +40,7 @@ export default {
             });
         },
         getBuildingData(){
-            fetch('http://localhost:8080/api/villageBuildingsData/1')
+            fetch('http://localhost:8080/api/villageBuildingFields/1')
             .then(res => res.json())
             .then(res => {
                 let vbid = this.$route.params.vbid;

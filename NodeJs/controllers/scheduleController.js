@@ -55,22 +55,22 @@ exports.new = function (req, res) {
                     let buildingId = taskReqBody.taskData.buildingId;
                     let buildingUpgradeId = taskReqBody.taskData.buildingUpgradeId;
 
-                    let villageBuildingsDataApiUrl = 'http://localhost:8080/api/villageBuildingsData/' + idVillage;
-                    let villageBuildingsData = await(await(await fetch(villageBuildingsDataApiUrl)).json()).data;
+                    let villageBuildingFieldsApiUrl = 'http://localhost:8080/api/villageBuildingFields/' + idVillage;
+                    let villageBuildingFields = await(await(await fetch(villageBuildingFieldsApiUrl)).json()).data;
 
-                    let buildingLevel = Number(villageBuildingsData["building"+buildingId+"Level"] );
+                    let buildingLevel = Number(villageBuildingFields["building"+buildingId+"Level"] );
                     
-                    villageBuildingsData["building"+buildingId+"Level"] = buildingLevel + 1;
+                    villageBuildingFields["building"+buildingId+"Level"] = buildingLevel + 1;
                     
-                    fetch(villageBuildingsDataApiUrl, {
+                    fetch(villageBuildingFieldsApiUrl, {
                         method: 'PATCH', // or 'PUT'
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify(villageBuildingsData),
+                        body: JSON.stringify(villageBuildingFields),
                     });
 
-                    let buildingUpgradeApiUrl = 'http://localhost:8080/api/buildingUpgrades/' + buildingUpgradeId;
+                    let buildingUpgradeApiUrl = 'http://localhost:8080/api/villageBuildingUpgrades/' + buildingUpgradeId;
 
                     fetch(buildingUpgradeApiUrl, {
                         method: 'DELETE',

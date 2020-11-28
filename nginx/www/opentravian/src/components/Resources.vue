@@ -137,7 +137,6 @@ export default {
       });
     },
     fetchVillageBuildingUpgrades(){
-      console.log("fetching village Buildingupgrades");
       this.villageBuildingUpgrades = this.$store.getters.getVillageBuildingUpgrades;
 
       this.$store.dispatch('fetchVillageBuildingUpgrades')
