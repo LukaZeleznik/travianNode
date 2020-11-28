@@ -43,6 +43,7 @@ export default {
         this.fetchVillageResources();
         this.fetchVillageMaxResources();
         this.fetchVillageProduction();
+        this.startIntervals();
     },
 
     methods: {
