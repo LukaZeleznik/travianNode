@@ -58,6 +58,7 @@ const store = new Vuex.Store({
     villageResFieldColors : ["","Green","Orange","Silver","","Silver","Gold","Gold","Green","Orange","Gold","White","Gold","Orange","Green","Gold","Gold","Silver","","Silver","Orange","Green"],
     villageProduction : [0,0,0,0],
     villageResFieldUpgrades : [],
+    villageBuildingUpgrades: [],
     villageOwnTroops : [],
     villageReinforcements : [],
     villageIncomingAttacks : [],
@@ -93,6 +94,9 @@ const store = new Vuex.Store({
     },
     setVillageResFieldUpgrades(state, villageResFieldUpgrades){
       state.villageResFieldUpgrades = villageResFieldUpgrades;
+    },
+    setVillageBuildingUpgrades(state, villageBuildingUpgrades){
+        state.villageBuildingUpgrades = villageBuildingUpgrades;
     },
     setVillageOwnTroops(state, villageOwnTroops){
       state.villageOwnTroops = villageOwnTroops;
@@ -237,6 +241,15 @@ const store = new Vuex.Store({
           })
           .catch(err => console.log(err));
       },
+      async fetchVillageBuildingUpgrades(context){
+        await fetch('http://localhost:8080/api/BuildingUpgrades/1')
+        .then(res => res.json())
+        .then(res => {
+            let villageBuildingUpgrades = res.data;
+            context.commit('setVillageBuildingUpgrades', villageBuildingUpgrades);
+        })
+        .catch(err => console.log(err));
+    },
       async fetchVillageOwnTroops(context){
           await fetch('http://localhost:8080/api/villageOwnTroops/1')
           .then(res => res.json())
@@ -387,6 +400,9 @@ const store = new Vuex.Store({
     getVillageResFieldUpgrades: state => {
         return state.villageResFieldUpgrades;
     },
+    getVillageBuildingUpgrades: state => {
+        return state.villageBuildingUpgrades;
+    },
     getVillageOwnTroops: state => {
         return state.villageOwnTroops;
     },
@@ -439,6 +455,7 @@ new Vue({
                 },
                 body: JSON.stringify(data),
             });
+            console.log(response);
             return response;
         },
         secondsToTimeCompleted(seconds){

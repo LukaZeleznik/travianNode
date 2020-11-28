@@ -18,6 +18,7 @@ exports.new = async function (req, res) {
     let buildingInfo = require('/home/node/app/infoTables/buildingInfoLookup.json');
 
     (async () => {
+        console.log("DEBUG3");
         let idVillage = req.body.idVillage;
         let buildingFieldId = req.body.vbid;
 
@@ -106,7 +107,7 @@ exports.new = async function (req, res) {
 
                 res.json({
                     message: 'New buildingdUpgrade created',
-                    data: buildingdUpgrades
+                    data: buildingUpgrades
                 });
             }
         });

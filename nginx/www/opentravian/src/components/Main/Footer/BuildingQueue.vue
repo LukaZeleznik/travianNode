@@ -21,6 +21,28 @@
                 {{ new Date(villageResFieldUpgrades[1].timeCompleted*1000).toLocaleTimeString('sl-SI') }}
             </h5>
         </div>
+
+        <div class="h3 pl-5 ml-4 my-3" v-if="villageBuildingUpgrades.length > 0">Buildings:</div>
+        <div class="d-flex justify-content-between pl-5 ml-4 upgrageBuildingData"
+            v-if="villageBuildingUpgrades.length > 0">
+            <h5><img style="width: 1.0rem;height: 0.9rem;" src="/images/del.gif">
+                {{ villageBuildingUpgrades[0].buildingType }}
+                (Level {{ villageBuildingUpgrades[0].buildingLevel }})</h5>
+            <h5 class="text-center">in <span id="upgradeCD1">{{ villageBuildingUpgradesTimeLeft[0] }}</span>
+                seconds</h5>
+            <h5 class="text-right">done at
+                {{ new Date(villageBuildingUpgrades[0].timeCompleted*1000).toLocaleTimeString('sl-SI')}} </h5>
+        </div>
+        <div class="d-flex justify-content-between pl-5 ml-4 upgrageBuildingData"
+            v-if="villageBuildingUpgrades.length == 2">
+            <h5><img style="width: 1.0rem;height: 0.9rem;" src="/images/del.gif">
+                {{ villageBuildingUpgrades[1].buildingType }}
+                (Level {{ villageBuildingUpgrades[1].fieldLevel }})</h5>
+            <!--<h5>in <span id="upgradeCD1">{{ new Date(villageBuildingUpgrades[1].timeCompleted*1000 - Math.floor(new Date().getTime())).toLocaleTimeString() }}</span> hours</h5>-->
+            <h5>done at
+                {{ new Date(villageBuildingUpgrades[1].timeCompleted*1000).toLocaleTimeString('sl-SI') }}
+            </h5>
+        </div>
     </div>
 </template>
 
@@ -30,10 +52,13 @@ export default {
         return {
             villageResFieldUpgrades: this.$store.getters.getVillageResFieldUpgrades,
             villageResFieldUpgradesTimeLeft: [],
+            villageBuildingUpgrades: this.$store.getters.getVillageBuildingUpgrades,
+            villageBuildingUpgradesTimeLeft: [],
         };
     },
     created() {
-        this.startUpgradeInterval();
+        this.startResFieldUpgradeInterval();
+        this.startBuildingUpgradeInterval();
     },
     watch: {
         '$store.getters.getVillageResFieldUpgrades': function() {
@@ -41,15 +66,30 @@ export default {
             if(this.villageResFieldUpgrades.length < 1) return;
             this.villageResFieldUpgradesTimeLeft[0] = (this.villageResFieldUpgrades[0].timeCompleted - Math.floor(new Date().getTime()/1000));
         },
+        '$store.getters.getVillageBuildingUpgrades': function() {
+            this.villageBuildingUpgrades = this.$store.getters.getVillageBuildingUpgrades;
+            if(this.villageBuildingUpgrades.length < 1) return;
+            this.villageBuildingUpgradesTimeLeft[0] = (this.villageBuildingUpgrades[0].timeCompleted - Math.floor(new Date().getTime()/1000));
+        },
     },
     methods: {
-        startUpgradeInterval(){
+        startResFieldUpgradeInterval(){
             var upgradeCD1Interval = setInterval( ()=> {
                 if(this.villageResFieldUpgradesTimeLeft[0] > 0){
                     this.$set(this.villageResFieldUpgradesTimeLeft, 0, this.villageResFieldUpgradesTimeLeft[0]-1);
                 }
                 else if(this.villageResFieldUpgradesTimeLeft[0] == 0 ){
                     clearInterval(upgradeCD1Interval);
+                }
+            }, 1000);
+        },
+        startBuildingUpgradeInterval(){
+            var upgradeCD2Interval = setInterval( ()=> {
+                if(this.villageBuildingUpgradesTimeLeft[0] > 0){
+                    this.$set(this.villageBuildingUpgradesTimeLeft, 0, this.villageBuildingUpgradesTimeLeft[0]-1);
+                }
+                else if(this.villageBuildingUpgradesTimeLeft[0] == 0 ){
+                    clearInterval(upgradeCD2Interval);
                 }
             }, 1000);
         },

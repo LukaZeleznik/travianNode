@@ -39,6 +39,8 @@ export default {
       villageProduction : [],
       villageResFieldUpgrades : [],
       villageResFieldUpgradesTimeLeft : [],
+      villageBuildingUpgrades : [],
+      villageBuildingUpgradesTimeLeft : [],
       villageOwnTroops : [],
       villageReinforcements : [],
       villageIncomingAttacks : [],
@@ -61,6 +63,7 @@ export default {
     this.fetchVillageOwnTroops();
     this.fetchVillageReinforcements();
     this.fetchVillageResFieldUpgrades();
+    this.fetchVillageBuildingUpgrades();
     this.startUpgradeInterval();
     this.startTroopMovementsInterval();
     //this.calculateProduction();
@@ -131,6 +134,17 @@ export default {
         this.villageResFieldUpgrades = this.$store.getters.getVillageResFieldUpgrades;
         if(this.villageResFieldUpgrades.length < 1) return;
         this.villageResFieldUpgradesTimeLeft[0] = (this.villageResFieldUpgrades[0].timeCompleted - Math.floor(new Date().getTime()/1000));
+      });
+    },
+    fetchVillageBuildingUpgrades(){
+      console.log("fetching village Buildingupgrades");
+      this.villageBuildingUpgrades = this.$store.getters.getVillageBuildingUpgrades;
+
+      this.$store.dispatch('fetchVillageBuildingUpgrades')
+      .then( () => {
+        this.villageBuildingUpgrades = this.$store.getters.getVillageBuildingUpgrades;
+        if(this.villageBuildingUpgrades.length < 1) return;
+        this.villageBuildingUpgradesTimeLeft[0] = (this.villageBuildingUpgrades[0].timeCompleted - Math.floor(new Date().getTime()/1000));
       });
     },
     fetchVillageOwnTroops(){

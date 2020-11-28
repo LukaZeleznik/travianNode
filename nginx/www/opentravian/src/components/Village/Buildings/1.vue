@@ -95,7 +95,6 @@ export default {
             villageBarracksProductionsTimeLeft: [],
             troopList: [],
             userTribe: "Teuton",
-            vbid: this.$route.params.vbid,
         };
     },
 
@@ -180,13 +179,12 @@ export default {
         async upgradeBuilding(){
             let buildingData = {
                 "idVillage": 1,
-                "vbid": Number(this.vbid),
+                "vbid": this.$route.params.vbid,
             }
+
             let buildingUpgradeResponse = await this.$root.doApiRequest("buildingUpgrades", "POST", buildingData)
 
             let buildingUpgradeResponseJson = await buildingUpgradeResponse.json();
-
-            console.log("debug 2" + buildingUpgradeResponseJson);
 
             if(buildingUpgradeResponseJson.message == "New buildingUpgrade created"){
                 this.$router.push({ name: 'villageBuilding' });
