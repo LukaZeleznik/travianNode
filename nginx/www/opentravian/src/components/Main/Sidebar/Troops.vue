@@ -15,12 +15,14 @@
 </template>
 
 <script>
+import * as infoLookup from '../../../assets/js/infoLookupTools.js';
+
 export default {
     data() {
         return {
             villageOwnTroops: this.$store.getters.getVillageOwnTroops,
             userTribe: "Teuton",
-            troopInfoLookup: undefined,
+            troopInfoLookup: infoLookup.troopInfoLookup,
         };
     },
 
@@ -31,13 +33,9 @@ export default {
     },
 
     created() {
-        this.importRequiredLookups();
     },
 
     methods: {
-        importRequiredLookups(){
-            this.troopInfoLookup = require('../../../../public/infoTables/troopInfoLookup.json');
-        },
     }
 }
 </script>

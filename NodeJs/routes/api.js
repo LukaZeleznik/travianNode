@@ -11,6 +11,7 @@ const villageFieldLevelsController = require('../controllers/villageFieldLevelsC
 const villageFieldTypesController = require('../controllers/villageFieldTypesController');
 const villageProductionsController = require('../controllers/villageProductionsController');
 const resFieldUpgradesController = require('../controllers/resFieldUpgradesController');
+const buildingUpgradesController = require('../controllers/buildingUpgradesController');
 const villageOwnTroopsController = require('../controllers/villageOwnTroopsController');
 const villageReinforcementsController = require('../controllers/villageReinforcementsController');
 const sendTroopsController = require('../controllers/sendTroopsController');
@@ -196,5 +197,14 @@ router.route('/villageBuildingsData/:idVillage')
     .put(villageBuildingsDataController.update)
     .patch(villageBuildingsDataController.update)
     .delete(villageBuildingsDataController.delete);
+
+router.route('/buildingUpgrades')
+    .post(buildingUpgradesController.new);
+router.route('/buildingUpgrades/:idVillage')
+    .get(buildingUpgradesController.view);
+router.route('/buildingUpgrades/:upgradeId')
+    .put(buildingUpgradesController.update)
+    .patch(buildingUpgradesController.update)
+    .delete(buildingUpgradesController.delete);
 
 module.exports = router;

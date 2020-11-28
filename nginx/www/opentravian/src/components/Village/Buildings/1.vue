@@ -74,7 +74,10 @@
             <img src="/images/consum.gif">              {{ buildingInfoLookup[$parent.villageBuildingType]['consumption'][$parent.villageBuildingLevel] }} |
             <img src="/images/clock.gif">               {{ $root.secondsToTimeRemaining(buildingInfoLookup[$parent.villageBuildingType]['constructionTime'][$parent.villageBuildingLevel] * 1000) }}</p>
         </h5>
-        <h6> <a>Upgrade to Level {{ $parent.villageBuildingLevel+1 }}</a> </h6>
+        <h5 class="mt-4"> 
+            <button type="button" class="btn btn-success" @click="upgradeBuilding()">Upgrade to Level {{ $parent.villageBuildingLevel+1 }}</button> 
+        </h5>
+         <h5 class="mt-4 text-danger" id="errorMessage"></h5>
     </div>
 </template>
 
@@ -92,6 +95,7 @@ export default {
             villageBarracksProductionsTimeLeft: [],
             troopList: [],
             userTribe: "Teuton",
+            vbid: this.$route.params.vbid,
         };
     },
 
@@ -171,6 +175,24 @@ export default {
             }
             else{
                 document.getElementById("errorMessage").innerText = barracksProductionsResponseJson.message;
+            }
+        },
+        async upgradeBuilding(){
+            let buildingData = {
+                "idVillage": 1,
+                "vbid": Number(this.vbid),
+            }
+            let buildingUpgradeResponse = await this.$root.doApiRequest("buildingUpgrades", "POST", buildingData)
+
+            let buildingUpgradeResponseJson = await buildingUpgradeResponse.json();
+
+            console.log("debug 2" + buildingUpgradeResponseJson);
+
+            if(buildingUpgradeResponseJson.message == "New buildingUpgrade created"){
+                this.$router.push({ name: 'villageBuilding' });
+            }
+            else{
+                document.getElementById("errorMessage").innerText = buildingUpgradeResponseJson.message;
             }
         },
         calculateMaxTroops(troop){

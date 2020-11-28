@@ -35,7 +35,7 @@ exports.new = function (req, res) {
         let requirementIron = troopInfo["Teuton"][req.body.troopId-1]["iron"] * req.body.troopCount;
         let requirementCrop = troopInfo["Teuton"][req.body.troopId-1]["crop"] * req.body.troopCount;
 
-        if( villageResources.currentWood < requirementWood || villageResources.currentClay < requirementClay || 
+        if(villageResources.currentWood < requirementWood || villageResources.currentClay < requirementClay || 
           villageResources.currentIron < requirementIron || villageResources.currentCrop < requirementCrop ){
             res.json({
                 message: 'Not enough resources',
@@ -64,15 +64,15 @@ exports.new = function (req, res) {
 
         var barracksProductions = new barracksProductionsModel();
 
-        barracksProductions.idVillage = req.body.idVillage;
-        barracksProductions.troopId = req.body.troopId;
-        barracksProductions.troopCount = req.body.troopCount;
+        barracksProductions.idVillage   = req.body.idVillage;
+        barracksProductions.troopId     = req.body.troopId;
+        barracksProductions.troopCount  = req.body.troopCount;
         
-        barracksProductions.troopName = troopInfo.Teuton[req.body.troopId-1]["name"];
-        barracksProductions.troopProdTime = Math.floor(troopInfo.Teuton[req.body.troopId-1]["time"]);
-        barracksProductions.timeStarted = currentUnixTime;
-        barracksProductions.timeCompleted = currentUnixTime + Math.floor(req.body.troopCount * troopInfo.Teuton[req.body.troopId-1]["time"]);
-        barracksProductions.lastUpdate = currentUnixTime;
+        barracksProductions.troopName       = troopInfo.Teuton[req.body.troopId-1]["name"];
+        barracksProductions.troopProdTime   = Math.floor(troopInfo.Teuton[req.body.troopId-1]["time"]);
+        barracksProductions.timeStarted     = currentUnixTime;
+        barracksProductions.timeCompleted   = currentUnixTime + Math.floor(req.body.troopCount * troopInfo.Teuton[req.body.troopId-1]["time"]);
+        barracksProductions.lastUpdate      = currentUnixTime;
         barracksProductions.troopsDoneAlready = 0;
 
         barracksProductions.save(function (err) {

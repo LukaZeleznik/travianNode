@@ -49,6 +49,38 @@ exports.new = function (req, res) {
                 })();                
                 break;
 
+            case "upgradeBuilding":
+                (async () => {
+                    let idVillage = taskReqBody.taskData.idVillage;
+                    let buildingId = taskReqBody.taskData.buildingId;
+                    let buildingUpgradeId = taskReqBody.taskData.buildingUpgradeId;
+
+                    let villageBuildingsDataApiUrl = 'http://localhost:8080/api/villageBuildingsData/' + idVillage;
+                    let villageBuildingsData = await(await(await fetch(villageBuildingsDataApiUrl)).json()).data;
+
+                    let buildingLevel = Number(villageBuildingsData["building"+buildingId+"Level"] );
+                    
+                    villageBuildingsData["building"+buildingId+"Level"] = buildingLevel + 1;
+                    
+                    fetch(villageBuildingsDataApiUrl, {
+                        method: 'PATCH', // or 'PUT'
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(villageBuildingsData),
+                    });
+
+                    let buildingUpgradeApiUrl = 'http://localhost:8080/api/buildingUpgrades/' + buildingUpgradeId;
+
+                    fetch(buildingUpgradeApiUrl, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }
+                    });
+                })();                
+                break;
+
             case "attack":
                 (async () => {
                     const combatScript = require("../helperScripts/combatScript");

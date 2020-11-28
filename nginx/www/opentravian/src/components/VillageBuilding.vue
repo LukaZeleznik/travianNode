@@ -12,28 +12,25 @@
 
 
 <script>
+import * as infoLookup from '../assets/js/infoLookupTools.js';
 
 export default {
     data() {
         return {
             villageBuildingType: undefined,
             villageBuildingLevel: undefined,
-            buildingInfoLookup: undefined,
+            buildingInfoLookup: infoLookup.buildingInfoLookup,
+            troopInfoLookup: infoLookup.troopInfoLookup,
             villageResources: this.$store.getters.getVillageResources,
         };
     },
 
     created() {
-        this.importRequiredLookups();
         this.fetchVillageResources();
         this.getBuildingData();
     },
 
     methods: {
-        importRequiredLookups(){
-            this.buildingInfoLookup = require('../../public/infoTables/buildingInfoLookup.json');
-            this.troopInfoLookup = require('../../public/infoTables/troopInfoLookup.json');
-        },
         fetchVillageResources(){
             this.villageResources = this.$store.getters.getVillageResources;
 

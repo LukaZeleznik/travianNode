@@ -27,26 +27,28 @@
 </template>
 
 <script>
+import * as infoLookup from '../assets/js/infoLookupTools.js';
 
 export default {
 
-  data() {
-    return {
-      villageBuildingLevels : [],
-      villageBuildingTypes : [],
-      villageBuildingColors : ["","SlateGray","SlateGray","SlateGray","","SlateGray","SlateGray","SlateGray","SlateGray","SlateGray","SlateGray","Green","SlateGray","SlateGray","SlateGray","SlateGray","SlateGray","SlateGray","","SlateGray","SlateGray","SlateGray"],
-      villageResFieldUpgrades : [],
-      villageResFieldUpgradesTimeLeft : [],
-      villageIncomingAttacks : [],
-      villageIncomingReinforcements : [],
-      villageOutgoingAttacks : [],
-      villageOutgoingReinforcements : [],
-      villageIncomingAttacksTimeLeft : [],
-      villageIncomingReinforcementsTimeLeft : [],
-      villageOutgoingAttacksTimeLeft : [],
-      villageOutgoingReinforcementsTimeLeft : [],
-    };
-  },
+    data() {
+        return {
+            villageBuildingLevels : [],
+            villageBuildingTypes : [],
+            villageBuildingColors : ["","SlateGray","SlateGray","SlateGray","","SlateGray","SlateGray","SlateGray","SlateGray","SlateGray","SlateGray","Green","SlateGray","SlateGray","SlateGray","SlateGray","SlateGray","SlateGray","","SlateGray","SlateGray","SlateGray"],
+            villageResFieldUpgrades : [],
+            villageResFieldUpgradesTimeLeft : [],
+            villageIncomingAttacks : [],
+            villageIncomingReinforcements : [],
+            villageOutgoingAttacks : [],
+            villageOutgoingReinforcements : [],
+            villageIncomingAttacksTimeLeft : [],
+            villageIncomingReinforcementsTimeLeft : [],
+            villageOutgoingAttacksTimeLeft : [],
+            villageOutgoingReinforcementsTimeLeft : [],
+            buildingInfoLookup: infoLookup.buildingInfoLookup,
+        };
+    },
 
   created() {
     this.fetchVillageTroopMovements();

@@ -29,6 +29,7 @@
 </template>
 
 <script>
+
 export default {
     data() {
         return {
@@ -40,8 +41,6 @@ export default {
         };
     },
     created() {
-        //this.villageBuildingTypes[11] = "Resources";
-        //this.villageBuildingTypes[7] = "Barracks";
         this.fetchvillageBuildingsData();
     },
     watch: {
@@ -62,9 +61,8 @@ export default {
             });
         },
         convertBuildingTypeToName(){
-            const buildingInfoLookup = require('../../../public/infoTables/buildingInfoLookup.json');
             this.villageBuildingNames = this.villageBuildingTypes.map(type => {
-                return buildingInfoLookup[type]['name'];
+                return this.$parent.buildingInfoLookup[type]['name'];
             });
 
         },
