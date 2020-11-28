@@ -21,7 +21,7 @@ passport.use(
 
 
 passport.use(
-    'signup',
+    'register',
     new localStrategy({
             usernameField: 'email',
             passwordField: 'password'
