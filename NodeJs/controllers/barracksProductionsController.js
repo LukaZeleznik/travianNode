@@ -19,7 +19,6 @@ exports.view = function (req, res) {
 
 // Handle create barracksProductions actions
 exports.new = function (req, res) {
-
     (async () => {
         let troopInfo = require('/home/node/app/infoTables/troopInfoLookup.json');
         let buildingInfo = require('/home/node/app/infoTables/buildingInfoLookup.json');
@@ -31,6 +30,9 @@ exports.new = function (req, res) {
 
         let villageBuildingFieldsApiUrl = 'http://localhost:8080/api/villageBuildingFields/' + idVillage;
         let villageBuildingFields = await(await(await fetch(villageBuildingFieldsApiUrl)).json()).data;
+
+        let barracksProductionsApiUrl = 'http://localhost:8080/api/barracksProductions/' + idVillage;
+        let barracksProductionResponse = await(await(await fetch(barracksProductionsApiUrl)).json()).data;
 
         let villageBuildingLevel = 0;
         for(let i = 1; i <= Object.keys(villageBuildingFields).length; i++){
@@ -78,12 +80,14 @@ exports.new = function (req, res) {
         barracksProductions.troopId     = req.body.troopId;
         barracksProductions.troopCount  = req.body.troopCount;
 
+        let barracksProductionResponseLength = Object.keys(barracksProductionResponse).length;
+        let troopQueueTime = barracksProductionResponseLength > 0 ? barracksProductionResponse[barracksProductionResponseLength-1]['timeCompleted'] : currentUnixTime
         let troopTrainingTime = troopInfo.Teuton[req.body.troopId-1]["time"] * buildingInfo[1]['buildingModifier'][villageBuildingLevel];
         
         barracksProductions.troopName       = troopInfo.Teuton[req.body.troopId-1]["name"];
         barracksProductions.troopProdTime   = Math.floor(troopInfo.Teuton[req.body.troopId-1]["time"]);
-        barracksProductions.timeStarted     = currentUnixTime;
-        barracksProductions.timeCompleted   = currentUnixTime + Math.floor(req.body.troopCount * troopTrainingTime);
+        barracksProductions.timeStarted     = troopQueueTime;
+        barracksProductions.timeCompleted   = troopQueueTime + Math.floor(req.body.troopCount * troopTrainingTime);
         barracksProductions.lastUpdate      = currentUnixTime;
         barracksProductions.troopsDoneAlready = 0;
 

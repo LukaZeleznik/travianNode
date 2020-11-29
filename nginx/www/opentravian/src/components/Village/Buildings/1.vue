@@ -63,8 +63,8 @@
             </tbody>
         </table>
         
-        <h5 class="mt-5"> <p>Current training time: {{ buildingInfoLookup[$parent.villageBuildingType]['buildingModifier'][$parent.villageBuildingLevel]*100 }} percent</p></h5>
-        <h5> <p>Training time at level {{ $parent.villageBuildingLevel+1 }}: {{ buildingInfoLookup[$parent.villageBuildingType]['buildingModifier'][$parent.villageBuildingLevel+1]*100 }} percent</p></h5>
+        <h5 class="mt-5"> <p>Current training time: {{ (buildingInfoLookup[$parent.villageBuildingType]['buildingModifier'][$parent.villageBuildingLevel]*100).toFixed(2) }} percent</p></h5>
+        <h5> <p>Training time at level {{ $parent.villageBuildingLevel+1 }}: {{ (buildingInfoLookup[$parent.villageBuildingType]['buildingModifier'][$parent.villageBuildingLevel+1]*100).toFixed(2) }} percent</p></h5>
         <h4> <p>Cost for upgrading to Level {{ $parent.villageBuildingLevel+1 }}:</p></h4>
         <h5> <p>
             <img src="/images/resources/wood.gif">      {{ buildingInfoLookup[$parent.villageBuildingType]['wood'][$parent.villageBuildingLevel+1] }} |
