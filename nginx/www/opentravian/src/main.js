@@ -27,6 +27,7 @@ Vue.component('footerBuildingQueue', require('./components/Main/Footer/BuildingQ
 Vue.component('villageFields', require('./components/Village/Fields.vue').default);
 Vue.component('villageBuilding0', require('./components/Village/Buildings/0.vue').default);
 Vue.component('villageBuilding1', require('./components/Village/Buildings/1.vue').default);
+Vue.component('villageBuilding2', require('./components/Village/Buildings/2.vue').default);
 
 //Resources
 Vue.component('resourcesFields', require('./components/Resources/Fields.vue').default);
@@ -364,12 +365,13 @@ const store = new Vuex.Store({
                     ];
 
                     let villageBuildingColors = villageBuildingTypes.map(type => {
-                        if (type == 0) {
-                            return "SlateGray"
-                        } else if (type > 0) {
-                            return "Orange"
-                        } else {
-                            return ""
+                        switch(type) {
+                            case 0: return "SlateGray";
+                            case 1: return "Orange";    //Barracks
+                            case 2: return "Brown";     //Warehouse
+                            case 3: return "Yellow";    //Granary
+                            case 4: return "Pink";      //Stable
+                            default: return;
                         }
                     });
 

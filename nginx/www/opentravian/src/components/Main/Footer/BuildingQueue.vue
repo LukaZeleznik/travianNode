@@ -36,8 +36,6 @@ export default {
             villageBuildingUpgrades: this.$store.getters.getVillageBuildingUpgrades,
             villageBuildingUpgradesTimeLeft: [],
             buildingInfoLookup: this.$parent.buildingInfoLookup,
-
-            villageResourcesApiUrl: 'http://localhost:8080/api/villageResources/1', //hardcoded
         };
     },
     created() {
@@ -96,12 +94,22 @@ export default {
             }, 1000);
         },
         async cancelBuildingUpgrade(villageBuildingUpgrades){
-            let villageResources = await fetch(this.villageResourcesApiUrl).json().data;
             let currentUnixTime =  Math.round(new Date().getTime()/1000);
 
-            let cancelBuildingUpgradeResponse = await this.$root.doApiRequest("villageBuildingUpgrade/" + villageBuildingUpgrades[0]._id, "DELETE", "")
-            let cancelBuildingUpgradeJson = await cancelBuildingUpgradeResponse.json();
+            let villageResourcesApiUrl = 'http://localhost:8080/api/villageResources/1';
+            let villageResources = await(await(await fetch(villageResourcesApiUrl)).json()).data;
 
+            let cancelBuildingUpgradeResponse = await fetch('http://localhost:8080/api/villageBuildingUpgrades/' + villageBuildingUpgrades[0]._id, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            //let cancelBuildingUpgradeResponse = await this.$root.doApiRequest("villageBuildingUpgrades/" + villageBuildingUpgrades[0]._id, "DELETE", "");
+            //let cancelBuildingUpgradeJson = await cancelBuildingUpgradeResponse.json();
+            console.log(cancelBuildingUpgradeResponse);
+            let cancelBuildingUpgradeJson = "piece of hist";
             if(cancelBuildingUpgradeJson.status == "success"){
                 villageResources.currentWood += villageBuildingUpgrades[0].woodUsed;
                 villageResources.currentClay += villageBuildingUpgrades[0].clayUsed;

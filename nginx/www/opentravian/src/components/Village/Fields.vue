@@ -65,7 +65,6 @@ export default {
             this.villageBuildingNames = this.villageBuildingTypes.map(type => {
                 return this.$parent.buildingInfoLookup[type]['name'];
             });
-
         },
         fetchVillageResources(){
             this.villageResources = this.$store.getters.getVillageResources;

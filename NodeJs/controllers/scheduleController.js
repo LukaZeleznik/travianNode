@@ -54,6 +54,7 @@ exports.new = function (req, res) {
                     let idVillage = taskReqBody.taskData.idVillage;
                     let buildingId = taskReqBody.taskData.buildingId;
                     let buildingUpgradeId = taskReqBody.taskData.buildingUpgradeId;
+                    let newBuildingType = taskReqBody.taskData.newBuildingType ? taskReqBody.taskData.newBuildingType : 0;
 
                     let villageBuildingFieldsApiUrl = 'http://localhost:8080/api/villageBuildingFields/' + idVillage;
                     let villageBuildingFields = await(await(await fetch(villageBuildingFieldsApiUrl)).json()).data;
@@ -61,6 +62,7 @@ exports.new = function (req, res) {
                     let buildingLevel = Number(villageBuildingFields["field"+buildingId+"Level"]);
                     
                     villageBuildingFields["field"+buildingId+"Level"] = buildingLevel + 1;
+                    if(newBuildingType>0) villageBuildingFields["field"+buildingId+"Type"] = newBuildingType;
                     
                     fetch(villageBuildingFieldsApiUrl, {
                         method: 'PATCH', // or 'PUT'

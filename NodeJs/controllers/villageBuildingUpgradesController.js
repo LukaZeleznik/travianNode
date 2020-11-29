@@ -20,8 +20,11 @@ exports.new = async function (req, res) {
     (async () => {
         let idVillage = req.body.idVillage;
         let buildingFieldId = req.body.vbid;
-
+        let newBuildingType = req.body.type ? req.body.type : 0;
         let currentUnixTime =  Math.round(new Date().getTime()/1000);
+        let villageBuildingTypes = [];
+        let villageBuildingLevels = [];
+        let allowf = true;
 
         let villageResourcesApiUrl = 'http://localhost:8080/api/villageResources/' + idVillage;
         let villageResources = await(await(await fetch(villageResourcesApiUrl)).json()).data;
@@ -29,13 +32,46 @@ exports.new = async function (req, res) {
         let villageBuildingFieldsApiUrl = 'http://localhost:8080/api/villageBuildingFields/' + idVillage;
         let villageBuildingFields = await(await(await fetch(villageBuildingFieldsApiUrl)).json()).data;
         let villageBuildingLevel = Number(villageBuildingFields["field"+buildingFieldId+"Level"]);
-        let villageBuildingType = Number(villageBuildingFields["field"+buildingFieldId+"Type"]);
+        let villageBuildingType = 0;
 
+        if(newBuildingType>0) {
+            for(let i = 1; i < 19; i++){
+                villageBuildingTypes.push(villageBuildingFields['field'+i+'Type']);
+                villageBuildingLevels.push(villageBuildingFields['field'+i+'Level']);
+            }
+            if(villageBuildingTypes.includes(buildingInfo[newBuildingType]['id'])){
+                for(let l = 0; l < villageBuildingTypes.length; l++){
+                    if(villageBuildingTypes[l] == buildingInfo[newBuildingType]['id']) {
+                        if((buildingInfo[newBuildingType]['allowMultiple'] && villageBuildingLevels[l] == 20)) {
+                            allowf = true;
+                            break;
+                        } else {
+                            allowf = false;
+                        }
+                    }
+                }
+                if(!allowf) {
+                    res.json({
+                        message: 'villageBuildingUpgrade failed',
+                        data: ''
+                    });
+                    return;
+                }
+            }
+
+            villageBuildingType = Number(newBuildingType);
+            villageBuildingLevel++;
+        } else {
+            villageBuildingType = Number(villageBuildingFields["field"+buildingFieldId+"Type"]);
+        }
+        
         let requirementWood = buildingInfo[villageBuildingType]["wood"][villageBuildingLevel];
         let requirementClay = buildingInfo[villageBuildingType]["clay"][villageBuildingLevel];
         let requirementIron = buildingInfo[villageBuildingType]["iron"][villageBuildingLevel];
         let requirementCrop = buildingInfo[villageBuildingType]["crop"][villageBuildingLevel];
         let requirementConstructionTime = Math.floor(Number(buildingInfo[villageBuildingType]["constructionTime"][villageBuildingLevel])/100);
+
+        if(newBuildingType>0) villageBuildingLevel--;
 
         if(villageResources.currentWood < requirementWood || villageResources.currentClay < requirementClay || 
           villageResources.currentIron < requirementIron || villageResources.currentCrop < requirementCrop ){
@@ -94,7 +130,8 @@ exports.new = async function (req, res) {
                     "taskData": {
                         "idVillage": idVillage,
                         "buildingId": buildingFieldId,
-                        "buildingUpgradeId": buildingUpgrade._id
+                        "buildingUpgradeId": buildingUpgrade._id,
+                        "newBuildingType": newBuildingType
                     }
                 };
 
