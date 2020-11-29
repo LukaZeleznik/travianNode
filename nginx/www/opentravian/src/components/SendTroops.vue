@@ -212,7 +212,7 @@ export default {
 
       console.log(sendTroopsDataJson);
 
-      if(sendTroopsDataJson.message == "New sendTroops created"){
+      if(sendTroopsDataJson.message == "sendTroops success"){
         this.$router.push({ name: 'resources' });
       }
       else{

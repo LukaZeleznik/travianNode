@@ -22,13 +22,23 @@ exports.new = function (req, res) {
 
     (async () => {
         let troopInfo = require('/home/node/app/infoTables/troopInfoLookup.json');
+        let buildingInfo = require('/home/node/app/infoTables/buildingInfoLookup.json');
         let idVillage = req.body.idVillage;
         let currentUnixTime = Math.round(new Date().getTime()/1000);
 
-        let tribe = fetch 
-
         let villageResourcesApiUrl = 'http://localhost:8080/api/villageResources/' + idVillage;
         let villageResources = await(await(await fetch(villageResourcesApiUrl)).json()).data;
+
+        let villageBuildingFieldsApiUrl = 'http://localhost:8080/api/villageBuildingFields/' + idVillage;
+        let villageBuildingFields = await(await(await fetch(villageBuildingFieldsApiUrl)).json()).data;
+
+        let villageBuildingLevel = 0;
+        for(let i = 1; i <= Object.keys(villageBuildingFields).length; i++){
+            if(villageBuildingFields['field'+i+'Type'] == 1){
+                villageBuildingLevel = villageBuildingFields['field'+i+'Level'];
+                break;
+            }
+        }
 
         let requirementWood = troopInfo["Teuton"][req.body.troopId-1]["wood"] * req.body.troopCount;
         let requirementClay = troopInfo["Teuton"][req.body.troopId-1]["clay"] * req.body.troopCount;
@@ -53,7 +63,7 @@ exports.new = function (req, res) {
         villageResources.lastUpdate = currentUnixTime;
 
         await fetch(villageResourcesApiUrl, {
-            method: 'PATCH', // or 'PUT'
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -67,11 +77,13 @@ exports.new = function (req, res) {
         barracksProductions.idVillage   = req.body.idVillage;
         barracksProductions.troopId     = req.body.troopId;
         barracksProductions.troopCount  = req.body.troopCount;
+
+        let troopTrainingTime = troopInfo.Teuton[req.body.troopId-1]["time"] * buildingInfo[1]['buildingModifier'][villageBuildingLevel];
         
         barracksProductions.troopName       = troopInfo.Teuton[req.body.troopId-1]["name"];
         barracksProductions.troopProdTime   = Math.floor(troopInfo.Teuton[req.body.troopId-1]["time"]);
         barracksProductions.timeStarted     = currentUnixTime;
-        barracksProductions.timeCompleted   = currentUnixTime + Math.floor(req.body.troopCount * troopInfo.Teuton[req.body.troopId-1]["time"]);
+        barracksProductions.timeCompleted   = currentUnixTime + Math.floor(req.body.troopCount * troopTrainingTime);
         barracksProductions.lastUpdate      = currentUnixTime;
         barracksProductions.troopsDoneAlready = 0;
 
@@ -81,7 +93,7 @@ exports.new = function (req, res) {
             }
             else{
                 res.json({
-                    message: 'New barracksProductions created',
+                    message: 'barracksProductions success',
                     data: barracksProductions
                 });
             }

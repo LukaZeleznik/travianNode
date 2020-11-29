@@ -341,7 +341,6 @@ const store = new Vuex.Store({
                         res.data.field17Type,
                         res.data.field18Type
                     ];
-                    console.log(villageBuildingTypes);
 
                     let villageBuildingLevels = [
                         res.data.field1Level,
@@ -464,14 +463,13 @@ new Vue({
                 },
                 body: JSON.stringify(data),
             });
-            console.log(response);
             return response;
         },
         secondsToTimeCompleted(seconds) {
-            return new Date(seconds).toLocaleTimeString('sl-SI')
+            return new Date(seconds).toLocaleTimeString('sl-SI');
         },
         secondsToTimeRemaining(seconds) {
-            return new Date(seconds).toISOString().substr(11, 8)
+            return new Date(seconds).toISOString().substr(11, 8);
         }
     },
 

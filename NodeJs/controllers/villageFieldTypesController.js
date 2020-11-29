@@ -41,7 +41,7 @@ exports.new = function (req, res) {
         }
         else{
             res.json({
-                message: 'New villageFieldTypes created',
+                message: 'villageFieldTypes success',
                 data: villageFieldTypes
             });
         }

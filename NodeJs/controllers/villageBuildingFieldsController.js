@@ -59,7 +59,7 @@ exports.new = function (req, res) {
         }
         else{
             res.json({
-                message: 'New villageBuildingFields created',
+                message: 'villageBuildingFields success',
                 data: villageBuildingFields
             });
         }

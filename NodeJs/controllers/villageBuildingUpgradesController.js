@@ -18,7 +18,6 @@ exports.new = async function (req, res) {
     let buildingInfo = require('/home/node/app/infoTables/buildingInfoLookup.json');
 
     (async () => {
-        console.log("DEBUG3");
         let idVillage = req.body.idVillage;
         let buildingFieldId = req.body.vbid;
 
@@ -76,6 +75,10 @@ exports.new = async function (req, res) {
         villageBuildingUpgrades.vbid = req.body.vbid;
         villageBuildingUpgrades.buildingType = villageBuildingType;
         villageBuildingUpgrades.buildingLevel = villageBuildingLevel;
+        villageBuildingUpgrades.woodUsed = requirementWood;
+        villageBuildingUpgrades.ironUsed = requirementIron;
+        villageBuildingUpgrades.clayUsed = requirementClay;
+        villageBuildingUpgrades.cropUsed = requirementCrop;
         villageBuildingUpgrades.timeStarted = currentUnixTime;
         villageBuildingUpgrades.timeCompleted = timeCompleted;
 
@@ -103,10 +106,10 @@ exports.new = async function (req, res) {
                     body: JSON.stringify(scheduleData),
                 });
 
-                console.log("scheduled");
+                console.log("scheduled API");
 
                 res.json({
-                    message: 'New villageBuildingdUpgrade created',
+                    message: 'villageBuildingUpgrade success',
                     data: villageBuildingUpgrades
                 });
             }

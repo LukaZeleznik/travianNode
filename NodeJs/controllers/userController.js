@@ -23,7 +23,7 @@ exports.new = function (req, res) {
         }
         else{
             res.json({
-                message: 'New user created',
+                message: 'user success',
                 data: user
             });
         }

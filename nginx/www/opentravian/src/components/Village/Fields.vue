@@ -42,6 +42,7 @@ export default {
     },
     created() {
         this.fetchvillageBuildingFields();
+        this.fetchVillageResources();
     },
     watch: {
         
@@ -65,6 +66,14 @@ export default {
                 return this.$parent.buildingInfoLookup[type]['name'];
             });
 
+        },
+        fetchVillageResources(){
+            this.villageResources = this.$store.getters.getVillageResources;
+
+            this.$store.dispatch('fetchVillageResources')
+            .then( () => {
+                this.villageResources = this.$store.getters.getVillageResources;
+            });
         },
     }
 }

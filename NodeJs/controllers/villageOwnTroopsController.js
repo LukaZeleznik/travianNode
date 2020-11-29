@@ -100,7 +100,7 @@ exports.new = function (req, res) {
         }
         else{
             res.json({
-                message: 'New villageOwnTroops created',
+                message: 'villageOwnTroops success',
                 data: villageOwnTroops
             });
         }

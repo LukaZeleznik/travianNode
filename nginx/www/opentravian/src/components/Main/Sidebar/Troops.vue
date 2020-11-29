@@ -45,6 +45,10 @@ export default {
     },
 
     created() {
+        this.fetchVillageOwnTroops();
+        this.fetchVillageReinforcements();
+        this.fetchVillageTroopMovements();
+        this.startTroopMovementsInterval();
     },
 
     methods: {

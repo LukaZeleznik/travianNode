@@ -114,7 +114,7 @@ exports.new = function (req, res) {
                     });
                     
                     res.json({
-                        message: 'New sendTroops created',
+                        message: 'sendTroops success',
                         data: sendTroops
                     });                    
                 }
@@ -179,7 +179,7 @@ exports.new = function (req, res) {
                     });
 
                     res.json({
-                        message: 'New sendTroops created',
+                        message: 'sendTroops success',
                         data: sendTroops
                     });
                 }

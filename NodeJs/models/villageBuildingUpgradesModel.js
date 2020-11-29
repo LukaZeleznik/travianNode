@@ -6,6 +6,10 @@ const villageBuildingUpgradesSchema = new Schema ({
         vbid:           { type: Number, required: true },
         buildingType:   { type: Number, required: true },
         buildingLevel:  { type: Number, required: true },
+        woodUsed:       { type: Number, required: true },
+        clayUsed:       { type: Number, required: true },
+        ironUsed:       { type: Number, required: true },
+        cropUsed:       { type: Number, required: true },
         timeStarted:    { type: Number, required: true },
         timeCompleted:  { type: Number, required: true }
 });

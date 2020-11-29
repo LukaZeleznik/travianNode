@@ -1,46 +1,27 @@
 <template>
     <div>
-        <div class="h3 pl-5 ml-4 my-3" v-if="villageResFieldUpgrades.length > 0">Buildings:</div>
-        <div class="d-flex justify-content-between pl-5 ml-4 upgrageResFieldData"
-            v-if="villageResFieldUpgrades.length > 0">
-            <h5><img style="width: 1.0rem;height: 0.9rem;" src="/images/del.gif">
-                {{ villageResFieldUpgrades[0].fieldType }}
-                (Level {{ villageResFieldUpgrades[0].fieldLevel }})</h5>
-            <h5 class="text-center">in <span id="upgradeCD1">{{ villageResFieldUpgradesTimeLeft[0] }}</span>
-                seconds</h5>
-            <h5 class="text-right">done at
-                {{ new Date(villageResFieldUpgrades[0].timeCompleted*1000).toLocaleTimeString('sl-SI')}} </h5>
-        </div>
-        <div class="d-flex justify-content-between pl-5 ml-4 upgrageResFieldData"
-            v-if="villageResFieldUpgrades.length == 2">
-            <h5><img style="width: 1.0rem;height: 0.9rem;" src="/images/del.gif">
-                {{ villageResFieldUpgrades[1].fieldType }}
-                (Level {{ villageResFieldUpgrades[1].fieldLevel }})</h5>
-            <!--<h5>in <span id="upgradeCD1">{{ new Date(villageResFieldUpgrades[1].timeCompleted*1000 - Math.floor(new Date().getTime())).toLocaleTimeString() }}</span> hours</h5>-->
-            <h5>done at
-                {{ new Date(villageResFieldUpgrades[1].timeCompleted*1000).toLocaleTimeString('sl-SI') }}
+        <div class="h3 pl-5 ml-4 my-3" v-if="villageResFieldUpgrades.length > 0 || villageBuildingUpgrades.length > 0">Buildings:</div>
+        
+        <div class="d-flex justify-content-between pl-5 ml-4" v-if="villageResFieldUpgrades.length > 0">
+            <h5 style="min-width: 200px;"><img @click="cancelResFieldUpgrade(villageResFieldUpgrades)" style="width: 1.0rem;height: 0.9rem;cursor: pointer;" src="/images/del.gif">
+                {{ villageResFieldUpgrades[0].fieldType }} <!-- should NOT be name..should be field type... -->
+                (Level {{ (villageResFieldUpgrades[0].fieldLevel+1) }})</h5>
+            <h5 class="text-center" v-if="villageResFieldUpgradesTimeLeft[0] > 0">
+                in <span id="upgradeCD1">{{ $root.secondsToTimeRemaining(villageResFieldUpgradesTimeLeft[0]*1000) }}</span>
+            </h5>
+            <h5 class="text-right" v-if="villageResFieldUpgrades[0].timeCompleted > 0">
+                done at {{ $root.secondsToTimeCompleted(villageResFieldUpgrades[0].timeCompleted*1000) }}
             </h5>
         </div>
-
-        <div class="h3 pl-5 ml-4 my-3" v-if="villageBuildingUpgrades.length > 0">Buildings:</div>
-        <div class="d-flex justify-content-between pl-5 ml-4 upgrageBuildingData"
-            v-if="villageBuildingUpgrades.length > 0">
-            <h5><img style="width: 1.0rem;height: 0.9rem;" src="/images/del.gif">
-                {{ villageBuildingUpgrades[0].buildingType }}
-                (Level {{ villageBuildingUpgrades[0].buildingLevel }})</h5>
-            <h5 class="text-center">in <span id="upgradeCD1">{{ villageBuildingUpgradesTimeLeft[0] }}</span>
-                seconds</h5>
-            <h5 class="text-right">done at
-                {{ new Date(villageBuildingUpgrades[0].timeCompleted*1000).toLocaleTimeString('sl-SI')}} </h5>
-        </div>
-        <div class="d-flex justify-content-between pl-5 ml-4 upgrageBuildingData"
-            v-if="villageBuildingUpgrades.length == 2">
-            <h5><img style="width: 1.0rem;height: 0.9rem;" src="/images/del.gif">
-                {{ villageBuildingUpgrades[1].buildingType }}
-                (Level {{ villageBuildingUpgrades[1].fieldLevel }})</h5>
-            <!--<h5>in <span id="upgradeCD1">{{ new Date(villageBuildingUpgrades[1].timeCompleted*1000 - Math.floor(new Date().getTime())).toLocaleTimeString() }}</span> hours</h5>-->
-            <h5>done at
-                {{ new Date(villageBuildingUpgrades[1].timeCompleted*1000).toLocaleTimeString('sl-SI') }}
+        <div class="d-flex justify-content-between pl-5 ml-4" v-if="villageBuildingUpgrades.length > 0">
+            <h5 style="min-width: 200px;"><img @click="cancelBuildingUpgrade(villageBuildingUpgrades)" style="width: 1.0rem;height: 0.9rem;cursor: pointer;" src="/images/del.gif">
+                {{ buildingInfoLookup[villageBuildingUpgrades[0].buildingType]['name'] }}
+                (Level {{ (villageBuildingUpgrades[0].buildingLevel+1) }})</h5>
+            <h5 class="text-center" v-if="villageBuildingUpgradesTimeLeft[0] > 0">
+                in <span id="upgradeCD2">{{ $root.secondsToTimeRemaining(villageBuildingUpgradesTimeLeft[0]*1000) }}</span>
+            </h5>
+            <h5 class="text-right" v-if="villageBuildingUpgrades[0].timeCompleted > 0">
+                done at {{ $root.secondsToTimeCompleted(villageBuildingUpgrades[0].timeCompleted*1000) }}
             </h5>
         </div>
     </div>
@@ -54,6 +35,9 @@ export default {
             villageResFieldUpgradesTimeLeft: [],
             villageBuildingUpgrades: this.$store.getters.getVillageBuildingUpgrades,
             villageBuildingUpgradesTimeLeft: [],
+            buildingInfoLookup: this.$parent.buildingInfoLookup,
+
+            villageResourcesApiUrl: 'http://localhost:8080/api/villageResources/1', //hardcoded
         };
     },
     created() {
@@ -71,7 +55,6 @@ export default {
     },
     methods: {
         fetchVillageResFieldUpgrades(){
-            console.log("fetching village resfieldupgrades");
             this.villageResFieldUpgrades = this.$store.getters.getVillageResFieldUpgrades;
 
             this.$store.dispatch('fetchVillageResFieldUpgrades')
@@ -98,9 +81,6 @@ export default {
             .then( () => {
                 this.villageProduction = this.$store.getters.getVillageProduction;
             })
-            .then( () => {
-                this.startIntervals();
-            });
         },
         startResFieldUpgradeInterval(){
             var upgradeCD1Interval = setInterval( ()=> {
@@ -114,6 +94,37 @@ export default {
                     this.fetchVillageProduction();
                 }
             }, 1000);
+        },
+        async cancelBuildingUpgrade(villageBuildingUpgrades){
+            let villageResources = await fetch(this.villageResourcesApiUrl).json().data;
+            let currentUnixTime =  Math.round(new Date().getTime()/1000);
+
+            let cancelBuildingUpgradeResponse = await this.$root.doApiRequest("villageBuildingUpgrade/" + villageBuildingUpgrades[0]._id, "DELETE", "")
+            let cancelBuildingUpgradeJson = await cancelBuildingUpgradeResponse.json();
+
+            if(cancelBuildingUpgradeJson.status == "success"){
+                villageResources.currentWood += villageBuildingUpgrades[0].woodUsed;
+                villageResources.currentClay += villageBuildingUpgrades[0].clayUsed;
+                villageResources.currentIron += villageBuildingUpgrades[0].ironUsed;
+                villageResources.currentCrop += villageBuildingUpgrades[0].cropUsed;
+                villageResources.lastUpdate = currentUnixTime;
+
+                let updateVillageResourcesResponse = await this.$root.doApiRequest("villageResources/1", "PATCH", villageResources) //hardcoded
+                let updateVillageResourcesJson = await updateVillageResourcesResponse.json();
+                console.log(updateVillageResourcesJson);
+                // DOESN'T WORK, TODO
+            }
+        },
+        cancelResFieldUpgrade(){
+            /*let villageResources = getVillageResources();
+            let currentUnixTime =  Math.round(new Date().getTime()/1000);
+
+            villageResources.currentWood -= villageResFieldUpgrades[0].woodUsed;
+            villageResources.currentClay -= villageResFieldUpgrades[0].clayUsed;
+            villageResources.currentIron -= villageResFieldUpgrades[0].ironUsed;
+            villageResources.currentCrop -= villageResFieldUpgrades[0].cropUsed;
+            villageResources.lastUpdate = currentUnixTime;
+*/
         },
         startBuildingUpgradeInterval(){
             var upgradeCD2Interval = setInterval( ()=> {

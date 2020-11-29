@@ -122,7 +122,7 @@ exports.new = async function (req, res) {
                 console.log("scheduled");
 
                 res.json({
-                    message: 'New resFieldUpgrade created',
+                    message: 'resFieldUpgrade success',
                     data: resFieldUpgrades
                 });
             }

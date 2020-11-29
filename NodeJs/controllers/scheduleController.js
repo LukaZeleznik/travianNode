@@ -58,9 +58,9 @@ exports.new = function (req, res) {
                     let villageBuildingFieldsApiUrl = 'http://localhost:8080/api/villageBuildingFields/' + idVillage;
                     let villageBuildingFields = await(await(await fetch(villageBuildingFieldsApiUrl)).json()).data;
 
-                    let buildingLevel = Number(villageBuildingFields["building"+buildingId+"Level"] );
+                    let buildingLevel = Number(villageBuildingFields["field"+buildingId+"Level"]);
                     
-                    villageBuildingFields["building"+buildingId+"Level"] = buildingLevel + 1;
+                    villageBuildingFields["field"+buildingId+"Level"] = buildingLevel + 1;
                     
                     fetch(villageBuildingFieldsApiUrl, {
                         method: 'PATCH', // or 'PUT'

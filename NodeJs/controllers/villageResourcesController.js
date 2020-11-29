@@ -6,11 +6,8 @@ exports.view = function (req, res) {
     villageResourcesModel.findOne({idVillage: req.params.idVillage}, function (err, villageResources) {
         if (err)
             res.send(err);
-
         else{
-            (async () => {
-                console.log(villageResources);
-                
+            (async () => {                
                 let villageMaxRes = await(await(await fetch('http://localhost:8080/api/villageMaxResources/1')).json()).data;
                 let villageProd = await(await(await fetch('http://localhost:8080/api/villageProductions/1')).json()).data;          
 
@@ -71,7 +68,7 @@ exports.new = function (req, res) {
         }
         else{
             res.json({
-                message: 'New villageResources created',
+                message: 'villageResources success',
                 data: villageResources
             });
         }

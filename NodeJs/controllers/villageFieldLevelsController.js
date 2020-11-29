@@ -41,7 +41,7 @@ exports.new = function (req, res) {
         }
         else{
             res.json({
-                message: 'New villageFieldLevels created',
+                message: 'villageFieldLevels success',
                 data: villageFieldLevels
             });
         }

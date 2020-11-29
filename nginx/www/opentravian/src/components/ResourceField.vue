@@ -68,18 +68,15 @@ export default {
       }
 
       let resFieldUpgradeResponse = await this.$root.doApiRequest("resFieldUpgrades", "POST", resourceFieldData)
-
       let resFieldUpgradeResponseJson = await resFieldUpgradeResponse.json();
 
-      console.log(resFieldUpgradeResponseJson);
-
-      if(resFieldUpgradeResponseJson.message == "New resFieldUpgrade created"){
+      if(resFieldUpgradeResponseJson.message == "resFieldUpgrade success"){
         this.$router.push({ name: 'resources' });
+        this.fetchVillageResources();
       }
       else{
         document.getElementById("errorMessage").innerText = resFieldUpgradeResponseJson.message;
       }
-      this.fetchVillageResources();
     },
     fetchVillageResources(){
       this.villageResources = this.$store.getters.getVillageResources;

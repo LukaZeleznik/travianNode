@@ -27,7 +27,7 @@ exports.new = function (req, res) {
         }
         else{
             res.json({
-                message: 'New villageMaxResources created',
+                message: 'villageMaxResources success',
                 data: villageMaxResources
             });
         }

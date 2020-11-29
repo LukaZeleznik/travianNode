@@ -36,7 +36,7 @@ exports.new = function (req, res) {
         }
         else{
             res.json({
-                message: 'New villageReinforcements created',
+                message: 'villageReinforcements success',
                 data: villageReinforcements
             });
         }
