@@ -427,13 +427,13 @@
 							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"vbid\": 7,\r\n    \"buildingType\": 1,\r\n    \"buildingLevel\": 2,\r\n    \"timeStarted\": 0,\r\n    \"timeCompleted\": 2000,\r\n    \"upgradeId\": 1\r\n}"
 						},
 						"url": {
-							"raw": "localhost/api/buildingUpgrades/1",
+							"raw": "localhost/api/villageBuildingUpgrades/1",
 							"host": [
 								"localhost"
 							],
 							"path": [
 								"api",
-								"buildingUpgrades",
+								"villageBuildingUpgrades",
 								"1"
 							]
 						}
@@ -457,14 +457,14 @@
 							}
 						],
 						"url": {
-							"raw": "localhost/api/buildingUpgrades/5fc1b7ad81ef570057307f7a",
+							"raw": "localhost/api/villageBuildingUpgrades/5fc417ec95516e11943f9f0e",
 							"host": [
 								"localhost"
 							],
 							"path": [
 								"api",
-								"buildingUpgrades",
-								"5fc1b7ad81ef570057307f7a"
+								"villageBuildingUpgrades",
+								"5fc417ec95516e11943f9f0e"
 							]
 						}
 					},
