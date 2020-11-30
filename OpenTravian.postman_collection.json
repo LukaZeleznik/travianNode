@@ -162,10 +162,10 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "resFieldUpgrades",
+			"name": "villageResFieldUpgrades",
 			"item": [
 				{
-					"name": "resFieldUpgrades POST",
+					"name": "villageResFieldUpgrades POST",
 					"protocolProfileBehavior": {
 						"disabledSystemHeaders": {
 							"content-type": true
@@ -176,40 +176,40 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
+								"type": "text",
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"rfid\": 1,\r\n    \"fieldType\": \"wood\",\r\n    \"fieldLevel\": 1,\r\n    \"timeStarted\": 0,\r\n    \"timeCompleted\": 2000,\r\n    \"upgradeId\": 1\r\n}"
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"rfid\": 1,\r\n    \"fieldType\": 0,\r\n    \"fieldLevel\": 1,\r\n    \"timeStarted\": 0,\r\n    \"timeCompleted\": 2000,\r\n    \"upgradeId\": 1\r\n}"
 						},
 						"url": {
-							"raw": "localhost/api/resFieldUpgrades",
+							"raw": "localhost/api/villageResFieldUpgrades",
 							"host": [
 								"localhost"
 							],
 							"path": [
 								"api",
-								"resFieldUpgrades"
+								"villageResFieldUpgrades"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "resFieldUpgrades GET",
+					"name": "villageResFieldUpgrades GET",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost/api/resFieldUpgrades/1",
+							"raw": "localhost/api/villageResFieldUpgrades/1",
 							"host": [
 								"localhost"
 							],
 							"path": [
 								"api",
-								"resFieldUpgrades",
+								"villageResFieldUpgrades",
 								"1"
 							]
 						}
@@ -217,7 +217,7 @@
 					"response": []
 				},
 				{
-					"name": "resFieldUpgrades PATCH",
+					"name": "villageResFieldUpgrades PATCH",
 					"protocolProfileBehavior": {
 						"disabledSystemHeaders": {
 							"content-type": true
@@ -228,22 +228,22 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
+								"type": "text",
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"rfid\": 2,\r\n    \"fieldType\": \"wood\",\r\n    \"fieldLevel\": 1,\r\n    \"timeStarted\": 0,\r\n    \"timeCompleted\": 2000,\r\n    \"upgradeId\": 1\r\n}"
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"rfid\": 2,\r\n    \"fieldType\": 0,\r\n    \"fieldLevel\": 1,\r\n    \"timeStarted\": 0,\r\n    \"timeCompleted\": 2000,\r\n    \"upgradeId\": 1\r\n}"
 						},
 						"url": {
-							"raw": "localhost/api/resFieldUpgrades/1",
+							"raw": "localhost/api/villageResFieldUpgrades/1",
 							"host": [
 								"localhost"
 							],
 							"path": [
 								"api",
-								"resFieldUpgrades",
+								"villageResFieldUpgrades",
 								"1"
 							]
 						}
@@ -251,7 +251,7 @@
 					"response": []
 				},
 				{
-					"name": "resFieldUpgrades PUT",
+					"name": "villageResFieldUpgrades PUT",
 					"protocolProfileBehavior": {
 						"disabledSystemHeaders": {
 							"content-type": true
@@ -262,22 +262,22 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
+								"type": "text",
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"rfid\": 1,\r\n    \"fieldType\": \"wood\",\r\n    \"fieldLevel\": 2,\r\n    \"timeStarted\": 0,\r\n    \"timeCompleted\": 2000,\r\n    \"upgradeId\": 1\r\n}"
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"rfid\": 1,\r\n    \"fieldType\": 0,\r\n    \"fieldLevel\": 2,\r\n    \"timeStarted\": 0,\r\n    \"timeCompleted\": 2000,\r\n    \"upgradeId\": 1\r\n}"
 						},
 						"url": {
-							"raw": "localhost/api/resFieldUpgrades/1",
+							"raw": "localhost/api/villageResFieldUpgrades/1",
 							"host": [
 								"localhost"
 							],
 							"path": [
 								"api",
-								"resFieldUpgrades",
+								"villageResFieldUpgrades",
 								"1"
 							]
 						}
@@ -285,7 +285,7 @@
 					"response": []
 				},
 				{
-					"name": "resFieldUpgrades DELETE",
+					"name": "villageResFieldUpgrades DELETE",
 					"protocolProfileBehavior": {
 						"disabledSystemHeaders": {
 							"content-type": true
@@ -296,18 +296,18 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
+								"type": "text",
+								"value": "application/json"
 							}
 						],
 						"url": {
-							"raw": "localhost/api/resFieldUpgrades/1",
+							"raw": "localhost/api/villageResFieldUpgrades/1",
 							"host": [
 								"localhost"
 							],
 							"path": [
 								"api",
-								"resFieldUpgrades",
+								"villageResFieldUpgrades",
 								"1"
 							]
 						}
@@ -652,162 +652,6 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "villageFieldLevels",
-			"item": [
-				{
-					"name": "villageFieldLevels POST",
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {
-							"content-type": true
-						}
-					},
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"resField1Level\": 2,\r\n    \"resField2Level\": 1,\r\n    \"resField3Level\": 1,\r\n    \"resField4Level\": 1,\r\n    \"resField5Level\": 2,\r\n    \"resField6Level\": 1,\r\n    \"resField7Level\": 1,\r\n    \"resField8Level\": 1,\r\n    \"resField9Level\": 1,\r\n    \"resField10Level\": 1,\r\n    \"resField11Level\": 1,\r\n    \"resField12Level\": 1,\r\n    \"resField13Level\": 1,\r\n    \"resField14Level\": 1,\r\n    \"resField15Level\": 1,\r\n    \"resField16Level\": 1,\r\n    \"resField17Level\": 1,\r\n    \"resField18Level\": 1\r\n}"
-						},
-						"url": {
-							"raw": "localhost/api/villageBuildings",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"api",
-								"villageBuildings"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "villageFieldLevels GET",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost/api/villageFieldLevels/1",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"api",
-								"villageFieldLevels",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "villageFieldLevels PATCH",
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {
-							"content-type": true
-						}
-					},
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"resField1Level\": 2,\r\n    \"resField2Level\": 2,\r\n    \"resField3Level\": 1,\r\n    \"resField4Level\": 1,\r\n    \"resField5Level\": 2,\r\n    \"resField6Level\": 1,\r\n    \"resField7Level\": 1,\r\n    \"resField8Level\": 1,\r\n    \"resField9Level\": 1,\r\n    \"resField10Level\": 1,\r\n    \"resField11Level\": 1,\r\n    \"resField12Level\": 1,\r\n    \"resField13Level\": 1,\r\n    \"resField14Level\": 1,\r\n    \"resField15Level\": 1,\r\n    \"resField16Level\": 1,\r\n    \"resField17Level\": 1,\r\n    \"resField18Level\": 1\r\n}"
-						},
-						"url": {
-							"raw": "localhost/api/villageFieldLevels/1",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"api",
-								"villageFieldLevels",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "villageFieldLevels PUT",
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {
-							"content-type": true
-						}
-					},
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"resField1Level\": 2,\r\n    \"resField2Level\": 2,\r\n    \"resField3Level\": 1,\r\n    \"resField4Level\": 1,\r\n    \"resField5Level\": 2,\r\n    \"resField6Level\": 1,\r\n    \"resField7Level\": 1,\r\n    \"resField8Level\": 1,\r\n    \"resField9Level\": 1,\r\n    \"resField10Level\": 1,\r\n    \"resField11Level\": 1,\r\n    \"resField12Level\": 1,\r\n    \"resField13Level\": 1,\r\n    \"resField14Level\": 1,\r\n    \"resField15Level\": 1,\r\n    \"resField16Level\": 1,\r\n    \"resField17Level\": 1,\r\n    \"resField18Level\": 1\r\n}"
-						},
-						"url": {
-							"raw": "localhost/api/villageFieldLevels/1",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"api",
-								"villageFieldLevels",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "villageFieldLevels DELETE",
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {
-							"content-type": true
-						}
-					},
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "localhost/api/villageFieldLevels/1",
-							"host": [
-								"localhost"
-							],
-							"path": [
-								"api",
-								"villageFieldLevels",
-								"1"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"protocolProfileBehavior": {}
-		},
-		{
 			"name": "villageBuildingFields",
 			"item": [
 				{
@@ -954,6 +798,162 @@
 							"path": [
 								"api",
 								"villageFieldLevels",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "villageResourceFields",
+			"item": [
+				{
+					"name": "villageResourceFields POST",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"field1Level\": 1,\r\n    \"field2Level\": 1,\r\n    \"field3Level\": 1,\r\n    \"field4Level\": 1,\r\n    \"field5Level\": 1,\r\n    \"field6Level\": 1,\r\n    \"field7Level\": 1,\r\n    \"field8Level\": 1,\r\n    \"field9Level\": 1,\r\n    \"field10Level\": 1,\r\n    \"field11Level\": 1,\r\n    \"field12Level\": 1,\r\n    \"field13Level\": 1,\r\n    \"field14Level\": 1,\r\n    \"field15Level\": 1,\r\n    \"field16Level\": 1,\r\n    \"field17Level\": 1,\r\n    \"field18Level\": 1,\r\n    \"field1Type\": 0,\r\n    \"field2Type\": 2,\r\n    \"field3Type\": 3,\r\n    \"field4Type\": 0,\r\n    \"field5Type\": 1,\r\n    \"field6Type\": 3,\r\n    \"field7Type\": 2,\r\n    \"field8Type\": 1,\r\n    \"field9Type\": 0,\r\n    \"field10Type\": 0,\r\n    \"field11Type\": 1,\r\n    \"field12Type\": 3,\r\n    \"field13Type\": 3,\r\n    \"field14Type\": 1,\r\n    \"field15Type\": 3,\r\n    \"field16Type\": 3,\r\n    \"field17Type\": 2,\r\n    \"field18Type\": 2\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/villageResourceFields",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageResourceFields"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageResourceFields GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost/api/villageResourceFields/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageResourceFields",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageResourceFields PATCH",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"field1Level\": 1,\r\n    \"field2Level\": 1,\r\n    \"field3Level\": 1,\r\n    \"field4Level\": 1,\r\n    \"field5Level\": 1,\r\n    \"field6Level\": 1,\r\n    \"field7Level\": 1,\r\n    \"field8Level\": 1,\r\n    \"field9Level\": 1,\r\n    \"field10Level\": 1,\r\n    \"field11Level\": 1,\r\n    \"field12Level\": 1,\r\n    \"field13Level\": 1,\r\n    \"field14Level\": 1,\r\n    \"field15Level\": 1,\r\n    \"field16Level\": 1,\r\n    \"field17Level\": 1,\r\n    \"field18Level\": 1,\r\n    \"field1Type\": 0,\r\n    \"field2Type\": 2,\r\n    \"field3Type\": 3,\r\n    \"field4Type\": 0,\r\n    \"field5Type\": 1,\r\n    \"field6Type\": 3,\r\n    \"field7Type\": 2,\r\n    \"field8Type\": 1,\r\n    \"field9Type\": 0,\r\n    \"field10Type\": 0,\r\n    \"field11Type\": 1,\r\n    \"field12Type\": 3,\r\n    \"field13Type\": 3,\r\n    \"field14Type\": 1,\r\n    \"field15Type\": 3,\r\n    \"field16Type\": 3,\r\n    \"field17Type\": 2,\r\n    \"field18Type\": 2\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/villageResourceFields/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageResourceFields",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageResourceFields PUT",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"field1Level\": 1,\r\n    \"field2Level\": 1,\r\n    \"field3Level\": 1,\r\n    \"field4Level\": 1,\r\n    \"field5Level\": 1,\r\n    \"field6Level\": 1,\r\n    \"field7Level\": 1,\r\n    \"field8Level\": 1,\r\n    \"field9Level\": 1,\r\n    \"field10Level\": 1,\r\n    \"field11Level\": 1,\r\n    \"field12Level\": 1,\r\n    \"field13Level\": 1,\r\n    \"field14Level\": 1,\r\n    \"field15Level\": 1,\r\n    \"field16Level\": 1,\r\n    \"field17Level\": 1,\r\n    \"field18Level\": 1,\r\n    \"field1Type\": 0,\r\n    \"field2Type\": 2,\r\n    \"field3Type\": 3,\r\n    \"field4Type\": 0,\r\n    \"field5Type\": 1,\r\n    \"field6Type\": 3,\r\n    \"field7Type\": 2,\r\n    \"field8Type\": 1,\r\n    \"field9Type\": 0,\r\n    \"field10Type\": 0,\r\n    \"field11Type\": 1,\r\n    \"field12Type\": 3,\r\n    \"field13Type\": 0,\r\n    \"field14Type\": 1,\r\n    \"field15Type\": 0,\r\n    \"field16Type\": 3,\r\n    \"field17Type\": 2,\r\n    \"field18Type\": 2\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/villageResourceFields/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageResourceFields",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "villageResourceFields DELETE",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "localhost/api/villageResourceFields/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villageResourceFields",
 								"1"
 							]
 						}
