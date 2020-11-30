@@ -35,7 +35,7 @@ exports.new = async function (req, res) {
         let villageBuildingType = 0;
 
         if(newBuildingType>0) {
-            for(let i = 1; i < 19; i++){
+            for(let i = 1; i < 20; i++){
                 villageBuildingTypes.push(villageBuildingFields['field'+i+'Type']);
                 villageBuildingLevels.push(villageBuildingFields['field'+i+'Level']);
             }
@@ -58,7 +58,6 @@ exports.new = async function (req, res) {
                     return;
                 }
             }
-
             villageBuildingType = Number(newBuildingType);
             villageBuildingLevel++;
         } else {

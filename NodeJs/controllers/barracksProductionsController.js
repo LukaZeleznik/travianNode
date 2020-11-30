@@ -1,6 +1,7 @@
 const path = require('path');
 const fetch = require("node-fetch");
 const barracksProductionsModel = require('../models/barracksProductionsModel');
+const BARRACKS = 1;
 
 exports.view = function (req, res) {
     barracksProductionsModel.find({idVillage: req.params.idVillage}, function (err, barracksProductions) {
@@ -20,7 +21,6 @@ exports.view = function (req, res) {
 // Handle create barracksProductions actions
 exports.new = function (req, res) {
     (async () => {
-        const BARRACKS = 1;
         let troopInfo = require('/home/node/app/infoTables/troopInfoLookup.json');
         let buildingInfo = require('/home/node/app/infoTables/buildingInfoLookup.json');
         let idVillage = req.body.idVillage;

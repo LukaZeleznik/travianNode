@@ -21,6 +21,7 @@ const villageBuildingFieldsSchema = new Schema ({
         field16Level: { type: Number, required: true },
         field17Level: { type: Number, required: true },
         field18Level: { type: Number, required: true },
+        field19Level: { type: Number, required: true },
         field1Type: { type: Number, required: true },
         field2Type: { type: Number, required: true },
         field3Type: { type: Number, required: true },
@@ -38,7 +39,8 @@ const villageBuildingFieldsSchema = new Schema ({
         field15Type: { type: Number, required: true },
         field16Type: { type: Number, required: true },
         field17Type: { type: Number, required: true },
-        field18Type: { type: Number, required: true }
+        field18Type: { type: Number, required: true },
+        field19Type: { type: Number, required: true }
 });
 
 var villageBuildingFields = module.exports = mongoose.model('villageBuildingFields', villageBuildingFieldsSchema);

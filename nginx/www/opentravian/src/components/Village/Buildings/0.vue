@@ -48,7 +48,6 @@ export default {
 
     methods: {
         getAvailableBuildings(){
-            console.log("this.villageBuildingTypes",this.villageBuildingTypes);
             for(let i = 1; i < this.buildingInfoLookup.length; i++){
                 if(this.villageBuildingTypes<=0 || this.villageBuildingLevels<=0) break;
                 if(this.villageBuildingTypes.includes(this.buildingInfoLookup[i]['id'])){

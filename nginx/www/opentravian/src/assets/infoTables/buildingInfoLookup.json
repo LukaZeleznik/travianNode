@@ -18,8 +18,7 @@
         "desc": "In the barracks, infantry can be trained. The higher its level, the faster the troops are trained.",
         "allowMultiple": false,
         "requirements": {
-            "2": 10,
-            "3": 8
+            "0": 0
         }
     },
     {
@@ -36,8 +35,7 @@
         "desc": "The resources wood, clay and iron are stored in your warehouse. By increasing its level you increase your warehouse's capacity. After building one warehouse level 20, additional warehouses can be built.",
         "allowMultiple": true,
         "requirements": {
-            "2": 10,
-            "3": 8
+            "0": 0
         }
     },
     {
@@ -54,8 +52,7 @@
         "desc": "Crop produced by your croplands is stored in the granary. By increasing its level, you increase the granary's capacity. After building up one granary to level 20, additional granaries can be built.",
         "allowMultiple": true,
         "requirements": {
-            "2": 10,
-            "3": 8
+            "0": 0
         }
     },
     {
@@ -72,8 +69,58 @@
         "desc": "Cavalry can be trained in the stable. The higher its level the faster troops are trained.",
         "allowMultiple": false,
         "requirements": {
-            "2": 10,
-            "3": 8
+            "0": 0
+        }
+    },
+    {
+        "id": 5,
+        "name": "Earth Wall (WIP Teutons)",
+        "wood": [0,260,335,425,545,700,895,1145,1465,1875,2400,3070,3930,5030,6435,8240,10545,13500,17280,22120,28310],
+        "clay": [0,140,189,230,295,375,480,615,790,1010,1290,1655,2115,2710,3465,4435,5680,7270,9305,11910,15245],
+        "iron": [0,220,280,360,460,590,755,970,1240,1585,2030,2595,3325,4255,5445,6970,8925,11425,14620,18715,23955],
+        "crop": [0,100,130,165,210,270,345,440,565,720,920,1180,1510,1935,2475,3170,4055,5190,6645,8505,10890],
+        "consumption": [0,2,3,3,4,5,6,7,9,10,12,15,18,21,26,31,37,44,53,64,77],
+        "constructionTime": [0,2200,2850,3610,4490,5500,6680,8050,9640,11480,13620,16100,18980,22310,26180,30670,35880,41920,48930,57060,66490],
+        "culturePoints": [0,1,1,2,2,2,3,4,4,5,6,7,9,11,13,15,18,22,27,32,38],
+        "buildingModifier": [0,1,0.9,0.81,0.73,0.66,0.59,0.53,0.48,0.43,0.39,0.35,0.31,0.28,0.25,0.23,0.21,0.19,0.17,0.15,0.14],
+        "desc": "Cavalry can be trained in the stable. The higher its level the faster troops are trained.",
+        "allowMultiple": false,
+        "requirements": {
+            "0": 0
+        }
+    },
+    {
+        "id": 6,
+        "name": "City Wall (WIP Romans)",
+        "wood": [0,260,335,425,545,700,895,1145,1465,1875,2400,3070,3930,5030,6435,8240,10545,13500,17280,22120,28310],
+        "clay": [0,140,189,230,295,375,480,615,790,1010,1290,1655,2115,2710,3465,4435,5680,7270,9305,11910,15245],
+        "iron": [0,220,280,360,460,590,755,970,1240,1585,2030,2595,3325,4255,5445,6970,8925,11425,14620,18715,23955],
+        "crop": [0,100,130,165,210,270,345,440,565,720,920,1180,1510,1935,2475,3170,4055,5190,6645,8505,10890],
+        "consumption": [0,2,3,3,4,5,6,7,9,10,12,15,18,21,26,31,37,44,53,64,77],
+        "constructionTime": [0,2200,2850,3610,4490,5500,6680,8050,9640,11480,13620,16100,18980,22310,26180,30670,35880,41920,48930,57060,66490],
+        "culturePoints": [0,1,1,2,2,2,3,4,4,5,6,7,9,11,13,15,18,22,27,32,38],
+        "buildingModifier": [0,1,0.9,0.81,0.73,0.66,0.59,0.53,0.48,0.43,0.39,0.35,0.31,0.28,0.25,0.23,0.21,0.19,0.17,0.15,0.14],
+        "desc": "Cavalry can be trained in the stable. The higher its level the faster troops are trained.",
+        "allowMultiple": false,
+        "requirements": {
+            "0": 0
+        }
+    },
+    {
+        "id": 6,
+        "name": "Palisade (WIP Gauls)",
+        "wood": [0,260,335,425,545,700,895,1145,1465,1875,2400,3070,3930,5030,6435,8240,10545,13500,17280,22120,28310],
+        "clay": [0,140,189,230,295,375,480,615,790,1010,1290,1655,2115,2710,3465,4435,5680,7270,9305,11910,15245],
+        "iron": [0,220,280,360,460,590,755,970,1240,1585,2030,2595,3325,4255,5445,6970,8925,11425,14620,18715,23955],
+        "crop": [0,100,130,165,210,270,345,440,565,720,920,1180,1510,1935,2475,3170,4055,5190,6645,8505,10890],
+        "consumption": [0,2,3,3,4,5,6,7,9,10,12,15,18,21,26,31,37,44,53,64,77],
+        "constructionTime": [0,2200,2850,3610,4490,5500,6680,8050,9640,11480,13620,16100,18980,22310,26180,30670,35880,41920,48930,57060,66490],
+        "culturePoints": [0,1,1,2,2,2,3,4,4,5,6,7,9,11,13,15,18,22,27,32,38],
+        "buildingModifier": [0,1,0.9,0.81,0.73,0.66,0.59,0.53,0.48,0.43,0.39,0.35,0.31,0.28,0.25,0.23,0.21,0.19,0.17,0.15,0.14],
+        "desc": "Cavalry can be trained in the stable. The higher its level the faster troops are trained.",
+        "allowMultiple": false,
+        "requirements": {
+            "0": 0
         }
     }
 ]

@@ -34,6 +34,7 @@ exports.new = function (req, res) {
     villageBuildingFields.field16Level   = req.body.field16Level;
     villageBuildingFields.field17Level   = req.body.field17Level;
     villageBuildingFields.field18Level   = req.body.field18Level;
+    villageBuildingFields.field19Level   = req.body.field19Level;
     villageBuildingFields.field1Type     = req.body.field1Type;
     villageBuildingFields.field2Type     = req.body.field2Type;
     villageBuildingFields.field3Type     = req.body.field3Type;
@@ -52,6 +53,7 @@ exports.new = function (req, res) {
     villageBuildingFields.field16Type    = req.body.field16Type;
     villageBuildingFields.field17Type    = req.body.field17Type;
     villageBuildingFields.field18Type    = req.body.field18Type;
+    villageBuildingFields.field19Type    = req.body.field18Type;
 
     villageBuildingFields.save(function (err) {
         if (err){
@@ -89,6 +91,7 @@ exports.update = function (req, res) {
             villageBuildingFields.field16Level   = req.body.field16Level;
             villageBuildingFields.field17Level   = req.body.field17Level;
             villageBuildingFields.field18Level   = req.body.field18Level;
+            villageBuildingFields.field19Level   = req.body.field19Level;
             villageBuildingFields.field1Type     = req.body.field1Type;
             villageBuildingFields.field2Type     = req.body.field2Type;
             villageBuildingFields.field3Type     = req.body.field3Type;
@@ -107,6 +110,7 @@ exports.update = function (req, res) {
             villageBuildingFields.field16Type    = req.body.field16Type;
             villageBuildingFields.field17Type    = req.body.field17Type;
             villageBuildingFields.field18Type    = req.body.field18Type;
+            villageBuildingFields.field19Type    = req.body.field19Type;
 
             villageBuildingFields.save(function (err) {
             if (err)

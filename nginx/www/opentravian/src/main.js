@@ -30,6 +30,9 @@ Vue.component('villageBuilding1', require('./components/Village/Buildings/1.vue'
 Vue.component('villageBuilding2', require('./components/Village/Buildings/2.vue').default); //Warehouse
 Vue.component('villageBuilding3', require('./components/Village/Buildings/3.vue').default); //Granary
 Vue.component('villageBuilding4', require('./components/Village/Buildings/4.vue').default); //Stable
+Vue.component('villageBuilding5', require('./components/Village/Buildings/5.vue').default); //Eart Wall (Teutons)
+Vue.component('villageBuilding6', require('./components/Village/Buildings/6.vue').default); //City Wall (Romans)
+Vue.component('villageBuilding7', require('./components/Village/Buildings/7.vue').default); //Palisade  (Gauls)
 
 //Resources
 Vue.component('resourcesFields', require('./components/Resources/Fields.vue').default);
@@ -309,7 +312,8 @@ const store = new Vuex.Store({
                         res.data.field15Type,
                         res.data.field16Type,
                         res.data.field17Type,
-                        res.data.field18Type
+                        res.data.field18Type,
+                        res.data.field19Type
                     ];
 
                     let villageBuildingLevels = [
@@ -330,7 +334,8 @@ const store = new Vuex.Store({
                         res.data.field15Level,
                         res.data.field16Level,
                         res.data.field17Level,
-                        res.data.field18Level
+                        res.data.field18Level,
+                        res.data.field19Level
                     ];
 
                     let villageBuildingColors = villageBuildingTypes.map(type => {

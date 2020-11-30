@@ -1,6 +1,8 @@
 const path = require('path');
 const fetch = require("node-fetch");
 const villageMaxResourcesModel = require('../models/villageMaxResourcesModel');
+const WAREHOUSE = 2;
+const GRANARY = 3;  
 
 exports.view = function (req, res) {
     villageMaxResourcesModel.findOne({idVillage: req.params.idVillage}, function (err, villageMaxResources) {
@@ -9,8 +11,6 @@ exports.view = function (req, res) {
         }
         else{ 
             (async () => {  
-                const WAREHOUSE = 2;
-                const GRANARY = 3;  
                 let buildingInfoLookup = require('/home/node/app/infoTables/buildingInfoLookup.json');
                 let idVillage = req.params.idVillage;
                 let warehouseCapacity = 0;
