@@ -6,10 +6,9 @@ const passport = require('passport');
 const scheduleController = require('../controllers/scheduleController');
 const villageResourcesController = require('../controllers/villageResourcesController');
 const villageMaxResourcesController = require('../controllers/villageMaxResourcesController');
-const villageFieldLevelsController = require('../controllers/villageFieldLevelsController');
-const villageFieldTypesController = require('../controllers/villageFieldTypesController');
+const villageResourceFieldsController = require('../controllers/villageResourceFieldsController');
 const villageProductionsController = require('../controllers/villageProductionsController');
-const resFieldUpgradesController = require('../controllers/resFieldUpgradesController');
+const villageResFieldUpgradesController = require('../controllers/villageResFieldUpgradesController');
 const villageBuildingUpgradesController = require('../controllers/villageBuildingUpgradesController');
 const villageOwnTroopsController = require('../controllers/villageOwnTroopsController');
 const villageReinforcementsController = require('../controllers/villageReinforcementsController');
@@ -119,21 +118,13 @@ router.route('/villageMaxResources/:idVillage')
     .patch(villageMaxResourcesController.update)
     .delete(villageMaxResourcesController.delete);
 
-router.route('/villageFieldLevels')
-    .post(villageFieldLevelsController.new);
-router.route('/villageFieldLevels/:idVillage')
-    .get(villageFieldLevelsController.view)
-    .put(villageFieldLevelsController.update)
-    .patch(villageFieldLevelsController.update)
-    .delete(villageFieldLevelsController.delete);
-
-router.route('/villageFieldTypes')
-    .post(villageFieldTypesController.new);
-router.route('/villageFieldTypes/:idVillage')
-    .get(villageFieldTypesController.view)
-    .put(villageFieldTypesController.update)
-    .patch(villageFieldTypesController.update)
-    .delete(villageFieldTypesController.delete);
+router.route('/villageResourceFields')
+    .post(villageResourceFieldsController.new);
+router.route('/villageResourceFields/:idVillage')
+    .get(villageResourceFieldsController.view)
+    .put(villageResourceFieldsController.update)
+    .patch(villageResourceFieldsController.update)
+    .delete(villageResourceFieldsController.delete);
 
 router.route('/villageProductions')
     .post(villageProductionsController.new);
@@ -143,14 +134,14 @@ router.route('/villageProductions/:idVillage')
     .patch(villageProductionsController.update)
     .delete(villageProductionsController.delete);
 
-router.route('/resFieldUpgrades')
-    .post(resFieldUpgradesController.new);
-router.route('/resFieldUpgrades/:idVillage')
-    .get(resFieldUpgradesController.view);
-router.route('/resFieldUpgrades/:upgradeId')
-    .put(resFieldUpgradesController.update)
-    .patch(resFieldUpgradesController.update)
-    .delete(resFieldUpgradesController.delete);
+router.route('/villageResFieldUpgrades')
+    .post(villageResFieldUpgradesController.new);
+router.route('/villageResFieldUpgrades/:idVillage')
+    .get(villageResFieldUpgradesController.view);
+router.route('/villageResFieldUpgrades/:upgradeId')
+    .put(villageResFieldUpgradesController.update)
+    .patch(villageResFieldUpgradesController.update)
+    .delete(villageResFieldUpgradesController.delete);
 
 router.route('/villageOwnTroops')
     .post(villageOwnTroopsController.new);

@@ -27,7 +27,7 @@ export default {
 
     created() {
         this.fetchVillageResources();
-        this.getBuildingData();
+        this.fetchBuildingData();
     },
 
     methods: {
@@ -39,7 +39,7 @@ export default {
                 this.villageResources = this.$store.getters.getVillageResources;
             });
         },
-        getBuildingData(){
+        fetchBuildingData(){
             fetch('http://localhost:8080/api/villageBuildingFields/1')
             .then(res => res.json())
             .then(res => {

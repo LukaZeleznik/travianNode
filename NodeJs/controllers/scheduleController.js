@@ -23,24 +23,21 @@ exports.new = function (req, res) {
                     let resFieldId = taskReqBody.taskData.resFieldId;
                     let resFieldUpgradeId = taskReqBody.taskData.resFieldUpgradeId;
 
-                    let villageFieldLevelsApiUrl = 'http://localhost:8080/api/villageFieldLevels/' + idVillage;
-                    let villageFieldLevels = await(await(await fetch(villageFieldLevelsApiUrl)).json()).data;
-
-                    let fieldLevel = Number(villageFieldLevels["resField"+resFieldId+"Level"] );
+                    let villageResourceFieldsApiUrl = 'http://localhost:8080/api/villageResourceFields/' + idVillage;
+                    let villageResourceFields = await(await(await fetch(villageResourceFieldsApiUrl)).json()).data;
+                    villageResourceFields["field"+resFieldId+"Level"]++;
                     
-                    villageFieldLevels["resField"+resFieldId+"Level"] = fieldLevel + 1;
-                    
-                    fetch(villageFieldLevelsApiUrl, {
-                        method: 'PATCH', // or 'PUT'
+                    fetch(villageResourceFieldsApiUrl, {
+                        method: 'PATCH',
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify(villageFieldLevels),
+                        body: JSON.stringify(villageResourceFields),
                     });
 
-                    let resFieldUpgradeApiUrl = 'http://localhost:8080/api/resFieldUpgrades/' + resFieldUpgradeId;
+                    let villageResFieldUpgradeApiUrl = 'http://localhost:8080/api/villageResFieldUpgrades/' + resFieldUpgradeId;
 
-                    fetch(resFieldUpgradeApiUrl, {
+                    fetch(villageResFieldUpgradeApiUrl, {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',

@@ -4,9 +4,9 @@
         
         <div class="d-flex justify-content-between pl-5 ml-4" v-if="villageResFieldUpgrades.length > 0">
             <h5 style="min-width: 200px;"><img @click="cancelResFieldUpgrade(villageResFieldUpgrades)" style="width: 1.0rem;height: 0.9rem;cursor: pointer;" src="/images/del.gif">
-                {{ villageResFieldUpgrades[0].fieldType }} <!-- should NOT be name..should be field type... -->
+                {{ resourceInfoLookup[villageResFieldUpgrades[0].fieldType]['name']}} <!-- should NOT be name..should be field type... -->
                 (Level {{ (villageResFieldUpgrades[0].fieldLevel+1) }})</h5>
-            <h5 class="text-center" v-if="villageResFieldUpgradesTimeLeft[0] > 0">
+            <h5 class="text-center" v-if="villageResFieldUpgradesTimeLeft[0] > -1">
                 in <span id="upgradeCD1">{{ $root.secondsToTimeRemaining(villageResFieldUpgradesTimeLeft[0]*1000) }}</span>
             </h5>
             <h5 class="text-right" v-if="villageResFieldUpgrades[0].timeCompleted > 0">
@@ -17,7 +17,7 @@
             <h5 style="min-width: 200px;"><img @click="cancelBuildingUpgrade(villageBuildingUpgrades)" style="width: 1.0rem;height: 0.9rem;cursor: pointer;" src="/images/del.gif">
                 {{ buildingInfoLookup[villageBuildingUpgrades[0].buildingType]['name'] }}
                 (Level {{ (villageBuildingUpgrades[0].buildingLevel+1) }})</h5>
-            <h5 class="text-center" v-if="villageBuildingUpgradesTimeLeft[0] > 0">
+            <h5 class="text-center" v-if="villageBuildingUpgradesTimeLeft[0] > -1">
                 in <span id="upgradeCD2">{{ $root.secondsToTimeRemaining(villageBuildingUpgradesTimeLeft[0]*1000) }}</span>
             </h5>
             <h5 class="text-right" v-if="villageBuildingUpgrades[0].timeCompleted > 0">
@@ -36,6 +36,7 @@ export default {
             villageBuildingUpgrades: this.$store.getters.getVillageBuildingUpgrades,
             villageBuildingUpgradesTimeLeft: [],
             buildingInfoLookup: this.$parent.buildingInfoLookup,
+            resourceInfoLookup: this.$parent.resourceInfoLookup,
         };
     },
     created() {
@@ -141,17 +142,30 @@ export default {
                 this.villageMaxResources = this.$store.getters.getVillageMaxResources;
             });
         },
+        fetchvillageResourceFields(){
+            this.villageResourceFieldLevels  = this.$store.getters.getVillageResourceFieldLevels;
+            this.villageResourceFieldTypes   = this.$store.getters.getVillageResourceFieldTypes;
+            this.villageResourceFieldColors  = this.$store.getters.getVillageResourceFieldColors;
+
+            this.$store.dispatch('fetchVillageResourceFields')
+            .then( () => {
+                this.villageResourceFieldLevels  = this.$store.getters.getVillageResourceFieldLevels;
+                this.villageResourceFieldTypes   = this.$store.getters.getVillageResourceFieldTypes;
+                this.villageResourceFieldColors  = this.$store.getters.getVillageResourceFieldColors;
+            });
+        },
         startBuildingUpgradeInterval(){
             var upgradeCD2Interval = setInterval( ()=> {
                 if(this.villageBuildingUpgradesTimeLeft[0] > 0){
                     this.$set(this.villageBuildingUpgradesTimeLeft, 0, this.villageBuildingUpgradesTimeLeft[0]-1);
                 }
-                else if(this.villageBuildingUpgradesTimeLeft[0] == 0 ){
+                else if(this.villageBuildingUpgradesTimeLeft[0] <= 0 ){
                     clearInterval(upgradeCD2Interval);
                     this.fetchVillageResFieldUpgrades();
                     this.fetchVillageBuildingUpgrades();
                     this.fetchVillageProduction();
                     this.fetchVillageMaxResources();
+                    this.fetchvillageResourceFields();
                 }
             }, 1000);
         },

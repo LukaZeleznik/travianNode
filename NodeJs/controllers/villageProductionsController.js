@@ -1,6 +1,10 @@
 const path = require('path');
 const villageProductionsModel = require('../models/villageProductionsModel');
 const fetch = require("node-fetch");
+const WOOD = 0;
+const CLAY = 1;
+const IRON = 2;
+const CROP = 3;
 
 exports.view = function (req, res) {
     villageProductionsModel.findOne({idVillage: req.params.idVillage}, function (err, villageProductions) {
@@ -12,33 +16,22 @@ exports.view = function (req, res) {
                 let resourceInfo = require('/home/node/app/infoTables/resourceInfoLookup.json');
                 let idVillage = req.params.idVillage;
 
-                let villageFieldTypesApiUrl = 'http://localhost:8080/api/villageFieldTypes/' + idVillage;
-                let villageFieldTypes = await(await(await fetch(villageFieldTypesApiUrl)).json()).data;
-
-                let villageFieldLevelsApiUrl = 'http://localhost:8080/api/villageFieldLevels/' + idVillage;
-                let villageFieldLevels = await(await(await fetch(villageFieldLevelsApiUrl)).json()).data;
+                let villageResourceFieldsApiUrl = 'http://localhost:8080/api/villageResourceFields/' + idVillage;
+                let villageResourceFields = await(await(await fetch(villageResourceFieldsApiUrl)).json()).data;
 
                 villageProductions.productionWood = 0;
                 villageProductions.productionClay = 0;
                 villageProductions.productionIron = 0;
                 villageProductions.productionCrop = 0;
 
-                for (const villageFieldType in villageFieldTypes){
-                    let index = Object.keys(villageFieldTypes).indexOf(villageFieldType) - 1;
-
-                    if(villageFieldTypes[villageFieldType] == "wood"){
-                        villageProductions.productionWood += resourceInfo["Woodcutter"]["production"][villageFieldLevels["resField"+index+"Level"]] * 10;
+                for(let i = 1; i < 19; i++){
+                    switch (villageResourceFields['field'+i+'Type']) {
+                        case WOOD: villageProductions.productionWood += resourceInfo[WOOD]['production'][villageResourceFields['field'+i+'Level']]; break;
+                        case CLAY: villageProductions.productionClay += resourceInfo[CLAY]['production'][villageResourceFields['field'+i+'Level']]; break;
+                        case IRON: villageProductions.productionIron += resourceInfo[IRON]['production'][villageResourceFields['field'+i+'Level']]; break;
+                        case CROP: villageProductions.productionCrop += resourceInfo[CROP]['production'][villageResourceFields['field'+i+'Level']]; break;
                     }
-                    else if(villageFieldTypes[villageFieldType] == "clay"){
-                        villageProductions.productionClay += resourceInfo["Claypit"]["production"][villageFieldLevels["resField"+index+"Level"]] * 10;
-                    }
-                    else if(villageFieldTypes[villageFieldType] == "iron"){
-                        villageProductions.productionIron += resourceInfo["Ironmine"]["production"][villageFieldLevels["resField"+index+"Level"]] * 10;
-                    }
-                    else if(villageFieldTypes[villageFieldType] == "crop"){
-                        villageProductions.productionCrop += resourceInfo["Cropland"]["production"][villageFieldLevels["resField"+index+"Level"]] * 10;
-                    }
-                };
+                }          
                 
                 villageProductions.save(function (err) {
                     if (err)

@@ -9,8 +9,6 @@
                             <div class='img' v-bind:style="'background-color: green'">
                                 <p style="top:35%;opacity:1;color:black">Resources</p>
                             </div>
-                            <h1 id="demo1"></h1>
-                            <p id="demo2"></p>
                         </router-link>
                     </div>
                     <div class="hexIn" v-else>
@@ -18,8 +16,6 @@
                             <div class='img' v-bind:style="'background-color:' + villageBuildingColors[realIndexes[index]-1]">
                                 <p style="top:35%;opacity:1;color:black" v-if="villageBuildingLevels[realIndexes[index]-1] > 0">{{villageBuildingNames[realIndexes[index]-1]}} ({{ villageBuildingLevels[realIndexes[index]-1] }})</p>
                             </div>
-                            <h1 id="demo1"></h1>
-                            <p id="demo2"></p>
                         </router-link>
                     </div>
                 </li>
@@ -41,9 +37,9 @@ export default {
             villageIncomingReinforcementsTimeLeft : [],
             villageOutgoingAttacksTimeLeft : [],
             villageOutgoingReinforcementsTimeLeft : [],
-            villageBuildingLevels: [],
-            villageBuildingTypes: [],
-            villageBuildingColors: [],
+            villageBuildingLevels: this.$store.getters.getVillageBuildingLevels,
+            villageBuildingTypes: this.$store.getters.getVillageBuildingTypes,
+            villageBuildingColors: this.$store.getters.getVillageBuildingColors,
             villageBuildingNames: [],
             realIndexes: [1,1,1,2,3,3,4,5,6,7,8,9,10,10,11,12,13,14,15,16,16,17,18],
         };
@@ -55,7 +51,15 @@ export default {
         this.startTroopMovementsInterval();
     },
     watch: {
-        
+        '$store.getters.getVillageBuildingLevels': function() {
+            this.villageBuildingLevels = this.$store.getters.getVillageBuildingLevels;
+        },
+        '$store.getters.getVillageBuildingTypes': function() {
+            this.villageBuildingTypes = this.$store.getters.getVillageBuildingTypes;
+        },
+         '$store.getters.getVillageBuildingColors': function() {
+             this.villageBuildingColors = this.$store.getters.getVillageBuildingColors;
+        },
     },
     methods: {
         fetchvillageBuildingFields(){
@@ -106,21 +110,21 @@ export default {
         startTroopMovementsInterval(){
             setInterval( ()=> {
                 if(this.villageIncomingAttacksTimeLeft[0] > 0){
-                this.$set(this.villageIncomingAttacksTimeLeft, 0, this.villageIncomingAttacksTimeLeft[0]-1);
+                    this.$set(this.villageIncomingAttacksTimeLeft, 0, this.villageIncomingAttacksTimeLeft[0]-1);
                 }
                 if(this.villageIncomingReinforcementsTimeLeft[0] > 0){
-                this.$set(this.villageIncomingReinforcementsTimeLeft, 0, this.villageIncomingReinforcementsTimeLeft[0]-1);
+                    this.$set(this.villageIncomingReinforcementsTimeLeft, 0, this.villageIncomingReinforcementsTimeLeft[0]-1);
                 }
                 if(this.villageOutgoingAttacksTimeLeft[0] > 0){
-                this.$set(this.villageOutgoingAttacksTimeLeft, 0, this.villageOutgoingAttacksTimeLeft[0]-1);
+                    this.$set(this.villageOutgoingAttacksTimeLeft, 0, this.villageOutgoingAttacksTimeLeft[0]-1);
                 }
                 if(this.villageOutgoingReinforcementsTimeLeft[0] > 0){
-                this.$set(this.villageOutgoingReinforcementsTimeLeft, 0, this.villageOutgoingReinforcementsTimeLeft[0]-1);
+                    this.$set(this.villageOutgoingReinforcementsTimeLeft, 0, this.villageOutgoingReinforcementsTimeLeft[0]-1);
                 }
                 
                 if(this.villageIncomingAttacksTimeLeft[0] == 0 || this.villageIncomingReinforcementsTimeLeft[0] == 0 || this.villageOutgoingAttacksTimeLeft[0] == 0 || this.villageOutgoingReinforcementsTimeLeft[0] == 0){
-                this.fetchVillageOwnTroops();
-                this.fetchVillageTroopMovements();
+                    this.fetchVillageOwnTroops();
+                    this.fetchVillageTroopMovements();
                 }
             }, 1000);
         }

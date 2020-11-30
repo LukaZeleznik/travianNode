@@ -2,9 +2,9 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
 
-import Resources from './components/Resources.vue';
 import Login from './components/Login.vue';
-import ResourceField from './components/ResourceField.vue';
+import Resources from './components/Resources.vue';
+import ResourceField from './components/Resources/ResourceField.vue';
 import Village from './components/Village.vue';
 import VillageBuilding from './components/VillageBuilding.vue';
 import SendTroops from './components/SendTroops.vue';
@@ -33,6 +33,7 @@ Vue.component('villageBuilding4', require('./components/Village/Buildings/4.vue'
 
 //Resources
 Vue.component('resourcesFields', require('./components/Resources/Fields.vue').default);
+Vue.component('resourcesField', require('./components/Resources/ResourceField.vue').default);
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
@@ -86,9 +87,9 @@ const store = new Vuex.Store({
         count: 0,
         villageResources: [0, 0, 0, 0],
         villageMaxResources: [0, 0, 0, 0],
-        villageResFieldLevels: [],
-        villageResFieldTypes: [],
-        villageResFieldColors: ["", "Green", "Orange", "Silver", "", "Silver", "Gold", "Gold", "Green", "Orange", "Gold", "White", "Gold", "Orange", "Green", "Gold", "Gold", "Silver", "", "Silver", "Orange", "Green"],
+        villageResourceFieldLevels: [],
+        villageResourceFieldTypes: [],
+        villageResourceFieldColors: ["", "Green", "Orange", "Silver", "", "Silver", "Gold", "Gold", "Green", "Orange", "Gold", "White", "Gold", "Orange", "Green", "Gold", "Gold", "Silver", "", "Silver", "Orange", "Green"],
         villageProduction: [0, 0, 0, 0],
         villageResFieldUpgrades: [],
         villageBuildingUpgrades: [],
@@ -114,14 +115,14 @@ const store = new Vuex.Store({
         setVillageMaxResources(state, villageMaxResources) {
             state.villageMaxResources = villageMaxResources;
         },
-        setVillageResFieldLevels(state, villageResFieldLevels) {
-            state.villageResFieldLevels = villageResFieldLevels;
+        setVillageResourceFieldLevels(state, villageResourceFieldLevels) {
+            state.villageResourceFieldLevels = villageResourceFieldLevels;
         },
-        setVillageResFieldTypes(state, villageResFieldTypes) {
-            state.villageResFieldTypes = villageResFieldTypes;
+        setVillageResourceFieldTypes(state, villageResourceFieldTypes) {
+            state.villageResourceFieldTypes = villageResourceFieldTypes;
         },
-        setVillageResFieldColors(state, villageResFieldColors) {
-            state.villageResFieldColors = villageResFieldColors;
+        setVillageResourceFieldColors(state, villageResourceFieldColors) {
+            state.villageResourceFieldColors = villageResourceFieldColors;
         },
         setVillageProduction(state, villageProduction) {
             state.villageProduction = villageProduction;
@@ -188,53 +189,6 @@ const store = new Vuex.Store({
                 })
                 .catch(err => console.log(err));
         },
-        async fetchVillageResFieldLevels(context) {
-            await fetch('http://localhost:8080/api/villageFieldLevels/1')
-                .then(res => res.json())
-                .then(res => {
-                    let villageResFieldLevels = ["", res.data.resField1Level, res.data.resField2Level, res.data.resField3Level, "",
-                        res.data.resField4Level, res.data.resField5Level, res.data.resField6Level, res.data.resField7Level,
-                        res.data.resField8Level, res.data.resField9Level, "Village", res.data.resField10Level, res.data.resField11Level,
-                        res.data.resField12Level, res.data.resField13Level, res.data.resField14Level, res.data.resField15Level,
-                        "", res.data.resField16Level, res.data.resField17Level, res.data.resField18Level
-                    ];
-
-                    context.commit('setVillageResFieldLevels', villageResFieldLevels);
-                })
-                .catch(err => console.log(err));
-        },
-        async fetchVillageResFieldTypes(context) {
-            await fetch('http://localhost:8080/api/villageFieldTypes/1')
-                .then(res => res.json())
-                .then(res => {
-                    let villageResFieldTypes = ["", res.data.resField1Type, res.data.resField2Type, res.data.resField3Type, "",
-                        res.data.resField4Type, res.data.resField5Type, res.data.resField6Type, res.data.resField7Type,
-                        res.data.resField8Type, res.data.resField9Type, "village", res.data.resField10Type, res.data.resField11Type,
-                        res.data.resField12Type, res.data.resField13Type, res.data.resField14Type, res.data.resField15Type,
-                        "", res.data.resField16Type, res.data.resField17Type, res.data.resField18Type
-                    ];
-
-                    let villageResFieldColors = villageResFieldTypes.map(type => {
-                        if (type == "wood") {
-                            return "Green"
-                        } else if (type == "clay") {
-                            return "Orange"
-                        } else if (type == "iron") {
-                            return "Silver"
-                        } else if (type == "crop") {
-                            return "Gold"
-                        } else if (type == "village") {
-                            return "White"
-                        } else {
-                            return ""
-                        }
-                    });
-
-                    context.commit('setVillageResFieldTypes', villageResFieldTypes);
-                    context.commit('setVillageResFieldColors', villageResFieldColors);
-                })
-                .catch(err => console.log(err));
-        },
         async fetchVillageProduction(context) {
             await fetch('http://localhost:8080/api/villageProductions/1')
                 .then(res => res.json())
@@ -245,7 +199,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageResFieldUpgrades(context) {
-            await fetch('http://localhost:8080/api/resFieldUpgrades/1')
+            await fetch('http://localhost:8080/api/villageResFieldUpgrades/1')
                 .then(res => res.json())
                 .then(res => {
                     let villageResFieldUpgrades = res.data;
@@ -396,6 +350,68 @@ const store = new Vuex.Store({
                 })
                 .catch(err => console.log(err));
         },
+        async fetchVillageResourceFields(context) {
+            await fetch('http://localhost:8080/api/villageResourceFields/1')
+                .then(res => res.json())
+                .then(res => {
+                    let villageResourceFieldTypes = [
+                        res.data.field1Type,
+                        res.data.field2Type,
+                        res.data.field3Type,
+                        res.data.field4Type,
+                        res.data.field5Type,
+                        res.data.field6Type,
+                        res.data.field7Type,
+                        res.data.field8Type,
+                        res.data.field9Type,
+                        res.data.field10Type,
+                        res.data.field11Type,
+                        res.data.field12Type,
+                        res.data.field13Type,
+                        res.data.field14Type,
+                        res.data.field15Type,
+                        res.data.field16Type,
+                        res.data.field17Type,
+                        res.data.field18Type
+                    ];
+
+                    let villageResourceFieldLevels = [
+                        res.data.field1Level,
+                        res.data.field2Level,
+                        res.data.field3Level,
+                        res.data.field4Level,
+                        res.data.field5Level,
+                        res.data.field6Level,
+                        res.data.field7Level,
+                        res.data.field8Level,
+                        res.data.field9Level,
+                        res.data.field10Level,
+                        res.data.field11Level,
+                        res.data.field12Level,
+                        res.data.field13Level,
+                        res.data.field14Level,
+                        res.data.field15Level,
+                        res.data.field16Level,
+                        res.data.field17Level,
+                        res.data.field18Level
+                    ];
+
+                    let villageResourceFieldColors = villageResourceFieldTypes.map(type => {
+                        switch(type) {
+                            case 0: return "Green";     //Woodcutter
+                            case 1: return "Orange";    //Claypit
+                            case 2: return "Silver";    //Ironmine
+                            case 3: return "Gold";      //Cropland
+                            default: return "White";
+                        }
+                    });
+
+                    context.commit('setVillageResourceFieldTypes', villageResourceFieldTypes);
+                    context.commit('setVillageResourceFieldLevels', villageResourceFieldLevels);
+                    context.commit('setVillageResourceFieldColors', villageResourceFieldColors);
+                })
+                .catch(err => console.log(err));
+        },
 
     },
     getters: {
@@ -408,14 +424,14 @@ const store = new Vuex.Store({
         getVillageMaxResources: state => {
             return state.villageMaxResources;
         },
-        getVillageResFieldLevels: state => {
-            return state.villageResFieldLevels;
+        getVillageResourceFieldLevels: state => {
+            return state.villageResourceFieldLevels;
         },
-        getVillageResFieldTypes: state => {
-            return state.villageResFieldTypes;
+        getVillageResourceFieldTypes: state => {
+            return state.villageResourceFieldTypes;
         },
-        getVillageResFieldColors: state => {
-            return state.villageResFieldColors;
+        getVillageResourceFieldColors: state => {
+            return state.villageResourceFieldColors;
         },
         getVillageProduction: state => {
             return state.villageProduction;

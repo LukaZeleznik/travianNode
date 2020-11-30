@@ -33,40 +33,17 @@ import * as infoLookup from '../assets/js/infoLookupTools.js';
 export default {
   data() {
     return {
-      villageResFieldLevels : [],
-      villageResFieldTypes : [],
-      villageResFieldColors : [],
       buildingInfoLookup: infoLookup.buildingInfoLookup,
+      resourceInfoLookup: infoLookup.resourceInfoLookup,
     };
   },
 
   created() {
-    this.fetchVillageResFieldTypes();
-    this.fetchVillageResources();
-    this.fetchVillageResFieldLevels();
     this.test();
     this.test2();
   },
 
   methods: {
-    fetchVillageResFieldLevels(){
-      this.villageResFieldLevels = this.$store.getters.getVillageResFieldLevels;
-
-      this.$store.dispatch('fetchVillageResFieldLevels')
-      .then( () => {
-        this.villageResFieldLevels = this.$store.getters.getVillageResFieldLevels;
-      });
-    },
-    fetchVillageResFieldTypes(){
-      this.villageResFieldTypes = this.$store.getters.getVillageResFieldTypes;
-      this.villageResFieldColors = this.$store.getters.getVillageResFieldColors;
-
-      this.$store.dispatch('fetchVillageResFieldTypes')
-      .then( () => {
-        this.villageResFieldTypes = this.$store.getters.getVillageResFieldTypes;
-        this.villageResFieldColors = this.$store.getters.getVillageResFieldColors;
-      });
-    },
     test(){
       this.$store.watch(
           function (state) {
