@@ -43,6 +43,7 @@ export default {
         this.startBuildingUpgradeInterval();
         this.fetchVillageResFieldUpgrades();
         this.fetchVillageBuildingUpgrades();
+        this.fetchVillageMaxResources();
     },
     watch: {
         '$store.getters.getVillageBuildingUpgrades': function() {
@@ -132,6 +133,14 @@ export default {
             villageResources.lastUpdate = currentUnixTime;
 */
         },
+        fetchVillageMaxResources(){
+            this.villageMaxResources = this.$store.getters.getVillageMaxResources;
+
+            this.$store.dispatch('fetchVillageMaxResources')
+            .then( () => {
+                this.villageMaxResources = this.$store.getters.getVillageMaxResources;
+            });
+        },
         startBuildingUpgradeInterval(){
             var upgradeCD2Interval = setInterval( ()=> {
                 if(this.villageBuildingUpgradesTimeLeft[0] > 0){
@@ -142,6 +151,7 @@ export default {
                     this.fetchVillageResFieldUpgrades();
                     this.fetchVillageBuildingUpgrades();
                     this.fetchVillageProduction();
+                    this.fetchVillageMaxResources();
                 }
             }, 1000);
         },

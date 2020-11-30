@@ -28,14 +28,18 @@
 export default {
     data() {
         return {
-            villageResources : this.$store.getters.getVillageResources,
-            maxResources : undefined,
+            villageResources: this.$store.getters.getVillageResources,
+            villageMaxResources: this.$store.getters.getVillageMaxResources,
+            maxResources: undefined,
         };
     },
 
      watch: {
         '$store.getters.getVillageResources': function() {
             this.villageResources = this.$store.getters.getVillageResources;
+        },
+        '$store.getters.getVillageMaxResources': function() {
+            this.villageMaxResources = this.$store.getters.getVillageMaxResources;
         },
     },
 

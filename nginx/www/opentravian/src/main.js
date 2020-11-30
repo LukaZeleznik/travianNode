@@ -26,8 +26,9 @@ Vue.component('footerBuildingQueue', require('./components/Main/Footer/BuildingQ
 // Village
 Vue.component('villageFields', require('./components/Village/Fields.vue').default);
 Vue.component('villageBuilding0', require('./components/Village/Buildings/0.vue').default);
-Vue.component('villageBuilding1', require('./components/Village/Buildings/1.vue').default);
-Vue.component('villageBuilding2', require('./components/Village/Buildings/2.vue').default);
+Vue.component('villageBuilding1', require('./components/Village/Buildings/1.vue').default); //Barracks
+Vue.component('villageBuilding2', require('./components/Village/Buildings/2.vue').default); //Warehouse
+Vue.component('villageBuilding3', require('./components/Village/Buildings/3.vue').default); //Granary
 
 //Resources
 Vue.component('resourcesFields', require('./components/Resources/Fields.vue').default);
