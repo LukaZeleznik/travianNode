@@ -42,7 +42,7 @@ export default {
 
   created() {
     this.fetchVillageResFieldTypes();
-    //this.fetchVillageResources();
+    this.fetchVillageResources();
     this.fetchVillageResFieldLevels();
     this.test();
     this.test2();

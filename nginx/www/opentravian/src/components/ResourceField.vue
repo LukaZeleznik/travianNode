@@ -70,8 +70,7 @@ export default {
       let resFieldUpgradeResponse = await this.$root.doApiRequest("resFieldUpgrades", "POST", resourceFieldData)
       let resFieldUpgradeResponseJson = await resFieldUpgradeResponse.json();
 
-      if(resFieldUpgradeResponseJson.message == "resFieldUpgrade success"){
-        this.fetchVillageResources();        
+      if(resFieldUpgradeResponseJson.message == "resFieldUpgrade success"){      
         this.$router.push({ name: 'resources' });
       }
       else{
