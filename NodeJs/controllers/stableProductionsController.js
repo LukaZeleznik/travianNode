@@ -1,26 +1,26 @@
 const path = require('path');
 const fetch = require("node-fetch");
-const barracksProductionsModel = require('../models/barracksProductionsModel');
+const stableProductionsModel = require('../models/stableProductionsModel');
 
 exports.view = function (req, res) {
-    barracksProductionsModel.find({idVillage: req.params.idVillage}, function (err, barracksProductions) {
+    stableProductionsModel.find({idVillage: req.params.idVillage}, function (err, stableProductions) {
         if (err){
             res.send(err);
         }
         else{
             res.json({
-                message: 'loading barracksProductions...',
-                data: barracksProductions
+                message: 'loading stableProductions...',
+                data: stableProductions
             });
 
         }
     });
 };
 
-// Handle create barracksProductions actions
+// Handle create stableProductions actions
 exports.new = function (req, res) {
     (async () => {
-        const BARRACKS = 1;
+        const STABLE = 4;
         let troopInfo = require('/home/node/app/infoTables/troopInfoLookup.json');
         let buildingInfo = require('/home/node/app/infoTables/buildingInfoLookup.json');
         let idVillage = req.body.idVillage;
@@ -32,12 +32,12 @@ exports.new = function (req, res) {
         let villageBuildingFieldsApiUrl = 'http://localhost:8080/api/villageBuildingFields/' + idVillage;
         let villageBuildingFields = await(await(await fetch(villageBuildingFieldsApiUrl)).json()).data;
 
-        let barracksProductionsApiUrl = 'http://localhost:8080/api/barracksProductions/' + idVillage;
-        let barracksProductionResponse = await(await(await fetch(barracksProductionsApiUrl)).json()).data;
+        let stableProductionsApiUrl = 'http://localhost:8080/api/stableProductions/' + idVillage;
+        let stableProductionResponse = await(await(await fetch(stableProductionsApiUrl)).json()).data;
 
         let villageBuildingLevel = 0;
         for(let i = 1; i <= Object.keys(villageBuildingFields).length; i++){
-            if(villageBuildingFields['field'+i+'Type'] == BARRACKS){
+            if(villageBuildingFields['field'+i+'Type'] == STABLE){
                 villageBuildingLevel = villageBuildingFields['field'+i+'Level'];
                 break;
             }
@@ -75,31 +75,31 @@ exports.new = function (req, res) {
 
         console.log("resources deducted");
 
-        var barracksProductions = new barracksProductionsModel();
+        var stableProductions = new stableProductionsModel();
 
-        barracksProductions.idVillage   = req.body.idVillage;
-        barracksProductions.troopId     = req.body.troopId;
-        barracksProductions.troopCount  = req.body.troopCount;
+        stableProductions.idVillage   = req.body.idVillage;
+        stableProductions.troopId     = req.body.troopId;
+        stableProductions.troopCount  = req.body.troopCount;
 
-        let barracksProductionResponseLength = Object.keys(barracksProductionResponse).length;
-        let troopQueueTime = barracksProductionResponseLength > 0 ? barracksProductionResponse[barracksProductionResponseLength-1]['timeCompleted'] : currentUnixTime
-        let troopTrainingTime = troopInfo.Teuton[req.body.troopId-1]["time"] * buildingInfo[BARRACKS]['buildingModifier'][villageBuildingLevel];
-        
-        barracksProductions.troopName       = troopInfo.Teuton[req.body.troopId-1]["name"];
-        barracksProductions.troopProdTime   = troopTrainingTime;
-        barracksProductions.timeStarted     = troopQueueTime;
-        barracksProductions.timeCompleted   = troopQueueTime + Math.floor(req.body.troopCount * troopTrainingTime);
-        barracksProductions.lastUpdate      = currentUnixTime;
-        barracksProductions.troopsDoneAlready = 0;
+        let stableProductionResponseLength = Object.keys(stableProductionResponse).length;
+        let troopQueueTime = stableProductionResponseLength > 0 ? stableProductionResponse[stableProductionResponseLength-1]['timeCompleted'] : currentUnixTime
+        let troopTrainingTime = troopInfo.Teuton[req.body.troopId-1]["time"] * buildingInfo[STABLE]['buildingModifier'][villageBuildingLevel];
 
-        barracksProductions.save(function (err) {
+        stableProductions.troopName       = troopInfo.Teuton[req.body.troopId-1]["name"];
+        stableProductions.troopProdTime   = troopTrainingTime;
+        stableProductions.timeStarted     = troopQueueTime;
+        stableProductions.timeCompleted   = troopQueueTime + Math.floor(req.body.troopCount * troopTrainingTime);
+        stableProductions.lastUpdate      = currentUnixTime;
+        stableProductions.troopsDoneAlready = 0;
+
+        stableProductions.save(function (err) {
             if (err){
                 res.json(err);
             }
             else{
                 res.json({
-                    message: 'barracksProductions success',
-                    data: barracksProductions
+                    message: 'stableProductions success',
+                    data: stableProductions
                 });
             }
         });
@@ -107,39 +107,39 @@ exports.new = function (req, res) {
 };
 
 exports.update = function (req, res) {
-    barracksProductionsModel.findOne({_id: req.params.barrProdId}, function (err, barracksProductions) {
+    stableProductionsModel.findOne({_id: req.params.barrProdId}, function (err, stableProductions) {
         if (err)
             res.send(err);        
         
-        barracksProductions.idVillage = req.body.idVillage;
-        barracksProductions.troopName = req.body.troopName;
-        barracksProductions.troopId = req.body.troopId;
-        barracksProductions.troopCount = req.body.troopCount;
-        barracksProductions.troopProdTime = req.body.troopProdTime;
-        barracksProductions.timeStarted = req.body.timeStarted;
-        barracksProductions.timeCompleted = req.body.timeCompleted;
-        barracksProductions.barrProdId = req.body.barrProdId;
-        barracksProductions.lastUpdate = req.body.lastUpdate;
-        barracksProductions.troopsDoneAlready = req.body.troopsDoneAlready;
+            stableProductions.idVillage = req.body.idVillage;
+            stableProductions.troopName = req.body.troopName;
+            stableProductions.troopId = req.body.troopId;
+            stableProductions.troopCount = req.body.troopCount;
+            stableProductions.troopProdTime = req.body.troopProdTime;
+            stableProductions.timeStarted = req.body.timeStarted;
+            stableProductions.timeCompleted = req.body.timeCompleted;
+            stableProductions.barrProdId = req.body.barrProdId;
+            stableProductions.lastUpdate = req.body.lastUpdate;
+            stableProductions.troopsDoneAlready = req.body.troopsDoneAlready;
 
-        barracksProductions.save(function (err) {
+            stableProductions.save(function (err) {
             if (err)
                 res.json(err);
             res.json({
-                message: 'barracksProductions Info updated',
-                data: barracksProductions
+                message: 'stableProductions Info updated',
+                data: stableProductions
             });
         });
     });
 };
 
 exports.delete = function (req, res) {
-    barracksProductionsModel.remove({_id: req.params.barrProdId}, function (err, barracksProductions) {
+    stableProductionsModel.remove({_id: req.params.barrProdId}, function (err, stableProductions) {
         if (err)
             res.send(err);
         res.json({
             status: "success",
-            message: 'barracksProductions deleted'
+            message: 'stableProductions deleted'
         });
     });
 };

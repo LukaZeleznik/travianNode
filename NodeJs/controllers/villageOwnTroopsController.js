@@ -14,8 +14,11 @@ exports.view = function (req, res) {
                 let barracksProductionsApiUrl = 'http://localhost:8080/api/barracksProductions/' + idVillage;
                 let barracksProductions = await(await(await fetch(barracksProductionsApiUrl)).json()).data;
 
+                let stableProductionsApiUrl = 'http://localhost:8080/api/stableProductions/' + idVillage;
+                let stableProductions = await(await(await fetch(stableProductionsApiUrl)).json()).data;
+
+                // ======================== BARRACKS PRODUCTIONS ======================== //
                 barracksProductions.forEach(async (barracksProduction) => {
-                
                     let currentUnixTime = Math.round(new Date().getTime()/1000);
                     let timeDiff = currentUnixTime - barracksProduction.lastUpdate;
                     let timeDiffFromStart = currentUnixTime - barracksProduction.timeStarted;
@@ -59,6 +62,54 @@ exports.view = function (req, res) {
                     }
 
                     villageOwnTroops["troop"+barracksProduction.troopId] = Number(villageOwnTroops["troop"+barracksProduction.troopId].toFixed(1));
+                    
+                });
+
+                // ======================== STABLE PRODUCTIONS ======================== //
+                stableProductions.forEach(async (stableProduction) => {
+                    let currentUnixTime = Math.round(new Date().getTime()/1000);
+                    let timeDiff = currentUnixTime - stableProduction.lastUpdate;
+                    let timeDiffFromStart = currentUnixTime - stableProduction.timeStarted;
+    
+                    let troopsProduced = timeDiff / stableProduction.troopProdTime;
+                    let troopsProducedAlready = timeDiffFromStart / stableProduction.troopProdTime;
+
+                    troopsProduced = Number(troopsProduced.toFixed(1));
+                    troopsProducedAlready = Number(troopsProducedAlready.toFixed(1));
+    
+                    if(troopsProduced+stableProduction.troopsDoneAlready  >= stableProduction.troopCount){
+                        troopsProduced = Number((stableProduction.troopCount - stableProduction.troopsDoneAlready).toFixed(1));
+                        villageOwnTroops["troop"+stableProduction.troopId] += troopsProduced;
+
+                        let stableProductionsDeleteApiUrl = 'http://localhost:8080/api/stableProductions/' + stableProduction._id;
+
+                        await fetch(stableProductionsDeleteApiUrl, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            }
+                        });
+                    }
+                    else{
+
+                        villageOwnTroops["troop"+stableProduction.troopId] += troopsProduced;
+                        if(troopsProducedAlready<0) troopsProducedAlready = 0;
+                        stableProduction.troopsDoneAlready = troopsProducedAlready;
+
+                        stableProduction.lastUpdate = currentUnixTime;
+
+                        let stableProductionsPatchApiUrl = 'http://localhost:8080/api/stableProductions/' + stableProduction._id;
+
+                        await fetch(stableProductionsPatchApiUrl, {
+                            method: 'PATCH', // or 'PUT'
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(stableProduction),
+                        });
+                    }
+
+                    villageOwnTroops["troop"+stableProduction.troopId] = Number(villageOwnTroops["troop"+stableProduction.troopId].toFixed(1));
                     
                 });
 

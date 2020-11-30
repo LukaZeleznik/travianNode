@@ -10,7 +10,7 @@
             </thead>
             <tbody>
                 <tr v-for="(troop, index) in troopList" :key="index">
-                    <th scope="row" class="align-middle text-left" style="min-width:650px">
+                    <th scope="row" class="align-middle text-left" style="min-width:700px">
                         <img :src="'/images/troops/' + userTribe + '/' + troop['id'] + '.gif'"> {{ troop['name'] }} (Available: {{Math.floor(villageOwnTroops[troop['id']-1])}})
                         <span class="troopRequirements float-right">
                             <img src="/images/resources/wood.gif">  {{ troop['wood'] }} |
@@ -37,7 +37,7 @@
             <button type="button" class="btn btn-success w-75 m-auto mt-3" @click="train();">Train</button>
         </div>
         <h5 class="mt-4 text-danger" id="errorMessage"></h5>                
-        <table class="table table-bordered w-75 m-auto" v-if="villageBarracksProductions && villageBarracksProductions.length > 0">
+        <table class="table table-bordered w-75 m-auto" v-if="villageStableProductions && villageStableProductions.length > 0">
             <thead >
                 <tr>
                     <th scope="col">Training</th>
@@ -46,18 +46,18 @@
                 </tr>
             </thead>
             <tbody>
-                <tr  v-for="(villageBarracksProduction, index) in villageBarracksProductions" :key="index">
+                <tr  v-for="(villageStableProduction, index) in villageStableProductions" :key="index">
                     <th scope="row" class="align-middle">
-                        <img :src="'/images/troops/' + userTribe + '/' + (villageBarracksProduction.troopId) + '.gif'">{{
-                            Math.ceil(villageBarracksProduction.troopCount - villageBarracksProduction.troopsDoneAlready)
-                            }} {{villageBarracksProduction.troopName}}
+                        <img :src="'/images/troops/' + userTribe + '/' + (villageStableProduction.troopId) + '.gif'">{{
+                            Math.ceil(villageStableProduction.troopCount - villageStableProduction.troopsDoneAlready)
+                            }} {{villageStableProduction.troopName}}
                         <br />
                     </th>
                     <td class="align-middle">
-                        <span class="trainCD">{{ $root.secondsToTimeRemaining(villageBarracksProductionsTimeLeft[index]*1000) }}</span>
+                        <span class="trainCD">{{ $root.secondsToTimeRemaining(villageStableProductionsTimeLeft[index]*1000) }}</span>
                     </td>
                     <td class="align-middle">
-                        {{ $root.secondsToTimeCompleted(villageBarracksProduction.timeCompleted*1000) }}
+                        {{ $root.secondsToTimeCompleted(villageStableProduction.timeCompleted*1000) }}
                     </td>
                 </tr>
             </tbody>
@@ -96,8 +96,8 @@ export default {
             buildingInfoLookup: this.$parent.buildingInfoLookup,
             villageResources: this.$store.getters.getVillageResources,
             villageOwnTroops: undefined,
-            villageBarracksProductions: undefined,
-            villageBarracksProductionsTimeLeft: [],
+            villageStableProductions: undefined,
+            villageStableProductionsTimeLeft: [],
             troopList: [],
             userTribe: "Teuton",
         };
@@ -112,8 +112,8 @@ export default {
     created() {
         this.fetchVillageOwnTroops();
         this.fetchVillageResources();
-        this.startCountdownInterval();
         this.getTroopList();
+        this.startCountdownInterval();
     },
 
     methods: {
@@ -131,22 +131,23 @@ export default {
             this.$store.dispatch('fetchVillageOwnTroops')
             .then( () => {
                 this.villageOwnTroops = this.$store.getters.getVillageOwnTroops;
-                this.fetchVillageBarracksProduction();
+                this.fetchVillageStableProduction();
             });
+            console.log(this.villageOwnTroops);
         },
-        fetchVillageBarracksProduction(){
-            this.villageBarracksProductions = this.$store.getters.getVillageBarracksProduction;
-            this.villageBarracksProductionsTimeLeft = [];
-            for(let i = 0; i < this.villageBarracksProductions.length; i++){
-                this.villageBarracksProductionsTimeLeft[i] = this.villageBarracksProductions[i].timeCompleted - Math.floor(new Date().getTime()/1000);
+        fetchVillageStableProduction(){
+            this.villageStableProductions = this.$store.getters.getVillageStableProduction;
+            this.villageStableProductionsTimeLeft = [];
+            for(let i = 0; i < this.villageStableProductions.length; i++){
+                this.villageStableProductionsTimeLeft[i] = this.villageStableProductions[i].timeCompleted - Math.floor(new Date().getTime()/1000);
             }
 
-            this.$store.dispatch('fetchVillageBarracksProduction')
+            this.$store.dispatch('fetchVillageStableProduction')
             .then( () => {
-                this.villageBarracksProductions = this.$store.getters.getVillageBarracksProduction;
-                this.villageBarracksProductionsTimeLeft = [];
-                for(let i = 0; i < this.villageBarracksProductions.length; i++){
-                    this.villageBarracksProductionsTimeLeft[i] = this.villageBarracksProductions[i].timeCompleted - Math.floor(new Date().getTime()/1000);
+                this.villageStableProductions = this.$store.getters.getVillageStableProduction;
+                this.villageStableProductionsTimeLeft = [];
+                for(let i = 0; i < this.villageStableProductions.length; i++){
+                    this.villageStableProductionsTimeLeft[i] = this.villageStableProductions[i].timeCompleted - Math.floor(new Date().getTime()/1000);
                 }
             });
         },
@@ -183,15 +184,15 @@ export default {
                 "troopCount": troopNum
             }
 
-            let barracksProductionsResponse = await this.$root.doApiRequest("barracksProductions","POST",troopData);
-            let barracksProductionsResponseJson = await barracksProductionsResponse.json();
+            let stableProductionsResponse = await this.$root.doApiRequest("stableProductions","POST",troopData);
+            let stableProductionsResponseJson = await stableProductionsResponse.json();
 
-            if(barracksProductionsResponseJson.message == "barracksProductions success"){
+            if(stableProductionsResponseJson.message == "stableProductions success"){
                 this.fetchVillageOwnTroops();
                 this.$parent.fetchVillageResources();
             }
             else{
-                document.getElementById("errorMessage").innerText = barracksProductionsResponseJson.message;
+                document.getElementById("errorMessage").innerText = stableProductionsResponseJson.message;
             }
         },
         async upgradeBuilding(){
@@ -218,9 +219,9 @@ export default {
         },
         startCountdownInterval(){
             setInterval( ()=> {
-                for(let i = 0; i < this.villageBarracksProductionsTimeLeft.length; i++){
-                    this.$set(this.villageBarracksProductionsTimeLeft, i, this.villageBarracksProductionsTimeLeft[i] - 1);
-                    if(this.villageBarracksProductionsTimeLeft[i] < 0){
+                for(let i = 0; i < this.villageStableProductionsTimeLeft.length; i++){
+                    this.$set(this.villageStableProductionsTimeLeft, i, this.villageStableProductionsTimeLeft[i] - 1);
+                    if(this.villageStableProductionsTimeLeft[i] < 0){
                         this.fetchVillageOwnTroops();
                     }
                 }

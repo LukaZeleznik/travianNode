@@ -15,6 +15,7 @@ const villageOwnTroopsController = require('../controllers/villageOwnTroopsContr
 const villageReinforcementsController = require('../controllers/villageReinforcementsController');
 const sendTroopsController = require('../controllers/sendTroopsController');
 const barracksProductionsController = require('../controllers/barracksProductionsController');
+const stableProductionsController = require('../controllers/stableProductionsController');
 const userController = require('../controllers/userController');
 const villageBuildingFieldsController = require('../controllers/villageBuildingFieldsController');
 const auth = require('../auth/auth');
@@ -185,6 +186,15 @@ router.route('/barracksProductions/:barrProdId')
     .put(barracksProductionsController.update)
     .patch(barracksProductionsController.update)
     .delete(barracksProductionsController.delete);
+
+router.route('/stableProductions')
+    .post(stableProductionsController.new);
+router.route('/stableProductions/:idVillage')
+    .get(stableProductionsController.view);
+router.route('/stableProductions/:barrProdId')
+    .put(stableProductionsController.update)
+    .patch(stableProductionsController.update)
+    .delete(stableProductionsController.delete);
 
 router.route('/user')
     .post(userController.new);

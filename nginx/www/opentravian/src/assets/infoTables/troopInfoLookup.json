@@ -78,7 +78,7 @@
             "capacity": 110,
             "consumption": 2,
             "time": 2400,
-            "buildingId": 0
+            "buildingId": 4
         },
         {
             "id": 6,
@@ -94,7 +94,7 @@
             "capacity": 80,
             "consumption": 3,
             "time": 2960,
-            "buildingId": 0
+            "buildingId": 4
         },
         {
             "id": 7,

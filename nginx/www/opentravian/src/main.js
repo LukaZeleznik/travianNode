@@ -29,6 +29,7 @@ Vue.component('villageBuilding0', require('./components/Village/Buildings/0.vue'
 Vue.component('villageBuilding1', require('./components/Village/Buildings/1.vue').default); //Barracks
 Vue.component('villageBuilding2', require('./components/Village/Buildings/2.vue').default); //Warehouse
 Vue.component('villageBuilding3', require('./components/Village/Buildings/3.vue').default); //Granary
+Vue.component('villageBuilding4', require('./components/Village/Buildings/4.vue').default); //Stable
 
 //Resources
 Vue.component('resourcesFields', require('./components/Resources/Fields.vue').default);
@@ -98,6 +99,7 @@ const store = new Vuex.Store({
         villageOutgoingAttacks: [],
         villageOutgoingReinforcements: [],
         villageBarracksProduction: [],
+        villageStableProduction: [],
         villageBuildingLevels: [],
         villageBuildingTypes: [],
         villageBuildingColors: [],
@@ -150,6 +152,9 @@ const store = new Vuex.Store({
         },
         setVillageBarracksProduction(state, villageBarracksProduction) {
             state.villageBarracksProduction = villageBarracksProduction;
+        },
+        setVillageStableProduction(state, villageStableProduction) {
+            state.villageStableProduction = villageStableProduction;
         },
         setVillageBuildingLevels(state, villageBuildingLevels) {
             state.villageBuildingLevels = villageBuildingLevels;
@@ -319,6 +324,15 @@ const store = new Vuex.Store({
                 })
                 .catch(err => console.log(err));
         },
+        async fetchVillageStableProduction(context) {
+            await fetch('http://localhost:8080/api/stableProductions/1')
+                .then(res => res.json())
+                .then(res => {
+                    let villageStableProduction = res.data;
+                    context.commit('setVillageStableProduction', villageStableProduction);
+                })
+                .catch(err => console.log(err));
+        },
         async fetchVillageBuildingFields(context) {
             await fetch('http://localhost:8080/api/villageBuildingFields/1')
                 .then(res => res.json())
@@ -432,6 +446,9 @@ const store = new Vuex.Store({
         },
         getVillageBarracksProduction: state => {
             return state.villageBarracksProduction;
+        },
+        getVillageStableProduction: state => {
+            return state.villageStableProduction;
         },
         getVillageBuildingLevels: state => {
             return state.villageBuildingLevels;
