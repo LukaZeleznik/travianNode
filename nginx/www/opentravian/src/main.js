@@ -170,6 +170,7 @@ const store = new Vuex.Store({
                 .then(res => {
                     let villageResources = [res.data.currentWood, res.data.currentClay, res.data.currentIron, res.data.currentCrop];
                     context.commit('setVillageResources', villageResources);
+                    console.log("bbb");
                 })
                 .catch(err => console.log(err));
         },

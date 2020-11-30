@@ -1,5 +1,7 @@
 const path = require('path');
 const villageResourcesModel = require('../models/villageResourcesModel');
+const villageMaxResourcesModel = require('../models/villageMaxResourcesModel');
+const villageProductionsModel = require('../models/villageProductionsModel');
 const fetch = require("node-fetch");
 
 exports.view = function (req, res) {
@@ -9,8 +11,20 @@ exports.view = function (req, res) {
         else{
             (async () => {                
                 let villageMaxRes = await(await(await fetch('http://localhost:8080/api/villageMaxResources/1')).json()).data;
-                let villageProd = await(await(await fetch('http://localhost:8080/api/villageProductions/1')).json()).data;          
+                let villageProd = await(await(await fetch('http://localhost:8080/api/villageProductions/1')).json()).data;
 
+                //console.log(villageMaxRes);
+                //console.log(villageProd);
+                /*
+                let villageProd = await villageProductionsModel.findOne({idVillage: req.params.idVillage}, function (err, villageProductions) {
+                    return villageProductions;
+                });
+
+                let villageMaxRes = await villageMaxResourcesModel.findOne({idVillage: req.params.idVillage}, function (err, villageMaxResources) {
+                    return villageMaxResources;
+                });
+                */
+               
                 let currentTime = Math.round(+new Date()/1000);
                 let timeDiff = (currentTime - villageResources.lastUpdate) / 3600;
                 
@@ -21,13 +35,18 @@ exports.view = function (req, res) {
 
                 if(villageResources.currentWood == newWood && villageResources.currentClay == newClay && 
                     villageResources.currentIron == newIron && villageResources.currentCrop == newCrop){
-                    return;
+                        res.json({
+                            message: 'VillageResources updated!',
+                            data: villageResources
+                        });
+                        return;
                 }
-
+                
                 if (newWood >= villageMaxRes.maxWood){ newWood = villageMaxRes.maxWood }
                 if (newClay >= villageMaxRes.maxClay){ newClay = villageMaxRes.maxClay }
                 if (newIron >= villageMaxRes.maxIron){ newIron = villageMaxRes.maxIron }
                 if (newCrop >= villageMaxRes.maxCrop){ newCrop = villageMaxRes.maxCrop }
+                
 
                 villageResources.idVillage = req.params.idVillage;
                 villageResources.currentWood = newWood;
@@ -35,7 +54,7 @@ exports.view = function (req, res) {
                 villageResources.currentIron = newIron;
                 villageResources.currentCrop = newCrop;
                 villageResources.lastUpdate = currentTime;
-
+                
                 villageResources.save(function (err2) {
                     if (err2){
                         res.json(err2);

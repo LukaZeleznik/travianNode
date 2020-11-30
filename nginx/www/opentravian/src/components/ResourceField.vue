@@ -71,8 +71,8 @@ export default {
       let resFieldUpgradeResponseJson = await resFieldUpgradeResponse.json();
 
       if(resFieldUpgradeResponseJson.message == "resFieldUpgrade success"){
+        this.fetchVillageResources();        
         this.$router.push({ name: 'resources' });
-        this.fetchVillageResources();
       }
       else{
         document.getElementById("errorMessage").innerText = resFieldUpgradeResponseJson.message;

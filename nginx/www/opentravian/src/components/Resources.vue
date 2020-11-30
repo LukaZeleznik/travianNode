@@ -42,7 +42,10 @@ export default {
 
   created() {
     this.fetchVillageResFieldTypes();
+    //this.fetchVillageResources();
     this.fetchVillageResFieldLevels();
+    this.test();
+    this.test2();
   },
 
   methods: {
@@ -63,6 +66,35 @@ export default {
         this.villageResFieldTypes = this.$store.getters.getVillageResFieldTypes;
         this.villageResFieldColors = this.$store.getters.getVillageResFieldColors;
       });
+    },
+    test(){
+      this.$store.watch(
+          function (state) {
+              return state.my_state;
+          },
+          function () {
+              console.log("change");
+          },
+          {
+              deep: true //add this if u need to watch object properties change etc.
+          }
+      );
+    },
+    test2(){
+        this.$store.subscribe((mutation, state) => {
+          if(mutation.type == "setVillageResources"){
+            console.log(mutation);
+            console.log(state);
+          }
+      });
+    },
+    fetchVillageResources(){
+        this.villageResources = this.$store.getters.getVillageResources;
+
+        this.$store.dispatch('fetchVillageResources')
+        .then( () => {
+            this.villageResources = this.$store.getters.getVillageResources;
+        })
     },
   }
 }
