@@ -162,6 +162,162 @@
 			"protocolProfileBehavior": {}
 		},
 		{
+			"name": "stableProductions",
+			"item": [
+				{
+					"name": "stableProductions POST",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"troopName\": \"Maceman\",\r\n    \"troopId\": 1,\r\n    \"troopCount\": 100,\r\n    \"troopProdTime\": 1000,\r\n    \"timeStarted\": 0,\r\n    \"timeCompleted\": 1000,\r\n    \"barrProdId\": 1,\r\n    \"lastUpdate\": 0,\r\n    \"troopsDoneAlready\": 0\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/stableProductions",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"stableProductions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "stableProductions GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost/api/stableProductions/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"stableProductions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "stableProductions PATCH",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"troopName\": \"Maceman\",\r\n    \"troopId\": 1,\r\n    \"troopCount\": 100,\r\n    \"troopProdTime\": 1000,\r\n    \"timeStarted\": 0,\r\n    \"timeCompleted\": 1000,\r\n    \"barrProdId\": 1,\r\n    \"lastUpdate\": 10,\r\n    \"troopsDoneAlready\": 1\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/stableProductions/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"stableProductions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "stableProductions PUT",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"troopName\": \"Maceman\",\r\n    \"troopId\": 1,\r\n    \"troopCount\": 100,\r\n    \"troopProdTime\": 1000,\r\n    \"timeStarted\": 0,\r\n    \"timeCompleted\": 1000,\r\n    \"barrProdId\": 1,\r\n    \"lastUpdate\": 10,\r\n    \"troopsDoneAlready\": 1\r\n}"
+						},
+						"url": {
+							"raw": "localhost/api/stableProductions/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"stableProductions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "stableProductions DELETE",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "localhost/api/stableProductions/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"stableProductions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
 			"name": "villageResFieldUpgrades",
 			"item": [
 				{
