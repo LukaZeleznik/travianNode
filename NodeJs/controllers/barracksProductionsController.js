@@ -85,7 +85,7 @@ exports.new = function (req, res) {
         let troopTrainingTime = troopInfo.Teuton[req.body.troopId-1]["time"] * buildingInfo[1]['buildingModifier'][villageBuildingLevel];
         
         barracksProductions.troopName       = troopInfo.Teuton[req.body.troopId-1]["name"];
-        barracksProductions.troopProdTime   = Math.floor(troopInfo.Teuton[req.body.troopId-1]["time"]);
+        barracksProductions.troopProdTime   = troopTrainingTime;
         barracksProductions.timeStarted     = troopQueueTime;
         barracksProductions.timeCompleted   = troopQueueTime + Math.floor(req.body.troopCount * troopTrainingTime);
         barracksProductions.lastUpdate      = currentUnixTime;

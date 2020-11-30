@@ -99,17 +99,15 @@ export default {
             let villageResourcesApiUrl = 'http://localhost:8080/api/villageResources/1';
             let villageResources = await(await(await fetch(villageResourcesApiUrl)).json()).data;
 
-            let cancelBuildingUpgradeResponse = await fetch('http://localhost:8080/api/villageBuildingUpgrades/' + villageBuildingUpgrades[0]._id, {
+            /*let cancelBuildingUpgradeResponse = await fetch('http://localhost:8080/api/villageBuildingUpgrades/' + villageBuildingUpgrades[0]._id, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-            });
+            });*/
 
-            //let cancelBuildingUpgradeResponse = await this.$root.doApiRequest("villageBuildingUpgrades/" + villageBuildingUpgrades[0]._id, "DELETE", "");
-            //let cancelBuildingUpgradeJson = await cancelBuildingUpgradeResponse.json();
-            console.log(cancelBuildingUpgradeResponse);
-            let cancelBuildingUpgradeJson = "piece of hist";
+            let cancelBuildingUpgradeResponse = await this.$root.doApiRequest("villageBuildingUpgrades/" + villageBuildingUpgrades[0]._id, "DELETE", "");
+            let cancelBuildingUpgradeJson = await cancelBuildingUpgradeResponse.json();
             if(cancelBuildingUpgradeJson.status == "success"){
                 villageResources.currentWood += villageBuildingUpgrades[0].woodUsed;
                 villageResources.currentClay += villageBuildingUpgrades[0].clayUsed;

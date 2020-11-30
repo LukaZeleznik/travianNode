@@ -42,6 +42,7 @@ exports.view = function (req, res) {
                     else{
 
                         villageOwnTroops["troop"+barracksProduction.troopId] += troopsProduced;
+                        if(troopsProducedAlready<0) troopsProducedAlready = 0;
                         barracksProduction.troopsDoneAlready = troopsProducedAlready;
 
                         barracksProduction.lastUpdate = currentUnixTime;

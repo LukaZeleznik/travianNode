@@ -39,21 +39,14 @@ exports.view = function (req, res) {
                         villageProductions.productionCrop += resourceInfo["Cropland"]["production"][villageFieldLevels["resField"+index+"Level"]] * 10;
                     }
                 };
-
-                let villageProductionsApiUrl = 'http://localhost:8080/api/villageProductions/' + idVillage;
-
-                await fetch(villageProductionsApiUrl, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(villageProductions),
-                });
-
-                res.json({
-
-                    message: 'Loading resources..',
-                    data: villageProductions
+                
+                villageProductions.save(function (err) {
+                    if (err)
+                        res.json(err);
+                    res.json({
+                        message: 'Loading resources..',
+                        data: villageProductions
+                    });
                 });
             })();
         }
