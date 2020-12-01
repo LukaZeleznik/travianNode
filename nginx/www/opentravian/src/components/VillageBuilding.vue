@@ -22,6 +22,7 @@ export default {
             buildingInfoLookup: infoLookup.buildingInfoLookup,
             troopInfoLookup: infoLookup.troopInfoLookup,
             villageResources: this.$store.getters.getVillageResources,
+            userTribe: "Teuton",
         };
     },
 
@@ -47,7 +48,16 @@ export default {
                 let keyType = "field"+vbid+"Type";
                 let keyLevel = "field"+vbid+"Level";
 
-                this.villageBuildingType = res.data[keyType];
+                if(vbid == 19){
+                    switch (this.userTribe) {
+                        case "Teuton":  this.villageBuildingType = 5; break;
+                        case "Roman":   this.villageBuildingType = 6; break;
+                        case "Gaul":    this.villageBuildingType = 7; break;
+                    }
+                }
+                else {
+                    this.villageBuildingType = res.data[keyType];
+                }
                 this.villageBuildingLevel = res.data[keyLevel];
             })
             .catch(err => console.log(err));

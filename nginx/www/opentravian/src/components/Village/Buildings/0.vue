@@ -29,6 +29,9 @@
 
 
 <script>
+const EARTH_WALL = 5;
+const CITY_WALL = 6;
+const PALISADE = 7;
 
 export default {
     data() {
@@ -50,17 +53,19 @@ export default {
         getAvailableBuildings(){
             for(let i = 1; i < this.buildingInfoLookup.length; i++){
                 if(this.villageBuildingTypes<=0 || this.villageBuildingLevels<=0) break;
-                if(this.villageBuildingTypes.includes(this.buildingInfoLookup[i]['id'])){
-                    for(let l = 0; l < this.villageBuildingTypes.length; l++){
-                        if(this.villageBuildingTypes[l] == this.buildingInfoLookup[i]['id']) {
-                            if(this.buildingInfoLookup[i]['allowMultiple'] && this.villageBuildingLevels[l] == 20) {
-                                this.availableBuildings.push(this.buildingInfoLookup[i]['id']);
-                                break;
+                if(i != EARTH_WALL && i != CITY_WALL && i != PALISADE) {
+                    if(this.villageBuildingTypes.includes(this.buildingInfoLookup[i]['id'])){
+                        for(let l = 0; l < this.villageBuildingTypes.length; l++){
+                            if(this.villageBuildingTypes[l] == this.buildingInfoLookup[i]['id']) {
+                                if(this.buildingInfoLookup[i]['allowMultiple'] && this.villageBuildingLevels[l] == 20) {
+                                    this.availableBuildings.push(this.buildingInfoLookup[i]['id']);
+                                    break;
+                                }
                             }
                         }
+                    } else {
+                        this.availableBuildings.push(this.buildingInfoLookup[i]['id']);
                     }
-                } else {
-                    this.availableBuildings.push(this.buildingInfoLookup[i]['id']);
                 }
             }
         },

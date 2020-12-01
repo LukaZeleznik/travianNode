@@ -1,6 +1,9 @@
 const path = require('path');
 const fetch = require("node-fetch");
 const villageBuildingUpgradesModel = require('../models/villageBuildingUpgradesModel');
+const EARTH_WALL = 5;
+const CITY_WALL = 6;
+const PALISADE = 7;
 
 
 exports.view = function (req, res) {
@@ -25,6 +28,7 @@ exports.new = async function (req, res) {
         let villageBuildingTypes = [];
         let villageBuildingLevels = [];
         let allowf = true;
+        let wallf = false; //maybe better name
 
         let villageResourcesApiUrl = 'http://localhost:8080/api/villageResources/' + idVillage;
         let villageResources = await(await(await fetch(villageResourcesApiUrl)).json()).data;
@@ -39,6 +43,8 @@ exports.new = async function (req, res) {
                 villageBuildingTypes.push(villageBuildingFields['field'+i+'Type']);
                 villageBuildingLevels.push(villageBuildingFields['field'+i+'Level']);
             }
+
+            // Check if user is trying to build a second instance of existing building
             if(villageBuildingTypes.includes(buildingInfo[newBuildingType]['id'])){
                 for(let l = 0; l < villageBuildingTypes.length; l++){
                     if(villageBuildingTypes[l] == buildingInfo[newBuildingType]['id']) {
@@ -63,6 +69,11 @@ exports.new = async function (req, res) {
         } else {
             villageBuildingType = Number(villageBuildingFields["field"+buildingFieldId+"Type"]);
         }
+
+        if(villageBuildingLevel == 0){
+            villageBuildingLevel++;
+            wallf = true;
+        }
         
         let requirementWood = buildingInfo[villageBuildingType]["wood"][villageBuildingLevel];
         let requirementClay = buildingInfo[villageBuildingType]["clay"][villageBuildingLevel];
@@ -70,7 +81,7 @@ exports.new = async function (req, res) {
         let requirementCrop = buildingInfo[villageBuildingType]["crop"][villageBuildingLevel];
         let requirementConstructionTime = Math.floor(Number(buildingInfo[villageBuildingType]["constructionTime"][villageBuildingLevel])/100);
 
-        if(newBuildingType>0) villageBuildingLevel--;
+        if(newBuildingType>0 || wallf) villageBuildingLevel--;
 
         if(villageResources.currentWood < requirementWood || villageResources.currentClay < requirementClay || 
           villageResources.currentIron < requirementIron || villageResources.currentCrop < requirementCrop ){
