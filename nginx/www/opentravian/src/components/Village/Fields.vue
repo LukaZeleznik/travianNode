@@ -35,6 +35,16 @@
                             </div>
                         </router-link>
                     </div>
+                    <div class="hexIn" v-else-if="index == 19">
+                        <router-link class="hexLink" :to="{ path: '/villageBuilding/' + realIndexes[index] }">
+                                <div v-if="villageBuildingLevels[realIndexes[index]-1] > 0" class='img' v-bind:style="'background-color:' + villageBuildingColors[realIndexes[index]-1]">
+                                    <p style="top:35%;opacity:1;color:white">{{villageBuildingNames[realIndexes[index]-1]}} ({{ villageBuildingLevels[realIndexes[index]-1] }})</p>
+                                </div>
+                                <div v-else class='img' v-bind:style="'background-color: slategray'">
+                                    <p style="top:35%;opacity:1;color:white">Wall</p>
+                                </div>
+                        </router-link>
+                    </div>
                     <div class="hexIn" v-else>
                         <router-link class="hexLink" :to="{ path: '/villageBuilding/' + realIndexes[index] }">
                             <div class='img' v-bind:style="'background-color:' + villageBuildingColors[realIndexes[index]-1]">
@@ -65,7 +75,7 @@ export default {
             villageBuildingTypes: this.$store.getters.getVillageBuildingTypes,
             villageBuildingColors: this.$store.getters.getVillageBuildingColors,
             villageBuildingNames: [],
-            realIndexes: [1,1,1,2,3,3,4,5,6,7,8,9,10,10,11,12,13,14,15,16,16,17,18],
+            realIndexes: [1,1,1,2,3,3,4,5,6,7,8,9,10,10,11,12,13,14,15,19,16,17,18],
         };
     },
     created() {
