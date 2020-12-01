@@ -187,14 +187,16 @@ exports.new = async function (req, res) {
                     body: JSON.stringify(scheduleData),
                 });
 
-                villageBuildingFields["field"+buildingFieldId+"Type"] = newBuildingType;
-                fetch(villageBuildingFieldsApiUrl, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(villageBuildingFields),
-                });
+                if(newBuildingType>0) {
+                    villageBuildingFields["field"+buildingFieldId+"Type"] = newBuildingType;
+                    fetch(villageBuildingFieldsApiUrl, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(villageBuildingFields),
+                    });
+                }
 
                 console.log("scheduled API");
 

@@ -135,11 +135,11 @@ async function getBuildingBonusProductions(idVillage){
 
     for(let i = 0; i < villageBuildingTypes.length; i++){
         switch (villageBuildingTypes[i]) {
-            case SAWMILL:       woodBonus += buildingInfo[SAWMILL]['buildingModifier'][villageBuildingLevels[i]];
-            case BRICKYARD:     clayBonus += buildingInfo[BRICKYARD]['buildingModifier'][villageBuildingLevels[i]];
-            case IRON_FOUNDRY:  ironBonus += buildingInfo[IRON_FOUNDRY]['buildingModifier'][villageBuildingLevels[i]];
-            case BAKERY:        cropBonus += buildingInfo[BAKERY]['buildingModifier'][villageBuildingLevels[i]];
-            case GRAIN_MILL:    cropBonus += buildingInfo[GRAIN_MILL]['buildingModifier'][villageBuildingLevels[i]];
+            case SAWMILL:       woodBonus += buildingInfo[SAWMILL]['buildingModifier'][villageBuildingLevels[i]]; break;
+            case BRICKYARD:     clayBonus += buildingInfo[BRICKYARD]['buildingModifier'][villageBuildingLevels[i]]; break;
+            case IRON_FOUNDRY:  ironBonus += buildingInfo[IRON_FOUNDRY]['buildingModifier'][villageBuildingLevels[i]]; break;
+            case BAKERY:        cropBonus += buildingInfo[BAKERY]['buildingModifier'][villageBuildingLevels[i]]; break;
+            case GRAIN_MILL:    cropBonus += buildingInfo[GRAIN_MILL]['buildingModifier'][villageBuildingLevels[i]]; break;
         }
     }
 
