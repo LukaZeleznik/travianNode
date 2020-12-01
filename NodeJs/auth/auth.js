@@ -1,12 +1,12 @@
 const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
-const UserModel = require('./authModel');
+const UserModel = require('../models/userModel');
 const JWTstrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 
 passport.use(
     new JWTstrategy({
-            secretOrKey: 'TOP_SECRET',
+            secretOrKey: 'RgUkXp2s5v8y/B?E(H+MbPeShVmYq3t6w9z$C&F)J@NcRfUjWnZr4u7x!A%D*G-KaPdSgVkYp2s5v8y/B?E(H+MbQeThWmZq4t6w9z$C&F)J@NcRfUjXn2r5u8x!A%D*',
             jwtFromRequest: ExtractJWT.fromHeader("bearer")
         },
         async (token, done) => {
@@ -24,13 +24,25 @@ passport.use(
     'register',
     new localStrategy({
             usernameField: 'email',
-            passwordField: 'password'
+            passwordField: 'password',
+            passReqToCallback : true // allows us to pass back the entire request to the callback
         },
-        async (email, password, done) => {
+        async (req, email, password, done) => {
+            console.log(req);
             try {
+                const tribe = req.query.tribe;
+                const nickname = req.query.nickname;
+                const idVillage = req.query.idVillage;
+
+                console.log("tribe: ", tribe);
+                console.log("nickname: ", nickname);
+
                 const user = await UserModel.create({
                     email,
-                    password
+                    password,
+                    nickname,
+                    tribe,
+                    idVillage
                 });
 
                 return done(null, user);
@@ -45,9 +57,10 @@ passport.use(
     'login',
     new localStrategy({
             usernameField: 'email',
-            passwordField: 'password'
+            passwordField: 'password',
+            passReqToCallback : true // allows us to pass back the entire request to the callback
         },
-        async (email, password, done) => {
+        async (req, email, password, done) => {
             try {
                 const user = await UserModel.findOne({
                     email

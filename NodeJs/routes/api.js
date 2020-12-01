@@ -60,11 +60,12 @@ router.route('/login')
 
                                 const body = {
                                     _id: user._id,
-                                    email: user.email
+                                    email: user.email,
+                                    idVillage: user.idVillage
                                 };
                                 const token = jwt.sign({
                                     user: body
-                                }, 'TOP_SECRET');
+                                }, 'RgUkXp2s5v8y/B?E(H+MbPeShVmYq3t6w9z$C&F)J@NcRfUjWnZr4u7x!A%D*G-KaPdSgVkYp2s5v8y/B?E(H+MbQeThWmZq4t6w9z$C&F)J@NcRfUjXn2r5u8x!A%D*');
 
                                 return res.json({
                                     token
@@ -101,6 +102,15 @@ router.route('/schedule/:idTask')
     .put(scheduleController.update)
     .patch(scheduleController.update)
     .delete(scheduleController.delete);
+*/
+/* Authenticated
+router.route('/villageResources')
+    .post(passport.authenticate('jwt', {session: false}), villageResourcesController.new);
+router.route('/villageResources/:idVillage')
+    .get(passport.authenticate('jwt', {session: false}), checkIdVillage, villageResourcesController.view)
+    .put(passport.authenticate('jwt', {session: false}), checkIdVillage, villageResourcesController.update)
+    .patch(passport.authenticate('jwt', {session: false}), checkIdVillage, villageResourcesController.update)
+    .delete(passport.authenticate('jwt', {session: false}), checkIdVillage, villageResourcesController.delete);
 */
 router.route('/villageResources')
     .post(villageResourcesController.new);
@@ -215,3 +225,15 @@ router.route('/villageBuildingUpgrades/:upgradeId')
     .delete(villageBuildingUpgradesController.delete);
 
 module.exports = router;
+
+function checkIdVillage(req, res, next) { 
+    if(req.user.idVillage == req.params.idVillage){
+        return next();
+    } else{
+        res.json({
+            message: 'Authentication failed',
+            data: ""
+        });
+        return;
+    }
+}
