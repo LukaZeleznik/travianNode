@@ -33,6 +33,11 @@ Vue.component('villageBuilding4', require('./components/Village/Buildings/4.vue'
 Vue.component('villageBuilding5', require('./components/Village/Buildings/5.vue').default); //Eart Wall (Teutons)
 Vue.component('villageBuilding6', require('./components/Village/Buildings/6.vue').default); //City Wall (Romans)
 Vue.component('villageBuilding7', require('./components/Village/Buildings/7.vue').default); //Palisade  (Gauls)
+Vue.component('villageBuilding8', require('./components/Village/Buildings/8.vue').default); //Bakery
+Vue.component('villageBuilding9', require('./components/Village/Buildings/9.vue').default); //Brickyard
+Vue.component('villageBuilding10', require('./components/Village/Buildings/10.vue').default); //Grain Mill
+Vue.component('villageBuilding11', require('./components/Village/Buildings/11.vue').default); //Iron Foundry
+Vue.component('villageBuilding12', require('./components/Village/Buildings/12.vue').default); //Sawmill
 
 //Resources
 Vue.component('resourcesFields', require('./components/Resources/Fields.vue').default);
