@@ -4,7 +4,7 @@
         <div class="grid">
             <ul id="hexGrid" style="padding-left: 0px;">
                 <li class="hex" v-for="index in 22" :key="index">
-                    <div class="hexIn" v-if="index == 1 || index == 5 || index == 19"></div>
+                    <div class=" " v-if="index == 1 || index == 5 || index == 19"></div>
                     <div class="hexIn" v-else-if="index == 12">
                         <router-link class="hexLink" :to="{ name: 'village' }">
                             <div class='img' v-bind:style="'background-color: White'">
