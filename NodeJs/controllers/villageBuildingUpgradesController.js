@@ -79,7 +79,7 @@ exports.new = async function (req, res) {
         let requirementClay = buildingInfo[villageBuildingType]["clay"][villageBuildingLevel];
         let requirementIron = buildingInfo[villageBuildingType]["iron"][villageBuildingLevel];
         let requirementCrop = buildingInfo[villageBuildingType]["crop"][villageBuildingLevel];
-        let requirementConstructionTime = Math.floor(Number(buildingInfo[villageBuildingType]["constructionTime"][villageBuildingLevel])/100);
+        let requirementConstructionTime = Math.floor(Number(buildingInfo[villageBuildingType]["constructionTime"][villageBuildingLevel])/10);
 
         if(newBuildingType>0 || wallf) villageBuildingLevel--;
 
@@ -151,6 +151,15 @@ exports.new = async function (req, res) {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify(scheduleData),
+                });
+
+                villageBuildingFields["field"+buildingFieldId+"Type"] = newBuildingType;
+                fetch(villageBuildingFieldsApiUrl, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(villageBuildingFields),
                 });
 
                 console.log("scheduled API");
