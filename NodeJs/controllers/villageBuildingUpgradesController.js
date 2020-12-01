@@ -79,7 +79,7 @@ exports.new = async function (req, res) {
         let requirementClay = buildingInfo[villageBuildingType]["clay"][villageBuildingLevel];
         let requirementIron = buildingInfo[villageBuildingType]["iron"][villageBuildingLevel];
         let requirementCrop = buildingInfo[villageBuildingType]["crop"][villageBuildingLevel];
-        let requirementConstructionTime = Math.floor(Number(buildingInfo[villageBuildingType]["constructionTime"][villageBuildingLevel])/10);
+        let requirementConstructionTime = Math.floor(Number(buildingInfo[villageBuildingType]["constructionTime"][villageBuildingLevel])/100);
 
         if(newBuildingType>0 || wallf) villageBuildingLevel--;
 
