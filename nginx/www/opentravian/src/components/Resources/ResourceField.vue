@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="container">
-            <div class="justify-content-center text-center" v-if="resourceInfoLookup && villageResourceLevel">
+            <div class="justify-content-center text-center" v-if="resourceInfoLookup">
                 <h1 class="my-4" v-if="villageResourceType > -1">{{ resourceInfoLookup[villageResourceType]['name'] + " Level " + villageResourceLevel }}</h1>
                 <h6 class="my-4" v-if="resourceInfoLookup && villageResourceType">{{ resourceInfoLookup[villageResourceType]['description'] }}</h6>
                 <h5>
@@ -13,20 +13,21 @@
                 <h4> 
                     <div class="mb-2">Cost for upgrading to Level {{ villageResourceLevel+1 }}:</div>
                 </h4>
-                <div v-if=" (villageResourceType == WOOD || villageResourceType == IRON && villageResourceLevel < 20) || 
-                            (villageResourceType == CLAY || villageResourceType == CROP && villageResourceLevel < 21)">
+                <div v-if=" (villageResourceType == WOODCUTTER || villageResourceType == IRON_MINE && villageResourceLevel < 20) || 
+                            (villageResourceType == CLAY_PIT || villageResourceType == CROPLAND && villageResourceLevel < 21)">
                     <h5 class="mb-3"> 
                         <div>
-                            <img style="width: 1.5rem;height: 1rem;" src="/images/resources/wood.gif">  {{ resourceInfoLookup[villageResourceType]['wood'][villageResourceLevel] }} |
-                            <img style="width: 1.5rem;height: 1rem;" src="/images/resources/clay.gif">  {{ resourceInfoLookup[villageResourceType]['clay'][villageResourceLevel] }} |
-                            <img style="width: 1.5rem;height: 1rem;" src="/images/resources/iron.gif">  {{ resourceInfoLookup[villageResourceType]['iron'][villageResourceLevel] }} |
-                            <img style="width: 1.5rem;height: 1rem;" src="/images/resources/crop.gif">  {{ resourceInfoLookup[villageResourceType]['crop'][villageResourceLevel] }} |
-                            <img style="width: 1.5rem;height: 1rem;" src="/images/consum.gif">          {{ resourceInfoLookup[villageResourceType]['consumption'][villageResourceLevel] }} |
-                            <img style="width: 1.5rem;height: 1rem;" src="/images/clock.gif">           {{ $root.secondsToTimeRemaining(resourceInfoLookup[villageResourceType]['constructionTime'][villageResourceLevel] * 1000) }}
+                            <img style="width: 1.5rem;height: 1rem;" src="/images/resources/wood.gif">  {{ resourceInfoLookup[villageResourceType]['wood'][villageResourceLevel+1] }} |
+                            <img style="width: 1.5rem;height: 1rem;" src="/images/resources/clay.gif">  {{ resourceInfoLookup[villageResourceType]['clay'][villageResourceLevel+1] }} |
+                            <img style="width: 1.5rem;height: 1rem;" src="/images/resources/iron.gif">  {{ resourceInfoLookup[villageResourceType]['iron'][villageResourceLevel+1] }} |
+                            <img style="width: 1.5rem;height: 1rem;" src="/images/resources/crop.gif">  {{ resourceInfoLookup[villageResourceType]['crop'][villageResourceLevel+1] }} |
+                            <img style="width: 1.5rem;height: 1rem;" src="/images/consum.gif">          {{ resourceInfoLookup[villageResourceType]['consumption'][villageResourceLevel+1] }} |
+                            <img style="width: 1.5rem;height: 1rem;" src="/images/clock.gif">           {{ $root.secondsToTimeRemaining(resourceInfoLookup[villageResourceType]['constructionTime'][villageResourceLevel+1] * 1000) }}
                         </div>
                     </h5>
                     <h5 class="mt-4"> 
-                        <button type="button" class="btn btn-success" @click="upgradeResField()">Upgrade to Level {{ villageResourceLevel+1 }}</button> 
+                        <button v-if="hasRequiredResources()" type="button" class="btn btn-success" @click="upgradeResField()">Upgrade to Level {{ villageResourceLevel+1 }}</button> 
+                        <span v-else>Not enough resources</span>
                     </h5>
                 </div>
                 <div v-else>
@@ -48,18 +49,34 @@ export default {
             resourceInfoLookup: infoLookup.resourceInfoLookup,
             villageResourceType: undefined,
             villageResourceLevel: undefined,
-            WOOD: 0,
-            CLAY: 1,
-            IRON: 2,
-            CROP: 3,
+            villageResources: this.$store.getters.getVillageResources,
+            WOODCUTTER: 0,
+            CLAY_PIT: 1,
+            IRON_MINE: 2,
+            CROPLAND: 3,
         };
     },
 
+    watch: {
+        '$store.getters.getVillageResources': function() {
+            this.villageResources = this.$store.getters.getVillageResources;
+        },
+    },
+    
     created() {
         this.fetchResourceFieldsData();
+        this.fetchVillageResources();
     },
 
     methods: {
+        fetchVillageResources(){
+            this.villageResources = this.$store.getters.getVillageResources;
+
+            this.$store.dispatch('fetchVillageResources')
+            .then( () => {
+                this.villageResources = this.$store.getters.getVillageResources;
+            });
+        },
         fetchResourceFieldsData(){
             fetch('http://localhost:8080/api/villageResourceFields/1')
             .then(res => res.json())
@@ -70,7 +87,6 @@ export default {
 
                 this.villageResourceType = res.data[keyType];
                 this.villageResourceLevel = res.data[keyLevel];
-                console.log("this.villageResourceType",this.villageResourceType,"this.villageResourceLevel",this.villageResourceLevel);
             })
             .catch(err => console.log(err));
         },
@@ -90,6 +106,20 @@ export default {
             }
             else{
                 document.getElementById("errorMessage").innerText = villageResFieldUpgradeResponseJson.message;
+            }
+        },
+        hasRequiredResources(){
+            console.log(this.villageResourceLevel+1,this.resourceInfoLookup[this.villageResourceType]['wood'][this.villageResourceLevel+1]);
+            let woodRequired = this.resourceInfoLookup[this.villageResourceType]['wood'][this.villageResourceLevel+1];
+            let clayRequired = this.resourceInfoLookup[this.villageResourceType]['clay'][this.villageResourceLevel+1];
+            let ironRequired = this.resourceInfoLookup[this.villageResourceType]['iron'][this.villageResourceLevel+1];
+            let cropRequired = this.resourceInfoLookup[this.villageResourceType]['crop'][this.villageResourceLevel+1];
+
+            if (this.villageResources[0] >= woodRequired && this.villageResources[1] >= clayRequired && 
+                this.villageResources[2] >= ironRequired && this.villageResources[3] >= cropRequired){
+                return true;
+            } else {
+                return false;
             }
         },
     }

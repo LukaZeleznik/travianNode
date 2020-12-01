@@ -1,9 +1,21 @@
 const path = require('path');
 const fetch = require("node-fetch");
 const villageBuildingUpgradesModel = require('../models/villageBuildingUpgradesModel');
+//Buildings
 const EARTH_WALL = 5;
 const CITY_WALL = 6;
 const PALISADE = 7;
+const BAKERY = 8;
+const BRICKYARD = 9;
+const GRAIN_MILL = 10;
+const IRON_FOUNDRY = 11;
+const SAWMILL = 12;
+
+//Resources
+const WOODCUTTER = 0;
+const CLAY_PIT = 1;
+const IRON_MINE = 2;
+const CROPLAND = 3;
 
 
 exports.view = function (req, res) {
@@ -56,13 +68,35 @@ exports.new = async function (req, res) {
                         }
                     }
                 }
-                if(!allowf) {
-                    res.json({
-                        message: 'villageBuildingUpgrade failed',
-                        data: ''
-                    });
-                    return;
+            } else {
+                if ([BAKERY,BRICKYARD,GRAIN_MILL,IRON_FOUNDRY,SAWMILL].includes(newBuildingType)){
+                    allowf = false;
+                    switch (newBuildingType) {
+                        case BAKERY:
+                            if(await hasRequiredResFieldLevel(CROPLAND,10,idVillage)){
+                                for(let l = 0; l < villageBuildingTypes.length; l++){
+                                    if(villageBuildingTypes[l] == GRAIN_MILL || villageBuildingLevels[l] == 5) {
+                                        allowf = true;
+                                    }
+                                }
+                            }
+                            break;
+                        case BRICKYARD:     if(await hasRequiredResFieldLevel(CLAY_PIT,10,idVillage))    allowf = true; break;
+                        case GRAIN_MILL:    if(await hasRequiredResFieldLevel(CROPLAND,5,idVillage))     allowf = true; break;
+                        case IRON_FOUNDRY:  if(await hasRequiredResFieldLevel(IRON_MINE,10,idVillage))   allowf = true; break;
+                        case SAWMILL:       if(await hasRequiredResFieldLevel(WOODCUTTER,10,idVillage))  allowf = true; break;
+                    }
+                } else {  
+                    //todo add other buildings
+                    allowf = true;
                 }
+            }
+            if(!allowf) {
+                res.json({
+                    message: 'villageBuildingUpgrade failed',
+                    data: ''
+                });
+                return;
             }
             villageBuildingType = Number(newBuildingType);
             villageBuildingLevel++;
@@ -206,4 +240,22 @@ exports.delete = function (req, res) {
             message: 'villageBuildingUpgrades deleted'
         });
     });
+};
+
+async function hasRequiredResFieldLevel(type,level,idVillage){
+    let villageResourceFieldsApiUrl = 'http://localhost:8080/api/villageResourceFields/' + idVillage;
+    let villageResourceFields = await(await(await fetch(villageResourceFieldsApiUrl)).json()).data;
+    let villageResourceFieldTypes = [];
+    let villageResourceFieldLevels = [];
+
+    for(let i = 1; i < 20; i++){
+        villageResourceFieldTypes.push(villageResourceFields['field'+i+'Type']);
+        villageResourceFieldLevels.push(villageResourceFields['field'+i+'Level']);
+    }
+    for(let l = 0; l < villageResourceFieldTypes.length; l++){
+        if(villageResourceFieldTypes[l] == type && villageResourceFieldLevels[l] >= level) {
+            return true;
+        }
+    }
+    return false;
 };

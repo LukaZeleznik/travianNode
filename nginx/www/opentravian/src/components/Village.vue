@@ -34,6 +34,7 @@ export default {
     data() {
         return {
             buildingInfoLookup: infoLookup.buildingInfoLookup,
+            resourceInfoLookup: infoLookup.resourceInfoLookup,
         };
     },
 

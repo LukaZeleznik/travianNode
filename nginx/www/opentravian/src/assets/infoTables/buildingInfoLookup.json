@@ -17,7 +17,7 @@
         "buildingModifier": [0,1,0.9,0.81,0.7290,0.6561,0.5905,0.5314,0.4783,0.4305,0.3874,0.3487,0.3138,0.2824,0.2542,0.2288,0.2059,0.1853,0.1668,0.1501,0.1351],
         "desc": "In the barracks, infantry can be trained. The higher its level, the faster the troops are trained.",
         "allowMultiple": false,
-        "requirements": {
+        "buildRequirements": {
             "0": 0
         }
     },
@@ -34,7 +34,7 @@
         "buildingModifier": [800,1200,1700,2300,3100,4000,5000,6300,7800,9600,11800,14400,17600,21400,25900,31300,37900,45700,55100,66400,80000],
         "desc": "The resources wood, clay and iron are stored in your warehouse. By increasing its level you increase your warehouse's capacity. After building one warehouse level 20, additional warehouses can be built.",
         "allowMultiple": true,
-        "requirements": {
+        "buildRequirements": {
             "0": 0
         }
     },
@@ -51,7 +51,7 @@
         "buildingModifier": [0,1200,1700,2300,3100,4000,5000,6300,7800,9600,11800,14400,17600,21400,25900,31300,37900,45700,55100,66400,80000],
         "desc": "Crop produced by your croplands is stored in the granary. By increasing its level, you increase the granary's capacity. After building up one granary to level 20, additional granaries can be built.",
         "allowMultiple": true,
-        "requirements": {
+        "buildRequirements": {
             "0": 0
         }
     },
@@ -68,7 +68,7 @@
         "buildingModifier": [0,1,0.9,0.81,0.73,0.66,0.59,0.53,0.48,0.43,0.39,0.35,0.31,0.28,0.25,0.23,0.21,0.19,0.17,0.15,0.14],
         "desc": "Cavalry can be trained in the stable. The higher its level the faster troops are trained.",
         "allowMultiple": false,
-        "requirements": {
+        "buildRequirements": {
             "0": 0
         }
     },
@@ -85,7 +85,7 @@
         "buildingModifier": [0,0.02,0.04,0.061,0.0819,0.104,0.126,0.149,0.172,0.195,0.2189,0.243,0.268,0.294,0.319,0.346,0.373,0.4,0.428,0.457,0.486],
         "desc": "By building an earth wall you can protect your village against the barbarian hordes of your enemies. A higher level earth wall will give your troops a higher defence bonus. The earth wall can only be built by Teutons and gives low defence bonuses but is extremely hard to destroy.",
         "allowMultiple": false,
-        "requirements": {
+        "buildRequirements": {
             "0": 0
         }
     },
@@ -102,7 +102,7 @@
         "buildingModifier": [0,0.03,0.061,0.093,0.126,0.159,0.1939,0.23,0.267,0.305,0.344,0.384,0.426,0.469,0.513,0.5579,0.605,0.653,0.702,0.754,0.8059],
         "desc": "Cavalry can be trained in the stable. The higher its level the faster troops are trained.",
         "allowMultiple": false,
-        "requirements": {
+        "buildRequirements": {
             "0": 0
         }
     },
@@ -119,7 +119,7 @@
         "buildingModifier": [0,0.025,0.051,0.077,0.104,0.131,0.16,0.1889,0.218,0.249,0.28,0.312,0.345,0.379,0.413,0.4479,0.485,0.522,0.56,0.599,0.639],
         "desc": "By building a palisade you can protect your village against the barbarian hordes of your enemies. A higher level palisade will give your troops a higher defence bonus. The Palisade can only be built by Gauls and is average in both the given defence bonus and amount of rams needed to destroy it.",
         "allowMultiple": false,
-        "requirements": {
+        "buildRequirements": {
             "0": 0
         }
     },
@@ -136,7 +136,7 @@
         "buildingModifier": [0,0.05,0.1,0.15,0.2,0.25],
         "desc": "Here the flour produced in your mill is used to bake bread. Combined with the grain mill an increase in crop production of up to 50% can be achieved.",
         "allowMultiple": false,
-        "requirements": {
+        "buildRequirements": {
             "0": 0
         }
     },
@@ -153,7 +153,7 @@
         "buildingModifier": [0,0.05,0.1,0.15,0.2,0.25],
         "desc": "Here clay is processed into bricks. Based on its level, your brickyard can increase a villages' clay production by up to 25 percent.",
         "allowMultiple": false,
-        "requirements": {
+        "buildRequirements": {
             "0": 0
         }
     },
@@ -170,7 +170,7 @@
         "buildingModifier": [0,0.05,0.1,0.15,0.2,0.25],
         "desc": "Here your grain is milled in order to produce flour. Based on its level your grain mill can increase your crop production by up to 25 percent.",
         "allowMultiple": false,
-        "requirements": {
+        "buildRequirements": {
             "0": 0
         }
     },
@@ -187,7 +187,7 @@
         "buildingModifier": [0,0.05,0.1,0.15,0.2,0.25],
         "desc": "Iron is melted here. Based on its level your iron foundry can increase your iron production by up to 25 percent.",
         "allowMultiple": false,
-        "requirements": {
+        "buildRequirements": {
             "0": 0
         }
     },
@@ -204,7 +204,7 @@
         "buildingModifier": [0,0.05,0.1,0.15,0.2,0.25],
         "desc": "Here wood delivered by your lumberjacks is processed. Based on its level your sawmill can increase your wood production by up to 25 percent.",
         "allowMultiple": false,
-        "requirements": {
+        "buildRequirements": {
             "0": 0
         }
     }

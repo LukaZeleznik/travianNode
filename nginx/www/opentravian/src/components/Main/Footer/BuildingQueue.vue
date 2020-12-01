@@ -40,11 +40,11 @@ export default {
         };
     },
     created() {
-        this.startResFieldUpgradeInterval();
-        this.startBuildingUpgradeInterval();
         this.fetchVillageResFieldUpgrades();
         this.fetchVillageBuildingUpgrades();
         this.fetchVillageMaxResources();
+        this.startResFieldUpgradeInterval();
+        this.startBuildingUpgradeInterval();
     },
     watch: {
         '$store.getters.getVillageBuildingUpgrades': function() {

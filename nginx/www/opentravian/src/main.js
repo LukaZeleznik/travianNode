@@ -348,7 +348,7 @@ const store = new Vuex.Store({
                             case 5: return "SaddleBrown";   //Earth Wall
                             case 6: return "SaddleBrown";   //City Wall
                             case 7: return "SaddleBrown";   //Palisade
-                            default: return;
+                            default: return "SlateGray";
                         }
                     });
 

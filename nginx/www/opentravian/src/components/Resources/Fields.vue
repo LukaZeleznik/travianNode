@@ -17,7 +17,7 @@
                     <div class="hexIn" v-else>
                         <router-link class="hexLink" :to="{ path: '/resourceField/' + realIndexes[index] }">
                             <div class='img' v-bind:style="'background-color:' + villageResourceFieldColors[realIndexes[index]-1]">
-                                <p style="top:35%;opacity:1;color:black" v-if="villageResourceFieldLevels[realIndexes[index]-1] > 0">{{ villageResourceFieldLevels[realIndexes[index]-1] }}</p>
+                                <p style="top:35%;opacity:1;color:black">{{ villageResourceFieldLevels[realIndexes[index]-1] }}</p>
                             </div>
                             <h1 id="demo1"></h1>
                             <p id="demo2"></p>
