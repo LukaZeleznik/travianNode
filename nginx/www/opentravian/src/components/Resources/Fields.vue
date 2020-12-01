@@ -1,6 +1,6 @@
 
 <template>    
-    <div>
+    <div class="outerGrid">
         <div class="grid">
             <ul id="hexGrid" style="padding-left: 0px;">
                 <li class="hex" v-for="index in 22" :key="index">

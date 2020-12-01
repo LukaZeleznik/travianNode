@@ -5,7 +5,7 @@
             <div class="row">
                 <!-- Village Fields -->
                 <div class="col-md-8 col-sm-12 col-12">
-                    <div class="h2 text-center mb-4"><strong>VillageName</strong></div>
+                    <div class="h2 text-center mb-5"><strong>VillageName</strong></div>
                         <!-- Fields --> 
                         <villageFields></villageFields>
                         <!-- Footer Queue -->

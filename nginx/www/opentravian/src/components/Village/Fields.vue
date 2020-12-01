@@ -1,9 +1,33 @@
 <template>
-    <div>
-        <div class="grid">
-            <ul id="hexGrid" style="padding-left: 0px;">
+    <div style="position: grid; grid-template: 1fr / 1fr; place-items: center;">
+    <!--
+        <div class="wallGrid">
+            <div style="position: relative">
+                <ul id="wallHexGrid">
+                    <li class="hex">
+                        <div class="hexIn hexInWall">
+                            <div class="hexLink">
+                                <div class='img' v-bind:style="'background-color: SaddleBrown'">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="hex" style="width: 95%">
+                        <div class="hexIn hexInWall" style="margin-top: -11%; margin-left: 6%">
+                            <div class="hexLink">
+                                <div class='img' v-bind:style="'background-color: White'">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        -->
+        <div class="fieldsGrid">
+            <ul id="fieldsHexGrid">
                 <li class="hex" v-for="index in 22" :key="index">
-                    <div class="hexIn" v-if="index == 1 || index == 5 || index == 19"></div>
+                    <div class="hexIn" v-if="index == 1 || index == 5"></div>
                     <div class="hexIn" v-else-if="index == 12">
                         <router-link class="hexLink" :to="{ name: 'resources' }">
                             <div class='img' v-bind:style="'background-color: green'">

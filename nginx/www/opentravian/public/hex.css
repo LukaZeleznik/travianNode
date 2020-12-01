@@ -1,13 +1,16 @@
-#hexGrid {
-  display: flex;
-  flex-wrap: wrap;
-  width: 80%;
-  margin: 0 auto;
-  overflow: hidden;
-  list-style-type: none;
+.hex {
+  position: relative;
+  visibility: hidden;
+  outline: 1px solid transparent;
+  /* fix for jagged edges in FF on hover transition */
+  transition: all 0.5s;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  will-change: transform;
+  transition: all 0.5s;
 }
 
-.hex {
+.wallHex{
   position: relative;
   visibility: hidden;
   outline: 1px solid transparent;
@@ -158,13 +161,38 @@
 
   /* <- 5-4  hexagons per row */
 
-#hexGrid {
+.wallGrid{
+  position: absolute;
+  margin-left: 5%;
+  width: 84%;
+}
+
+.wallGrid #wallHexGrid>li{
+  width: 100%;
+}
+
+#fieldsHexGrid, #wallHexGrid{
   padding-bottom: 5%;
+  padding-left: 0px;
 }
 
 .hex {
   width: 20%;
   /* = 100 / 5 */
+}
+
+.wallHex{
+  width: 100%;
+}
+
+#wallHexGrid .hex{
+  position: absolute;
+}
+
+.hexInWall{
+  margin-top: -12.8%;
+  margin-left: 3.3%;
+  transform: rotate3d(0, 0, 1, 30deg) skewY(30deg);  
 }
 
 .hex:nth-child(9n+6) {
@@ -173,8 +201,33 @@
   /* = width of .hex / 2  to indent even rows */
 }
 
+.hex:nth-child(19) {
+  width: 15%;
+  margin-right: 4%;
+  margin-top: 4%;
+  margin-left: 1%;
+}
+
+#fieldsHexGrid {
+  display: flex;
+  flex-wrap: wrap;
+  width: 80%;
+  margin: 0 auto;
+  overflow: hidden;
+  list-style-type: none;
+}
+
+#fieldsHexGrid {
+  display: flex;
+  flex-wrap: wrap;
+  width: 80%;
+  margin: 0 auto;
+  overflow: hidden;
+  list-style-type: none;
+}
+
 @media (max-width: 600px) {
-  #hexGrid {
+  #fieldsHexGrid {
     width: 100%;
     font-size: 1em;
   }
