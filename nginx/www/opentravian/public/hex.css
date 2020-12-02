@@ -227,7 +227,7 @@
 }
 
 @media (max-width: 600px) {
-  #fieldsHexGrid {
+  #fieldsHexGrid, #hexGrid {
     width: 100%;
     font-size: 1em;
   }
