@@ -87,11 +87,12 @@ export default {
                 if(this.villageResFieldUpgradesTimeLeft[0] > 0){
                     this.$set(this.villageResFieldUpgradesTimeLeft, 0, this.villageResFieldUpgradesTimeLeft[0]-1);
                 }
-                else if(this.villageResFieldUpgradesTimeLeft[0] == 0 ){
+                else if(this.villageResFieldUpgradesTimeLeft[0] <= 0 ){
                     clearInterval(upgradeCD1Interval);
                     this.fetchVillageResFieldUpgrades();
                     this.fetchVillageBuildingUpgrades();
                     this.fetchVillageProduction();
+                    this.reloadVillageResourceFields();
                 }
             }, 1000);
         },
@@ -142,17 +143,11 @@ export default {
                 this.villageMaxResources = this.$store.getters.getVillageMaxResources;
             });
         },
-        fetchvillageResourceFields(){
-            this.villageResourceFieldLevels  = this.$store.getters.getVillageResourceFieldLevels;
-            this.villageResourceFieldTypes   = this.$store.getters.getVillageResourceFieldTypes;
-            this.villageResourceFieldColors  = this.$store.getters.getVillageResourceFieldColors;
-
-            this.$store.dispatch('fetchVillageResourceFields')
-            .then( () => {
-                this.villageResourceFieldLevels  = this.$store.getters.getVillageResourceFieldLevels;
-                this.villageResourceFieldTypes   = this.$store.getters.getVillageResourceFieldTypes;
-                this.villageResourceFieldColors  = this.$store.getters.getVillageResourceFieldColors;
-            });
+        reloadVillageResourceFields(){
+            this.$store.dispatch('fetchVillageResourceFields');
+        },
+        reloadVillageBuildingFields(){
+            this.$store.dispatch('fetchVillageBuildingFields');
         },
         startBuildingUpgradeInterval(){
             var upgradeCD2Interval = setInterval( ()=> {
@@ -165,7 +160,7 @@ export default {
                     this.fetchVillageBuildingUpgrades();
                     this.fetchVillageProduction();
                     this.fetchVillageMaxResources();
-                    this.fetchvillageResourceFields();
+                    this.reloadVillageBuildingFields();
                 }
             }, 1000);
         },

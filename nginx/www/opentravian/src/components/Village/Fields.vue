@@ -92,7 +92,7 @@ export default {
             this.villageBuildingTypes = this.$store.getters.getVillageBuildingTypes;
         },
          '$store.getters.getVillageBuildingColors': function() {
-             this.villageBuildingColors = this.$store.getters.getVillageBuildingColors;
+            this.villageBuildingColors = this.$store.getters.getVillageBuildingColors;
         },
     },
     methods: {

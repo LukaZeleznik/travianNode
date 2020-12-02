@@ -6,20 +6,19 @@
                 <!-- Village Fields -->
                 <div class="col-md-8 col-sm-12 col-12">
                     <div class="h2 text-center mb-5"><strong>VillageName</strong></div>
-                        <!-- Fields --> 
-                        <villageFields></villageFields>
-                        <!-- Footer Queue -->
-                        <footerBuildingQueue></footerBuildingQueue>
-                    </div>
-                    <!-- Sidebar -->
-                    <div class="col-md-4 text-center mb-3 rightSide">
-                        <!-- Troop Movements -->
-                        <sidebarTroopMovements></sidebarTroopMovements>
-                        <!-- Production -->
-                        <sidebarProduction></sidebarProduction>
-                        <!-- Troops -->
-                        <sidebarTroops></sidebarTroops>
-                    <!-- nevem kje je ta closing div tag ampak ne dela ce ga dodam :) ... -->
+                    <!-- Fields --> 
+                    <villageFields></villageFields>
+                    <!-- Footer Queue -->
+                    <footerBuildingQueue></footerBuildingQueue>
+                </div>
+                <!-- Sidebar -->
+                <div class="col-md-4 text-center mb-3 rightSide">
+                    <!-- Troop Movements -->
+                    <sidebarTroopMovements></sidebarTroopMovements>
+                    <!-- Production -->
+                    <sidebarProduction></sidebarProduction>
+                    <!-- Troops -->
+                    <sidebarTroops></sidebarTroops>
                 </div>
             </div>
         </div>

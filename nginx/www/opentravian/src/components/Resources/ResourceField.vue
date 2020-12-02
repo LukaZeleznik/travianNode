@@ -4,10 +4,10 @@
             <div class="justify-content-center text-center" v-if="resourceInfoLookup">
                 <h1 class="my-4" v-if="villageResourceType > -1">{{ resourceInfoLookup[villageResourceType]['name'] + " Level " + villageResourceLevel }}</h1>
                 <h6 class="my-4" v-if="resourceInfoLookup && villageResourceType">{{ resourceInfoLookup[villageResourceType]['description'] }}</h6>
-                <h5>
+                <h5 v-if="resourceInfoLookup[villageResourceType]">
                     Current production: {{resourceInfoLookup[villageResourceType]['production'][villageResourceLevel]}} per hour
                 </h5>
-                <h5 class="mb-3">
+                <h5 class="mb-3" v-if="resourceInfoLookup[villageResourceType]">
                     Production at Level {{ villageResourceLevel+1 }}: {{resourceInfoLookup[villageResourceType]['production'][villageResourceLevel+1]}} per hour
                 </h5>
                 <h4> 
@@ -101,7 +101,8 @@ export default {
             let villageResFieldUpgradeResponse = await this.$root.doApiRequest("villageResFieldUpgrades", "POST", resourceFieldData)
             let villageResFieldUpgradeResponseJson = await villageResFieldUpgradeResponse.json();
 
-            if(villageResFieldUpgradeResponseJson.message == "villageResFieldUpgrade success"){      
+            if(villageResFieldUpgradeResponseJson.message == "villageResFieldUpgrade success"){
+                this.fetchVillageResources();
                 this.$router.push({ name: 'resources' });
             }
             else{
