@@ -109,7 +109,6 @@ export default {
             }
         },
         hasRequiredResources(){
-            console.log(this.villageResourceLevel+1,this.resourceInfoLookup[this.villageResourceType]['wood'][this.villageResourceLevel+1]);
             let woodRequired = this.resourceInfoLookup[this.villageResourceType]['wood'][this.villageResourceLevel+1];
             let clayRequired = this.resourceInfoLookup[this.villageResourceType]['clay'][this.villageResourceLevel+1];
             let ironRequired = this.resourceInfoLookup[this.villageResourceType]['iron'][this.villageResourceLevel+1];

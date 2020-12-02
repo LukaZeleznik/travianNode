@@ -13,6 +13,7 @@
 
 <script>
 import * as infoLookup from '../assets/js/infoLookupTools.js';
+import { fetchMixins } from '../../src/mixins/fetchMixins'
 
 export default {
     data() {
@@ -22,46 +23,16 @@ export default {
             buildingInfoLookup: infoLookup.buildingInfoLookup,
             troopInfoLookup: infoLookup.troopInfoLookup,
             villageResources: this.$store.getters.getVillageResources,
-            userTribe: "Teuton",
         };
     },
 
+    mixins: [fetchMixins],
+
     created() {
         this.fetchVillageResources();
-        this.fetchBuildingData();
+        this.fetchBuildingData(this.$route.params.vbid);
     },
 
-    methods: {
-        fetchVillageResources(){
-            this.villageResources = this.$store.getters.getVillageResources;
-
-            this.$store.dispatch('fetchVillageResources')
-            .then( () => {
-                this.villageResources = this.$store.getters.getVillageResources;
-            });
-        },
-        fetchBuildingData(){
-            fetch('http://localhost:8080/api/villageBuildingFields/1')
-            .then(res => res.json())
-            .then(res => {
-                let vbid = this.$route.params.vbid;
-                let keyType = "field"+vbid+"Type";
-                let keyLevel = "field"+vbid+"Level";
-
-                if(vbid == 19){
-                    switch (this.userTribe) {
-                        case "Teuton":  this.villageBuildingType = 5; break;
-                        case "Roman":   this.villageBuildingType = 6; break;
-                        case "Gaul":    this.villageBuildingType = 7; break;
-                    }
-                }
-                else {
-                    this.villageBuildingType = res.data[keyType];
-                }
-                this.villageBuildingLevel = res.data[keyLevel];
-            })
-            .catch(err => console.log(err));
-        },
-    }
+    methods: {}
 }
 </script>
