@@ -50,7 +50,7 @@ export default {
               return state.my_state;
           },
           function () {
-              console.log("change");
+              //console.log("change");
           },
           {
               deep: true //add this if u need to watch object properties change etc.
@@ -60,8 +60,8 @@ export default {
     test2(){
         this.$store.subscribe((mutation, state) => {
           if(mutation.type == "setVillageResources"){
-            console.log(mutation);
-            console.log(state);
+            //console.log(mutation);
+            //console.log(state);
           }
       });
     },
