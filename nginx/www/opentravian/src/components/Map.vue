@@ -17,17 +17,17 @@
                           <div class="hexIn" v-if="index == 31">
                             <router-link class="hexLink" :to="{ path: '/sendTroops/' + 2  }">
                               <div class='img' v-bind:style="'background-color: orange'">
-                                  <p style="top:35%;opacity:1;color:black">VillageName2</p>
+                                  <p style="top:35%;opacity:1;color:black">{{ mapTiles[index] }}</p>
                               </div>
                               <h1 id="demo1"></h1>
                               <p id="demo2"></p>
                             </router-link>
                           </div>
 
-                          <div class="hexIn" v-else-if="index == 51">
+                          <div class="hexIn" v-else-if="index == 47">
                             <router-link class="hexLink" :to="{ name: 'resources' }">
                               <div class='img' v-bind:style="'background-color: orange'">
-                                  <p style="top:35%;opacity:1;color:black">VillageName</p>
+                                  <p style="top:35%;opacity:1;color:black">{{ mapTiles[index] }}</p>
                               </div>
                               <h1 id="demo1"></h1>
                               <p id="demo2"></p>
@@ -37,7 +37,7 @@
                           <div class="hexIn" v-else>
                             <router-link class="hexLink" :to="{ path: '/map/' }">
                               <div class='img' v-bind:style="'background-color: green'">
-                                  <p style="top:35%;opacity:1;color:black"></p>
+                                  <p style="top:35%;opacity:1;color:black">{{ mapTiles[index] }}</p>
                               </div>
                               <h1 id="demo1"></h1>
                               <p id="demo2"></p>
@@ -58,17 +58,36 @@
 export default {
   data() {
     return {
-      mapTiles : ["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",
-      "","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",],
+      mapTiles : [],
     };
   },
 
   created() {
-
+    this.test();
   },
 
   methods: {
-    
+    test(){
+      let testTiles = [];
+      let width = 11;
+      let height = 9;
+
+      let increment = 0;
+
+      for(let y = 0; y < height; y++){
+        testTiles[y] = [];
+        for(let x = 0; x < width; x++){
+          if (y % 2 && x == width-1) break;
+          testTiles[y][x] = (x - Math.floor(width/2)) + ", " + -(y - Math.floor(height/2));
+          this.mapTiles[increment] = testTiles[y][x];
+          increment++;
+        }
+      }
+
+      console.log(testTiles);
+      console.log(increment);
+      console.log(this.mapTiles);
+    }
   }
 }
 </script>
@@ -80,8 +99,8 @@ export default {
   }
 
   .hex {
-    width: 8.33%;
-    /* = 100 / 5 */
+    width: 9.09%;
+    /* 100% / width */
   }
   .hex:nth-child(9n+6) {
     /* first hexagon of even rows */
@@ -89,9 +108,9 @@ export default {
     /* = */
   }
 
-  .hex:nth-child(23n+13) {
+  .hex:nth-child(21n+12) {
     /* first hexagon of even rows */
-    margin-left: 4.2%;
+    margin-left: 4.5%;
     /* = width of .hex / 2  to indent even rows */
   }
 
