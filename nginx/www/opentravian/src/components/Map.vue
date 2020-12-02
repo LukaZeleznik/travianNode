@@ -5,7 +5,7 @@
         <h1 class="text-center" >World Map</h1>
       </div>
     </div>
-    <div class="container">
+    <div class="container mb-4">
         <div class="row">
             <div class="col-md-12">
                 <p class="h2 text-center"></p>
@@ -14,7 +14,7 @@
                         <!-- Row 1 -->
                         <li class="hex hexMap" v-for="(mapTile, index) in mapTiles" :key="index">
 
-                          <div class="hexIn" v-if="index == 15">
+                          <div class="hexIn" v-if="index == 31">
                             <router-link class="hexLink" :to="{ path: '/sendTroops/' + 2  }">
                               <div class='img' v-bind:style="'background-color: orange'">
                                   <p style="top:35%;opacity:1;color:black">VillageName2</p>
@@ -24,7 +24,7 @@
                             </router-link>
                           </div>
 
-                          <div class="hexIn" v-else-if="index == 23">
+                          <div class="hexIn" v-else-if="index == 51">
                             <router-link class="hexLink" :to="{ name: 'resources' }">
                               <div class='img' v-bind:style="'background-color: orange'">
                                   <p style="top:35%;opacity:1;color:black">VillageName</p>
@@ -58,7 +58,8 @@
 export default {
   data() {
     return {
-      mapTiles : ["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",],
+      mapTiles : ["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",
+      "","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",],
     };
   },
 
@@ -79,21 +80,21 @@ export default {
   }
 
   .hex {
-    width: 10%;
+    width: 8.33%;
     /* = 100 / 5 */
   }
-
-  .hex:nth-child(19n+11) {
-    /* first hexagon of even rows */
-    margin-left: 5%;
-    /* = width of .hex / 2  to indent even rows */
-  }
-
   .hex:nth-child(9n+6) {
     /* first hexagon of even rows */
     margin-left: 0%;
     /* = */
   }
+
+  .hex:nth-child(23n+13) {
+    /* first hexagon of even rows */
+    margin-left: 4.2%;
+    /* = width of .hex / 2  to indent even rows */
+  }
+
 
   .hex p {
       font-size: 0.8em;
