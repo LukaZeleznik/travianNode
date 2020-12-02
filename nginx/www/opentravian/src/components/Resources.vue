@@ -39,32 +39,9 @@ export default {
   },
 
   created() {
-    this.test();
-    this.test2();
   },
 
   methods: {
-    test(){
-      this.$store.watch(
-          function (state) {
-              return state.my_state;
-          },
-          function () {
-              //console.log("change");
-          },
-          {
-              deep: true //add this if u need to watch object properties change etc.
-          }
-      );
-    },
-    test2(){
-        this.$store.subscribe((mutation, state) => {
-          if(mutation.type == "setVillageResources"){
-            //console.log(mutation);
-            //console.log(state);
-          }
-      });
-    },
     fetchVillageResources(){
         this.villageResources = this.$store.getters.getVillageResources;
 

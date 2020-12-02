@@ -48,7 +48,7 @@
                     <div class="hexIn" v-else>
                         <router-link class="hexLink" :to="{ path: '/villageBuilding/' + realIndexes[index] }">
                             <div class='img' v-bind:style="'background-color:' + villageBuildingColors[realIndexes[index]-1]">
-                                <p style="top:35%;opacity:1;color:black" v-if="villageBuildingTypes[realIndexes[index]-1] > 0">{{ villageBuildingNames[realIndexes[index]-1] }} ({{ villageBuildingLevels[realIndexes[index]-1] }})</p>
+                                <p style="top:35%;opacity:1;color:black" v-if="villageBuildingLevels[realIndexes[index]-1] > 0 || villageBuildingNames[realIndexes[index]-1] != villageBuildingNames[0]">{{ villageBuildingNames[realIndexes[index]-1] }} ({{ villageBuildingLevels[realIndexes[index]-1] }})</p>
                             </div>
                         </router-link>
                     </div>
@@ -78,6 +78,11 @@ export default {
             realIndexes: [1,1,1,2,3,3,4,5,6,7,8,9,10,10,11,12,13,14,15,19,16,17,18],
         };
     },
+
+    mixin: {
+        
+    },
+
     created() {
         this.fetchvillageBuildingFields();
         this.fetchVillageResources();

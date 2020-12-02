@@ -13,7 +13,7 @@
                 <img src="/images/clock.gif">               {{ $root.secondsToTimeRemaining(buildingInfoLookup[$parent.villageBuildingType]['constructionTime'][$parent.villageBuildingLevel+1] * 1000) }}</p>
             </h5>
             <h5 class="mt-4"> 
-                <button v-if="hasRequiredResources()" type="button" class="btn btn-success" @click="upgradeBuilding()">Upgrade to Level {{ $parent.villageBuildingLevel+1 }}</button> 
+                <button v-if="hasRequiredResources()" type="button" class="btn btn-success" @click="upgradeBuilding($route.params.vbid)">Upgrade to Level {{ $parent.villageBuildingLevel+1 }}</button> 
                 <span v-else>Not enough resources</span>
             </h5>
         </div>
@@ -26,6 +26,8 @@
 
 
 <script>
+import { upgradeMixins } from '../../../mixins/upgradeMixins'
+import { hasMixins } from '../../../mixins/hasMixins'
 
 export default {
     data() {
@@ -34,6 +36,8 @@ export default {
             villageResources: this.$store.getters.getVillageResources,
         };
     },
+
+    mixins: [upgradeMixins,hasMixins],
 
     watch: {
         '$store.getters.getVillageResources': function() {
@@ -46,22 +50,6 @@ export default {
     },
 
     methods: {
-        async upgradeBuilding(){
-            let buildingData = {
-                "idVillage": 1,
-                "vbid": this.$route.params.vbid,
-            }
-
-            let buildingUpgradeResponse = await this.$root.doApiRequest("villageBuildingUpgrades", "POST", buildingData);
-            let buildingUpgradeResponseJson = await buildingUpgradeResponse.json();
-
-            if(buildingUpgradeResponseJson.message == "villageBuildingUpgrade success"){
-                this.$router.push({ name: 'village' });
-            }
-            else{
-                document.getElementById("errorMessage").innerText = buildingUpgradeResponseJson.message;
-            }
-        },
         hasRequiredResources(){
             let woodRequired = this.buildingInfoLookup[this.$parent.villageBuildingType]['wood'][this.$parent.villageBuildingLevel+1];
             let clayRequired = this.buildingInfoLookup[this.$parent.villageBuildingType]['clay'][this.$parent.villageBuildingLevel+1];
