@@ -33,12 +33,8 @@ import { fetchMixins } from '../../../mixins/fetchMixins'
 export default {
     data() {
         return {
-            villageResFieldUpgrades: this.$store.getters.getVillageResFieldUpgrades,
             villageResFieldUpgradesTimeLeft: [],
-            villageBuildingUpgrades: this.$store.getters.getVillageBuildingUpgrades,
             villageBuildingUpgradesTimeLeft: [],
-            buildingInfoLookup: this.$parent.buildingInfoLookup,
-            resourceInfoLookup: this.$parent.resourceInfoLookup,
         };
     },
 
