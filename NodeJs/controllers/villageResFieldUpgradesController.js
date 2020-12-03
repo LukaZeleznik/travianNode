@@ -30,11 +30,22 @@ exports.new = async function (req, res) {
         let villageResourceFieldLevel = Number(villageResourceFields["field"+resFieldId+"Level"]);
         let villageResourceFieldType = Number(villageResourceFields["field"+resFieldId+"Type"]);
 
+        let villageResFieldUpgradesApiUrl = 'http://localhost:8080/api/villageResFieldUpgrades/' + idVillage;
+        let villageResFieldUpgradesCurrent = await(await(await fetch(villageResFieldUpgradesApiUrl)).json()).data;
+
         let requirementWood = resourceInfo[villageResourceFieldType]["wood"][villageResourceFieldLevel];
         let requirementClay = resourceInfo[villageResourceFieldType]["clay"][villageResourceFieldLevel];
         let requirementIron = resourceInfo[villageResourceFieldType]["iron"][villageResourceFieldLevel];
         let requirementCrop = resourceInfo[villageResourceFieldType]["crop"][villageResourceFieldLevel];
         let requirementConstructionTime = Math.floor(Number(resourceInfo[villageResourceFieldType]["constructionTime"][villageResourceFieldLevel])/100);
+
+        if(villageResFieldUpgradesCurrent.length > 0){
+            res.json({
+                message: 'Another resource field is being upgraded',
+                data: ""
+            });
+            return;
+        }
 
         if( villageResources.currentWood < requirementWood || villageResources.currentClay < requirementClay || 
             villageResources.currentIron < requirementIron || villageResources.currentCrop < requirementCrop ){

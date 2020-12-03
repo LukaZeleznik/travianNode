@@ -50,6 +50,17 @@ exports.new = async function (req, res) {
         let villageBuildingLevel = Number(villageBuildingFields["field"+buildingFieldId+"Level"]);
         let villageBuildingType = 0;
 
+        let villageBuildingUpgradesApiUrl = 'http://localhost:8080/api/villageBuildingUpgrades/' + idVillage;
+        let villageBuildingUpgradesCurrent = await(await(await fetch(villageBuildingUpgradesApiUrl)).json()).data;
+
+        if(villageBuildingUpgradesCurrent.length > 0){
+            res.json({
+                message: 'Another building is already being upgraded',
+                data: ""
+            });
+            return;
+        }
+
         if(newBuildingType>0) {
             for(let i = 1; i < 20; i++){
                 villageBuildingTypes.push(villageBuildingFields['field'+i+'Type']);
