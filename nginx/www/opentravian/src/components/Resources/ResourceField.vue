@@ -25,8 +25,9 @@
                             <img style="width: 1.5rem;height: 1rem;" src="/images/clock.gif">           {{ $root.secondsToTimeRemaining(resourceInfoLookup[villageResourceType]['constructionTime'][villageResourceLevel+1] * 1000) }}
                         </div>
                     </h5>
-                    <h5 class="mt-4"> 
-                        <button v-if="hasRequiredResFieldResources()" type="button" class="btn btn-success" @click="upgradeResField($route.params.rfid)">Upgrade to Level {{ villageResourceLevel+1 }}</button> 
+                    <h5 class="mt-4">
+                        <span v-if="villageResFieldUpgrades.length > 0">Another resource field is already being upgraded</span>
+                        <button v-else-if="hasRequiredResFieldResources()" type="button" class="btn btn-success" @click="upgradeResField($route.params.rfid)">Upgrade to Level {{ villageResourceLevel+1 }}</button> 
                         <span v-else>Not enough resources</span>
                     </h5>
                 </div>

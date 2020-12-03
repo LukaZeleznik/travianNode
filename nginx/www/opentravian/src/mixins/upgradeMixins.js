@@ -15,6 +15,7 @@ export const upgradeMixins = {
             let buildingUpgradeResponseJson = await buildingUpgradeResponse.json();
 
             if(buildingUpgradeResponseJson.message == "villageBuildingUpgrade success"){
+                this.fetchVillageResources();
                 this.$router.push({ name: 'village' });
             }
             else{
