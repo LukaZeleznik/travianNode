@@ -71,7 +71,6 @@ export default {
       let testTiles = [];
       let width = 11;
       let height = 9;
-
       let increment = 0;
 
       for(let y = 0; y < height; y++){
@@ -83,10 +82,6 @@ export default {
           increment++;
         }
       }
-
-      console.log(testTiles);
-      console.log(increment);
-      console.log(this.mapTiles);
     }
   }
 }

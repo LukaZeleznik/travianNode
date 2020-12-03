@@ -200,7 +200,6 @@ exports.new = async function (req, res) {
 
                 if(newBuildingType>0) {
                     villageBuildingFields["field"+buildingFieldId+"Type"] = newBuildingType;
-                    console.log(villageBuildingFields["field"+buildingFieldId+"Type"],buildingFieldId,newBuildingType);
                     fetch(villageBuildingFieldsApiUrl, {
                         method: 'PATCH',
                         headers: {

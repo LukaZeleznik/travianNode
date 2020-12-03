@@ -36,9 +36,31 @@ export const fetchMixins = {
         '$store.getters.getVillageBuildingTypes': function() {
             this.villageBuildingTypes = this.$store.getters.getVillageBuildingTypes;
         },
-         '$store.getters.getVillageBuildingColors': function() {
+        '$store.getters.getVillageBuildingColors': function() {
             this.villageBuildingColors = this.$store.getters.getVillageBuildingColors;
         },
+        '$store.getters.getVillageResourceFieldLevels': function() {
+            this.villageResourceFieldLevels = this.$store.getters.getVillageResourceFieldLevels;
+        },
+        '$store.getters.getVillageResourceFieldTypes': function() {
+            this.villageResourceFieldTypes = this.$store.getters.getVillageResourceFieldTypes;
+        },
+        '$store.getters.getVillageResourceFieldColors': function() {
+            this.villageResourceFieldColors = this.$store.getters.getVillageResourceFieldColors;
+        },
+        '$store.getters.getVillageOutgoingAttacks': function() {
+            this.villageOutgoingAttacks = this.$store.getters.getVillageOutgoingAttacks;
+        },
+        '$store.getters.getVillageOutgoingReinforcements': function() {
+            this.villageOutgoingReinforcements = this.$store.getters.getVillageOutgoingReinforcements;
+        },
+        '$store.getters.getVillageIncomingAttacks': function() {
+            this.villageIncomingAttacks = this.$store.getters.getVillageIncomingAttacks;
+        },
+        '$store.getters.getVillageIncomingReinforcements': function() {
+            this.villageIncomingReinforcements = this.$store.getters.getVillageIncomingReinforcements;
+        },
+        
     },
 
     methods: {
@@ -72,6 +94,18 @@ export const fetchMixins = {
                     this.villageBuildingType = res.data[keyType];
                 }
                 this.villageBuildingLevel = res.data[keyLevel];
+            })
+            .catch(err => console.log(err));
+        },
+        fetchResourceFieldsData(rfid){
+            fetch('http://localhost:8080/api/villageResourceFields/1')
+            .then(res => res.json())
+            .then(res => {
+                let keyType = "field"+rfid+"Type";
+                let keyLevel = "field"+rfid+"Level";
+
+                this.villageResourceType = res.data[keyType];
+                this.villageResourceLevel = res.data[keyLevel];
             })
             .catch(err => console.log(err));
         },

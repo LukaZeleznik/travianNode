@@ -30,45 +30,25 @@
 </template>
 
 <script>
+import { fetchMixins } from '../../src/mixins/fetchMixins'
+
 export default {
     data() {
         return {
-            villageResourceFieldTypes : this.$store.getters.getVillageResourceFieldTypes,
-            villageResourceFieldColors: this.$store.getters.getVillageResourceFieldColors,
-            villageResourceFieldLevels: this.$store.getters.getVillageResourceFieldLevels,
             realIndexes: [1,1,1,2,3,3,4,5,6,7,8,9,10,10,11,12,13,14,15,16,16,17,18],
         };
     },
+
+    mixins: [fetchMixins],
 
     created(){
         this.fetchvillageResourceFields();
     },
 
     watch: {
-        '$store.getters.getVillageResourceFieldColors': function() {
-            this.villageResourceFieldColors = this.$store.getters.getVillageResourceFieldColors;
-        },
-        '$store.getters.getVillageResourceFieldLevels': function() {
-            this.villageResourceFieldLevels = this.$store.getters.getVillageResourceFieldLevels;
-        },
-        '$store.getters.getVillageResourceFieldTypes': function() {
-            this.villageResourceFieldTypes = this.$store.getters.getVillageResourceFieldTypes;
-        },
     },
 
     methods: {
-        fetchvillageResourceFields(){
-            this.villageResourceFieldLevels  = this.$store.getters.getVillageResourceFieldLevels;
-            this.villageResourceFieldTypes   = this.$store.getters.getVillageResourceFieldTypes;
-            this.villageResourceFieldColors  = this.$store.getters.getVillageResourceFieldColors;
-
-            this.$store.dispatch('fetchVillageResourceFields')
-            .then( () => {
-                this.villageResourceFieldLevels  = this.$store.getters.getVillageResourceFieldLevels;
-                this.villageResourceFieldTypes   = this.$store.getters.getVillageResourceFieldTypes;
-                this.villageResourceFieldColors  = this.$store.getters.getVillageResourceFieldColors;
-            });
-        },
     }
 }
 </script>

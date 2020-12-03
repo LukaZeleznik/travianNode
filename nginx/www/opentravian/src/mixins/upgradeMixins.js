@@ -21,5 +21,22 @@ export const upgradeMixins = {
                 document.getElementById("errorMessage").innerText = buildingUpgradeResponseJson.message;
             }
         },
+        async upgradeResField(rfid){
+            let resourceFieldData = {
+                "idVillage": 1,
+                "rfid": rfid,
+            }
+
+            let villageResFieldUpgradeResponse = await this.doApiRequest("villageResFieldUpgrades", "POST", resourceFieldData)
+            let villageResFieldUpgradeResponseJson = await villageResFieldUpgradeResponse.json();
+
+            if(villageResFieldUpgradeResponseJson.message == "villageResFieldUpgrade success"){
+                this.fetchVillageResources();
+                this.$router.push({ name: 'resources' });
+            }
+            else{
+                document.getElementById("errorMessage").innerText = villageResFieldUpgradeResponseJson.message;
+            }
+        },
     }
   }

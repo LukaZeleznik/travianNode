@@ -26,19 +26,19 @@
 </template>
 
 <script>
-import * as infoLookup from '../assets/js/infoLookupTools.js';
+import { fetchMixins } from '../mixins/fetchMixins'
 
 export default {
 
     data() {
         return {
-            buildingInfoLookup: infoLookup.buildingInfoLookup,
-            resourceInfoLookup: infoLookup.resourceInfoLookup,
         };
     },
 
-  created() {},
+    mixins: [fetchMixins],
 
-  methods: {}
+    created() {},
+
+    methods: {}
 }
 </script>
