@@ -42,11 +42,11 @@
 
 
 <script>
-import { apiRequestMixins } from '../../mixins/apiRequestMixins'
-import { fetchMixins } from '../../mixins/fetchMixins'
-import { upgradeMixins } from '../../mixins/upgradeMixins'
-import { hasMixins } from '../../mixins/hasMixins'
-import { toolsMixins } from '../../mixins/toolsMixins'
+import { apiRequestMixins } from '@/mixins/apiRequestMixins'
+import { fetchMixins } from '@/mixins/fetchMixins'
+import { upgradeMixins } from '@/mixins/upgradeMixins'
+import { hasMixins } from '@/mixins/hasMixins'
+import { toolsMixins } from '@/mixins/toolsMixins'
 
 export default {
     data() {

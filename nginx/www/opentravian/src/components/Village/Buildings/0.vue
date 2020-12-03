@@ -43,9 +43,9 @@
 
 
 <script>
-import { fetchMixins } from '../../../mixins/fetchMixins'
-import { apiRequestMixins } from '../../../mixins/apiRequestMixins'
-import { toolsMixins } from '../../../mixins/toolsMixins'
+import { fetchMixins } from '@/mixins/fetchMixins'
+import { apiRequestMixins } from '@/mixins/apiRequestMixins'
+import { toolsMixins } from '@/mixins/toolsMixins'
 
 //Buildings
 const EARTH_WALL = 5;
