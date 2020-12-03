@@ -35,7 +35,7 @@
                           </div>
                           
                           <div class="hexIn" v-else>
-                            <router-link class="hexLink" :to="{ path: '/map/' }">
+                            <router-link class="hexLink" :to="{ path: '/map/' + index }">
                               <div class='img' v-bind:style="'background-color: green'">
                                   <p style="top:35%;opacity:1;color:black">{{ mapTiles[index] }}</p>
                               </div>
