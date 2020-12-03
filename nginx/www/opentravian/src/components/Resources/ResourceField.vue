@@ -42,7 +42,8 @@
 
 <script>
 import * as infoLookup from '../../assets/js/infoLookupTools.js';
-import { apiRequestMixins } from '../../mixins/apiRequestMixins'
+import { apiRequestMixins } from '../../mixins/apiRequestMixins';
+import { apiRequestMixins } from '../../mixins/apiRequestMixins';
 
 export default {
     data() {
