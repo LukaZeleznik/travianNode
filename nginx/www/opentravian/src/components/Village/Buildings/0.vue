@@ -10,7 +10,7 @@
                             <img src="/images/resources/iron.gif">  {{ buildingInfoLookup[availableBuilding]['iron'][1] }} |
                             <img src="/images/resources/crop.gif">  {{ buildingInfoLookup[availableBuilding]['crop'][1] }} |
                             <img src="/images/consum.gif">          {{ buildingInfoLookup[availableBuilding]['consumption'][1] }} |
-                            <img src="/images/clock.gif">           {{ $root.secondsToTimeRemaining(buildingInfoLookup[availableBuilding]['constructionTime'][1] * 1000) }}
+                            <img src="/images/clock.gif">           {{ secondsToTimeRemaining(buildingInfoLookup[availableBuilding]['constructionTime'][1] * 1000) }}
                         </span>
                     </th>
                     <td class="align-middle">
@@ -31,7 +31,7 @@
                             <img src="/images/resources/iron.gif">  {{ buildingInfoLookup[soonAvailableBuilding]['iron'][1] }} |
                             <img src="/images/resources/crop.gif">  {{ buildingInfoLookup[soonAvailableBuilding]['crop'][1] }} |
                             <img src="/images/consum.gif">          {{ buildingInfoLookup[soonAvailableBuilding]['consumption'][1] }} |
-                            <img src="/images/clock.gif">           {{ $root.secondsToTimeRemaining(buildingInfoLookup[soonAvailableBuilding]['constructionTime'][1] * 1000) }}
+                            <img src="/images/clock.gif">           {{ secondsToTimeRemaining(buildingInfoLookup[soonAvailableBuilding]['constructionTime'][1] * 1000) }}
                         </span>
                     </th>
                 </tr>
@@ -45,6 +45,7 @@
 <script>
 import { fetchMixins } from '../../../mixins/fetchMixins'
 import { apiRequestMixins } from '../../../mixins/apiRequestMixins'
+import { toolsMixins } from '../../../mixins/toolsMixins'
 
 //Buildings
 const EARTH_WALL = 5;
@@ -70,7 +71,7 @@ export default {
         };
     },
 
-    mixins: [fetchMixins,apiRequestMixins],
+    mixins: [fetchMixins,apiRequestMixins,toolsMixins],
 
     created() {
         this.fetchvillageBuildingFields();

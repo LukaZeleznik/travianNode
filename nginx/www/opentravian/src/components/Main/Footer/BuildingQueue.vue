@@ -7,10 +7,10 @@
                 {{ resourceInfoLookup[villageResFieldUpgrades[0].fieldType]['name']}} <!-- should NOT be name..should be field type... -->
                 (Level {{ (villageResFieldUpgrades[0].fieldLevel+1) }})</h5>
             <h5 class="text-center" v-if="villageResFieldUpgradesTimeLeft[0] > -1">
-                in <span id="upgradeCD1">{{ $root.secondsToTimeRemaining(villageResFieldUpgradesTimeLeft[0]*1000) }}</span>
+                in <span id="upgradeCD1">{{ secondsToTimeRemaining(villageResFieldUpgradesTimeLeft[0]*1000) }}</span>
             </h5>
             <h5 class="text-right" v-if="villageResFieldUpgrades[0].timeCompleted > 0">
-                done at {{ $root.secondsToTimeCompleted(villageResFieldUpgrades[0].timeCompleted*1000) }}
+                done at {{ secondsToTimeCompleted(villageResFieldUpgrades[0].timeCompleted*1000) }}
             </h5>
         </div>
         <div class="d-flex justify-content-between pl-5 ml-4" v-if="villageBuildingUpgrades.length > 0">
@@ -18,10 +18,10 @@
                 {{ buildingInfoLookup[villageBuildingUpgrades[0].buildingType]['name'] }}
                 (Level {{ (villageBuildingUpgrades[0].buildingLevel+1) }})</h5>
             <h5 class="text-center" v-if="villageBuildingUpgradesTimeLeft[0] > -1">
-                in <span id="upgradeCD2">{{ $root.secondsToTimeRemaining(villageBuildingUpgradesTimeLeft[0]*1000) }}</span>
+                in <span id="upgradeCD2">{{ secondsToTimeRemaining(villageBuildingUpgradesTimeLeft[0]*1000) }}</span>
             </h5>
             <h5 class="text-right" v-if="villageBuildingUpgrades[0].timeCompleted > 0">
-                done at {{ $root.secondsToTimeCompleted(villageBuildingUpgrades[0].timeCompleted*1000) }}
+                done at {{ secondsToTimeCompleted(villageBuildingUpgrades[0].timeCompleted*1000) }}
             </h5>
         </div>
     </div>
@@ -29,6 +29,7 @@
 
 <script>
 import { fetchMixins } from '../../../mixins/fetchMixins'
+import { toolsMixins } from '../../../mixins/toolsMixins'
 
 export default {
     data() {
@@ -38,7 +39,7 @@ export default {
         };
     },
 
-    mixins: [fetchMixins],
+    mixins: [fetchMixins,toolsMixins],
 
     created() {
         this.fetchVillageResFieldUpgrades();
@@ -104,7 +105,7 @@ export default {
                 },
             });
 
-            let cancelBuildingUpgradeResponse = await this.$root.doApiRequest("villageBuildingUpgrades/" + villageBuildingUpgrades[0]._id, "DELETE", "");
+            let cancelBuildingUpgradeResponse = await this.doApiRequest("villageBuildingUpgrades/" + villageBuildingUpgrades[0]._id, "DELETE", "");
             let cancelBuildingUpgradeJson = await cancelBuildingUpgradeResponse.json();
             if(cancelBuildingUpgradeJson.status == "success"){
                 villageResources.currentWood += villageBuildingUpgrades[0].woodUsed;
@@ -113,7 +114,7 @@ export default {
                 villageResources.currentCrop += villageBuildingUpgrades[0].cropUsed;
                 villageResources.lastUpdate = currentUnixTime;
 
-                let updateVillageResourcesResponse = await this.$root.doApiRequest("villageResources/1", "PATCH", villageResources) //hardcoded
+                let updateVillageResourcesResponse = await this.doApiRequest("villageResources/1", "PATCH", villageResources) //hardcoded
                 let updateVillageResourcesJson = await updateVillageResourcesResponse.json();
                 console.log(updateVillageResourcesJson);
                 // DOESN'T WORK, TODO

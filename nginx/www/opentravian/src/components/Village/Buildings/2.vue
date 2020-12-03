@@ -10,7 +10,7 @@
                 <img src="/images/resources/iron.gif">      {{ buildingInfoLookup[$parent.villageBuildingType]['iron'][$parent.villageBuildingLevel+1] }} |
                 <img src="/images/resources/crop.gif">      {{ buildingInfoLookup[$parent.villageBuildingType]['crop'][$parent.villageBuildingLevel+1] }} |
                 <img src="/images/consum.gif">              {{ buildingInfoLookup[$parent.villageBuildingType]['consumption'][$parent.villageBuildingLevel+1] }} |
-                <img src="/images/clock.gif">               {{ $root.secondsToTimeRemaining(buildingInfoLookup[$parent.villageBuildingType]['constructionTime'][$parent.villageBuildingLevel+1] * 1000) }}</p>
+                <img src="/images/clock.gif">               {{ secondsToTimeRemaining(buildingInfoLookup[$parent.villageBuildingType]['constructionTime'][$parent.villageBuildingLevel+1] * 1000) }}</p>
             </h5>
             <h5 class="mt-4"> 
                 <span v-if="villageBuildingUpgrades.length > 0">Another building is already being upgraded</span>
@@ -31,6 +31,7 @@ import { fetchMixins } from '../../../mixins/fetchMixins'
 import { hasMixins } from '../../../mixins/hasMixins'
 import { apiRequestMixins } from '../../../mixins/apiRequestMixins'
 import { upgradeMixins } from '../../../mixins/upgradeMixins'
+import { toolsMixins } from '../../../mixins/toolsMixins'
 
 export default {
     data() {
@@ -42,7 +43,8 @@ export default {
         fetchMixins,
         hasMixins,
         apiRequestMixins,
-        upgradeMixins
+        upgradeMixins,
+        toolsMixins
         ],
     
     watch: {

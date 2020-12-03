@@ -22,7 +22,7 @@
                             <img style="width: 1.5rem;height: 1rem;" src="/images/resources/iron.gif">  {{ resourceInfoLookup[villageResourceType]['iron'][villageResourceLevel+1] }} |
                             <img style="width: 1.5rem;height: 1rem;" src="/images/resources/crop.gif">  {{ resourceInfoLookup[villageResourceType]['crop'][villageResourceLevel+1] }} |
                             <img style="width: 1.5rem;height: 1rem;" src="/images/consum.gif">          {{ resourceInfoLookup[villageResourceType]['consumption'][villageResourceLevel+1] }} |
-                            <img style="width: 1.5rem;height: 1rem;" src="/images/clock.gif">           {{ $root.secondsToTimeRemaining(resourceInfoLookup[villageResourceType]['constructionTime'][villageResourceLevel+1] * 1000) }}
+                            <img style="width: 1.5rem;height: 1rem;" src="/images/clock.gif">           {{ secondsToTimeRemaining(resourceInfoLookup[villageResourceType]['constructionTime'][villageResourceLevel+1] * 1000) }}
                         </div>
                     </h5>
                     <h5 class="mt-4">
@@ -46,7 +46,7 @@ import { apiRequestMixins } from '../../mixins/apiRequestMixins'
 import { fetchMixins } from '../../mixins/fetchMixins'
 import { upgradeMixins } from '../../mixins/upgradeMixins'
 import { hasMixins } from '../../mixins/hasMixins'
-
+import { toolsMixins } from '../../mixins/toolsMixins'
 
 export default {
     data() {
@@ -64,7 +64,8 @@ export default {
         fetchMixins,
         apiRequestMixins,
         upgradeMixins,
-        hasMixins
+        hasMixins,
+        toolsMixins
         ],
 
     watch: {
