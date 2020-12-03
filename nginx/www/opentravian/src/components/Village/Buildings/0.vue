@@ -15,8 +15,9 @@
                     </th>
                     <td class="align-middle">
                         <div class="input-group input-group-sm mb-3 align-middle"> 
-                            <h5 class="mt-4"> 
-                                <button type="button" class="btn btn-success" @click="build(availableBuilding)">Build</button> 
+                            <h5 class="mt-4">
+                                <span v-if="villageBuildingUpgrades.length > 0">Another building is already being upgraded</span>
+                                <button v-else type="button" class="btn btn-success" @click="build(availableBuilding)">Build</button> 
                             </h5>
                         </div>
                     </td>
