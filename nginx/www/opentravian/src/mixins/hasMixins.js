@@ -9,9 +9,9 @@ export const hasMixins = {
             if (this.villageResources[0] >= woodRequired && this.villageResources[1] >= clayRequired && 
                 this.villageResources[2] >= ironRequired && this.villageResources[3] >= cropRequired){
                 return true;
-            } else {
-                return false;
             }
+            
+            return false;
         },
         hasRequiredResFieldResources(){
             let woodRequired = this.resourceInfoLookup[this.villageResourceType]['wood'][this.villageResourceLevel+1];
@@ -22,9 +22,9 @@ export const hasMixins = {
             if (this.villageResources[0] >= woodRequired && this.villageResources[1] >= clayRequired && 
                 this.villageResources[2] >= ironRequired && this.villageResources[3] >= cropRequired){
                 return true;
-            } else {
-                return false;
             }
+
+            return false;
         },
     }
   }

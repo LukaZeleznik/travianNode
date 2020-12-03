@@ -18,7 +18,7 @@ exports.new = function (req, res) {
     let idVillage = req.body.idVillageFrom;
     let idVillageTo = req.body.idVillageTo;
     let currentUnixTime =  Math.round(new Date().getTime()/1000);
-    let currentUnixTimePlus10 =  Math.round(new Date().getTime()/1000)+10;
+    let currentUnixTimePlus10 =  Math.round(new Date().getTime()/1000)+100;
 
     let totalTroops = 0;
     for(let i = 1; i < 11; i++){

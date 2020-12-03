@@ -83,7 +83,6 @@ export default {
 
     created() {
         this.fetchvillageBuildingFields();
-        this.startTroopMovementsInterval();
     },
 
     methods: {
@@ -92,40 +91,6 @@ export default {
                 return this.buildingInfoLookup[type]['name'];
             });
         },
-        startTroopMovementsInterval(){
-            if(this.villageOutgoingReinforcements.length > 0){  
-                this.villageOutgoingReinforcementsTimeLeft[0] = (this.villageOutgoingReinforcements[0].timeArrived - Math.floor(new Date().getTime()/1000));
-            }
-            if(this.villageIncomingReinforcements.length > 0){  
-                this.villageIncomingReinforcementsTimeLeft[0] = (this.villageIncomingReinforcements[0].timeArrived - Math.floor(new Date().getTime()/1000));
-            }
-            if(this.villageIncomingAttacks.length > 0){         
-                this.villageIncomingAttacksTimeLeft[0] = (this.villageIncomingAttacks[0].timeArrived - Math.floor(new Date().getTime()/1000));
-            }
-            if(this.villageOutgoingAttacks.length > 0){         
-                this.villageOutgoingAttacksTimeLeft[0] = (this.villageOutgoingAttacks[0].timeArrived - Math.floor(new Date().getTime()/1000));
-            }
-    
-            setInterval( ()=> {
-                if(this.villageIncomingAttacksTimeLeft[0] > 0){
-                    this.$set(this.villageIncomingAttacksTimeLeft, 0, this.villageIncomingAttacksTimeLeft[0]-1);
-                }
-                if(this.villageIncomingReinforcementsTimeLeft[0] > 0){
-                    this.$set(this.villageIncomingReinforcementsTimeLeft, 0, this.villageIncomingReinforcementsTimeLeft[0]-1);
-                }
-                if(this.villageOutgoingAttacksTimeLeft[0] > 0){
-                    this.$set(this.villageOutgoingAttacksTimeLeft, 0, this.villageOutgoingAttacksTimeLeft[0]-1);
-                }
-                if(this.villageOutgoingReinforcementsTimeLeft[0] > 0){
-                    this.$set(this.villageOutgoingReinforcementsTimeLeft, 0, this.villageOutgoingReinforcementsTimeLeft[0]-1);
-                }
-                
-                if(this.villageIncomingAttacksTimeLeft[0] <= 0 || this.villageIncomingReinforcementsTimeLeft[0] <= 0 || this.villageOutgoingAttacksTimeLeft[0] <= 0 || this.villageOutgoingReinforcementsTimeLeft[0] <= 0){
-                    this.fetchVillageOwnTroops();
-                    this.fetchVillageTroopMovements();
-                }
-            }, 1000);
-        }
     }
 }
 </script>
