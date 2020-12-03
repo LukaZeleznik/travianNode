@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { fetchMixins } from '../../../mixins/fetchMixins'
+import { fetchMixins } from '@/mixins/fetchMixins'
 
 export default {
     data() {

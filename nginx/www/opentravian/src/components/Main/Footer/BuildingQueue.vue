@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import { fetchMixins } from '../../../mixins/fetchMixins'
-import { toolsMixins } from '../../../mixins/toolsMixins'
+import { fetchMixins } from '@/mixins/fetchMixins'
+import { toolsMixins } from '@/mixins/toolsMixins'
 
 export default {
     data() {

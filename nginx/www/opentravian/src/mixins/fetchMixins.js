@@ -84,9 +84,9 @@ export const fetchMixins = {
 
     methods: {
         infoLookup(){
-            this.buildingInfoLookup = require('../assets/infoTables/buildingInfoLookup.json');
-            this.resourceInfoLookup = require('../assets/infoTables/resourceInfoLookup.json');
-            this.troopInfoLookup = require('../assets/infoTables/troopInfoLookup.json');
+            this.buildingInfoLookup = require('@/assets/infoTables/buildingInfoLookup.json');
+            this.resourceInfoLookup = require('@/assets/infoTables/resourceInfoLookup.json');
+            this.troopInfoLookup = require('@/assets/infoTables/troopInfoLookup.json');
         },
         fetchVillageOwnTroops(){ this.$store.dispatch('fetchVillageOwnTroops') },
         fetchVillageResources(){ this.$store.dispatch('fetchVillageResources') },
