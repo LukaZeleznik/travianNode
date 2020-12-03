@@ -15,21 +15,18 @@
 </template>
 
 <script>
-import * as infoLookup from '../../../assets/js/infoLookupTools.js';
+import { fetchMixins } from '../../../mixins/fetchMixins'
 
 export default {
     data() {
         return {
-            villageOwnTroops: this.$store.getters.getVillageOwnTroops,
             userTribe: "Teuton",
-            troopInfoLookup: infoLookup.troopInfoLookup,
         };
     },
 
+    mixins: [fetchMixins],
+
     watch: {
-        '$store.getters.getVillageOwnTroops': function() {
-            this.villageOwnTroops = this.$store.getters.getVillageOwnTroops;
-        },
     },
 
     created() {
@@ -38,22 +35,6 @@ export default {
     },
 
     methods: {
-        fetchVillageOwnTroops(){
-            this.villageOwnTroops = this.$store.getters.getVillageOwnTroops;
-
-            this.$store.dispatch('fetchVillageOwnTroops')
-            .then( () => {
-                this.villageOwnTroops = this.$store.getters.getVillageOwnTroops;
-            });
-        },
-        fetchVillageReinforcements(){
-            this.villageReinforcements = this.$store.getters.getVillageReinforcements;
-
-            this.$store.dispatch('fetchVillageReinforcements')
-            .then( () => {
-                this.villageReinforcements = this.$store.getters.getVillageReinforcements;
-            });
-        },
     }
 }
 </script>

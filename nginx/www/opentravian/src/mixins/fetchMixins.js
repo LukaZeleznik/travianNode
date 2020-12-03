@@ -13,6 +13,10 @@ export const fetchMixins = {
             villageOutgoingReinforcements:  this.$store.getters.getVillageOutgoingReinforcements,
             villageIncomingAttacks:         this.$store.getters.getVillageIncomingAttacks,
             villageIncomingReinforcements:  this.$store.getters.getVillageIncomingReinforcements,
+            villageMaxResources:            this.$store.getters.getVillageMaxResources,
+            villageProduction:              this.$store.getters.getVillageProduction,
+            villageResFieldUpgrades:        this.$store.getters.getVillageResFieldUpgrades,
+            villageBuildingUpgrades:        this.$store.getters.getVillageBuildingUpgrades,
             buildingInfoLookup: [],
             resourceInfoLookup: [],
             troopInfoLookup: [],
@@ -60,6 +64,21 @@ export const fetchMixins = {
         '$store.getters.getVillageIncomingReinforcements': function() {
             this.villageIncomingReinforcements = this.$store.getters.getVillageIncomingReinforcements;
         },
+        '$store.getters.getVillageReinforcements': function() {
+            this.villageReinforcements = this.$store.getters.getVillageReinforcements;
+        },
+        '$store.getters.getVillageMaxResources': function() {
+            this.villageMaxResources = this.$store.getters.getVillageMaxResources;
+        },
+        '$store.getters.getVillageProduction': function() {
+            this.villageProduction = this.$store.getters.getVillageProduction;
+        },
+        '$store.getters.getVillageResFieldUpgrades': function() {
+            this.villageResFieldUpgrades = this.$store.getters.getVillageResFieldUpgrades;
+        },
+        '$store.getters.getVillageBuildingUpgrades': function() {
+            this.villageBuildingUpgrades = this.$store.getters.getVillageBuildingUpgrades;
+        },
         
     },
 
@@ -71,9 +90,14 @@ export const fetchMixins = {
         },
         fetchVillageOwnTroops(){ this.$store.dispatch('fetchVillageOwnTroops') },
         fetchVillageResources(){ this.$store.dispatch('fetchVillageResources') },
+        fetchVillageProduction(){ this.$store.dispatch('fetchVillageProduction') },
+        fetchVillageMaxResources(){ this.$store.dispatch('fetchVillageMaxResources') },
         fetchvillageBuildingFields(){ this.$store.dispatch('fetchVillageBuildingFields') },
         fetchvillageResourceFields(){ this.$store.dispatch('fetchVillageResourceFields') },
         fetchVillageTroopMovements(){ this.$store.dispatch('fetchVillageTroopMovements') },
+        fetchVillageReinforcements(){ this.$store.dispatch('fetchVillageReinforcements') },
+        fetchVillageResFieldUpgrades(){ this.$store.dispatch('fetchVillageResFieldUpgrades') },
+        fetchVillageBuildingUpgrades(){ this.$store.dispatch('fetchVillageBuildingUpgrades') },
 
         fetchBuildingData(vbid){
             fetch('http://localhost:8080/api/villageBuildingFields/1')

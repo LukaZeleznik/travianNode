@@ -24,23 +24,18 @@
 </template>
 
 <script>
+import { fetchMixins } from '../../../mixins/fetchMixins'
 
 export default {
     data() {
         return {
-            villageResources: this.$store.getters.getVillageResources,
-            villageMaxResources: this.$store.getters.getVillageMaxResources,
             maxResources: undefined,
         };
     },
 
+    mixins: [fetchMixins],
+
      watch: {
-        '$store.getters.getVillageResources': function() {
-            this.villageResources = this.$store.getters.getVillageResources;
-        },
-        '$store.getters.getVillageMaxResources': function() {
-            this.villageMaxResources = this.$store.getters.getVillageMaxResources;
-        },
     },
 
     created() {
@@ -50,34 +45,7 @@ export default {
         this.startIntervals();
     },
 
-    methods: {
-        fetchVillageResources(){
-            this.villageResources = this.$store.getters.getVillageResources;
-
-            this.$store.dispatch('fetchVillageResources')
-            .then( () => {
-                this.villageResources = this.$store.getters.getVillageResources;
-            })
-        },
-        fetchVillageMaxResources(){
-            this.villageMaxResources = this.$store.getters.getVillageMaxResources;
-
-            this.$store.dispatch('fetchVillageMaxResources')
-            .then( () => {
-                this.villageMaxResources = this.$store.getters.getVillageMaxResources;
-            });
-        },
-        fetchVillageProduction(){
-            this.villageProduction = this.$store.getters.getVillageProduction;
-
-            this.$store.dispatch('fetchVillageProduction')
-            .then( () => {
-                this.villageProduction = this.$store.getters.getVillageProduction;
-            })
-            .then( () => {
-                this.startIntervals();
-            });
-        },
+    methods: {    
         startIntervals(){
             var woodInterval = setInterval( ()=> {
                 if(parseInt(this.$store.getters.getVillageResources[0]) < this.villageMaxResources[0]){

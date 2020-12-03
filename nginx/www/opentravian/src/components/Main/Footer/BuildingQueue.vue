@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import { fetchMixins } from '../../../mixins/fetchMixins'
+
 export default {
     data() {
         return {
@@ -39,6 +41,9 @@ export default {
             resourceInfoLookup: this.$parent.resourceInfoLookup,
         };
     },
+
+    mixins: [fetchMixins],
+
     created() {
         this.fetchVillageResFieldUpgrades();
         this.fetchVillageBuildingUpgrades();
@@ -47,41 +52,18 @@ export default {
         this.startBuildingUpgradeInterval();
     },
     watch: {
-        '$store.getters.getVillageBuildingUpgrades': function() {
+        'villageBuildingUpgrades': function() {
             this.villageBuildingUpgrades = this.$store.getters.getVillageBuildingUpgrades;
             if(this.villageBuildingUpgrades.length < 1) return;
             this.villageBuildingUpgradesTimeLeft[0] = (this.villageBuildingUpgrades[0].timeCompleted - Math.floor(new Date().getTime()/1000));
         },
+        'villageResFieldUpgrades': function() {
+            this.villageResFieldUpgrades = this.$store.getters.getVillageResFieldUpgrades;
+            if(this.villageResFieldUpgrades.length < 1) return;
+            this.villageResFieldUpgradesTimeLeft[0] = (this.villageResFieldUpgrades[0].timeCompleted - Math.floor(new Date().getTime()/1000));
+        },
     },
     methods: {
-        fetchVillageResFieldUpgrades(){
-            this.villageResFieldUpgrades = this.$store.getters.getVillageResFieldUpgrades;
-
-            this.$store.dispatch('fetchVillageResFieldUpgrades')
-            .then( () => {
-                this.villageResFieldUpgrades = this.$store.getters.getVillageResFieldUpgrades;
-                if(this.villageResFieldUpgrades.length < 1) return;
-                this.villageResFieldUpgradesTimeLeft[0] = (this.villageResFieldUpgrades[0].timeCompleted - Math.floor(new Date().getTime()/1000));
-            });
-        },
-        fetchVillageBuildingUpgrades(){
-            this.villageBuildingUpgrades = this.$store.getters.getVillageBuildingUpgrades;
-
-            this.$store.dispatch('fetchVillageBuildingUpgrades')
-            .then( () => {
-                this.villageBuildingUpgrades = this.$store.getters.getVillageBuildingUpgrades;
-                if(this.villageBuildingUpgrades.length < 1) return;
-                this.villageBuildingUpgradesTimeLeft[0] = (this.villageBuildingUpgrades[0].timeCompleted - Math.floor(new Date().getTime()/1000));
-            });
-        },
-        fetchVillageProduction(){
-            this.villageProduction = this.$store.getters.getVillageProduction;
-
-            this.$store.dispatch('fetchVillageProduction')
-            .then( () => {
-                this.villageProduction = this.$store.getters.getVillageProduction;
-            })
-        },
         startResFieldUpgradeInterval(){
             var upgradeCD1Interval = setInterval( ()=> {
                 if(this.villageResFieldUpgradesTimeLeft[0] > 0){
@@ -92,10 +74,27 @@ export default {
                     this.fetchVillageResFieldUpgrades();
                     this.fetchVillageBuildingUpgrades();
                     this.fetchVillageProduction();
-                    this.reloadVillageResourceFields();
+                    this.fetchvillageResourceFields();
                 }
             }, 1000);
         },
+        startBuildingUpgradeInterval(){
+            var upgradeCD2Interval = setInterval( ()=> {
+                if(this.villageBuildingUpgradesTimeLeft[0] > 0){
+                    this.$set(this.villageBuildingUpgradesTimeLeft, 0, this.villageBuildingUpgradesTimeLeft[0]-1);
+                }
+                else if(this.villageBuildingUpgradesTimeLeft[0] <= 0 ){
+                    clearInterval(upgradeCD2Interval);
+                    this.fetchVillageResFieldUpgrades();
+                    this.fetchVillageBuildingUpgrades();
+                    this.fetchVillageProduction();
+                    this.fetchVillageMaxResources();
+                    this.fetchvillageBuildingFields();
+                }
+            }, 1000);
+        },
+
+/*
         async cancelBuildingUpgrade(villageBuildingUpgrades){
             let currentUnixTime =  Math.round(new Date().getTime()/1000);
 
@@ -107,7 +106,7 @@ export default {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-            });*/
+            });
 
             let cancelBuildingUpgradeResponse = await this.$root.doApiRequest("villageBuildingUpgrades/" + villageBuildingUpgrades[0]._id, "DELETE", "");
             let cancelBuildingUpgradeJson = await cancelBuildingUpgradeResponse.json();
@@ -133,37 +132,7 @@ export default {
             villageResources.currentIron -= villageResFieldUpgrades[0].ironUsed;
             villageResources.currentCrop -= villageResFieldUpgrades[0].cropUsed;
             villageResources.lastUpdate = currentUnixTime;
-*/
-        },
-        fetchVillageMaxResources(){
-            this.villageMaxResources = this.$store.getters.getVillageMaxResources;
-
-            this.$store.dispatch('fetchVillageMaxResources')
-            .then( () => {
-                this.villageMaxResources = this.$store.getters.getVillageMaxResources;
-            });
-        },
-        reloadVillageResourceFields(){
-            this.$store.dispatch('fetchVillageResourceFields');
-        },
-        reloadVillageBuildingFields(){
-            this.$store.dispatch('fetchVillageBuildingFields');
-        },
-        startBuildingUpgradeInterval(){
-            var upgradeCD2Interval = setInterval( ()=> {
-                if(this.villageBuildingUpgradesTimeLeft[0] > 0){
-                    this.$set(this.villageBuildingUpgradesTimeLeft, 0, this.villageBuildingUpgradesTimeLeft[0]-1);
-                }
-                else if(this.villageBuildingUpgradesTimeLeft[0] <= 0 ){
-                    clearInterval(upgradeCD2Interval);
-                    this.fetchVillageResFieldUpgrades();
-                    this.fetchVillageBuildingUpgrades();
-                    this.fetchVillageProduction();
-                    this.fetchVillageMaxResources();
-                    this.reloadVillageBuildingFields();
-                }
-            }, 1000);
-        },
+        },*/
     }
     
 }

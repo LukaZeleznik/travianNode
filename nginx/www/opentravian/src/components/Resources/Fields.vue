@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { fetchMixins } from '../../src/mixins/fetchMixins'
+import { fetchMixins } from '../../mixins/fetchMixins'
 
 export default {
     data() {

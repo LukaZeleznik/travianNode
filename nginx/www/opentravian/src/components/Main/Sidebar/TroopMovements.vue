@@ -33,28 +33,17 @@
 </template>
 
 <script>  
+import { fetchMixins } from '../../../mixins/fetchMixins'
 export default {
     data() {
         return {
-            villageOutgoingAttacks: this.$store.getters.getVillageOutgoingAttacks,
-            villageIncomingAttacks: this.$store.getters.getVillageIncomingAttacks,
-            villageOutgoingReinforcements: this.$store.getters.getVillageOutgoingReinforcements,
-            villageIncomingReinforcements: this.$store.getters.getVillageIncomingReinforcements,
+
         };
     },
+
+    mixins: [fetchMixins],
+
     watch: {
-        '$store.getters.getVillageOutgoingAttacks': function() {
-            this.villageProduction = this.$store.getters.getVillageProduction;
-        },
-        '$store.getters.getVillageIncomingAttacks': function() {
-            this.villageProduction = this.$store.getters.getVillageProduction;
-        },
-        '$store.getters.getVillageOutgoingReinforcements': function() {
-            this.villageProduction = this.$store.getters.getVillageProduction;
-        },
-        '$store.getters.getVillageIncomingReinforcements': function() {
-            this.villageProduction = this.$store.getters.getVillageProduction;
-        },
     }
 }
 </script>

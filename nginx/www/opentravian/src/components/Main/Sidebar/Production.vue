@@ -37,16 +37,17 @@
 </template>
 
 <script>
+import { fetchMixins } from '../../../mixins/fetchMixins'
+
 export default {
     data() {
         return {
-            villageProduction: this.$store.getters.getVillageProduction,
         };
     },
+
+    mixins: [fetchMixins],
+
     watch: {
-        '$store.getters.getVillageProduction': function() {
-            this.villageProduction = this.$store.getters.getVillageProduction;
-        },
     }
 }
 </script>
