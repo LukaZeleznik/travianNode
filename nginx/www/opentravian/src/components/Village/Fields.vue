@@ -48,7 +48,7 @@
                     <div class="hexIn" v-else>
                         <router-link class="hexLink" :to="{ path: '/villageBuilding/' + realIndexes[index] }">
                             <div class='img' v-bind:style="'background-color:' + villageBuildingColors[realIndexes[index]-1]">
-                                <p style="top:35%;opacity:1;color:black" v-if="villageBuildingLevels[realIndexes[index]-1] > 0 || villageBuildingNames[realIndexes[index]-1] != villageBuildingNames[0]">{{ villageBuildingNames[realIndexes[index]-1] }} ({{ villageBuildingLevels[realIndexes[index]-1] }})</p>
+                                <p style="top:35%;opacity:1;color:black" v-if="villageBuildingTypes[realIndexes[index]-1] > 0">{{ villageBuildingNames[realIndexes[index]-1] }} ({{ villageBuildingLevels[realIndexes[index]-1] }})</p>
                             </div>
                         </router-link>
                     </div>
@@ -59,29 +59,27 @@
 </template>
 
 <script>
+import { fetchMixins } from '../../mixins/fetchMixins'
 
 export default {
     data() {
         return {
-            villageIncomingAttacks : [],
-            villageIncomingReinforcements : [],
-            villageOutgoingAttacks : [],
-            villageOutgoingReinforcements : [],
             villageIncomingAttacksTimeLeft : [],
             villageIncomingReinforcementsTimeLeft : [],
             villageOutgoingAttacksTimeLeft : [],
             villageOutgoingReinforcementsTimeLeft : [],
-            villageBuildingLevels: this.$store.getters.getVillageBuildingLevels,
-            villageBuildingTypes: this.$store.getters.getVillageBuildingTypes,
-            villageBuildingColors: this.$store.getters.getVillageBuildingColors,
             villageBuildingNames: [],
             realIndexes: [1,1,1,2,3,3,4,5,6,7,8,9,10,10,11,12,13,14,15,19,16,17,18],
         };
     },
-
-    mixin: {
-        
+    
+    watch: {
+        'villageBuildingTypes': function() {
+            this.convertBuildingTypeToName();
+        },
     },
+
+    mixins: [fetchMixins],
 
     created() {
         this.fetchvillageBuildingFields();
@@ -89,64 +87,27 @@ export default {
         this.fetchVillageTroopMovements();
         this.startTroopMovementsInterval();
     },
-    watch: {
-        '$store.getters.getVillageBuildingLevels': function() {
-            this.villageBuildingLevels = this.$store.getters.getVillageBuildingLevels;
-        },
-        '$store.getters.getVillageBuildingTypes': function() {
-            this.villageBuildingTypes = this.$store.getters.getVillageBuildingTypes;
-        },
-         '$store.getters.getVillageBuildingColors': function() {
-            this.villageBuildingColors = this.$store.getters.getVillageBuildingColors;
-        },
-    },
-    methods: {
-        fetchvillageBuildingFields(){
-            this.villageBuildingLevels  = this.$store.getters.getVillageBuildingLevels;
-            this.villageBuildingTypes   = this.$store.getters.getVillageBuildingTypes;
-            this.villageBuildingColors  = this.$store.getters.getVillageBuildingColors;
 
-            this.$store.dispatch('fetchVillageBuildingFields')
-            .then( () => {
-                this.villageBuildingLevels  = this.$store.getters.getVillageBuildingLevels;
-                this.villageBuildingTypes   = this.$store.getters.getVillageBuildingTypes;
-                this.villageBuildingColors  = this.$store.getters.getVillageBuildingColors;
-                this.convertBuildingTypeToName();
-            });
-        },
+    methods: {
         convertBuildingTypeToName(){
             this.villageBuildingNames = this.villageBuildingTypes.map(type => {
-                return this.$parent.buildingInfoLookup[type]['name'];
-            });
-        },
-        fetchVillageResources(){
-            this.villageResources = this.$store.getters.getVillageResources;
-
-            this.$store.dispatch('fetchVillageResources')
-            .then( () => {
-                this.villageResources = this.$store.getters.getVillageResources;
-            });
-        },
-        fetchVillageTroopMovements(){
-            this.villageOutgoingAttacks = this.$store.getters.getVillageOutgoingAttacks;
-            this.villageOutgoingReinforcements = this.$store.getters.getVillageOutgoingReinforcements;
-            this.villageIncomingAttacks = this.$store.getters.getVillageIncomingAttacks;
-            this.villageIncomingReinforcements = this.$store.getters.getVillageIncomingReinforcements;
-
-            this.$store.dispatch('fetchVillageTroopMovements')
-            .then( () => {
-                this.villageOutgoingAttacks = this.$store.getters.getVillageOutgoingAttacks;
-                this.villageOutgoingReinforcements = this.$store.getters.getVillageOutgoingReinforcements;
-                this.villageIncomingAttacks = this.$store.getters.getVillageIncomingAttacks;
-                this.villageIncomingReinforcements = this.$store.getters.getVillageIncomingReinforcements;
-
-                if(this.villageIncomingAttacks.length > 0){this.villageIncomingAttacksTimeLeft[0] = (this.villageIncomingAttacks[0].timeArrived - Math.floor(new Date().getTime()/1000));}
-                if(this.villageIncomingReinforcements.length > 0){this.villageIncomingReinforcementsTimeLeft[0] = (this.villageIncomingReinforcements[0].timeArrived - Math.floor(new Date().getTime()/1000));}
-                if(this.villageOutgoingAttacks.length > 0){this.villageOutgoingAttacksTimeLeft[0] = (this.villageOutgoingAttacks[0].timeArrived - Math.floor(new Date().getTime()/1000));}
-                if(this.villageOutgoingReinforcements.length > 0){this.villageOutgoingReinforcementsTimeLeft[0] = (this.villageOutgoingReinforcements[0].timeArrived - Math.floor(new Date().getTime()/1000));}
+                return this.buildingInfoLookup[type]['name'];
             });
         },
         startTroopMovementsInterval(){
+            if(this.villageOutgoingReinforcements.length > 0){  
+                this.villageOutgoingReinforcementsTimeLeft[0] = (this.villageOutgoingReinforcements[0].timeArrived - Math.floor(new Date().getTime()/1000));
+            }
+            if(this.villageIncomingReinforcements.length > 0){  
+                this.villageIncomingReinforcementsTimeLeft[0] = (this.villageIncomingReinforcements[0].timeArrived - Math.floor(new Date().getTime()/1000));
+            }
+            if(this.villageIncomingAttacks.length > 0){         
+                this.villageIncomingAttacksTimeLeft[0] = (this.villageIncomingAttacks[0].timeArrived - Math.floor(new Date().getTime()/1000));
+            }
+            if(this.villageOutgoingAttacks.length > 0){         
+                this.villageOutgoingAttacksTimeLeft[0] = (this.villageOutgoingAttacks[0].timeArrived - Math.floor(new Date().getTime()/1000));
+            }
+    
             setInterval( ()=> {
                 if(this.villageIncomingAttacksTimeLeft[0] > 0){
                     this.$set(this.villageIncomingAttacksTimeLeft, 0, this.villageIncomingAttacksTimeLeft[0]-1);
@@ -161,7 +122,7 @@ export default {
                     this.$set(this.villageOutgoingReinforcementsTimeLeft, 0, this.villageOutgoingReinforcementsTimeLeft[0]-1);
                 }
                 
-                if(this.villageIncomingAttacksTimeLeft[0] == 0 || this.villageIncomingReinforcementsTimeLeft[0] == 0 || this.villageOutgoingAttacksTimeLeft[0] == 0 || this.villageOutgoingReinforcementsTimeLeft[0] == 0){
+                if(this.villageIncomingAttacksTimeLeft[0] <= 0 || this.villageIncomingReinforcementsTimeLeft[0] <= 0 || this.villageOutgoingAttacksTimeLeft[0] <= 0 || this.villageOutgoingReinforcementsTimeLeft[0] <= 0){
                     this.fetchVillageOwnTroops();
                     this.fetchVillageTroopMovements();
                 }

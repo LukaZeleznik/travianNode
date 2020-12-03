@@ -1,4 +1,9 @@
+import { apiRequestMixins } from './apiRequestMixins'
+
 export const upgradeMixins = {
+
+    mixins: [apiRequestMixins],
+
     methods: {
         async upgradeBuilding(vbid){
             let buildingData = {

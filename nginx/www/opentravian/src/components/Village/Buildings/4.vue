@@ -9,7 +9,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(troop, index) in troopList" :key="index">
+                <tr v-for="(troop, index) in researchedTroops" :key="index">
                     <th scope="row" class="align-middle text-left" style="min-width:700px">
                         <img :src="'/images/troops/' + userTribe + '/' + troop['id'] + '.gif'"> {{ troop['name'] }} (Available: {{Math.floor(villageOwnTroops[troop['id']-1])}})
                         <span class="troopRequirements float-right">
@@ -76,7 +76,7 @@
                 <img src="/images/clock.gif">               {{ $root.secondsToTimeRemaining(buildingInfoLookup[$parent.villageBuildingType]['constructionTime'][$parent.villageBuildingLevel+1] * 1000) }}</p>
             </h5>
             <h5 class="mt-4"> 
-                <button v-if="hasRequiredResources()" type="button" class="btn btn-success" @click="upgradeBuilding($route.params.vbid)">Upgrade to Level {{ $parent.villageBuildingLevel+1 }}</button> 
+                <button v-if="hasRequiredBuildingResources()" type="button" class="btn btn-success" @click="upgradeBuilding($route.params.vbid)">Upgrade to Level {{ $parent.villageBuildingLevel+1 }}</button> 
                 <span v-else>Not enough resources</span>
             </h5>
         </div>
@@ -89,49 +89,38 @@
 
 
 <script>
-import { upgradeMixins } from '../../../mixins/upgradeMixins'
+import { fetchMixins } from '../../../mixins/fetchMixins'
 import { hasMixins } from '../../../mixins/hasMixins'
+import { apiRequestMixins } from '../../../mixins/apiRequestMixins'
+import { upgradeMixins } from '../../../mixins/upgradeMixins'
 
 export default {
     data() {
         return {
-            troopInfoLookup: this.$parent.troopInfoLookup,
-            buildingInfoLookup: this.$parent.buildingInfoLookup,
-            villageResources: this.$store.getters.getVillageResources,
-            villageOwnTroops: undefined,
             villageStableProductions: undefined,
             villageStableProductionsTimeLeft: [],
-            troopList: [],
+            researchedTroops: [],
             userTribe: "Teuton",
         };
     },
 
-    mixins: [upgradeMixins,hasMixins],
+    mixins: [
+        fetchMixins,
+        hasMixins,
+        apiRequestMixins,
+        upgradeMixins
+        ],
     
     watch: {
-        '$store.getters.getVillageResources': function() {
-            this.villageResources = this.$store.getters.getVillageResources;
-        },
     },
 
     created() {
         this.fetchVillageOwnTroops();
-        this.$parent.fetchVillageResources();
-        this.getTroopList();
+        this.getResearchedTroops();
         this.startCountdownInterval();
     },
 
     methods: {
-        fetchVillageOwnTroops(){
-            this.villageOwnTroops = this.$store.getters.getVillageOwnTroops;
-
-            this.$store.dispatch('fetchVillageOwnTroops')
-            .then( () => {
-                this.villageOwnTroops = this.$store.getters.getVillageOwnTroops;
-                this.fetchVillageStableProduction();
-            });
-            console.log(this.villageOwnTroops);
-        },
         fetchVillageStableProduction(){
             this.villageStableProductions = this.$store.getters.getVillageStableProduction;
             this.villageStableProductionsTimeLeft = [];
@@ -152,12 +141,12 @@ export default {
             console.log(document.getElementById("maxTroops"+id).innerHTML);
             document.getElementById("troop"+id).value = document.getElementById("maxTroops"+id).innerHTML;
         },
-        getTroopList(){
+        getResearchedTroops(){
             Object.keys(this.troopInfoLookup).forEach((tribe) => {
                 if(tribe == this.userTribe){
                     Object.keys(this.troopInfoLookup[tribe]).forEach( (troop) =>{
                         if(this.troopInfoLookup[tribe][troop]['buildingId'] == this.$parent.villageBuildingType){
-                            this.troopList.push(this.troopInfoLookup[tribe][troop]);
+                            this.researchedTroops.push(this.troopInfoLookup[tribe][troop]);
                         }
                     });
                 }
@@ -181,12 +170,12 @@ export default {
                 "troopCount": troopNum
             }
 
-            let stableProductionsResponse = await this.$root.doApiRequest("stableProductions","POST",troopData);
+            let stableProductionsResponse = await this.doApiRequest("stableProductions","POST",troopData);
             let stableProductionsResponseJson = await stableProductionsResponse.json();
 
             if(stableProductionsResponseJson.message == "stableProductions success"){
                 this.fetchVillageOwnTroops();
-                this.$parent.fetchVillageResources();
+                this.fetchVillageResources();
             }
             else{
                 document.getElementById("errorMessage").innerText = stableProductionsResponseJson.message;
@@ -207,19 +196,6 @@ export default {
                     }
                 }
             }, 1000);
-        },
-        hasRequiredResources(){
-            let woodRequired = this.buildingInfoLookup[this.$parent.villageBuildingType]['wood'][this.$parent.villageBuildingLevel+1];
-            let clayRequired = this.buildingInfoLookup[this.$parent.villageBuildingType]['clay'][this.$parent.villageBuildingLevel+1];
-            let ironRequired = this.buildingInfoLookup[this.$parent.villageBuildingType]['iron'][this.$parent.villageBuildingLevel+1];
-            let cropRequired = this.buildingInfoLookup[this.$parent.villageBuildingType]['crop'][this.$parent.villageBuildingLevel+1];
-
-            if (this.villageResources[0] >= woodRequired && this.villageResources[1] >= clayRequired && 
-                this.villageResources[2] >= ironRequired && this.villageResources[3] >= cropRequired){
-                return true;
-            } else {
-                return false;
-            }
         },
     }
 }

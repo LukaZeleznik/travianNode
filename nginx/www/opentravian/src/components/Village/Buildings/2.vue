@@ -13,7 +13,7 @@
                 <img src="/images/clock.gif">               {{ $root.secondsToTimeRemaining(buildingInfoLookup[$parent.villageBuildingType]['constructionTime'][$parent.villageBuildingLevel+1] * 1000) }}</p>
             </h5>
             <h5 class="mt-4"> 
-                <button v-if="hasRequiredResources()" type="button" class="btn btn-success" @click="upgradeBuilding($route.params.vbid)">Upgrade to Level {{ $parent.villageBuildingLevel+1 }}</button> 
+                <button v-if="hasRequiredBuildingResources()" type="button" class="btn btn-success" @click="upgradeBuilding($route.params.vbid)">Upgrade to Level {{ $parent.villageBuildingLevel+1 }}</button> 
                 <span v-else>Not enough resources</span>
             </h5>
         </div>
@@ -26,43 +26,31 @@
 
 
 <script>
-import { upgradeMixins } from '../../../mixins/upgradeMixins'
+import { fetchMixins } from '../../../mixins/fetchMixins'
 import { hasMixins } from '../../../mixins/hasMixins'
+import { apiRequestMixins } from '../../../mixins/apiRequestMixins'
+import { upgradeMixins } from '../../../mixins/upgradeMixins'
 
 export default {
     data() {
         return {
-            buildingInfoLookup: this.$parent.buildingInfoLookup,
-            villageResources: this.$store.getters.getVillageResources,
         };
     },
 
-    mixins: [upgradeMixins,hasMixins],
+    mixins: [
+        fetchMixins,
+        hasMixins,
+        apiRequestMixins,
+        upgradeMixins
+        ],
     
     watch: {
-        '$store.getters.getVillageResources': function() {
-            this.villageResources = this.$store.getters.getVillageResources;
-        },
     },
 
     created() {
-        this.$parent.fetchVillageResources();
     },
 
     methods: {
-        hasRequiredResources(){
-            let woodRequired = this.buildingInfoLookup[this.$parent.villageBuildingType]['wood'][this.$parent.villageBuildingLevel+1];
-            let clayRequired = this.buildingInfoLookup[this.$parent.villageBuildingType]['clay'][this.$parent.villageBuildingLevel+1];
-            let ironRequired = this.buildingInfoLookup[this.$parent.villageBuildingType]['iron'][this.$parent.villageBuildingLevel+1];
-            let cropRequired = this.buildingInfoLookup[this.$parent.villageBuildingType]['crop'][this.$parent.villageBuildingLevel+1];
-
-            if (this.villageResources[0] >= woodRequired && this.villageResources[1] >= clayRequired && 
-                this.villageResources[2] >= ironRequired && this.villageResources[3] >= cropRequired){
-                return true;
-            } else {
-                return false;
-            }
-        },
     }
 }
 </script>

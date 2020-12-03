@@ -98,10 +98,6 @@ import { upgradeMixins } from '../../../mixins/upgradeMixins'
 export default {
     data() {
         return {
-            troopInfoLookup: this.$parent.troopInfoLookup,
-            buildingInfoLookup: this.$parent.buildingInfoLookup,
-            villageResources: this.$store.getters.getVillageResources,
-            villageOwnTroops: this.$store.getters.getVillageOwnTroops,
             villageBarracksProductions: undefined,
             villageBarracksProductionsTimeLeft: [],
             researchedTroops: [],
@@ -116,19 +112,11 @@ export default {
         upgradeMixins],
     
     watch: {
-        '$store.getters.getVillageResources': function() {
-            this.villageResources = this.$store.getters.getVillageResources;
-        },
-        '$store.getters.getVillageOwnTroops': function() {
-            this.villageOwnTroops = this.$store.getters.getVillageOwnTroops;
-        },
     },
 
     created() {
-        //fetchMixins
         this.fetchVillageOwnTroops();
         this.fetchVillageResources();
-
         this.fetchVillageBarracksProduction();
         this.startCountdownInterval();
         this.getResearchedTroops();

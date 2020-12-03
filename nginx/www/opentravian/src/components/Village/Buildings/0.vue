@@ -42,6 +42,9 @@
 
 
 <script>
+import { fetchMixins } from '../../../mixins/fetchMixins'
+import { apiRequestMixins } from '../../../mixins/apiRequestMixins'
+
 //Buildings
 const EARTH_WALL = 5;
 const CITY_WALL = 6;
@@ -61,17 +64,12 @@ const CROPLAND = 3;
 export default {
     data() {
         return {
-            buildingInfoLookup: this.$parent.buildingInfoLookup,
-            villageBuildingLevels: this.$store.getters.getVillageBuildingLevels,
-            villageBuildingTypes: this.$store.getters.getVillageBuildingTypes,
-            villageBuildingColors: this.$store.getters.getVillageBuildingColors,
-            villageResourceFieldLevels: this.$store.getters.getVillageResourceFieldLevels,
-            villageResourceFieldTypes: this.$store.getters.getVillageResourceFieldTypes,
-            villageResourceFieldColors: this.$store.getters.getVillageResourceFieldColors,
             availableBuildings: [],
             soonAvailableBuildings: [],
         };
     },
+
+    mixins: [fetchMixins,apiRequestMixins],
 
     created() {
         this.fetchvillageBuildingFields();
@@ -138,35 +136,6 @@ export default {
             }
             return false;
         },
-        fetchvillageBuildingFields(){
-            this.villageBuildingLevels  = this.$store.getters.getVillageBuildingLevels;
-            this.villageBuildingTypes   = this.$store.getters.getVillageBuildingTypes;
-            this.villageBuildingColors  = this.$store.getters.getVillageBuildingColors;
-
-            this.$store.dispatch('fetchVillageBuildingFields')
-            .then( () => {
-                this.villageBuildingLevels  = this.$store.getters.getVillageBuildingLevels;
-                this.villageBuildingTypes   = this.$store.getters.getVillageBuildingTypes;
-                this.convertBuildingTypeToName();
-            });
-        },
-        fetchvillageResourceFields(){
-            this.villageResourceFieldLevels  = this.$store.getters.getVillageResourceFieldLevels;
-            this.villageResourceFieldTypes   = this.$store.getters.getVillageResourceFieldTypes;
-            this.villageResourceFieldColors  = this.$store.getters.getVillageResourceFieldColors;
-
-            this.$store.dispatch('fetchVillageResourceFields')
-            .then( () => {
-                this.villageResourceFieldLevels  = this.$store.getters.getVillageResourceFieldLevels;
-                this.villageResourceFieldTypes   = this.$store.getters.getVillageResourceFieldTypes;
-                this.villageResourceFieldColors  = this.$store.getters.getVillageResourceFieldColors;
-            });
-        },
-        convertBuildingTypeToName(){
-            this.villageBuildingNames = this.villageBuildingTypes.map(type => {
-                return this.$parent.buildingInfoLookup[type]['name'];
-            });
-        },
         async build(buildingId){
             let buildingData = {
                 "idVillage": 1,
@@ -174,10 +143,11 @@ export default {
                 "type": buildingId
             }
 
-            let buildingUpgradeResponse = await this.$root.doApiRequest("villageBuildingUpgrades", "POST", buildingData);
+            let buildingUpgradeResponse = await this.doApiRequest("villageBuildingUpgrades", "POST", buildingData);
             let buildingUpgradeResponseJson = await buildingUpgradeResponse.json();
 
             if(buildingUpgradeResponseJson.message == "villageBuildingUpgrade success"){
+                this.fetchvillageBuildingFields();
                 this.$router.push({ name: 'village' });
             }
             else{

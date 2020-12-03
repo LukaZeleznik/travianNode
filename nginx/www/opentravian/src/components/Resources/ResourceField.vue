@@ -42,6 +42,7 @@
 
 <script>
 import * as infoLookup from '../../assets/js/infoLookupTools.js';
+import { apiRequestMixins } from '../../mixins/apiRequestMixins'
 
 export default {
     data() {
@@ -56,6 +57,8 @@ export default {
             CROPLAND: 3,
         };
     },
+
+    mixins: [apiRequestMixins],
 
     watch: {
         '$store.getters.getVillageResources': function() {
@@ -98,7 +101,7 @@ export default {
                 "rfid": rfid,
             }
 
-            let villageResFieldUpgradeResponse = await this.$root.doApiRequest("villageResFieldUpgrades", "POST", resourceFieldData)
+            let villageResFieldUpgradeResponse = await this.doApiRequest("villageResFieldUpgrades", "POST", resourceFieldData)
             let villageResFieldUpgradeResponseJson = await villageResFieldUpgradeResponse.json();
 
             if(villageResFieldUpgradeResponseJson.message == "villageResFieldUpgrade success"){
