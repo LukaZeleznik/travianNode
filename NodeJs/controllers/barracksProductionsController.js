@@ -48,6 +48,14 @@ exports.new = function (req, res) {
         let requirementIron = troopInfo["Teuton"][req.body.troopId-1]["iron"] * req.body.troopCount;
         let requirementCrop = troopInfo["Teuton"][req.body.troopId-1]["crop"] * req.body.troopCount;
 
+        if(req.body.troopCount < 1){
+            res.json({
+                message: 'Insert troops to train',
+                data: ""
+            });
+            return;
+        }
+
         if(villageResources.currentWood < requirementWood || villageResources.currentClay < requirementClay || 
           villageResources.currentIron < requirementIron || villageResources.currentCrop < requirementCrop ){
             res.json({
