@@ -26,7 +26,7 @@
                         </div>
                     </h5>
                     <h5 class="mt-4"> 
-                        <button v-if="hasRequiredResources()" type="button" class="btn btn-success" @click="upgradeResField()">Upgrade to Level {{ villageResourceLevel+1 }}</button> 
+                        <button v-if="hasRequiredResFieldResources()" type="button" class="btn btn-success" @click="upgradeResField($route.params.rfid)">Upgrade to Level {{ villageResourceLevel+1 }}</button> 
                         <span v-else>Not enough resources</span>
                     </h5>
                 </div>
@@ -41,16 +41,17 @@
 
 
 <script>
-import * as infoLookup from '../../assets/js/infoLookupTools.js';
 import { apiRequestMixins } from '../../mixins/apiRequestMixins'
+import { fetchMixins } from '../../mixins/fetchMixins'
+import { upgradeMixins } from '../../mixins/upgradeMixins'
+import { hasMixins } from '../../mixins/hasMixins'
+
 
 export default {
     data() {
         return {
-            resourceInfoLookup: infoLookup.resourceInfoLookup,
             villageResourceType: undefined,
             villageResourceLevel: undefined,
-            villageResources: this.$store.getters.getVillageResources,
             WOODCUTTER: 0,
             CLAY_PIT: 1,
             IRON_MINE: 2,
@@ -58,73 +59,21 @@ export default {
         };
     },
 
-    mixins: [apiRequestMixins],
+    mixins: [
+        fetchMixins,
+        apiRequestMixins,
+        upgradeMixins,
+        hasMixins
+        ],
 
     watch: {
-        '$store.getters.getVillageResources': function() {
-            this.villageResources = this.$store.getters.getVillageResources;
-        },
     },
     
     created() {
-        this.fetchResourceFieldsData();
-        this.fetchVillageResources();
+        this.fetchResourceFieldsData(this.$route.params.rfid);
     },
 
     methods: {
-        fetchVillageResources(){
-            this.villageResources = this.$store.getters.getVillageResources;
-
-            this.$store.dispatch('fetchVillageResources')
-            .then( () => {
-                this.villageResources = this.$store.getters.getVillageResources;
-            });
-        },
-        fetchResourceFieldsData(){
-            fetch('http://localhost:8080/api/villageResourceFields/1')
-            .then(res => res.json())
-            .then(res => {
-                let rfid = this.$route.params.rfid;
-                let keyType = "field"+rfid+"Type";
-                let keyLevel = "field"+rfid+"Level";
-
-                this.villageResourceType = res.data[keyType];
-                this.villageResourceLevel = res.data[keyLevel];
-            })
-            .catch(err => console.log(err));
-        },
-        async upgradeResField(){
-            let rfid = this.$route.params.rfid;
-
-            let resourceFieldData = {
-                "idVillage": 1,
-                "rfid": rfid,
-            }
-
-            let villageResFieldUpgradeResponse = await this.doApiRequest("villageResFieldUpgrades", "POST", resourceFieldData)
-            let villageResFieldUpgradeResponseJson = await villageResFieldUpgradeResponse.json();
-
-            if(villageResFieldUpgradeResponseJson.message == "villageResFieldUpgrade success"){
-                this.fetchVillageResources();
-                this.$router.push({ name: 'resources' });
-            }
-            else{
-                document.getElementById("errorMessage").innerText = villageResFieldUpgradeResponseJson.message;
-            }
-        },
-        hasRequiredResources(){
-            let woodRequired = this.resourceInfoLookup[this.villageResourceType]['wood'][this.villageResourceLevel+1];
-            let clayRequired = this.resourceInfoLookup[this.villageResourceType]['clay'][this.villageResourceLevel+1];
-            let ironRequired = this.resourceInfoLookup[this.villageResourceType]['iron'][this.villageResourceLevel+1];
-            let cropRequired = this.resourceInfoLookup[this.villageResourceType]['crop'][this.villageResourceLevel+1];
-
-            if (this.villageResources[0] >= woodRequired && this.villageResources[1] >= clayRequired && 
-                this.villageResources[2] >= ironRequired && this.villageResources[3] >= cropRequired){
-                return true;
-            } else {
-                return false;
-            }
-        },
     }
 }
 </script>

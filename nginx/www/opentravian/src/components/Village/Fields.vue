@@ -83,8 +83,6 @@ export default {
 
     created() {
         this.fetchvillageBuildingFields();
-        this.fetchVillageResources();
-        this.fetchVillageTroopMovements();
         this.startTroopMovementsInterval();
     },
 
