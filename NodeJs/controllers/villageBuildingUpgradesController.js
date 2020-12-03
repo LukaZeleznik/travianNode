@@ -113,6 +113,15 @@ exports.new = async function (req, res) {
             villageBuildingLevel++;
         } else {
             villageBuildingType = Number(villageBuildingFields["field"+buildingFieldId+"Type"]);
+
+             // CHECK IF BUILDING IS ALREADY AT MAX LEVEL
+            if(villageBuildingLevel > buildingInfo[villageBuildingType]['wood'].length-1){
+                res.json({
+                    message: 'villageBuildingUpgrade failed',
+                    data: ''
+                });
+                return;
+            }
         }
 
         if(villageBuildingLevel == 0){
