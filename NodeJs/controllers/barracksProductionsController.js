@@ -43,10 +43,10 @@ exports.new = function (req, res) {
             }
         }
 
-        let requirementWood = troopInfo["Teuton"][req.body.troopId-1]["wood"] * req.body.troopCount;
-        let requirementClay = troopInfo["Teuton"][req.body.troopId-1]["clay"] * req.body.troopCount;
-        let requirementIron = troopInfo["Teuton"][req.body.troopId-1]["iron"] * req.body.troopCount;
-        let requirementCrop = troopInfo["Teuton"][req.body.troopId-1]["crop"] * req.body.troopCount;
+        let requirementWood = troopInfo["teuton"][req.body.troopId-1]["wood"] * req.body.troopCount;
+        let requirementClay = troopInfo["teuton"][req.body.troopId-1]["clay"] * req.body.troopCount;
+        let requirementIron = troopInfo["teuton"][req.body.troopId-1]["iron"] * req.body.troopCount;
+        let requirementCrop = troopInfo["teuton"][req.body.troopId-1]["crop"] * req.body.troopCount;
 
         if(req.body.troopCount < 1){
             res.json({
@@ -91,9 +91,9 @@ exports.new = function (req, res) {
 
         let barracksProductionResponseLength = Object.keys(barracksProductionResponse).length;
         let troopQueueTime = barracksProductionResponseLength > 0 ? barracksProductionResponse[barracksProductionResponseLength-1]['timeCompleted'] : currentUnixTime
-        let troopTrainingTime = troopInfo.Teuton[req.body.troopId-1]["time"] * buildingInfo[BARRACKS]['buildingModifier'][villageBuildingLevel];
+        let troopTrainingTime = troopInfo.teuton[req.body.troopId-1]["time"] * buildingInfo[BARRACKS]['buildingModifier'][villageBuildingLevel];
         
-        barracksProductions.troopName       = troopInfo.Teuton[req.body.troopId-1]["name"];
+        barracksProductions.troopName       = troopInfo.teuton[req.body.troopId-1]["name"];
         barracksProductions.troopProdTime   = troopTrainingTime;
         barracksProductions.timeStarted     = troopQueueTime;
         barracksProductions.timeCompleted   = troopQueueTime + Math.floor(req.body.troopCount * troopTrainingTime);

@@ -105,13 +105,13 @@ export const fetchMixins = {
             .then(res => {
                 let keyType = "field"+vbid+"Type";
                 let keyLevel = "field"+vbid+"Level";
-                let userTribe = "Teuton";
+                let userTribe = "teuton";
 
                 if(vbid == 19){
                     switch (userTribe) {
-                        case "Teuton":  this.villageBuildingType = 5; break;
-                        case "Roman":   this.villageBuildingType = 6; break;
-                        case "Gaul":    this.villageBuildingType = 7; break;
+                        case "teuton":  this.villageBuildingType = 5; break;
+                        case "roman":   this.villageBuildingType = 6; break;
+                        case "gaul":    this.villageBuildingType = 7; break;
                     }
                 }
                 else {

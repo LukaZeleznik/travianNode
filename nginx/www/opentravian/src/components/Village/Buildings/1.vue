@@ -103,7 +103,7 @@ export default {
             villageBarracksProductions: undefined,
             villageBarracksProductionsTimeLeft: [],
             researchedTroops: [],
-            userTribe: "Teuton",
+            userTribe: "teuton",
         };
     },
 

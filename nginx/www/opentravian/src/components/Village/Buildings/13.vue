@@ -100,7 +100,7 @@ export default {
             villageStableProductions: undefined,
             villageStableProductionsTimeLeft: [],
             researchedTroops: [],
-            userTribe: "Teuton",
+            userTribe: "teuton",
         };
     },
 

@@ -15,12 +15,12 @@ exports.view = function (req, res) {
 // Handle create village actions
 exports.new = function (req, res) {
     var village = new villageModel();
-    village.mapTileId = req.body.mapTileId;
-    village.xCoordinate = req.body.xCoordinate;
-    village.yCoordinate = req.body.yCoordinate;
-    village.fieldVariation = req.body.fieldVariation;
-    village.population = req.body.population;
-    village.isOccupied = req.body.isOccupied;
+    village.mapTileId       = req.body.mapTileId;
+    village.xCoordinate     = req.body.xCoordinate;
+    village.yCoordinate     = req.body.yCoordinate;
+    village.fieldVariation  = req.body.fieldVariation;
+    village.population      = req.body.population;
+    village.owner           = req.body.owner;
 
     village.save(function (err) {
         if (err){
@@ -40,12 +40,12 @@ exports.update = function (req, res) {
         if (err)
             res.send(err);
         
-        village.mapTileId = req.body.mapTileId;
-        village.xCoordinate = req.body.xCoordinate;
-        village.yCoordinate = req.body.yCoordinate;
-        village.fieldVariation = req.body.fieldVariation;
-        village.population = req.body.population;
-        village.isOccupied = req.body.isOccupied;
+        village.mapTileId       = req.body.mapTileId;
+        village.xCoordinate     = req.body.xCoordinate;
+        village.yCoordinate     = req.body.yCoordinate;
+        village.fieldVariation  = req.body.fieldVariation;
+        village.population      = req.body.population;
+        village.owner           = req.body.owner;
 
         village.save(function (err2) {
             if (err2)

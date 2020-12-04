@@ -1,5 +1,5 @@
 {
-    "Teuton": [
+    "teuton": [
         {
             "id": 1,
             "name": "Clubswinger",
@@ -161,7 +161,7 @@
             "buildingId": 0
         }
     ],
-    "Roman": [{
+    "roman": [{
             "name": "Legionnaire",
             "attack": 40,
             "infantryDefense": 35,
@@ -312,7 +312,7 @@
             "buildingId": 0
         }
     ],
-    "Gaul": [{
+    "gaul": [{
             "name": "Phalanx",
             "attack": 15,
             "infantryDefense": 40,

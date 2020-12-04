@@ -8,7 +8,7 @@ const villageSchema = new Schema({
     yCoordinate:        {type: Number, required: true},
     fieldVariation:     {type: Number, required: true},
     population:         {type: Number, required: true, default: 0},
-    isOccupied:         {type: Boolean, required: true}
+    owner:              {type: String, required: false}
 });
 
 var village = module.exports = mongoose.model('village', villageSchema);

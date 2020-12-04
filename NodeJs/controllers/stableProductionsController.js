@@ -43,10 +43,10 @@ exports.new = function (req, res) {
             }
         }
 
-        let requirementWood = troopInfo["Teuton"][req.body.troopId-1]["wood"] * req.body.troopCount;
-        let requirementClay = troopInfo["Teuton"][req.body.troopId-1]["clay"] * req.body.troopCount;
-        let requirementIron = troopInfo["Teuton"][req.body.troopId-1]["iron"] * req.body.troopCount;
-        let requirementCrop = troopInfo["Teuton"][req.body.troopId-1]["crop"] * req.body.troopCount;
+        let requirementWood = troopInfo["teuton"][req.body.troopId-1]["wood"] * req.body.troopCount;
+        let requirementClay = troopInfo["teuton"][req.body.troopId-1]["clay"] * req.body.troopCount;
+        let requirementIron = troopInfo["teuton"][req.body.troopId-1]["iron"] * req.body.troopCount;
+        let requirementCrop = troopInfo["teuton"][req.body.troopId-1]["crop"] * req.body.troopCount;
 
         if(villageResources.currentWood < requirementWood || villageResources.currentClay < requirementClay || 
           villageResources.currentIron < requirementIron || villageResources.currentCrop < requirementCrop ){
@@ -83,9 +83,9 @@ exports.new = function (req, res) {
 
         let stableProductionResponseLength = Object.keys(stableProductionResponse).length;
         let troopQueueTime = stableProductionResponseLength > 0 ? stableProductionResponse[stableProductionResponseLength-1]['timeCompleted'] : currentUnixTime
-        let troopTrainingTime = troopInfo.Teuton[req.body.troopId-1]["time"] * buildingInfo[STABLE]['buildingModifier'][villageBuildingLevel];
+        let troopTrainingTime = troopInfo.teuton[req.body.troopId-1]["time"] * buildingInfo[STABLE]['buildingModifier'][villageBuildingLevel];
 
-        stableProductions.troopName       = troopInfo.Teuton[req.body.troopId-1]["name"];
+        stableProductions.troopName       = troopInfo.teuton[req.body.troopId-1]["name"];
         stableProductions.troopProdTime   = troopTrainingTime;
         stableProductions.timeStarted     = troopQueueTime;
         stableProductions.timeCompleted   = troopQueueTime + Math.floor(req.body.troopCount * troopTrainingTime);
