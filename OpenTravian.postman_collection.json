@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e9c545ca-e882-467e-ae0b-2bf929f463c0",
+		"_postman_id": "6b6ff296-d81c-4a55-ae33-6e2246794c44",
 		"name": "OpenTravian",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -631,7 +631,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "d3be58d1-1e61-4651-94b5-206a73fb8ec6",
+						"id": "5871c7c3-520f-46fa-9651-200222b7323e",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -641,7 +641,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "482e9970-af7f-4014-bec0-b2f854697924",
+						"id": "ceaa6aee-eb83-49d5-881d-90fe68c1d533",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -1950,7 +1950,13 @@
 					"name": "villageResources GET",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "bearer",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVmYzZkMDM1YmQxNDdkMGE5YzgwN2Y1ZSIsImVtYWlsIjoiZXhhbXBsZUBleGFtcGxlLmNvbSIsImlkVmlsbGFnZSI6MX0sImlhdCI6MTYwNjg2NDk1MX0.pJYs6_MajZzVvPruQfdZued8um5ufDV4H5SgcbQ2-6w",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "localhost/api/villageResources/1",
 							"host": [
@@ -1983,7 +1989,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"currentWood\": 300,\r\n    \"currentClay\": 300,\r\n    \"currentIron\": 300,\r\n    \"currentCrop\": 300,\r\n    \"lastUpdate\": 1593986238\r\n}"
+							"raw": "{\r\n    \"idVillage\": 1,\r\n    \"currentWood\": 300000,\r\n    \"currentClay\": 300000,\r\n    \"currentIron\": 300000,\r\n    \"currentCrop\": 300000,\r\n    \"lastUpdate\": 1593986238\r\n}"
 						},
 						"url": {
 							"raw": "localhost/api/villageResources/1",
@@ -2057,6 +2063,360 @@
 							"path": [
 								"api",
 								"villageResources",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "Register POST",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost/api/register?email=example@example.com&password=password&nickname=Luki&tribe=teuton&idVillage=1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"register"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "example@example.com"
+								},
+								{
+									"key": "password",
+									"value": "password"
+								},
+								{
+									"key": "nickname",
+									"value": "Luki"
+								},
+								{
+									"key": "tribe",
+									"value": "teuton"
+								},
+								{
+									"key": "idVillage",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login POST",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost/api/login?email=example@example.com&password=password",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"login"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "example@example.com"
+								},
+								{
+									"key": "password",
+									"value": "password"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Profile GET",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "bearer",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVmYzZkMDM1YmQxNDdkMGE5YzgwN2Y1ZSIsImVtYWlsIjoiZXhhbXBsZUBleGFtcGxlLmNvbSIsImlkVmlsbGFnZSI6MX0sImlhdCI6MTYwNjg2NDk1MX0.pJYs6_MajZzVvPruQfdZued8um5ufDV4H5SgcbQ2-6w",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost/api/profile",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Users POST",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"password\": \"password\",\r\n    \"nickname\": \"admin\",\r\n    \"tribe\": \"teuton\",\r\n    \"population\": 200\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost/api/users/",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Users GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost/api/users/5fc979f80f6e250257069cce",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"users",
+								"5fc979f80f6e250257069cce"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Users PATCH",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"password\": \"password\",\r\n    \"nickname\": \"admine\",\r\n    \"tribe\": \"teuton\",\r\n    \"population\": 300\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost/api/users/5fc979f80f6e250257069cce",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"users",
+								"5fc979f80f6e250257069cce"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Users PUT",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"password\": \"password\",\r\n    \"nickname\": \"admine\",\r\n    \"tribe\": \"teuton\",\r\n    \"population\": 300\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost/api/users/5fc979f80f6e250257069cce",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"users",
+								"5fc979f80f6e250257069cce"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Users DELETE",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost/api/users/5fc979f80f6e250257069cce",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"users",
+								"5fc979f80f6e250257069cce"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Village",
+			"item": [
+				{
+					"name": "Village POST",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"mapTileId\": 1,\r\n    \"xCoordinate\": 0,\r\n    \"yCoordinate\": 0,\r\n    \"fieldVariation\": 1,\r\n    \"population\": 200,\r\n    \"isOccupied\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost/api/villages/",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villages",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Village GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost/api/villages/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villages",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Village PATCH",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"mapTileId\": 1,\r\n    \"xCoordinate\": 0,\r\n    \"yCoordinate\": 0,\r\n    \"fieldVariation\": 1,\r\n    \"population\": 300,\r\n    \"isOccupied\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost/api/villages/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villages",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Village PUT",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost/api/villages/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villages",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Village DELETE",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost/api/villages/1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"villages",
 								"1"
 							]
 						}
