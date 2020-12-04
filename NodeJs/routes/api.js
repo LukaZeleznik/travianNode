@@ -62,12 +62,12 @@ router.route('/login')
                                 const body = {
                                     _id: user._id,
                                     email: user.email,
-                                    idVillage: user.idVillage
                                 };
                                 const token = jwt.sign({
+                                    //expiresIn: 60,
                                     user: body
                                 }, 'RgUkXp2s5v8y/B?E(H+MbPeShVmYq3t6w9z$C&F)J@NcRfUjWnZr4u7x!A%D*G-KaPdSgVkYp2s5v8y/B?E(H+MbQeThWmZq4t6w9z$C&F)J@NcRfUjXn2r5u8x!A%D*');
-
+                                res.cookie('jwt',token,{maxAge:900000,httpOnly:true});
                                 return res.json({
                                     token
                                 });
@@ -131,9 +131,9 @@ router.route('/villages/:mapTileId')
     .delete(villageController.delete);
 
 router.route('/villageResources')
-    .post(villageResourcesController.new);
+    .post(passport.authenticate('jwt', {session: false}), villageResourcesController.new);
 router.route('/villageResources/:idVillage')
-    .get(villageResourcesController.view)
+    .get(passport.authenticate('jwt', {session: false}), villageResourcesController.view)
     .put(villageResourcesController.update)
     .patch(villageResourcesController.update)
     .delete(villageResourcesController.delete);

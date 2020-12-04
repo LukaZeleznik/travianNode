@@ -29,6 +29,8 @@ import { apiRequestMixins } from '@/mixins/apiRequestMixins'
 
                 let token = await(await(await fetch(loginApiUrl,{method: "POST"})).json()).token;
                 console.log("token:", token);
+
+                document.cookie = "jwt=" + token + ";path=/";
             }
         }
     }

@@ -4,8 +4,10 @@ setTimezone('Europe/Ljubljana');
 const express = require('express');
 const passport = require('passport');
 const schedule = require('node-schedule');
-const api = require('./routes/api');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
+
+const api = require('./routes/api');
 const db = require('./db');
 
 const app = express();
@@ -14,7 +16,8 @@ app.engine('html', require('ejs').renderFile);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors());
+app.use(cors({origin: true, credentials:true}));
+app.use(cookieParser());
 app.use('/api', api);
 
 app.use(passport.initialize());

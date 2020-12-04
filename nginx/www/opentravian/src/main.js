@@ -181,18 +181,7 @@ const store = new Vuex.Store({
             context.commit('increment', payload)
         },
         async fetchVillageResources(context) {
-            if(!localStorage.getItem('AGREED TO PRIVACY')){
-                console.log("NOT SET YET");
-                const item = {
-                    value: true,
-                    expiry: new Date().getTime() + 15,
-                }
-                localStorage.setItem("AGREED TO PRIVACY", JSON.stringify(item));
-            }
-            else{
-                console.log("setAlready");
-            }
-            await fetch('http://localhost:8080/api/villageResources/1')
+            await fetch('http://localhost/api/villageResources/1',{credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
                     let villageResources = [res.data.currentWood, res.data.currentClay, res.data.currentIron, res.data.currentCrop];
