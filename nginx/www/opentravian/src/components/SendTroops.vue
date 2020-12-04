@@ -1,5 +1,6 @@
 <template>
   <div>
+    <navbarResources></navbarResources>
     <div class="container mt-5">
       <div class="justify-content-center text-center">
           <h1> Send Troops to VillageName2 1/1</h1><br />

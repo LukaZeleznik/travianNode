@@ -25,6 +25,7 @@
 
 <script>
 import { fetchMixins } from '@/mixins/fetchMixins'
+var isIntervalInProgress = false;
 
 export default {
     data() {
@@ -47,11 +48,14 @@ export default {
 
     methods: {    
         startIntervals(){
+            if (isIntervalInProgress) return;
+
             var woodInterval = setInterval( ()=> {
                 if(parseInt(this.$store.getters.getVillageResources[0]) < this.villageMaxResources[0]){
                     this.$set(this.$store.getters.getVillageResources, 0, this.$store.getters.getVillageResources[0]+1);
+                    isIntervalInProgress = true;
                 }
-                else if(this.$store.getters.getVillageResources[0] == this.villageMaxResources[0]){
+                else if(this.$store.getters.getVillageResources[0] >= this.villageMaxResources[0]){
                     clearInterval(woodInterval);
                 }
             }, 1000*3600 / this.villageProduction[0]);
@@ -59,8 +63,9 @@ export default {
             var clayInterval = setInterval( ()=> {
                 if(parseInt(this.$store.getters.getVillageResources[1]) < this.villageMaxResources[1]){
                     this.$set(this.$store.getters.getVillageResources, 1, this.$store.getters.getVillageResources[1]+1);
+                    isIntervalInProgress = true;
                 }
-                else if(this.$store.getters.getVillageResources[1] == this.villageMaxResources[1]){
+                else if(this.$store.getters.getVillageResources[1] >= this.villageMaxResources[1]){
                     clearInterval(clayInterval);
                 }
             }, 1000*3600 / this.villageProduction[1]);
@@ -68,8 +73,9 @@ export default {
             var ironInterval = setInterval( ()=> {
                 if(parseInt(this.$store.getters.getVillageResources[2]) < this.villageMaxResources[2]){
                     this.$set(this.$store.getters.getVillageResources, 2, this.$store.getters.getVillageResources[2]+1);
+                    isIntervalInProgress = true;
                 }
-                else if(this.$store.getters.getVillageResources[2] == this.villageMaxResources[2]){
+                else if(this.$store.getters.getVillageResources[2] >= this.villageMaxResources[2]){
                     clearInterval(ironInterval);
                 }
             }, 1000*3600 / this.villageProduction[2]);
@@ -77,8 +83,9 @@ export default {
             var cropInterval = setInterval( ()=> {
                 if(parseInt(this.$store.getters.getVillageResources[3]) < this.villageMaxResources[3]){
                     this.$set(this.$store.getters.getVillageResources, 3, this.$store.getters.getVillageResources[3]+1);
+                    isIntervalInProgress = true;
                 }
-                else if(this.$store.getters.getVillageResources[3] == this.villageMaxResources[3]){
+                else if(this.$store.getters.getVillageResources[3] >= this.villageMaxResources[3]){
                     clearInterval(cropInterval);
                 }
             }, 1000*3600 / this.villageProduction[3]);
