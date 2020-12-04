@@ -34,6 +34,7 @@
 
 <script>  
 import { fetchMixins } from '@/mixins/fetchMixins'
+
 export default {
     data() {
         return {

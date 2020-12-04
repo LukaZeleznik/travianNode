@@ -38,6 +38,7 @@ Vue.component('villageBuilding9', require('./components/Village/Buildings/9.vue'
 Vue.component('villageBuilding10', require('./components/Village/Buildings/10.vue').default); //Grain Mill
 Vue.component('villageBuilding11', require('./components/Village/Buildings/11.vue').default); //Iron Foundry
 Vue.component('villageBuilding12', require('./components/Village/Buildings/12.vue').default); //Sawmill
+Vue.component('villageBuilding13', require('./components/Village/Buildings/13.vue').default); //Palace
 
 //Resources
 Vue.component('resourcesFields', require('./components/Resources/Fields.vue').default);
