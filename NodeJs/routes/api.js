@@ -16,6 +16,7 @@ const sendTroopsController = require('../controllers/sendTroopsController');
 const barracksProductionsController = require('../controllers/barracksProductionsController');
 const stableProductionsController = require('../controllers/stableProductionsController');
 const userController = require('../controllers/userController');
+const villageController = require('../controllers/villageController');
 const villageBuildingFieldsController = require('../controllers/villageBuildingFieldsController');
 const auth = require('../auth/auth');
 
@@ -112,6 +113,23 @@ router.route('/villageResources/:idVillage')
     .patch(passport.authenticate('jwt', {session: false}), checkIdVillage, villageResourcesController.update)
     .delete(passport.authenticate('jwt', {session: false}), checkIdVillage, villageResourcesController.delete);
 */
+
+router.route('/users')
+    .post(userController.new);
+router.route('/users/:id')
+    .get(userController.view)
+    .put(userController.update)
+    .patch(userController.update)
+    .delete(userController.delete);
+
+router.route('/villages')
+    .post(villageController.new);
+router.route('/villages/:mapTileId')
+    .get(villageController.view)
+    .put(villageController.update)
+    .patch(villageController.update)
+    .delete(villageController.delete);
+
 router.route('/villageResources')
     .post(villageResourcesController.new);
 router.route('/villageResources/:idVillage')
