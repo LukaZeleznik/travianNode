@@ -20,6 +20,7 @@ exports.new = function (req, res) {
     user.nickname = req.body.nickname;
     user.tribe = req.body.tribe;
     user.population = req.body.population;
+    user.capital = req.body.capital;
 
     user.save(function (err) {
         if (err){
@@ -44,6 +45,7 @@ exports.update = function (req, res) {
         user.nickname = req.body.nickname;
         user.tribe = req.body.tribe;
         user.population = req.body.population;
+        user.capital = req.body.capital;
 
         user.save(function (err) {
             if (err)

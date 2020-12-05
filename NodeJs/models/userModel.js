@@ -8,7 +8,8 @@ const UserSchema = new Schema({
   password:     {type: String, required: true},
   nickname:     {type: String, required: true},
   tribe:        {type: String, required: true},
-  population:   {type: Number, required: true, default: 0}
+  population:   {type: Number, required: true, default: 0},
+  capital:      {type: Number, required: true}
 });
 
 UserSchema.pre(

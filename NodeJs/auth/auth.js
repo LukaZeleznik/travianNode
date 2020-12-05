@@ -38,8 +38,8 @@ passport.use(
             try {
                 const tribe = req.query.tribe;
                 const nickname = req.query.nickname;
-                const idVillage = req.query.idVillage;
-
+                const capital = Math.floor((Math.random() * 95) + 1);
+                
                 console.log("tribe: ", tribe);
                 console.log("nickname: ", nickname);
 
@@ -48,7 +48,7 @@ passport.use(
                     password,
                     nickname,
                     tribe,
-                    idVillage
+                    capital
                 });
 
                 return done(null, user);
