@@ -42,6 +42,7 @@ passport.use(
                 
                 console.log("tribe: ", tribe);
                 console.log("nickname: ", nickname);
+                console.log("capital:", capital);
 
                 const user = await UserModel.create({
                     email,

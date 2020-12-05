@@ -10,20 +10,10 @@ exports.view = function (req, res) {
             res.send(err);
         else{
             (async () => {                
-                let villageMaxRes = await(await(await fetch('http://localhost:8080/api/villageMaxResources/1')).json()).data;
-                let villageProd = await(await(await fetch('http://localhost:8080/api/villageProductions/1')).json()).data;
+                let idVillage = req.params.idVillage;
 
-                //console.log(villageMaxRes);
-                //console.log(villageProd);
-                /*
-                let villageProd = await villageProductionsModel.findOne({idVillage: req.params.idVillage}, function (err, villageProductions) {
-                    return villageProductions;
-                });
-
-                let villageMaxRes = await villageMaxResourcesModel.findOne({idVillage: req.params.idVillage}, function (err, villageMaxResources) {
-                    return villageMaxResources;
-                });
-                */
+                let villageMaxRes = await(await(await fetch('http://localhost:8080/api/villageMaxResources/' + idVillage)).json()).data;
+                let villageProd = await(await(await fetch('http://localhost:8080/api/villageProductions/' + idVillage)).json()).data;
                
                 let currentTime = Math.round(+new Date()/1000);
                 let timeDiff = (currentTime - villageResources.lastUpdate) / 3600;

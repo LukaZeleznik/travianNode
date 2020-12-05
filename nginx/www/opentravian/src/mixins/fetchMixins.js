@@ -1,3 +1,5 @@
+import { toolsMixins } from './toolsMixins'
+
 export const fetchMixins = {
     data() {
         return {
@@ -26,6 +28,8 @@ export const fetchMixins = {
     created() {
         this.infoLookup();
     },
+
+    mixins: [toolsMixins],
 
     watch: {
         '$store.getters.getVillageResources': function() {
@@ -100,7 +104,7 @@ export const fetchMixins = {
         fetchVillageBuildingUpgrades(){ this.$store.dispatch('fetchVillageBuildingUpgrades') },
 
         fetchBuildingData(vbid){
-            fetch('http://localhost:8080/api/villageBuildingFields/1')
+            fetch('http://localhost:8080/api/villageBuildingFields/' + this.getCookie('activeVillageId'))
             .then(res => res.json())
             .then(res => {
                 let keyType = "field"+vbid+"Type";
@@ -122,7 +126,7 @@ export const fetchMixins = {
             .catch(err => console.log(err));
         },
         fetchResourceFieldsData(rfid){
-            fetch('http://localhost:8080/api/villageResourceFields/1')
+            fetch('http://localhost:8080/api/villageResourceFields/' + this.getCookie('activeVillageId'))
             .then(res => res.json())
             .then(res => {
                 let keyType = "field"+rfid+"Type";

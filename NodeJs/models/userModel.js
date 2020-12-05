@@ -6,10 +6,10 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
   email:        {type: String, required: true, unique: true},
   password:     {type: String, required: true},
-  nickname:     {type: String, required: true},
+  nickname:     {type: String, required: true, unique: true},
   tribe:        {type: String, required: true},
   population:   {type: Number, required: true, default: 0},
-  capital:      {type: Number, required: true}
+  capital:      {type: Number, required: true, unique: true}
 });
 
 UserSchema.pre(

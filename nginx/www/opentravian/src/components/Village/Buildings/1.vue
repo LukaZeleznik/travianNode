@@ -171,7 +171,7 @@ export default {
             }
 
             let troopData = {
-                "idVillage": 1,
+                "idVillage": this.getCookie('activeVillageId'),
                 "troopId": troopId,
                 "troopCount": troopNum
             }

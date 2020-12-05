@@ -7,7 +7,7 @@ export const upgradeMixins = {
     methods: {
         async upgradeBuilding(vbid){
             let buildingData = {
-                "idVillage": 1,
+                "idVillage": this.getCookie('activeVillageId'),
                 "vbid": vbid,
             }
 
@@ -24,7 +24,7 @@ export const upgradeMixins = {
         },
         async upgradeResField(rfid){
             let resourceFieldData = {
-                "idVillage": 1,
+                "idVillage": this.getCookie('activeVillageId'),
                 "rfid": rfid,
             }
 

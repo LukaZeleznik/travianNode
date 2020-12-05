@@ -120,6 +120,7 @@ const store = new Vuex.Store({
         villageBuildingTypes: [],
         villageBuildingColors: [],
     },
+
     mutations: {
         increment(state, payload) {
             state.count += payload;
@@ -187,7 +188,7 @@ const store = new Vuex.Store({
             context.commit('increment', payload)
         },
         async fetchVillageResources(context) {
-            await fetch('http://localhost/api/villageResources/1',{credentials: 'include'})
+            await fetch('http://localhost/api/villageResources/' + getCookie('activeVillageId'),{credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
                     let villageResources = [res.data.currentWood, res.data.currentClay, res.data.currentIron, res.data.currentCrop];
@@ -196,7 +197,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageMaxResources(context) {
-            await fetch('http://localhost:8080/api/villageMaxResources/1')
+            await fetch('http://localhost:8080/api/villageMaxResources/' + getCookie('activeVillageId'))
                 .then(res => res.json())
                 .then(res => {
                     let villageMaxResources = [res.data.maxWood, res.data.maxClay, res.data.maxIron, res.data.maxCrop];
@@ -205,7 +206,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageProduction(context) {
-            await fetch('http://localhost:8080/api/villageProductions/1')
+            await fetch('http://localhost:8080/api/villageProductions/' + getCookie('activeVillageId'))
                 .then(res => res.json())
                 .then(res => {
                     let villageProduction = [res.data.productionWood, res.data.productionClay, res.data.productionIron, res.data.productionCrop];
@@ -214,7 +215,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageResFieldUpgrades(context) {
-            await fetch('http://localhost:8080/api/villageResFieldUpgrades/1')
+            await fetch('http://localhost:8080/api/villageResFieldUpgrades/' + getCookie('activeVillageId'))
                 .then(res => res.json())
                 .then(res => {
                     let villageResFieldUpgrades = res.data;
@@ -223,7 +224,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageBuildingUpgrades(context) {
-            await fetch('http://localhost:8080/api/villageBuildingUpgrades/1')
+            await fetch('http://localhost:8080/api/villageBuildingUpgrades/' + getCookie('activeVillageId'))
                 .then(res => res.json())
                 .then(res => {
                     let villageBuildingUpgrades = res.data;
@@ -232,7 +233,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageOwnTroops(context) {
-            await fetch('http://localhost:8080/api/villageOwnTroops/1')
+            await fetch('http://localhost:8080/api/villageOwnTroops/' + getCookie('activeVillageId'))
                 .then(res => res.json())
                 .then(res => {
                     let villageOwnTroops = [res.data.troop1, res.data.troop2, res.data.troop3, res.data.troop4, res.data.troop5,
@@ -243,7 +244,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageReinforcements(context) {
-            await fetch('http://localhost:8080/api/villageReinforcements/1')
+            await fetch('http://localhost:8080/api/villageReinforcements/' + getCookie('activeVillageId'))
                 .then(res => res.json())
                 .then(res => {
                     let villageReinforcements = res.data;
@@ -252,7 +253,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageTroopMovements(context) {
-            await fetch('http://localhost:8080/api/sendTroops/1')
+            await fetch('http://localhost:8080/api/sendTroops/' + getCookie('activeVillageId'))
                 .then(res => res.json())
                 .then(res => {
 
@@ -285,7 +286,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageBarracksProduction(context) {
-            await fetch('http://localhost:8080/api/barracksProductions/1')
+            await fetch('http://localhost:8080/api/barracksProductions/' + getCookie('activeVillageId'))
                 .then(res => res.json())
                 .then(res => {
                     let villageBarracksProduction = res.data;
@@ -294,7 +295,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageStableProduction(context) {
-            await fetch('http://localhost:8080/api/stableProductions/1')
+            await fetch('http://localhost:8080/api/stableProductions/' + getCookie('activeVillageId'))
                 .then(res => res.json())
                 .then(res => {
                     let villageStableProduction = res.data;
@@ -303,7 +304,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageBuildingFields(context) {
-            await fetch('http://localhost:8080/api/villageBuildingFields/1')
+            await fetch('http://localhost:8080/api/villageBuildingFields/' + getCookie('activeVillageId'))
                 .then(res => res.json())
                 .then(res => {
                     let villageBuildingTypes = [
@@ -371,7 +372,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageResourceFields(context) {
-            await fetch('http://localhost:8080/api/villageResourceFields/1')
+            await fetch('http://localhost:8080/api/villageResourceFields/' + getCookie('activeVillageId'))
                 .then(res => res.json())
                 .then(res => {
                     let villageResourceFieldTypes = [
@@ -511,3 +512,10 @@ new Vue({
     render: h => h(App),
 
 });
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    console.log(document.cookie)
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}

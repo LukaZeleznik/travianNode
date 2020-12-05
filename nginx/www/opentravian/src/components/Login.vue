@@ -13,13 +13,16 @@
 
 <script>
 import { apiRequestMixins } from '@/mixins/apiRequestMixins' 
+import { toolsMixins } from '@/mixins/toolsMixins' 
+
+
     export default {
         data() {
             return {
             }
         },
 
-        mixins: [apiRequestMixins],
+        mixins: [apiRequestMixins,toolsMixins],
 
         created(){
             this.checkIfLoggedIn()
@@ -38,7 +41,7 @@ import { apiRequestMixins } from '@/mixins/apiRequestMixins'
 
                 if(response.token && response.capital){
                     document.cookie = "jwt=" + response.token + ";path=/";
-                    document.cookie = "capital=" + response.capital + ";path=/";
+                    document.cookie = "activeVillageId=" + response.capital + ";path=/";
                     this.$router.push({ name: 'resources' });
                 }
             },
@@ -49,12 +52,6 @@ import { apiRequestMixins } from '@/mixins/apiRequestMixins'
                     this.$router.push({ name: 'resources' });
                 }
             },
-            getCookie(name) {
-                const value = `; ${document.cookie}`;
-                console.log(document.cookie)
-                const parts = value.split(`; ${name}=`);
-                if (parts.length === 2) return parts.pop().split(';').shift();
-            }
         }
     }
 
