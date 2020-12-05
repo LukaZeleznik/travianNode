@@ -40,7 +40,8 @@ export default {
 
     methods: {
         deleteCookie() {   
-            document.cookie = 'jwt=; Max-Age=-99999999;';
+            document.cookie = 'jwt=; Max-Age=-99999999;domain=localhost;path=/;';
+            document.cookie = 'capital=; Max-Age=-99999999;domain=localhost;path=/;';
             this.$router.push({ name: 'login' });
         }
     }

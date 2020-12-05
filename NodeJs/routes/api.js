@@ -67,9 +67,11 @@ router.route('/login')
                                     //expiresIn: 60,
                                     user: body
                                 }, 'RgUkXp2s5v8y/B?E(H+MbPeShVmYq3t6w9z$C&F)J@NcRfUjWnZr4u7x!A%D*G-KaPdSgVkYp2s5v8y/B?E(H+MbQeThWmZq4t6w9z$C&F)J@NcRfUjXn2r5u8x!A%D*');
-                                res.cookie('jwt',token,{maxAge:900000,httpOnly:true});
+                                //res.cookie('capital',token,{maxAge:9000000,httpOnly:true});
+                                //res.cookie('jwt',token,{maxAge:9000000,httpOnly:true});
                                 return res.json({
-                                    token
+                                    token: token,
+                                    capital: user.capital
                                 });
                             }
                         );

@@ -34,19 +34,24 @@ import { apiRequestMixins } from '@/mixins/apiRequestMixins'
 
                 let loginApiUrl = 'http://localhost/api/' + "login?email=" + inputEmail + "&password=" + inputPassword;
 
-                let token = await(await(await fetch(loginApiUrl,{method: "POST"})).json()).token;
-                if(token){
-                    document.cookie = "jwt=" + token + ";path=/";
+                let response = await(await(await fetch(loginApiUrl,{method: "POST", credentials: 'include'})).json());
+
+                if(response.token && response.capital){
+                    document.cookie = "jwt=" + response.token + ";path=/";
+                    document.cookie = "capital=" + response.capital + ";path=/";
                     this.$router.push({ name: 'resources' });
                 }
             },
             checkIfLoggedIn(){
+                console.log("out");
                 if(this.getCookie("jwt")){
+                    console.log("in");
                     this.$router.push({ name: 'resources' });
                 }
             },
             getCookie(name) {
                 const value = `; ${document.cookie}`;
+                console.log(document.cookie)
                 const parts = value.split(`; ${name}=`);
                 if (parts.length === 2) return parts.pop().split(';').shift();
             }
