@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
 
+import Register from './components/Register.vue';
 import Login from './components/Login.vue';
 import Resources from './components/Resources.vue';
 import ResourceField from './components/Resources/ResourceField.vue';
@@ -52,6 +53,11 @@ const router = new VueRouter({
     routes: [{
             path: '/',
             redirect: '/resources'
+        },
+        {
+            path: '/register',
+            name: 'register',
+            component: Register
         },
         {
             path: '/login',
