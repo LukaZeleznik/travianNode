@@ -21,6 +21,10 @@ import { apiRequestMixins } from '@/mixins/apiRequestMixins'
 
         mixins: [apiRequestMixins],
 
+        created(){
+            this.checkIfLoggedIn()
+        },
+
         methods: {
             async login() {
                 let inputEmail  = document.querySelector('#inputEmail').value;
@@ -31,8 +35,20 @@ import { apiRequestMixins } from '@/mixins/apiRequestMixins'
                 let loginApiUrl = 'http://localhost/api/' + "login?email=" + inputEmail + "&password=" + inputPassword;
 
                 let token = await(await(await fetch(loginApiUrl,{method: "POST"})).json()).token;
-                document.cookie = "jwt=" + token + ";path=/";
-                this.$router.push({ name: 'resources' });
+                if(token){
+                    document.cookie = "jwt=" + token + ";path=/";
+                    this.$router.push({ name: 'resources' });
+                }
+            },
+            checkIfLoggedIn(){
+                if(this.getCookie("jwt")){
+                    this.$router.push({ name: 'resources' });
+                }
+            },
+            getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
             }
         }
     }

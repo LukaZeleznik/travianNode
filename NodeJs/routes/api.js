@@ -131,9 +131,9 @@ router.route('/villages/:mapTileId')
     .delete(villageController.delete);
 
 router.route('/villageResources')
-    .post(passport.authenticate('jwt', {session: false}), villageResourcesController.new);
+    .post( villageResourcesController.new);
 router.route('/villageResources/:idVillage')
-    .get(passport.authenticate('jwt', {session: false}), villageResourcesController.view)
+    .get(villageResourcesController.view)
     .put(villageResourcesController.update)
     .patch(villageResourcesController.update)
     .delete(villageResourcesController.delete);

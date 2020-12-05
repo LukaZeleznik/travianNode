@@ -29,9 +29,23 @@
                 </li>
             </ul>
         </div>
-        <a class="navbar-brand" href="#">Logout</a>
+        <a class="navbar-brand" href="#" @click="deleteCookie()">Logout</a>
     </nav>
 </template>
+
+<script>
+export default {
+    created() {     
+    },
+
+    methods: {
+        deleteCookie() {   
+            document.cookie = 'jwt=; Max-Age=-99999999;';
+            this.$router.push({ name: 'login' });
+        }
+    }
+}
+</script>
 
 <style>
 @media (max-width: 600px) {
