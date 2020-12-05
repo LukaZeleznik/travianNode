@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="checkIfLoggedIn(false)">
         <!-- Main Body -->
         <div class="container mt-4">
             <div class="row">
@@ -27,6 +27,7 @@
 
 <script>
 import { fetchMixins } from '@/mixins/fetchMixins'
+import { toolsMixins } from '@/mixins/toolsMixins'
 
 export default {
 
@@ -35,13 +36,18 @@ export default {
         };
     },
 
-    mixins: [fetchMixins],
+    mixins: [fetchMixins,toolsMixins],
 
     created() {
-        this.fetchVillageResources();
+        this.loadMethods();
     },
 
     methods: {
+        loadMethods(){
+            if(this.checkIfLoggedIn(true)){ //Should redirect
+                this.fetchVillageResources();
+            }
+        }
     }
 }
 </script>

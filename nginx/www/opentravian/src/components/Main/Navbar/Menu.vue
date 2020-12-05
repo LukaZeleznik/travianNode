@@ -7,7 +7,7 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav" v-if="checkIfLoggedIn(false)">
             <ul class="navbar-nav ">
                 <li class="nav-item">
                     <router-link class="nav-link" :to="{ name: 'resources' }">Resources</router-link>
@@ -29,19 +29,31 @@
                 </li>
             </ul>
         </div>
-        <a class="navbar-brand" href="#" @click="deleteCookie()">Logout</a>
+        <a class="navbar-brand" href="#" @click="logout()" v-if="checkIfLoggedIn()">Logout</a>
     </nav>
 </template>
 
 <script>
+import { toolsMixins } from '@/mixins/toolsMixins'
+
 export default {
     created() {     
     },
 
+    mixins: [toolsMixins],
+
     methods: {
-        deleteCookie() {   
+        logout() {   
+            let state = this.$store.state;
+            let newState = {};
+
+            Object.keys(state).forEach(key => {
+                newState[key] = []; // or = 
+            });
+
+            this.$store.replaceState(newState);
             document.cookie = 'jwt=; Max-Age=-99999999;domain=localhost;path=/;';
-            document.cookie = 'capital=; Max-Age=-99999999;domain=localhost;path=/;';
+            document.cookie = 'activeVillageId=; Max-Age=-99999999;domain=localhost;path=/;';
             this.$router.push({ name: 'login' });
         }
     }

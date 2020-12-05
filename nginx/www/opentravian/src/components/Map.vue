@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="checkIfLoggedIn(false)">
     <div class="container mt-4 mb-4">
       <div>
         <h1 class="text-center" >World Map</h1>
@@ -54,36 +54,45 @@
 
 
 <script>
+import { toolsMixins } from '@/mixins/toolsMixins'
 
 export default {
-  data() {
-    return {
-      mapTiles : [],
-    };
-  },
+    data() {
+        return {
+            mapTiles : [],
+        };
+    },
 
-  created() {
-    this.test();
-  },
+    mixins: [toolsMixins],
 
-  methods: {
-    test(){
-      let testTiles = [];
-      let width = 11;
-      let height = 9;
-      let increment = 0;
+    created() {
+        this.loadMethods();
+    },
 
-      for(let y = 0; y < height; y++){
-        testTiles[y] = [];
-        for(let x = 0; x < width; x++){
-          if (y % 2 && x == width-1) break;
-          testTiles[y][x] = (x - Math.floor(width/2)) + ", " + -(y - Math.floor(height/2));
-          this.mapTiles[increment] = testTiles[y][x];
-          increment++;
+    methods: {
+        loadMethods(){
+            if(this.checkIfLoggedIn(true)){
+                this.loadMapTiles();
+            }
+        },
+
+        loadMapTiles(){
+            let testTiles = [];
+            let width = 11;
+            let height = 9;
+            let increment = 0;
+
+            for(let y = 0; y < height; y++){
+                testTiles[y] = [];
+                for(let x = 0; x < width; x++){
+                    if (y % 2 && x == width-1) break;
+                    testTiles[y][x] = (x - Math.floor(width/2)) + ", " + -(y - Math.floor(height/2));
+                    this.mapTiles[increment] = testTiles[y][x];
+                    increment++;
+                }
+            }
         }
-      }
     }
-  }
 }
 </script>
 

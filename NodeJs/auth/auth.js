@@ -34,7 +34,7 @@ passport.use(
             passReqToCallback : true // allows us to pass back the entire request to the callback
         },
         async (req, email, password, done) => {
-            console.log(req);
+            //console.log(req);
             try {
                 const tribe = req.query.tribe;
                 const nickname = req.query.nickname;

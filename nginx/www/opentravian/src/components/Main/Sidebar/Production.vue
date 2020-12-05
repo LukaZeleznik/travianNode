@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="villageProduction.length">
     <div class="h3 mt-3">Production:</div>
     <div class="d-flex justify-content-between">
       <h5>

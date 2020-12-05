@@ -8,9 +8,23 @@ export const toolsMixins = {
         },
         getCookie(name) {
             const value = `; ${document.cookie}`;
-            console.log(document.cookie)
             const parts = value.split(`; ${name}=`);
             if (parts.length === 2) return parts.pop().split(';').shift();
-        }
+            return false;
+        },
+        checkIfLoggedIn(redirectf){
+            if(this.getCookie("jwt")){
+                if(this.$route.name == "login" || this.$route.name == "register"){
+                    if(redirectf) this.$router.push({ name: 'resources' });
+                }
+                return true;
+            }
+            else {
+                if(this.$route.name != "login" && this.$route.name != "register"){
+                    if(redirectf) this.$router.push({ name: 'login' });
+                } 
+                return false;
+            }
+        },
     }
-  }
+}

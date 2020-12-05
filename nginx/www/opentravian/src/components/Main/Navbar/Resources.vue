@@ -1,5 +1,5 @@
 <template>
-   <div class="container">
+   <div class="container" v-if="checkIfLoggedIn(false)">
         <div class="d-flex justify-content-center" id="villageResources">
         <ul class="list-group list-group-horizontal flex-row">
             <li class="list-group-item">
@@ -40,14 +40,20 @@ export default {
     },
 
     created() {
-        this.fetchVillageResources();
-        this.fetchVillageMaxResources();
-        this.fetchVillageProduction();
-        this.startIntervals();
+        this.loadMethods();
     },
 
-    methods: {    
+    methods: {   
+        loadMethods(){
+            if(this.checkIfLoggedIn(false)){
+                this.fetchVillageResources();
+                this.fetchVillageMaxResources();
+                this.fetchVillageProduction();
+                this.startIntervals();
+            }
+        },
         startIntervals(){
+            console.log("NAVBAR/RESOURCES DEBUG")
             if (isIntervalInProgress) return;
 
             var woodInterval = setInterval( ()=> {

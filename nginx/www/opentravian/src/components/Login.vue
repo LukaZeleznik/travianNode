@@ -25,7 +25,7 @@ import { toolsMixins } from '@/mixins/toolsMixins'
         mixins: [apiRequestMixins,toolsMixins],
 
         created(){
-            this.checkIfLoggedIn()
+            this.checkIfLoggedIn(false);
         },
 
         methods: {
@@ -42,13 +42,6 @@ import { toolsMixins } from '@/mixins/toolsMixins'
                 if(response.token && response.capital){
                     document.cookie = "jwt=" + response.token + ";path=/";
                     document.cookie = "activeVillageId=" + response.capital + ";path=/";
-                    this.$router.push({ name: 'resources' });
-                }
-            },
-            checkIfLoggedIn(){
-                console.log("out");
-                if(this.getCookie("jwt")){
-                    console.log("in");
                     this.$router.push({ name: 'resources' });
                 }
             },

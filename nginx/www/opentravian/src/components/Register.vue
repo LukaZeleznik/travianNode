@@ -27,7 +27,7 @@ import { apiRequestMixins } from '@/mixins/apiRequestMixins'
         mixins: [apiRequestMixins],
 
         created(){
-            this.checkIfLoggedIn()
+            this.checkIfLoggedIn(true);
         },
 
         methods: {
@@ -49,16 +49,6 @@ import { apiRequestMixins } from '@/mixins/apiRequestMixins'
                     document.getElementById("errorMessage").innerText = response.message;
                 }
             },
-            checkIfLoggedIn(){
-                if(this.getCookie("jwt")){
-                    this.$router.push({ name: 'resources' });
-                }
-            },
-            getCookie(name) {
-                const value = `; ${document.cookie}`;
-                const parts = value.split(`; ${name}=`);
-                if (parts.length === 2) return parts.pop().split(';').shift();
-            }
         }
     }
 
