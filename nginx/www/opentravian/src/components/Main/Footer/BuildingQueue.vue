@@ -30,6 +30,7 @@
 <script>
 import { fetchMixins } from '@/mixins/fetchMixins'
 import { toolsMixins } from '@/mixins/toolsMixins'
+import { apiRequestMixins } from '@/mixins/apiRequestMixins'
 
 export default {
     data() {
@@ -39,7 +40,7 @@ export default {
         };
     },
 
-    mixins: [fetchMixins,toolsMixins],
+    mixins: [fetchMixins,toolsMixins,apiRequestMixins],
 
     created() {
         this.fetchVillageResFieldUpgrades();
@@ -90,46 +91,24 @@ export default {
                 }
             }, 1000);
         },
-
-/*
         async cancelBuildingUpgrade(villageBuildingUpgrades){
-            let currentUnixTime =  Math.round(new Date().getTime()/1000);
+            const cancelBuildingUpgradesApiUrl = 'villageBuildingUpgrade/' + villageBuildingUpgrades[0]._id;
+            let cancelBuildingUpgradesJson = await(await this.doApiRequest(cancelBuildingUpgradesApiUrl, "DELETE","",false)).json();
 
-            let villageResourcesApiUrl = 'http://localhost:8080/api/villageResources/1';
-            let villageResources = await(await(await fetch(villageResourcesApiUrl)).json()).data;
-
-            /*let cancelBuildingUpgradeResponse = await fetch('http://localhost:8080/api/villageBuildingUpgrades/' + villageBuildingUpgrades[0]._id, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            let cancelBuildingUpgradeResponse = await this.doApiRequest("villageBuildingUpgrades/" + villageBuildingUpgrades[0]._id, "DELETE", "");
-            let cancelBuildingUpgradeJson = await cancelBuildingUpgradeResponse.json();
-            if(cancelBuildingUpgradeJson.status == "success"){
-                villageResources.currentWood += villageBuildingUpgrades[0].woodUsed;
-                villageResources.currentClay += villageBuildingUpgrades[0].clayUsed;
-                villageResources.currentIron += villageBuildingUpgrades[0].ironUsed;
-                villageResources.currentCrop += villageBuildingUpgrades[0].cropUsed;
-                villageResources.lastUpdate = currentUnixTime;
-
-                let updateVillageResourcesResponse = await this.doApiRequest("villageResources/1", "PATCH", villageResources) //hardcoded
-                let updateVillageResourcesJson = await updateVillageResourcesResponse.json();
-                console.log(updateVillageResourcesJson);
-                // DOESN'T WORK, TODO
+            if(cancelBuildingUpgradesJson.status == "success"){
+                this.fetchVillageBuildingUpgrades();
+                this.fetchVillageResources();
             }
         },
-        cancelResFieldUpgrade(){
-            /*let villageResources = getVillageResources();
-            let currentUnixTime =  Math.round(new Date().getTime()/1000);
+        async cancelResFieldUpgrade(villageResFieldUpgrades){
+            const cancelResFieldUpgradesApiUrl = 'villageResFieldUpgrade/' + villageResFieldUpgrades[0]._id;
+            let cancelResFieldUpgradesJson = await(await this.doApiRequest(cancelResFieldUpgradesApiUrl, "DELETE","",false)).json();
 
-            villageResources.currentWood -= villageResFieldUpgrades[0].woodUsed;
-            villageResources.currentClay -= villageResFieldUpgrades[0].clayUsed;
-            villageResources.currentIron -= villageResFieldUpgrades[0].ironUsed;
-            villageResources.currentCrop -= villageResFieldUpgrades[0].cropUsed;
-            villageResources.lastUpdate = currentUnixTime;
-        },*/
+            if(cancelResFieldUpgradesJson.status == "success"){
+                this.fetchVillageResFieldUpgrades();
+                this.fetchVillageResources();
+            }
+        },
     }
     
 }

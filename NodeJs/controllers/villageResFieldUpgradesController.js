@@ -14,6 +14,17 @@ exports.view = function (req, res) {
     });
 };
 
+exports.find = function (req, res) {
+    villageResFieldUpgradesModel.findOne({_id: req.params.upgradeId}, function (err, villageResFieldUpgrade) {
+        if (err)
+            res.send(err);
+        res.json({
+            message: 'Loading resources..',
+            data: villageResFieldUpgrade
+        });
+    });
+};
+
 exports.new = async function (req, res) {
     let resourceInfo = require('/home/node/app/infoTables/resourceInfoLookup.json');
 
@@ -85,6 +96,10 @@ exports.new = async function (req, res) {
         villageResFieldUpgrades.rfid = req.body.rfid;
         villageResFieldUpgrades.fieldType = villageResourceFieldType;
         villageResFieldUpgrades.fieldLevel = villageResourceFieldLevel;
+        villageResFieldUpgrades.woodUsed = requirementWood;
+        villageResFieldUpgrades.ironUsed = requirementIron;
+        villageResFieldUpgrades.clayUsed = requirementClay;
+        villageResFieldUpgrades.cropUsed = requirementCrop;
         villageResFieldUpgrades.timeStarted = currentUnixTime;
         villageResFieldUpgrades.timeCompleted = timeCompleted;
 
@@ -147,13 +162,49 @@ exports.update = function (req, res) {
     });
 };
 
-exports.delete = function (req, res) {
+exports.delete = async function (req, res) {
+    var upgradeData = await getUsedResources(req.params.upgradeId);
+
     villageResFieldUpgradesModel.deleteOne({_id: req.params.upgradeId}, function (err, villageResFieldUpgrades) {
-        if (err)
+        if (err){
             res.send(err);
-        res.json({
-            status: "success",
-            message: 'villageResFieldUpgrades deleted'
-        });
+        } else if (villageResFieldUpgrades.deletedCount > 0){
+            (async () => {
+                
+                const currentUnixTime =  Math.round(new Date().getTime()/1000);
+                const villageResourcesApiUrl = 'http://localhost:8080/api/villageResources/' + upgradeData['idVillage'];
+                let villageResources = await(await(await fetch(villageResourcesApiUrl)).json()).data;
+
+                villageResources.currentWood += upgradeData['woodUsed'];
+                villageResources.currentClay += upgradeData['clayUsed'];
+                villageResources.currentIron += upgradeData['ironUsed'];
+                villageResources.currentCrop += upgradeData['cropUsed'];
+                villageResources.lastUpdate = currentUnixTime;
+
+                await fetch(villageResourcesApiUrl, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(villageResources),
+                });
+
+                res.json({
+                    status: "success",
+                    message: 'villageResFieldUpgrades deleted'
+                });
+                return;
+            })();
+        } else {
+            res.json({
+                status: "failed",
+                message: 'villageResFieldUpgrades _id does not exist'
+            });
+        }
     });
 };
+
+async function getUsedResources(upgradeId){
+    const villageResFieldUpgradesApiUrl = 'http://localhost:8080/api/villageResFieldUpgrade/' + upgradeId;
+    let villageResFieldUpgrades = await(await(await fetch(villageResFieldUpgradesApiUrl)).json()).data;
+
+    return villageResFieldUpgrades;
+}

@@ -176,7 +176,7 @@ export default {
                 "troopCount": troopNum
             }
 
-            let barracksProductionsResponse = await this.doApiRequest("barracksProductions","POST",troopData);
+            let barracksProductionsResponse = await this.doApiRequest("barracksProductions","POST",troopData,true);
             let barracksProductionsResponseJson = await barracksProductionsResponse.json();
 
             if(barracksProductionsResponseJson.message == "barracksProductions success"){

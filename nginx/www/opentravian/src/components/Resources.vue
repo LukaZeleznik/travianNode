@@ -1,6 +1,5 @@
 <template>
     <div>
-      <navbarResources></navbarResources>
         <!-- Main Body -->
         <div class="container mt-4">
             <div class="row">

@@ -173,7 +173,7 @@ export default {
                 "troopCount": troopNum
             }
 
-            let stableProductionsResponse = await this.doApiRequest("stableProductions","POST",troopData);
+            let stableProductionsResponse = await this.doApiRequest("stableProductions","POST",troopData,true);
             let stableProductionsResponseJson = await stableProductionsResponse.json();
 
             if(stableProductionsResponseJson.message == "stableProductions success"){

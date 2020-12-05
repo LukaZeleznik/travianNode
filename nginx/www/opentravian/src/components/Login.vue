@@ -32,7 +32,7 @@ import { apiRequestMixins } from '@/mixins/apiRequestMixins'
 
                 if(!inputEmail || !inputPassword) return;
 
-                let loginApiUrl = 'http://localhost/api/' + "login?email=" + inputEmail + "&password=" + inputPassword;
+                let loginApiUrl = 'http://localhost:8080/api/' + "login?email=" + inputEmail + "&password=" + inputPassword;
 
                 let token = await(await(await fetch(loginApiUrl,{method: "POST"})).json()).token;
                 if(token){

@@ -29,6 +29,17 @@ exports.view = function (req, res) {
     });
 };
 
+exports.find = function (req, res) {
+    villageBuildingUpgradesModel.findOne({_id: req.params.upgradeId}, function (err, villageBuildingUpgrade) {
+        if (err)
+            res.send(err);
+        res.json({
+            message: 'Loading resources..',
+            data: villageBuildingUpgrade
+        });
+    });
+};
+
 exports.new = async function (req, res) {
     let buildingInfo = require('/home/node/app/infoTables/buildingInfoLookup.json');
 
@@ -253,19 +264,54 @@ exports.update = function (req, res) {
     });
 };
 
-exports.delete = function (req, res) {
+exports.delete = async function (req, res) { 
+    var upgradeData = await getUsedResources(req.params.upgradeId);
+
     villageBuildingUpgradesModel.deleteOne({_id: req.params.upgradeId}, function (err, villageBuildingUpgrades) {
-        if (err)
+        if (err){
             res.send(err);
-        res.json({
-            status: "success",
-            message: 'villageBuildingUpgrades deleted'
-        });
+        } else if (villageBuildingUpgrades.deletedCount > 0){
+            (async () => {
+                const currentUnixTime =  Math.round(new Date().getTime()/1000);
+                const villageResourcesApiUrl = 'http://localhost:8080/api/villageResources/' + upgradeData['idVillage'];
+                let villageResources = await(await(await fetch(villageResourcesApiUrl)).json()).data;
+
+                villageResources.currentWood += upgradeData['woodUsed'];
+                villageResources.currentClay += upgradeData['clayUsed'];
+                villageResources.currentIron += upgradeData['ironUsed'];
+                villageResources.currentCrop += upgradeData['cropUsed'];
+                villageResources.lastUpdate = currentUnixTime;
+
+                await fetch(villageResourcesApiUrl, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(villageResources),
+                });
+
+                res.json({
+                    status: "success",
+                    message: 'villageBuildingUpgrades deleted'
+                });
+                return;
+            })();
+        } else {
+            res.json({
+                status: "failed",
+                message: 'villageBuildingUpgrades _id does not exist'
+            });
+        }
     });
 };
 
+async function getUsedResources(upgradeId){
+    const villageBuildingUpgradesApiUrl = 'http://localhost:8080/api/villageBuildingUpgrade/' + upgradeId;
+    let villageBuildingUpgrades = await(await(await fetch(villageBuildingUpgradesApiUrl)).json()).data;
+
+    return villageBuildingUpgrades;
+}
+
 async function hasRequiredResFieldLevel(type,level,idVillage){
-    let villageResourceFieldsApiUrl = 'http://localhost:8080/api/villageResourceFields/' + idVillage;
+    const villageResourceFieldsApiUrl = 'http://localhost:8080/api/villageResourceFields/' + idVillage;
     let villageResourceFields = await(await(await fetch(villageResourceFieldsApiUrl)).json()).data;
     let villageResourceFieldTypes = [];
     let villageResourceFieldLevels = [];

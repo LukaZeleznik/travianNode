@@ -168,7 +168,9 @@ router.route('/villageResFieldUpgrades/:idVillage')
     .get(villageResFieldUpgradesController.view);
 router.route('/villageResFieldUpgrades/:upgradeId')
     .put(villageResFieldUpgradesController.update)
-    .patch(villageResFieldUpgradesController.update)
+    .patch(villageResFieldUpgradesController.update);
+router.route('/villageResFieldUpgrade/:upgradeId')
+    .get(villageResFieldUpgradesController.find)
     .delete(villageResFieldUpgradesController.delete);
 
 router.route('/villageOwnTroops')
@@ -239,7 +241,9 @@ router.route('/villageBuildingUpgrades/:idVillage')
     .get(villageBuildingUpgradesController.view);
 router.route('/villageBuildingUpgrades/:upgradeId')
     .put(villageBuildingUpgradesController.update)
-    .patch(villageBuildingUpgradesController.update)
+    .patch(villageBuildingUpgradesController.update);
+router.route('/villageBuildingUpgrade/:upgradeId')
+    .get(villageBuildingUpgradesController.find)
     .delete(villageBuildingUpgradesController.delete);
 
 module.exports = router;

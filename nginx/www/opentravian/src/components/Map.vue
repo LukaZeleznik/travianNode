@@ -1,6 +1,5 @@
 <template>
   <div>
-    <navbarResources></navbarResources>
     <div class="container mt-4 mb-4">
       <div>
         <h1 class="text-center" >World Map</h1>

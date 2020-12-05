@@ -145,7 +145,7 @@ export default {
                 "type": buildingId
             }
 
-            let buildingUpgradeResponse = await this.doApiRequest("villageBuildingUpgrades", "POST", buildingData);
+            let buildingUpgradeResponse = await this.doApiRequest("villageBuildingUpgrades", "POST", buildingData,true);
             let buildingUpgradeResponseJson = await buildingUpgradeResponse.json();
 
             if(buildingUpgradeResponseJson.message == "villageBuildingUpgrade success"){

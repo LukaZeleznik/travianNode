@@ -11,7 +11,7 @@ export const upgradeMixins = {
                 "vbid": vbid,
             }
 
-            let buildingUpgradeResponse = await this.doApiRequest("villageBuildingUpgrades", "POST", buildingData);
+            let buildingUpgradeResponse = await this.doApiRequest("villageBuildingUpgrades", "POST", buildingData,true);
             let buildingUpgradeResponseJson = await buildingUpgradeResponse.json();
 
             if(buildingUpgradeResponseJson.message == "villageBuildingUpgrade success"){
@@ -28,7 +28,7 @@ export const upgradeMixins = {
                 "rfid": rfid,
             }
 
-            let villageResFieldUpgradeResponse = await this.doApiRequest("villageResFieldUpgrades", "POST", resourceFieldData)
+            let villageResFieldUpgradeResponse = await this.doApiRequest("villageResFieldUpgrades", "POST", resourceFieldData,true)
             let villageResFieldUpgradeResponseJson = await villageResFieldUpgradeResponse.json();
 
             if(villageResFieldUpgradeResponseJson.message == "villageResFieldUpgrade success"){
