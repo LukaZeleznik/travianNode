@@ -265,6 +265,19 @@ exports.update = function (req, res) {
 };
 
 exports.delete = async function (req, res) { 
+    villageBuildingUpgradesModel.deleteOne({_id: req.params.upgradeId}, function (err, villageBuildingUpgrades) {
+        if (err){
+            res.send(err);
+        } else {
+            res.json({
+                status: "success",
+                message: 'villageBuildingUpgrades deleted'
+            });
+        }
+    });
+};
+
+exports.cancel = async function (req, res) { 
     var upgradeData = await getUsedResources(req.params.upgradeId);
 
     villageBuildingUpgradesModel.deleteOne({_id: req.params.upgradeId}, function (err, villageBuildingUpgrades) {
@@ -290,7 +303,7 @@ exports.delete = async function (req, res) {
 
                 res.json({
                     status: "success",
-                    message: 'villageBuildingUpgrades deleted'
+                    message: 'villageBuildingUpgrades cancelled'
                 });
                 return;
             })();

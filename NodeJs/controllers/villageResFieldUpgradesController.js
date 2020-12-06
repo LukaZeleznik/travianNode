@@ -165,6 +165,19 @@ exports.update = function (req, res) {
 };
 
 exports.delete = async function (req, res) {
+    villageResFieldUpgradesModel.deleteOne({_id: req.params.upgradeId}, function (err, villageResFieldUpgrades) {
+        if (err){
+            res.send(err);
+        } else {
+            res.json({
+                status: "success",
+                message: 'villageResFieldUpgrades deleted'
+            });
+        }
+    });
+};
+
+exports.cancel = async function (req, res) {
     var upgradeData = await getUsedResources(req.params.upgradeId);
 
     villageResFieldUpgradesModel.deleteOne({_id: req.params.upgradeId}, function (err, villageResFieldUpgrades) {
@@ -191,7 +204,7 @@ exports.delete = async function (req, res) {
 
                 res.json({
                     status: "success",
-                    message: 'villageResFieldUpgrades deleted'
+                    message: 'villageResFieldUpgrades cancelled'
                 });
                 return;
             })();

@@ -177,6 +177,8 @@ router.route('/villageResFieldUpgrades/:upgradeId')
 router.route('/villageResFieldUpgrade/:upgradeId')
     .get(villageResFieldUpgradesController.find)
     .delete(villageResFieldUpgradesController.delete);
+router.route('/cancelVillageResFieldUpgrade/:upgradeId')
+    .delete(villageResFieldUpgradesController.cancel);
 
 router.route('/villageOwnTroops')
     .post(villageOwnTroopsController.new);
@@ -250,6 +252,8 @@ router.route('/villageBuildingUpgrades/:upgradeId')
 router.route('/villageBuildingUpgrade/:upgradeId')
     .get(villageBuildingUpgradesController.find)
     .delete(villageBuildingUpgradesController.delete);
+router.route('/cancelVillageBuildingUpgrade/:upgradeId')
+    .delete(villageBuildingUpgradesController.cancel);
 
 module.exports = router;
 
