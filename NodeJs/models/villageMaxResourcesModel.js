@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const villageMaxResourcesSchema = new Schema ({
-        idVillage: { type: Number, required: true, unique: true },
+        idVillage: { type: String, required: true, unique: true },
         maxWood: { type: Number, required: true },
         maxClay: { type: Number, required: true },
         maxIron: { type: Number, required: true },

@@ -53,7 +53,7 @@ export default {
             }
         },
         startIntervals(){
-            console.log("NAVBAR/RESOURCES DEBUG")
+            console.log("NAVBAR/RESOURCES DEBUG");
             if (isIntervalInProgress) return;
 
             var woodInterval = setInterval( ()=> {

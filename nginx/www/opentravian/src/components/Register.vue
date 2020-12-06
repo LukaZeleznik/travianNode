@@ -18,13 +18,15 @@
 
 <script>
 import { apiRequestMixins } from '@/mixins/apiRequestMixins' 
+import { toolsMixins } from '@/mixins/toolsMixins' 
+
     export default {
         data() {
             return {
             }
         },
 
-        mixins: [apiRequestMixins],
+        mixins: [apiRequestMixins,toolsMixins],
 
         created(){
             this.checkIfLoggedIn(true);
@@ -39,7 +41,7 @@ import { apiRequestMixins } from '@/mixins/apiRequestMixins'
 
                 if(!inputEmail || !inputPassword || !inputNickname || !inputTribe) return;
 
-                let registerApiUrl = 'http://localhost/api/' + "register?email=" + inputEmail + "&password=" + inputPassword + "&nickname=" + inputNickname + "&tribe=" + inputTribe;
+                let registerApiUrl = 'http://localhost:8080/api/' + "register?email=" + inputEmail + "&password=" + inputPassword + "&nickname=" + inputNickname + "&tribe=" + inputTribe;
 
                 let response = await(await(await fetch(registerApiUrl,{method: "POST"})).json());
                 if(response.message == "Registration successful"){

@@ -125,12 +125,15 @@ router.route('/users/:id')
     .delete(userController.delete);
 
 router.route('/villages')
-    .post(villageController.new);
+    .post(villageController.new)
+    .get(villageController.find);
 router.route('/villages/:mapTileId')
     .get(villageController.view)
     .put(villageController.update)
     .patch(villageController.update)
     .delete(villageController.delete);
+router.route('/generateMapVillages')
+    .post(villageController.insertMany);
 
 router.route('/villageResources')
     .post( villageResourcesController.new);

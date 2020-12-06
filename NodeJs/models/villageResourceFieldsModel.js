@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const villageResourceFieldsSchema = new Schema ({
-        idVillage:  { type: Number, required: true, unique: true },
+        idVillage:  { type: String, required: true, unique: true },
         field1Level: { type: Number, required: true },
         field2Level: { type: Number, required: true },
         field3Level: { type: Number, required: true },

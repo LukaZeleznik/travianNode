@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const villageResFieldUpgradesSchema = new Schema ({
-        idVillage:      { type: Number, required: true },
+        idVillage:      { type: String, required: true },
         rfid:           { type: Number, required: true },
         fieldType:      { type: Number, required: true },
         fieldLevel:     { type: Number, required: true },

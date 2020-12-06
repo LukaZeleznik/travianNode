@@ -10,7 +10,9 @@ import Village from './components/Village.vue';
 import VillageBuilding from './components/VillageBuilding.vue';
 import SendTroops from './components/SendTroops.vue';
 import Map from './components/Map.vue';
+//import MapTile from './components/Map/MapTile.vue'
 import App from './components/app.vue';
+import Install from './components/Install.vue';
 
 // Navbar
 Vue.component('navbarMenu', require('./components/Main/Navbar/Menu.vue').default);
@@ -44,6 +46,9 @@ Vue.component('villageBuilding13', require('./components/Village/Buildings/13.vu
 //Resources
 Vue.component('resourcesFields', require('./components/Resources/Fields.vue').default);
 Vue.component('resourcesField', require('./components/Resources/ResourceField.vue').default);
+
+//Map
+Vue.component('mapTile', require('./components/Map/MapTile.vue').default);
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
@@ -90,9 +95,14 @@ const router = new VueRouter({
             component: SendTroops
         },
         {
-            path: '/map',
+            path: '/map/:tileid?',
             name: 'map',
-            component: Map
+            component: Map,
+        },
+        {
+            path: '/install',
+            name: 'install',
+            component: Install
         },
     ],
 });
@@ -188,7 +198,7 @@ const store = new Vuex.Store({
             context.commit('increment', payload)
         },
         async fetchVillageResources(context) {
-            await fetch('http://localhost/api/villageResources/' + getCookie('activeVillageId'),{credentials: 'include'})
+            await fetch('http://localhost:8080/api/villageResources/' + getCookie('activeVillageId'),{credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
                     let villageResources = [res.data.currentWood, res.data.currentClay, res.data.currentIron, res.data.currentCrop];

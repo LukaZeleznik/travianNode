@@ -22,7 +22,6 @@ exports.new = function (req, res) {
                     let idVillage = taskReqBody.taskData.idVillage;
                     let resFieldId = taskReqBody.taskData.resFieldId;
                     let resFieldUpgradeId = taskReqBody.taskData.resFieldUpgradeId;
-
                     let villageResourceFieldsApiUrl = 'http://localhost:8080/api/villageResourceFields/' + idVillage;
                     let villageResourceFields = await(await(await fetch(villageResourceFieldsApiUrl)).json()).data;
                     villageResourceFields["field"+resFieldId+"Level"]++;
@@ -35,7 +34,7 @@ exports.new = function (req, res) {
                         body: JSON.stringify(villageResourceFields),
                     });
 
-                    let villageResFieldUpgradeApiUrl = 'http://localhost:8080/api/villageResFieldUpgrades/' + resFieldUpgradeId;
+                    let villageResFieldUpgradeApiUrl = 'http://localhost:8080/api/villageResFieldUpgrade/' + resFieldUpgradeId;
 
                     fetch(villageResFieldUpgradeApiUrl, {
                         method: 'DELETE',
@@ -69,7 +68,7 @@ exports.new = function (req, res) {
                         body: JSON.stringify(villageBuildingFields),
                     });
 
-                    let buildingUpgradeApiUrl = 'http://localhost:8080/api/villageBuildingUpgrades/' + buildingUpgradeId;
+                    let buildingUpgradeApiUrl = 'http://localhost:8080/api/villageBuildingUpgrade/' + buildingUpgradeId;
 
                     fetch(buildingUpgradeApiUrl, {
                         method: 'DELETE',

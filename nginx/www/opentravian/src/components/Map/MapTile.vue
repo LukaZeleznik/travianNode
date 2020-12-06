@@ -1,0 +1,130 @@
+<template>  
+    <div v-if="checkIfLoggedIn(false)">  
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-md-8 col-sm-12 col-12">
+                    <div class="outerGrid">
+                        <div class="grid">
+                            <ul id="hexGrid" style="padding-left: 0px;">
+                                <li class="hex" v-for="index in 22" :key="index">
+                                    <div class=" " v-if="index == 1 || index == 5 || index == 19"></div>
+                                    <div class="hexIn" v-else-if="index == 12">
+                                        <router-link class="hexLink" :to="{ name: 'village' }">
+                                            <div class='img' v-bind:style="'background-color: White'">
+                                                <p style="top:35%;opacity:1;color:black"></p>
+                                            </div>
+                                            <h1 id="demo1"></h1>
+                                            <p id="demo2"></p>
+                                        </router-link>
+                                    </div>
+                                    <div class="hexIn" v-else>
+                                        <div class="hexLink">
+                                            <div class='img' v-bind:style="'background-color:' + fieldsColors[realIndexes[index]-1]">
+                                            </div>
+                                            <h1 id="demo1"></h1>
+                                            <p id="demo2"></p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 text-center mb-3 rightSide">
+                    <div class="h3 mt-3 text-left">Distribution:</div>
+                        <div class="h5">
+                            <div class="text-left">
+                            <h5>
+                                <img src="/images/resources/wood.gif" /> {{ fieldDistribution[0] }}  
+                                <img src="/images/resources/clay.gif" /> {{ fieldDistribution[1] }}  
+                                <img src="/images/resources/iron.gif" /> {{ fieldDistribution[2] }}   
+                                <img src="/images/resources/crop.gif" /> {{ fieldDistribution[3] }}  
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="h3 mt-3 text-left" v-if="villageData">
+                        <span v-if="villageData.name">{{ villageData.name }}</span> 
+                        <span v-else>Abandoned valley</span>
+                        ({{ villageData.xCoordinate }}|{{ villageData.yCoordinate }})</div>
+                        <div class="h5 text-left">
+                            <div class="text-left" v-if="villageData.owner">
+                                <h5 style="text-transform: capitalize;">Tribe: {{ userData.tribe }}</h5>
+                                <h5>Owner: {{ userData.nickname }}</h5>
+                                <h5>Population: {{ villageData.population }}</h5>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import { fetchMixins } from '@/mixins/fetchMixins'
+import { toolsMixins } from '@/mixins/toolsMixins'
+import { apiRequestMixins } from '@/mixins/apiRequestMixins'
+
+    export default {
+        data() {
+            return {
+                realIndexes: [1,1,1,2,3,3,4,5,6,7,8,9,10,10,11,12,13,14,15,16,16,17,18],
+                fields: [],
+                fieldsColors: [],
+                userData: [],
+                villageData: [],
+                fieldDistribution: [0,0,0,0],
+            };
+        },
+
+        watch:{
+        },
+
+        mixins: [fetchMixins,toolsMixins,apiRequestMixins],
+
+        created(){
+            this.getFieldData();
+        },
+        methods: {
+            async getFieldData(){
+                let woodCount = 0;
+                let clayCount = 0;
+                let ironCount = 0;
+                let cropCount = 0;
+
+                this.villageData = await(await(await this.doApiRequest("villages/" + this.$route.params.tileid,"GET","",false)).json()).data;
+                
+                this.fields = this.resFieldVariationsInfoLookup[this.villageData['fieldVariation']];
+                this.fieldsColors = this.fields.map(type => {
+                    switch(type) {
+                        case 0: 
+                            woodCount += 1;
+                            return "Green";
+                        case 1: 
+                            clayCount += 1;
+                            return "Orange"; 
+                        case 2:
+                            ironCount += 1;
+                            return "Silver"; 
+                        case 3: 
+                            cropCount += 1;
+                            return "Gold";
+                        default: return "White";
+                    }
+                });
+
+                this.fieldDistribution = [woodCount,clayCount,ironCount,cropCount];
+
+                if(this.villageData.owner){
+                    this.userData = await this.getVillageOwnerData(this.villageData.owner);
+                }
+            },  
+            async getVillageOwnerData(userId){
+                const usersResponse = await(await(await this.doApiRequest("users/" + userId,"GET","",false)).json()).data;
+
+                console.log(usersResponse);
+                return usersResponse;
+            }
+        }
+
+    }
+</script>

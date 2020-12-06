@@ -22,6 +22,7 @@ export const fetchMixins = {
             buildingInfoLookup: [],
             resourceInfoLookup: [],
             troopInfoLookup: [],
+            resFieldVariationsInfoLookup: [],
         };
     },
 
@@ -91,6 +92,19 @@ export const fetchMixins = {
             this.buildingInfoLookup = require('@/assets/infoTables/buildingInfoLookup.json');
             this.resourceInfoLookup = require('@/assets/infoTables/resourceInfoLookup.json');
             this.troopInfoLookup = require('@/assets/infoTables/troopInfoLookup.json');
+            this.resFieldVariationsInfoLookup = require('@/assets/infoTables/resFieldVariationsInfoLookup.json');
+
+            /* 
+                resFieldVariationsInfoLookup cheat sheet until better solution of identifying them is implemented:
+
+                [0,3,0,2,1,1,2,3,3,2,2,3,3,0,3,1,0,1] 4,4,4,6
+                [0,3,0,1,1,1,2,3,3,2,2,3,3,0,3,1,0,1] 4,5,3,6
+                [0,3,0,2,0,1,2,3,3,2,2,3,3,0,3,1,0,1] 5,3,4,6
+                [3,3,0,2,3,3,3,3,3,3,3,3,3,3,3,1,3,3] 1,1,1,15
+                [3,3,0,3,3,1,2,3,3,2,2,3,3,0,3,1,0,1] 3,3,3,9
+                
+                // http://travian.kirilloid.ru/villages_res.php#s=1.36&pl=15&fl=10,10,10,10&fs=31
+            */
         },
         fetchVillageOwnTroops(){ this.$store.dispatch('fetchVillageOwnTroops') },
         fetchVillageResources(){ this.$store.dispatch('fetchVillageResources') },

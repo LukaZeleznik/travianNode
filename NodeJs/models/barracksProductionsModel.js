@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const barracksProductionsSchema = new Schema ({
-        idVillage: { type: Number, required: true },
+        idVillage: { type: String, required: true },
         troopName: { type: String, required: true },
         troopId: { type: Number, required: true },
         troopCount: { type: Number, required: true },

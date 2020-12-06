@@ -9,7 +9,7 @@ const UserSchema = new Schema({
   nickname:     {type: String, required: true, unique: true},
   tribe:        {type: String, required: true},
   population:   {type: Number, required: true, default: 0},
-  capital:      {type: Number, required: true, unique: true}
+  capital:      {type: String, required: true, unique: true}
 });
 
 UserSchema.pre(

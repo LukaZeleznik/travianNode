@@ -103,6 +103,8 @@ exports.new = async function (req, res) {
         villageResFieldUpgrades.timeStarted = currentUnixTime;
         villageResFieldUpgrades.timeCompleted = timeCompleted;
 
+        console.log("idVillage",idVillage);
+
         let villageResFieldUpgrade = villageResFieldUpgrades.save(async function (err,villageResFieldUpgrade) {
             if (err){
                 res.json(err);

@@ -4,7 +4,7 @@ export const apiRequestMixins = {
             let response;
             
             if (jsonf){
-                response = await fetch('http://localhost/api/' + path, {
+                response = await fetch('http://localhost:8080/api/' + path, {
                     method: method,
                     headers: {
                         'Content-Type': 'application/json',
@@ -12,7 +12,7 @@ export const apiRequestMixins = {
                     body: JSON.stringify(data),
                 });
             } else {
-                response = await fetch('http://localhost/api/' + path, { method: method });
+                response = await fetch('http://localhost:8080/api/' + path, { method: method });
             }
             return response;
         },

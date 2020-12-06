@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 
 const villageSchema = new Schema({
     mapTileId:          {type: Number, required: true, unique: true},
+    name:               {type: String, required: false},
     xCoordinate:        {type: Number, required: true},
     yCoordinate:        {type: Number, required: true},
     fieldVariation:     {type: Number, required: true},

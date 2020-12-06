@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const villageOwnTroopsSchema = new Schema ({
-        idVillage: { type: Number, required: true, unique: true },
+        idVillage: { type: String, required: true, unique: true },
         tribe: { type: String, required: true },
         troop1: { type: Number, required: true },
         troop2: { type: Number, required: true },

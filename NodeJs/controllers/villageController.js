@@ -21,6 +21,7 @@ exports.new = function (req, res) {
     village.fieldVariation  = req.body.fieldVariation;
     village.population      = req.body.population;
     village.owner           = req.body.owner;
+    village.name            = req.body.name;
 
     village.save(function (err) {
         if (err){
@@ -35,6 +36,28 @@ exports.new = function (req, res) {
     });
 };
 
+exports.find = function (req, res) {
+    villageModel.find(function (err, villages) {
+        if (err)
+            res.send(err);
+        res.json({
+            message: 'Loading village..',
+            data: villages
+        });
+    });
+};
+
+exports.insertMany = function (req, res) {
+    villageModel.insertMany(req.body, function (err, villages) {
+        if (err)
+            res.send(err);
+        res.json({
+            message: 'Villages inserted..',
+            data: villages
+        });
+    });
+};
+
 exports.update = function (req, res) {
     villageModel.findOne({mapTileId: req.params.mapTileId}, function (err, village) {
         if (err)
@@ -46,6 +69,7 @@ exports.update = function (req, res) {
         village.fieldVariation  = req.body.fieldVariation;
         village.population      = req.body.population;
         village.owner           = req.body.owner;
+        village.name            = req.body.name;
 
         village.save(function (err2) {
             if (err2)
