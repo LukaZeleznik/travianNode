@@ -59,6 +59,14 @@ export default {
             if(this.checkIfLoggedIn(true)){
                 //this.loadMapTiles();
                 this.loadTileData();
+                this.defaulTileData();
+            }
+        },
+        defaulTileData(){
+            for(let l = 1; l < 96; l++){
+                this.tileData.push({
+                    "owner": ''
+                })
             }
         },
         /*

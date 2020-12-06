@@ -86,28 +86,20 @@ import { apiRequestMixins } from '@/mixins/apiRequestMixins'
         },
         methods: {
             async getFieldData(){
-                let woodCount = 0;
-                let clayCount = 0;
-                let ironCount = 0;
-                let cropCount = 0;
-
                 this.villageData = await(await(await this.doApiRequest("villages/" + this.$route.params.tileid,"GET","",false)).json()).data;
                 
-                this.fields = this.resFieldVariationsInfoLookup[this.villageData['fieldVariation']];
+                const woodCount = this.resFieldVariationsInfoLookup[this.villageData['fieldVariation']]['woodCount'];
+                const clayCount = this.resFieldVariationsInfoLookup[this.villageData['fieldVariation']]['clayCount'];
+                const ironCount = this.resFieldVariationsInfoLookup[this.villageData['fieldVariation']]['ironCount'];
+                const cropCount = this.resFieldVariationsInfoLookup[this.villageData['fieldVariation']]['cropCount'];
+
+                this.fields = this.resFieldVariationsInfoLookup[this.villageData['fieldVariation']]['variation'];
                 this.fieldsColors = this.fields.map(type => {
                     switch(type) {
-                        case 0: 
-                            woodCount += 1;
-                            return "Green";
-                        case 1: 
-                            clayCount += 1;
-                            return "Orange"; 
-                        case 2:
-                            ironCount += 1;
-                            return "Silver"; 
-                        case 3: 
-                            cropCount += 1;
-                            return "Gold";
+                        case 0: return "Green";
+                        case 1: return "Orange"; 
+                        case 2: return "Silver"; 
+                        case 3: return "Gold";
                         default: return "White";
                     }
                 });
@@ -115,15 +107,9 @@ import { apiRequestMixins } from '@/mixins/apiRequestMixins'
                 this.fieldDistribution = [woodCount,clayCount,ironCount,cropCount];
 
                 if(this.villageData.owner){
-                    this.userData = await this.getVillageOwnerData(this.villageData.owner);
+                    this.userData = await(await(await this.doApiRequest("users/" + this.villageData.owner,"GET","",false)).json()).data;
                 }
             },  
-            async getVillageOwnerData(userId){
-                const usersResponse = await(await(await this.doApiRequest("users/" + userId,"GET","",false)).json()).data;
-
-                console.log(usersResponse);
-                return usersResponse;
-            }
         }
 
     }
