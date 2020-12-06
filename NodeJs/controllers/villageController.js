@@ -2,14 +2,25 @@ const path = require('path');
 const villageModel = require('../models/villageModel');
 
 exports.view = function (req, res) {
-    villageModel.findOne({mapTileId: req.params.mapTileId}, function (err, village) {
-        if (err)
-            res.send(err);
-        res.json({
-            message: 'Loading village..',
-            data: village
+    if(isNaN(req.params.mapTileId)){
+        villageModel.findOne({_id: req.params.mapTileId}, function (err, village) {
+            if (err) res.send(err);
+            res.json({
+                message: 'Loading village..',
+                data: village
+            });
         });
-    });
+    }
+    else{
+        villageModel.findOne({mapTileId: req.params.mapTileId}, function (err, village) {
+            if (err)
+                res.send(err);
+            res.json({
+                message: 'Loading village..',
+                data: village
+            });
+        });
+    }
 };
 
 // Handle create village actions

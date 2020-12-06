@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
+const fetch = require("node-fetch");
 
 const scheduleController = require('../controllers/scheduleController');
 const villageResourcesController = require('../controllers/villageResourcesController');
@@ -107,8 +108,9 @@ router.route('/schedule/:idTask')
     .delete(scheduleController.delete);
 */
 /* Authenticated
+
 router.route('/villageResources')
-    .post(passport.authenticate('jwt', {session: false}), villageResourcesController.new);
+    .post(passport.authenticate('jwt', {session: false}), checkIdVillage, villageResourcesController.new);
 router.route('/villageResources/:idVillage')
     .get(passport.authenticate('jwt', {session: false}), checkIdVillage, villageResourcesController.view)
     .put(passport.authenticate('jwt', {session: false}), checkIdVillage, villageResourcesController.update)
@@ -257,8 +259,13 @@ router.route('/cancelVillageBuildingUpgrade/:upgradeId')
 
 module.exports = router;
 
-function checkIdVillage(req, res, next) { 
-    if(req.user.idVillage == req.params.idVillage){
+async function checkIdVillage(req, res, next) {
+    let villagesApiUrl = "http://localhost:8080/api/villages/" + req.params.idVillage;
+    let village = await(await(await fetch(villagesApiUrl)).json()).data;
+    console.log("villageOwner", village.owner);
+    console.log("req.user._id", req.user._id);
+
+    if(req.user._id == village.owner || req.user.email == "admin@openTravian.com"){
         return next();
     } else{
         res.json({
