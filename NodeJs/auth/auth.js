@@ -40,17 +40,7 @@ passport.use(
                 const nickname = req.query.nickname;
                 const capital = Math.floor((Math.random() * 95) + 1);
                 
-                console.log("tribe: ", tribe);
-                console.log("nickname: ", nickname);
-                console.log("capital:", capital);
-
-                const user = await UserModel.create({
-                    email,
-                    password,
-                    nickname,
-                    tribe,
-                    capital
-                });
+                createNewUser(email,password,nickname,tribe,village){
 
                 return done(null, user);
             } catch (error) {
