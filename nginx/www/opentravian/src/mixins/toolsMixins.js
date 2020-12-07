@@ -26,5 +26,8 @@ export const toolsMixins = {
                 return false;
             }
         },
+        async mapTileIdToIdVillage(mapTileId){
+            return await(await(await this.doApiRequest("villages/" + mapTileId,"GET","",false)).json()).data._id;
+        },
     }
 }

@@ -109,7 +109,6 @@ const router = new VueRouter({
 
 const store = new Vuex.Store({
     state: {
-        count: 0,
         villageResources: [0, 0, 0, 0],
         villageMaxResources: [0, 0, 0, 0],
         villageResourceFieldLevels: [],
@@ -129,12 +128,10 @@ const store = new Vuex.Store({
         villageBuildingLevels: [],
         villageBuildingTypes: [],
         villageBuildingColors: [],
+        activeVillageId: "",
     },
 
     mutations: {
-        increment(state, payload) {
-            state.count += payload;
-        },
         setVillageResources(state, resources) {
             state.villageResources = resources;
         },
@@ -191,6 +188,9 @@ const store = new Vuex.Store({
         },
         setVillageBuildingColors(state, villageBuildingColors) {
             state.villageBuildingColors = villageBuildingColors;
+        },
+        setActiveVillageId(state, activeVillageId) {
+            state.activeVillageId = activeVillageId;
         },
     },
     actions: {
@@ -273,13 +273,13 @@ const store = new Vuex.Store({
                     let villageIncomingReinforcements = [];
 
                     for (let troopMovement of res.data) {
-                        if (troopMovement.idVillageFrom == 1) {
+                        if (troopMovement.idVillageFrom == getCookie('activeVillageId')) {
                             if (troopMovement.sendType == "full" || troopMovement.sendType == "raid") {
                                 villageOutgoingAttacks.push(troopMovement);
-                            } else if (troopMovement.sendType == "reinforcement" || troopMovement.sendType == "return") {
+                            } else if (troopMovement.sendType == "reinforcement") {
                                 villageOutgoingReinforcements.push(troopMovement);
                             }
-                        } else if (troopMovement.idVillageTo == 1) {
+                        } else if (troopMovement.idVillageTo == getCookie('activeVillageId')) {
                             if (troopMovement.sendType == "full" || troopMovement.sendType == "raid") {
                                 villageIncomingAttacks.push(troopMovement);
                             } else if (troopMovement.sendType == "reinforcement" || troopMovement.sendType == "return") {
@@ -443,6 +443,18 @@ const store = new Vuex.Store({
                 })
                 .catch(err => console.log(err));
         },
+        async fetchActiveVillageId(context) {
+            if(context.getters.getActiveVillageId){
+                return context.getters.getActiveVillageId
+            }
+            await fetch('http://localhost:8080/api/users/' + getCookie('userId'))
+                .then(res => res.json())
+                .then(res => {
+                    console.log("setActiveVillageId CALLED");
+                    context.commit('setActiveVillageId', res.data.capital);
+                })
+                .catch(err => console.log(err));
+        },
 
     },
     getters: {
@@ -505,6 +517,9 @@ const store = new Vuex.Store({
         },
         getVillageBuildingColors: state => {
             return state.villageBuildingColors;
+        },
+        getActiveVillageId: state => {
+            return state.activeVillageId;
         },
     }
 })

@@ -72,7 +72,8 @@ router.route('/login')
                                 //res.cookie('jwt',token,{maxAge:9000000,httpOnly:true});
                                 return res.json({
                                     token: token,
-                                    capital: user.capital
+                                    capital: user.capital,
+                                    userId: user._id
                                 });
                             }
                         );
@@ -117,14 +118,6 @@ router.route('/villageResources/:idVillage')
     .patch(passport.authenticate('jwt', {session: false}), checkIdVillage, villageResourcesController.update)
     .delete(passport.authenticate('jwt', {session: false}), checkIdVillage, villageResourcesController.delete);
 */
-
-router.route('/users')
-    .post(userController.new);
-router.route('/users/:id')
-    .get(userController.view)
-    .put(userController.update)
-    .patch(userController.update)
-    .delete(userController.delete);
 
 router.route('/villages')
     .post(villageController.new)
@@ -226,8 +219,11 @@ router.route('/stableProductions/:barrProdId')
     .patch(stableProductionsController.update)
     .delete(stableProductionsController.delete);
 
-router.route('/user')
-    .post(userController.new);
+router.route('/users')
+    .post(userController.new)
+    .get(userController.view);
+router.route('/users/:uid')
+    .get(userController.find);
 /*
 router.route('/user/:user')
     .get(userController.view)

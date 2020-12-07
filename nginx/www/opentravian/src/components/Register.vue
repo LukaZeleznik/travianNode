@@ -8,6 +8,7 @@
             <input type="text" id="inputNickname" name="nickname" class="form-control w-100 mb-2" placeholder="Nickname" required>
             <select id="inputTribe" name="tribe" class="form-control w-100 mb-2" placeholder="Teuton" required>
                 <option value="teuton">Teuton</option>
+                <option value="roman">Roman</option>
             </select>
             <button class="btn btn-lg btn-primary btn-block" v-on:click="register()">Register</button>
             <router-link class="btn btn-lg btn-primary btn-block" :to="{ name: 'login' }">Login</router-link>

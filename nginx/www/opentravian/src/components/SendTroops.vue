@@ -7,7 +7,7 @@
           <table class="table table-bordered w-100 m-auto" v-if="!isMobile()">
               <thead >
                   <tr>
-                    <th scope="col">clubswinger</th>
+                    <th scope="col">Clubswinger</th>
                     <th scope="col">Spearman</th>
                     <th scope="col">Axeman</th>
                     <th scope="col">Scout</th>
@@ -34,7 +34,7 @@
             <table class="table table-bordered w-100 m-auto">
                 <thead>
                     <tr>
-                      <th scope="col">clubswinger</th>
+                      <th scope="col">Clubswinger</th>
                       <th scope="col">Spearman</th>
                       <th scope="col">Axeman</th>
                       <th scope="col">Scout</th>
@@ -154,6 +154,9 @@
 
 
 <script>
+import { fetchMixins } from '@/mixins/fetchMixins'
+import { toolsMixins } from '@/mixins/toolsMixins'
+import { apiRequestMixins } from '@/mixins/apiRequestMixins'
 
 export default {
   data() {
@@ -162,16 +165,25 @@ export default {
     };
   },
 
+  mixins: [fetchMixins,toolsMixins,apiRequestMixins],
+
   created() {
     this.fetchVillageOwnTroops();
-    console.log(this.isMobile());
   },
 
   methods: {
     async sendTroops(){
 
-      let idVillageFrom = 1;
-      let idVillageTo = 2;
+      let idVillageFrom = this.activeVillageId;
+      let idVillageTo = await this.mapTileIdToIdVillage(this.$route.params.vid);
+
+      if(idVillageFrom == idVillageTo){
+        document.querySelector("#errorMessage").innerText = "Cannot send troops to the same village";
+        return false;
+      }
+
+      console.log("idVillageFrom", idVillageFrom);
+      console.log("idVillageTo", idVillageTo);
 
       let sendTroopsData = {
         "sendType": "full",
@@ -213,6 +225,7 @@ export default {
       console.log(sendTroopsDataJson);
 
       if(sendTroopsDataJson.message == "sendTroops success"){
+        this.fetchVillageTroopMovements();
         this.$router.push({ name: 'resources' });
       }
       else{
@@ -229,10 +242,9 @@ export default {
     },
     isMobile() {
       if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        return true
-      } else {
-        return false
+        return true;
       }
+      return false;
     },
     insertTroopData(index){
         document.querySelector("#troopInput"+index).value = this.villageOwnTroops[index];

@@ -25,7 +25,7 @@ import { toolsMixins } from '@/mixins/toolsMixins'
         mixins: [apiRequestMixins,toolsMixins],
 
         created(){
-            this.checkIfLoggedIn(false);
+            this.checkIfLoggedIn(true);
         },
 
         methods: {
@@ -42,6 +42,7 @@ import { toolsMixins } from '@/mixins/toolsMixins'
                 if(response.token && response.capital){
                     document.cookie = "jwt=" + response.token + ";path=/";
                     document.cookie = "activeVillageId=" + response.capital + ";path=/";
+                    document.cookie = "userId=" + response.userId + ";path=/";
                     this.$router.push({ name: 'resources' });
                 }
             },

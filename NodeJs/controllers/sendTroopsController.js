@@ -20,6 +20,14 @@ exports.new = function (req, res) {
     let currentUnixTime =  Math.round(new Date().getTime()/1000);
     let currentUnixTimePlus10 =  Math.round(new Date().getTime()/1000)+10;
 
+    if(idVillage == idVillageTo){
+        res.json({
+            message: 'Cannot send troops to the same village',
+            data: ""
+        });
+        return;
+    }
+
     let totalTroops = 0;
     for(let i = 1; i < 11; i++){
         let name = "troop"+i+"num";

@@ -77,6 +77,7 @@ export default {
                 "nickname": nickname,
                 "tribe": tribe,
                 "population": 200,
+                "group": 2,
                 "capital": village['_id'],
             }
             let adminDataResponse = await(await(await this.doApiRequest("users","POST",adminData,true)).json()).data
