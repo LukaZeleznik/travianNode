@@ -16,20 +16,16 @@ exports.view = function (req, res) {
 };
 
 exports.new = function (req, res) {
-    let idVillage   = req.body.idVillageFrom;
-    let idVillageTo = req.body.idVillageTo;
-
-    if (!checkValidIdVillageTo(idVillage,idVillageTo,res)) return;
+    if (!checkValidIdVillageTo(req.body.idVillageFrom,req.body.idVillageTo,res)) return;
     if (!checkSentAmount(req,res)) return;
 
     (async () => {
-        if (!await updateVillageOwnTroops(idVillage,req,res)) return;
+        if (!await updateVillageOwnTroops(req.body.idVillageFrom,req,res)) return;
         switch (req.body.sendType) {
             case "full":    doSendTroops(req.body.sendType,req,res); break;
             case "raid":    doSendTroops(req.body.sendType,req,res); break;
             case "reinf":   doSendTroops(req.body.sendType,req,res); break;
             case "return":  doSendTroops(req.body.sendType,req,res); break;
-
         }
     })();
 };
