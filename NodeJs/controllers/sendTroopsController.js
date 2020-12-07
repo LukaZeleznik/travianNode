@@ -1,6 +1,8 @@
 const path = require('path');
 const sendTroopsModel = require('../models/sendTroopsModel');
 const fetch = require("node-fetch");
+const troopInfoLookup = require('../infoTables/troopInfoLookup');
+var tools = require('../tools/tools')
 
 exports.view = function (req, res) {
     sendTroopsModel.find({$or: [{idVillageFrom: req.params.idVillage}, {idVillageTo: req.params.idVillage}] }, function (err, sendTroops) {
@@ -13,185 +15,20 @@ exports.view = function (req, res) {
     });
 };
 
-// Handle create sendTroops actions
 exports.new = function (req, res) {
-    let idVillage = req.body.idVillageFrom;
+    let idVillage   = req.body.idVillageFrom;
     let idVillageTo = req.body.idVillageTo;
-    let currentUnixTime =  Math.round(new Date().getTime()/1000);
-    let currentUnixTimePlus10 =  Math.round(new Date().getTime()/1000)+10;
 
-    if(idVillage == idVillageTo){
-        res.json({
-            message: 'Cannot send troops to the same village',
-            data: ""
-        });
-        return;
-    }
-
-    let totalTroops = 0;
-    for(let i = 1; i < 11; i++){
-        let name = "troop"+i+"num";
-        totalTroops += req.body[name];        
-    }
-
-    if(totalTroops <= 0){
-        res.json({
-            message: 'No troops sent!',
-            data: ""
-        });
-        return;
-    }
+    if (!checkValidIdVillageTo(idVillage,idVillageTo,res)) return;
+    if (!checkSentAmount(req,res)) return;
 
     (async () => {
-        if(req.body.sendType == "full"){
-
-            let villageOwnTroopsApiUrl = 'http://localhost:8080/api/villageOwnTroops/' + idVillage;
-            let villageOwnTroops = await(await(await fetch(villageOwnTroopsApiUrl)).json()).data;
-
-            for(let i = 1; i < 11; i++){
-                villageOwnTroops["troop"+i] -= Number(req.body["troop"+i+"num"]);
-                if(villageOwnTroops["troop"+i] < 0){
-                    res.json({
-                        message: 'Not enough troops!',
-                        data: ""
-                    });
-                    return;
-                }
-            }
-            
-            await fetch(villageOwnTroopsApiUrl, {
-                method: 'PATCH', // or 'PUT'
-                headers: {
-                'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(villageOwnTroops)
-            });
-
-            var sendTroops = new sendTroopsModel();
-            sendTroops.sendType = req.body.sendType;
-            sendTroops.idVillageFrom = req.body.idVillageFrom;
-            sendTroops.idVillageTo = req.body.idVillageTo;
-            sendTroops.timeSent = currentUnixTime;
-            sendTroops.timeArrived = currentUnixTimePlus10;
-            sendTroops.troopTribe = req.body.troopTribe;
-            sendTroops.troop1num = req.body.troop1num;
-            sendTroops.troop2num = req.body.troop2num;
-            sendTroops.troop3num = req.body.troop3num;
-            sendTroops.troop4num = req.body.troop4num;
-            sendTroops.troop5num = req.body.troop5num;
-            sendTroops.troop6num = req.body.troop6num;
-            sendTroops.troop7num = req.body.troop7num;
-            sendTroops.troop8num = req.body.troop8num;
-            sendTroops.troop9num = req.body.troop9num;
-            sendTroops.troop10num = req.body.troop10num;
-
-            sendTroops.save(async function (err, sendTroopsId) {
-                if (err){
-                    res.json(err);
-                }
-                else{
-
-                    let scheduleApiUrl = 'http://localhost:8080/api/schedule/';
-                    let scheduleData = {
-                        "taskType": "attack",
-                        "taskUnixTime": currentUnixTimePlus10,
-                        "taskData": {
-                            "sendTroopsId": sendTroopsId._id,
-                            "idVillageFrom": idVillage,
-                            "idVillageTo": idVillageTo,
-                            "troopTribe": req.body.troopTribe,
-                            "troop1num" : req.body.troop1num,
-                            "troop2num" : req.body.troop2num,
-                            "troop3num" : req.body.troop3num,
-                            "troop4num" : req.body.troop4num,
-                            "troop5num" : req.body.troop5num,
-                            "troop6num" : req.body.troop6num,
-                            "troop7num" : req.body.troop7num,
-                            "troop8num" : req.body.troop8num,
-                            "troop9num" : req.body.troop9num,
-                            "troop10num" : req.body.troop10num
-                        }
-                    };
-                    
-                    await fetch(scheduleApiUrl, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(scheduleData),
-                    });
-                    
-                    res.json({
-                        message: 'sendTroops success',
-                        data: sendTroops
-                    });                    
-                }
-            });
-        }
-        else if(req.body.sendType == "reinf"){
-
-        }
-        else if(req.body.sendType == "return"){
-
-            var sendTroops = new sendTroopsModel();
-            sendTroops.sendType = req.body.sendType;
-            sendTroops.idVillageFrom = req.body.idVillageFrom;
-            sendTroops.idVillageTo = req.body.idVillageTo;
-            sendTroops.timeSent = currentUnixTime;
-            sendTroops.timeArrived = currentUnixTimePlus10;
-            sendTroops.troopTribe = req.body.troopTribe;
-            sendTroops.troop1num = req.body.troop1num;
-            sendTroops.troop2num = req.body.troop2num;
-            sendTroops.troop3num = req.body.troop3num;
-            sendTroops.troop4num = req.body.troop4num;
-            sendTroops.troop5num = req.body.troop5num;
-            sendTroops.troop6num = req.body.troop6num;
-            sendTroops.troop7num = req.body.troop7num;
-            sendTroops.troop8num = req.body.troop8num;
-            sendTroops.troop9num = req.body.troop9num;
-            sendTroops.troop10num = req.body.troop10num;
-
-            sendTroops.save(async function (err, sendTroopsId) {
-                if (err){
-                    res.json(err);
-                }
-                else{
-                    let scheduleApiUrl = 'http://localhost:8080/api/schedule/';
-                    let scheduleData = {
-                        "taskType": "return",
-                        "taskUnixTime": currentUnixTimePlus10,
-                        "taskData": {
-                            "sendTroopsId": sendTroopsId._id,
-                            "idVillageFrom": req.body.idVillageFrom,
-                            "idVillageTo": req.body.idVillageTo,
-                            "troopTribe": req.body.troopTribe,
-                            "troop1num" : req.body.troop1num,
-                            "troop2num" : req.body.troop2num,
-                            "troop3num" : req.body.troop3num,
-                            "troop4num" : req.body.troop4num,
-                            "troop5num" : req.body.troop5num,
-                            "troop6num" : req.body.troop6num,
-                            "troop7num" : req.body.troop7num,
-                            "troop8num" : req.body.troop8num,
-                            "troop9num" : req.body.troop9num,
-                            "troop10num" : req.body.troop10num
-                        }
-                    };
-
-                    await fetch(scheduleApiUrl, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(scheduleData),
-                    });
-
-                    res.json({
-                        message: 'sendTroops success',
-                        data: sendTroops
-                    });
-                }
-            });
+        if (!await updateVillageOwnTroops(idVillage,req,res)) return;
+        switch (req.body.sendType) {
+            case "full":    doSendTroops(req.body.sendType,req,res); break;
+            case "raid":    doSendTroops(req.body.sendType,req,res); break;
+            case "reinf":   doSendTroops(req.body.sendType,req,res); break;
+            case "return":  doSendTroops(req.body.sendType,req,res); break;
 
         }
     })();
@@ -208,16 +45,9 @@ exports.update = function (req, res) {
         sendTroops.timeSent = req.body.timeSent;
         sendTroops.timeArrived = req.body.timeArrived;
         sendTroops.troopTribe = req.body.troopTribe;
-        sendTroops.troop1num = req.body.troop1num;
-        sendTroops.troop2num = req.body.troop2num;
-        sendTroops.troop3num = req.body.troop3num;
-        sendTroops.troop4num = req.body.troop4num;
-        sendTroops.troop5num = req.body.troop5num;
-        sendTroops.troop6num = req.body.troop6num;
-        sendTroops.troop7num = req.body.troop7num;
-        sendTroops.troop8num = req.body.troop8num;
-        sendTroops.troop9num = req.body.troop9num;
-        sendTroops.troop10num = req.body.troop10num;
+        for(let troop of troopInfoLookup[req.body.troopTribe]){
+            sendTroops['troop' + troop['id'] + 'num'] = req.body['troop' + troop['id'] + 'num'];
+        }
 
         sendTroops.save(function (err) {
             if (err)
@@ -240,3 +70,101 @@ exports.delete = function (req, res) {
         });
     });
 };
+
+function checkValidIdVillageTo(idVillage,idVillageTo,res){
+    if(idVillage == idVillageTo){
+        res.json({
+            message: 'Cannot send troops to the same village',
+            data: ""
+        });
+        return false;
+    }
+    return true;
+}
+
+function checkSentAmount(req,res){
+    let totalTroops = 0;
+    for(let troop of troopInfoLookup[req.body.troopTribe]){
+        totalTroops += req.body['troop' + troop['id'] + 'num'];
+    }
+    if(totalTroops <= 0){
+        res.json({
+            message: 'You need to send at least one troop',
+            data: ""
+        });
+        return false;
+    }
+    return true; 
+}
+
+async function updateVillageOwnTroops(idVillage,req,res){
+    let villageOwnTroops = await(await(await tools.doApiRequest("villageOwnTroops/" + idVillage, "GET", "", false)).json()).data;
+
+    for(let troop of troopInfoLookup[req.body.troopTribe]){
+        villageOwnTroops["troop" + troop['id']] -= Number(req.body["troop" + troop['id'] + "num"]);
+        if(villageOwnTroops["troop" + troop['id']] < 0){
+            res.json({
+                message: 'Not enough troops',
+                data: ""
+            });
+            return false;
+        }
+    }
+
+    const villageOwnTroopsResponse = await tools.doApiRequest("villageOwnTroops/" + idVillage, "PATCH", villageOwnTroops, true);
+    if (villageOwnTroopsResponse.status == 200){
+        return true;
+    }
+    return false;
+}
+
+async function doSendTroops(taskType,req,res){
+    let currentUnixTime =  Math.round(new Date().getTime()/1000);
+    let currentUnixTimePlus10 =  Math.round(new Date().getTime()/1000)+10;
+
+    let sendTroops = new sendTroopsModel();
+    sendTroops.sendType = req.body.sendType;
+    sendTroops.idVillageFrom = req.body.idVillageFrom;
+    sendTroops.idVillageTo = req.body.idVillageTo;
+    sendTroops.timeSent = currentUnixTime;
+    sendTroops.timeArrived = currentUnixTimePlus10;
+    sendTroops.troopTribe = req.body.troopTribe;
+    for(let troop of troopInfoLookup[req.body.troopTribe]){
+        sendTroops['troop' + troop['id'] + 'num'] = req.body['troop' + troop['id'] + 'num'];
+    }
+
+    sendTroops.save(async function (err, sendTroopsId) {
+        if (err){
+            res.json(err);
+        }
+        else{
+            let scheduleData = {
+                "taskType": taskType,
+                "taskUnixTime": currentUnixTimePlus10,
+                "taskData": {
+                    "sendTroopsId": sendTroopsId._id,
+                    "idVillageFrom": req.body.idVillageFrom,
+                    "idVillageTo": req.body.idVillageTo,
+                    "troopTribe": req.body.troopTribe,
+                }
+            };
+
+            for(let troop of troopInfoLookup[req.body.troopTribe]){
+                scheduleData['taskData']['troop' + troop['id'] + 'num'] = req.body['troop' + troop['id'] + 'num'];
+            }
+
+            const scheduleApiUrlResponse = await tools.doApiRequest("schedule", "POST", scheduleData, true);
+            if(scheduleApiUrlResponse.status == 200) {
+                res.json({
+                    message: 'sendTroops success',
+                    data: sendTroops
+                }); 
+            } else {
+                res.json({
+                    message: 'sendTroops schedule failed',
+                    data: ""
+                }); 
+            }
+        }
+    });
+}

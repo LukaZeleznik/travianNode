@@ -20,7 +20,7 @@
                     <!-- Troops -->
                     <sidebarTroops></sidebarTroops>
                     <!-- Villages -->
-                    <sidebarVillages></sidebarVillages>
+                    <sidebarVillages v-if="sidebarVillageList.length > 1"></sidebarVillages>
                 </div>
             </div>
         </div>

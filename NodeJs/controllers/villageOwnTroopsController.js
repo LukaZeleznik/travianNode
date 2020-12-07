@@ -181,7 +181,8 @@ exports.update = function (req, res) {
             if (err)
                 res.json(err);
             res.json({
-                message: 'villageOwnTroops Info updated',
+                status: 'success',
+                message: 'villageOwnTroops updated',
                 data: villageOwnTroops
             });
         });
