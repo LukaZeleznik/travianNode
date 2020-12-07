@@ -10,7 +10,6 @@ import Village from './components/Village.vue';
 import VillageBuilding from './components/VillageBuilding.vue';
 import SendTroops from './components/SendTroops.vue';
 import Map from './components/Map.vue';
-//import MapTile from './components/Map/MapTile.vue'
 import App from './components/app.vue';
 import Install from './components/Install.vue';
 
@@ -22,6 +21,7 @@ Vue.component('navbarResources', require('./components/Main/Navbar/Resources.vue
 Vue.component('sidebarTroops', require('./components/Main/Sidebar/Troops.vue').default);
 Vue.component('sidebarTroopMovements', require('./components/Main/Sidebar/TroopMovements.vue').default);
 Vue.component('sidebarProduction', require('./components/Main/Sidebar/Production.vue').default);
+Vue.component('sidebarVillages', require('./components/Main/Sidebar/Villages.vue').default);
 
 //Footer
 Vue.component('footerBuildingQueue', require('./components/Main/Footer/BuildingQueue.vue').default);
@@ -128,77 +128,45 @@ const store = new Vuex.Store({
         villageBuildingLevels: [],
         villageBuildingTypes: [],
         villageBuildingColors: [],
-        activeVillageId: "",
+        activeVillageId: localStorage.getItem('activeVillageId'),
     },
 
     mutations: {
-        setVillageResources(state, resources) {
-            state.villageResources = resources;
-        },
-        setVillageMaxResources(state, villageMaxResources) {
-            state.villageMaxResources = villageMaxResources;
-        },
-        setVillageResourceFieldLevels(state, villageResourceFieldLevels) {
-            state.villageResourceFieldLevels = villageResourceFieldLevels;
-        },
-        setVillageResourceFieldTypes(state, villageResourceFieldTypes) {
-            state.villageResourceFieldTypes = villageResourceFieldTypes;
-        },
-        setVillageResourceFieldColors(state, villageResourceFieldColors) {
-            state.villageResourceFieldColors = villageResourceFieldColors;
-        },
-        setVillageProduction(state, villageProduction) {
-            state.villageProduction = villageProduction;
-        },
-        setVillageResFieldUpgrades(state, villageResFieldUpgrades) {
-            state.villageResFieldUpgrades = villageResFieldUpgrades;
-        },
-        setVillageBuildingUpgrades(state, villageBuildingUpgrades) {
-            state.villageBuildingUpgrades = villageBuildingUpgrades;
-        },
-        setVillageOwnTroops(state, villageOwnTroops) {
-            state.villageOwnTroops = villageOwnTroops;
-        },
-        setVillageReinforcements(state, villageReinforcements) {
-            state.villageReinforcements = villageReinforcements;
-        },
-        setVillageOutgoingAttacks(state, villageOutgoingAttacks) {
-            state.villageOutgoingAttacks = villageOutgoingAttacks;
-        },
-        setVillageOutgoingReinforcements(state, villageOutgoingReinforcements) {
-            state.villageOutgoingReinforcements = villageOutgoingReinforcements;
-        },
-        setVillageIncomingAttacks(state, villageIncomingAttacks) {
-            state.villageIncomingAttacks = villageIncomingAttacks;
-        },
-        setVillageIncomingReinforcements(state, villageIncomingReinforcements) {
-            state.villageIncomingReinforcements = villageIncomingReinforcements;
-        },
-        setVillageBarracksProduction(state, villageBarracksProduction) {
-            state.villageBarracksProduction = villageBarracksProduction;
-        },
-        setVillageStableProduction(state, villageStableProduction) {
-            state.villageStableProduction = villageStableProduction;
-        },
-        setVillageBuildingLevels(state, villageBuildingLevels) {
-            state.villageBuildingLevels = villageBuildingLevels;
-        },
-        setVillageBuildingTypes(state, villageBuildingTypes) {
-            state.villageBuildingTypes = villageBuildingTypes;
-        },
-        setVillageBuildingColors(state, villageBuildingColors) {
-            state.villageBuildingColors = villageBuildingColors;
-        },
-        setActiveVillageId(state, activeVillageId) {
-            state.activeVillageId = activeVillageId;
-        },
+        setVillageResources(state, resources)                                   { state.villageResources = resources; },
+        setVillageMaxResources(state, villageMaxResources)                      { state.villageMaxResources = villageMaxResources; },
+        setVillageResourceFieldLevels(state, villageResourceFieldLevels)        { state.villageResourceFieldLevels = villageResourceFieldLevels; },
+        setVillageResourceFieldTypes(state, villageResourceFieldTypes)          { state.villageResourceFieldTypes = villageResourceFieldTypes; },
+        setVillageResourceFieldColors(state, villageResourceFieldColors)        { state.villageResourceFieldColors = villageResourceFieldColors; },
+        setVillageProduction(state, villageProduction)                          { state.villageProduction = villageProduction; },
+        setVillageResFieldUpgrades(state, villageResFieldUpgrades)              { state.villageResFieldUpgrades = villageResFieldUpgrades; },
+        setVillageBuildingUpgrades(state, villageBuildingUpgrades)              { state.villageBuildingUpgrades = villageBuildingUpgrades; },
+        setVillageOwnTroops(state, villageOwnTroops)                            { state.villageOwnTroops = villageOwnTroops; },
+        setVillageReinforcements(state, villageReinforcements)                  { state.villageReinforcements = villageReinforcements; },
+        setVillageOutgoingAttacks(state, villageOutgoingAttacks)                { state.villageOutgoingAttacks = villageOutgoingAttacks; },
+        setVillageOutgoingReinforcements(state, villageOutgoingReinforcements)  { state.villageOutgoingReinforcements = villageOutgoingReinforcements; },
+        setVillageIncomingAttacks(state, villageIncomingAttacks)                { state.villageIncomingAttacks = villageIncomingAttacks; },
+        setVillageIncomingReinforcements(state, villageIncomingReinforcements)  { state.villageIncomingReinforcements = villageIncomingReinforcements; },
+        setVillageBarracksProduction(state, villageBarracksProduction)          { state.villageBarracksProduction = villageBarracksProduction; },
+        setVillageStableProduction(state, villageStableProduction)              { state.villageStableProduction = villageStableProduction; },
+        setVillageBuildingLevels(state, villageBuildingLevels)                  { state.villageBuildingLevels = villageBuildingLevels; },
+        setVillageBuildingTypes(state, villageBuildingTypes)                    { state.villageBuildingTypes = villageBuildingTypes; },
+        setVillageBuildingColors(state, villageBuildingColors)                  { state.villageBuildingColors = villageBuildingColors; },
+        setActiveVillageId(state, activeVillageId)                              { state.activeVillageId = activeVillageId; },
     },
     actions: {
-        increment(context, payload) {
-            context.commit('increment', payload)
+        async fetchActiveVillageId(context) {
+            if(context.getters.getActiveVillageId){
+                return context.getters.getActiveVillageId;
+            }
+            /*await fetch('http://localhost:8080/api/users/' + getCookie('userId'))
+                .then(res => res.json())
+                .then(res => {
+                    context.commit('setActiveVillageId', res.data.capital);
+                })
+                .catch(err => console.log(err));*/
         },
         async fetchVillageResources(context) {
-            await fetch('http://localhost:8080/api/villageResources/' + getCookie('activeVillageId'),{credentials: 'include'})
+            await fetch('http://localhost:8080/api/villageResources/' + context.getters.getActiveVillageId,{credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
                     let villageResources = [res.data.currentWood, res.data.currentClay, res.data.currentIron, res.data.currentCrop];
@@ -207,7 +175,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageMaxResources(context) {
-            await fetch('http://localhost:8080/api/villageMaxResources/' + getCookie('activeVillageId'))
+            await fetch('http://localhost:8080/api/villageMaxResources/' + context.getters.getActiveVillageId)
                 .then(res => res.json())
                 .then(res => {
                     let villageMaxResources = [res.data.maxWood, res.data.maxClay, res.data.maxIron, res.data.maxCrop];
@@ -216,7 +184,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageProduction(context) {
-            await fetch('http://localhost:8080/api/villageProductions/' + getCookie('activeVillageId'))
+            await fetch('http://localhost:8080/api/villageProductions/' + context.getters.getActiveVillageId)
                 .then(res => res.json())
                 .then(res => {
                     let villageProduction = [res.data.productionWood, res.data.productionClay, res.data.productionIron, res.data.productionCrop];
@@ -225,7 +193,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageResFieldUpgrades(context) {
-            await fetch('http://localhost:8080/api/villageResFieldUpgrades/' + getCookie('activeVillageId'))
+            await fetch('http://localhost:8080/api/villageResFieldUpgrades/' + context.getters.getActiveVillageId)
                 .then(res => res.json())
                 .then(res => {
                     let villageResFieldUpgrades = res.data;
@@ -234,7 +202,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageBuildingUpgrades(context) {
-            await fetch('http://localhost:8080/api/villageBuildingUpgrades/' + getCookie('activeVillageId'))
+            await fetch('http://localhost:8080/api/villageBuildingUpgrades/' + context.getters.getActiveVillageId)
                 .then(res => res.json())
                 .then(res => {
                     let villageBuildingUpgrades = res.data;
@@ -243,7 +211,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageOwnTroops(context) {
-            await fetch('http://localhost:8080/api/villageOwnTroops/' + getCookie('activeVillageId'))
+            await fetch('http://localhost:8080/api/villageOwnTroops/' + context.getters.getActiveVillageId)
                 .then(res => res.json())
                 .then(res => {
                     let villageOwnTroops = [res.data.troop1, res.data.troop2, res.data.troop3, res.data.troop4, res.data.troop5,
@@ -254,7 +222,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageReinforcements(context) {
-            await fetch('http://localhost:8080/api/villageReinforcements/' + getCookie('activeVillageId'))
+            await fetch('http://localhost:8080/api/villageReinforcements/' + context.getters.getActiveVillageId)
                 .then(res => res.json())
                 .then(res => {
                     let villageReinforcements = res.data;
@@ -263,7 +231,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageTroopMovements(context) {
-            await fetch('http://localhost:8080/api/sendTroops/' + getCookie('activeVillageId'))
+            await fetch('http://localhost:8080/api/sendTroops/' + context.getters.getActiveVillageId)
                 .then(res => res.json())
                 .then(res => {
 
@@ -273,13 +241,13 @@ const store = new Vuex.Store({
                     let villageIncomingReinforcements = [];
 
                     for (let troopMovement of res.data) {
-                        if (troopMovement.idVillageFrom == getCookie('activeVillageId')) {
+                        if (troopMovement.idVillageFrom == context.getters.getActiveVillageId) {
                             if (troopMovement.sendType == "full" || troopMovement.sendType == "raid") {
                                 villageOutgoingAttacks.push(troopMovement);
                             } else if (troopMovement.sendType == "reinforcement") {
                                 villageOutgoingReinforcements.push(troopMovement);
                             }
-                        } else if (troopMovement.idVillageTo == getCookie('activeVillageId')) {
+                        } else if (troopMovement.idVillageTo == context.getters.getActiveVillageId) {
                             if (troopMovement.sendType == "full" || troopMovement.sendType == "raid") {
                                 villageIncomingAttacks.push(troopMovement);
                             } else if (troopMovement.sendType == "reinforcement" || troopMovement.sendType == "return") {
@@ -296,7 +264,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageBarracksProduction(context) {
-            await fetch('http://localhost:8080/api/barracksProductions/' + getCookie('activeVillageId'))
+            await fetch('http://localhost:8080/api/barracksProductions/' + context.getters.getActiveVillageId)
                 .then(res => res.json())
                 .then(res => {
                     let villageBarracksProduction = res.data;
@@ -305,7 +273,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageStableProduction(context) {
-            await fetch('http://localhost:8080/api/stableProductions/' + getCookie('activeVillageId'))
+            await fetch('http://localhost:8080/api/stableProductions/' + context.getters.getActiveVillageId)
                 .then(res => res.json())
                 .then(res => {
                     let villageStableProduction = res.data;
@@ -314,7 +282,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageBuildingFields(context) {
-            await fetch('http://localhost:8080/api/villageBuildingFields/' + getCookie('activeVillageId'))
+            await fetch('http://localhost:8080/api/villageBuildingFields/' + context.getters.getActiveVillageId)
                 .then(res => res.json())
                 .then(res => {
                     let villageBuildingTypes = [
@@ -382,7 +350,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageResourceFields(context) {
-            await fetch('http://localhost:8080/api/villageResourceFields/' + getCookie('activeVillageId'))
+            await fetch('http://localhost:8080/api/villageResourceFields/' + context.getters.getActiveVillageId)
                 .then(res => res.json())
                 .then(res => {
                     let villageResourceFieldTypes = [
@@ -443,19 +411,6 @@ const store = new Vuex.Store({
                 })
                 .catch(err => console.log(err));
         },
-        async fetchActiveVillageId(context) {
-            if(context.getters.getActiveVillageId){
-                return context.getters.getActiveVillageId
-            }
-            await fetch('http://localhost:8080/api/users/' + getCookie('userId'))
-                .then(res => res.json())
-                .then(res => {
-                    console.log("setActiveVillageId CALLED");
-                    context.commit('setActiveVillageId', res.data.capital);
-                })
-                .catch(err => console.log(err));
-        },
-
     },
     getters: {
         incrementGetter: state => {
@@ -538,8 +493,10 @@ new Vue({
 
 });
 
+/*
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
+*/

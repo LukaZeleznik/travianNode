@@ -29,7 +29,6 @@ export const fetchMixins = {
 
     created() {
         this.infoLookup();
-        this.fetchActiveVillageId();
     },
 
     mixins: [toolsMixins],
@@ -76,7 +75,7 @@ export const fetchMixins = {
         fetchActiveVillageId()          { this.$store.dispatch('fetchActiveVillageId') },
 
         fetchBuildingData(vbid){
-            fetch('http://localhost:8080/api/villageBuildingFields/' + this.getCookie('activeVillageId'))
+            fetch('http://localhost:8080/api/villageBuildingFields/' + this.activeVillageId)
             .then(res => res.json())
             .then(res => {
                 let keyType = "field"+vbid+"Type";
@@ -98,7 +97,7 @@ export const fetchMixins = {
             .catch(err => console.log(err));
         },
         fetchResourceFieldsData(rfid){
-            fetch('http://localhost:8080/api/villageResourceFields/' + this.getCookie('activeVillageId'))
+            fetch('http://localhost:8080/api/villageResourceFields/' + this.activeVillageId)
             .then(res => res.json())
             .then(res => {
                 let keyType = "field"+rfid+"Type";

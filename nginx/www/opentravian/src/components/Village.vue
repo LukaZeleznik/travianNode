@@ -19,6 +19,8 @@
                     <sidebarProduction></sidebarProduction>
                     <!-- Troops -->
                     <sidebarTroops></sidebarTroops>
+                    <!-- Villages -->
+                    <sidebarVillages></sidebarVillages>
                 </div>
             </div>
         </div>

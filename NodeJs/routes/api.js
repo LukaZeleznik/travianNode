@@ -129,6 +129,8 @@ router.route('/villages/:mapTileId')
     .delete(villageController.delete);
 router.route('/generateMapVillages')
     .post(villageController.insertMany);
+router.route('/villages/owner/:uid')
+    .get(villageController.findByOwner);
 
 router.route('/villageResources')
     .post( villageResourcesController.new);

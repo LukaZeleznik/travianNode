@@ -1,4 +1,5 @@
 export const toolsMixins = {
+
     methods: {
         secondsToTimeCompleted(seconds) {
             return new Date(seconds).toLocaleTimeString('sl-SI');

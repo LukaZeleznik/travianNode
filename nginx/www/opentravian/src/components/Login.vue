@@ -14,7 +14,7 @@
 <script>
 import { apiRequestMixins } from '@/mixins/apiRequestMixins' 
 import { toolsMixins } from '@/mixins/toolsMixins' 
-
+import { fetchMixins } from '@/mixins/fetchMixins' 
 
     export default {
         data() {
@@ -22,7 +22,7 @@ import { toolsMixins } from '@/mixins/toolsMixins'
             }
         },
 
-        mixins: [apiRequestMixins,toolsMixins],
+        mixins: [apiRequestMixins,toolsMixins,fetchMixins],
 
         created(){
             this.checkIfLoggedIn(true);
@@ -41,8 +41,9 @@ import { toolsMixins } from '@/mixins/toolsMixins'
 
                 if(response.token && response.capital){
                     document.cookie = "jwt=" + response.token + ";path=/";
-                    document.cookie = "activeVillageId=" + response.capital + ";path=/";
                     document.cookie = "userId=" + response.userId + ";path=/";
+                    localStorage.setItem('activeVillageId', response.capital);
+                    this.$store.commit('setActiveVillageId', response.capital);
                     this.$router.push({ name: 'resources' });
                 }
             },

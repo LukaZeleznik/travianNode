@@ -58,6 +58,17 @@ exports.find = function (req, res) {
     });
 };
 
+exports.findByOwner = function (req, res) {
+    villageModel.find({owner: req.params.uid},function (err, villages) {
+        if (err)
+            res.send(err);
+        res.json({
+            message: 'Loading village..',
+            data: villages
+        });
+    });
+};
+
 exports.insertMany = function (req, res) {
     villageModel.insertMany(req.body, function (err, villages) {
         if (err)

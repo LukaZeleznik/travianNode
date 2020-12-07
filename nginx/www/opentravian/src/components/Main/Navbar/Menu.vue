@@ -52,8 +52,9 @@ export default {
             });
 
             this.$store.replaceState(newState);
+            localStorage.removeItem('activeVillageId');
             document.cookie = 'jwt=; Max-Age=-99999999;domain=localhost;path=/;';
-            document.cookie = 'activeVillageId=; Max-Age=-99999999;domain=localhost;path=/;';
+            document.cookie = 'userId=; Max-Age=-99999999;domain=localhost;path=/;';
             this.$router.push({ name: 'login' });
         }
     }

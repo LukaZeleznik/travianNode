@@ -140,7 +140,7 @@ export default {
         },
         async build(buildingId){
             let buildingData = {
-                "idVillage": this.getCookie('activeVillageId'),
+                "idVillage": this.activeVillageId,
                 "vbid": this.$route.params.vbid,
                 "type": buildingId
             }
