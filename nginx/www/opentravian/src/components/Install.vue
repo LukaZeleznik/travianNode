@@ -162,6 +162,8 @@ export default {
             const adminTile = Math.ceil((height*width-(Math.floor(height/2)))/2);
             const villageData = await(await(await this.doApiRequest("villages/" + adminTile,"GET","",false)).json()).data;
             await this.createNewUser("admin@test.com","password","Admin","teuton",villageData);
+
+            this.$router.push({ name: 'login' });
         },
         
     }

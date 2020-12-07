@@ -2,8 +2,12 @@ export const toolsMixins = {
 
     data() {
         return {
-           villageName: "",
+           villageName: this.$store.getters.getActiveVillageName,
         };
+    },
+
+    watch: {
+        '$store.getters.getActiveVillageName': function() { this.villageName = this.$store.getters.getActiveVillageName },
     },
 
     methods: {
@@ -52,8 +56,9 @@ export const toolsMixins = {
             }
             return response;
         },
-        async getVillageName(){ //to call only when changing village - todo
+        async getVillageName(){
             this.villageName = await(await(await this.doApiRequest("/villages/" + localStorage.getItem('activeVillageId'),"GET","",false)).json()).data.name;
+            this.$store.commit('setActiveVillageName', this.villageName);
         },
     }
 }

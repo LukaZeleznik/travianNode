@@ -129,6 +129,7 @@ const store = new Vuex.Store({
         villageBuildingTypes: [],
         villageBuildingColors: [],
         activeVillageId: localStorage.getItem('activeVillageId'),
+        activeVillageName: "",
     },
 
     mutations: {
@@ -152,6 +153,7 @@ const store = new Vuex.Store({
         setVillageBuildingTypes(state, villageBuildingTypes)                    { state.villageBuildingTypes = villageBuildingTypes; },
         setVillageBuildingColors(state, villageBuildingColors)                  { state.villageBuildingColors = villageBuildingColors; },
         setActiveVillageId(state, activeVillageId)                              { state.activeVillageId = activeVillageId; },
+        setActiveVillageName(state, activeVillageName)                          { state.activeVillageName = activeVillageName; },
     },
     actions: {
         async fetchActiveVillageId(context) {
@@ -413,69 +415,27 @@ const store = new Vuex.Store({
         },
     },
     getters: {
-        incrementGetter: state => {
-            return state.count;
-        },
-        getVillageResources: state => {
-            return state.villageResources;
-        },
-        getVillageMaxResources: state => {
-            return state.villageMaxResources;
-        },
-        getVillageResourceFieldLevels: state => {
-            return state.villageResourceFieldLevels;
-        },
-        getVillageResourceFieldTypes: state => {
-            return state.villageResourceFieldTypes;
-        },
-        getVillageResourceFieldColors: state => {
-            return state.villageResourceFieldColors;
-        },
-        getVillageProduction: state => {
-            return state.villageProduction;
-        },
-        getVillageResFieldUpgrades: state => {
-            return state.villageResFieldUpgrades;
-        },
-        getVillageBuildingUpgrades: state => {
-            return state.villageBuildingUpgrades;
-        },
-        getVillageOwnTroops: state => {
-            return state.villageOwnTroops;
-        },
-        getVillageReinforcements: state => {
-            return state.villageReinforcements;
-        },
-        getVillageOutgoingAttacks: state => {
-            return state.villageOutgoingAttacks;
-        },
-        getVillageOutgoingReinforcements: state => {
-            return state.villageOutgoingReinforcements;
-        },
-        getVillageIncomingAttacks: state => {
-            return state.villageIncomingAttacks;
-        },
-        getVillageIncomingReinforcements: state => {
-            return state.villageIncomingReinforcements;
-        },
-        getVillageBarracksProduction: state => {
-            return state.villageBarracksProduction;
-        },
-        getVillageStableProduction: state => {
-            return state.villageStableProduction;
-        },
-        getVillageBuildingLevels: state => {
-            return state.villageBuildingLevels;
-        },
-        getVillageBuildingTypes: state => {
-            return state.villageBuildingTypes;
-        },
-        getVillageBuildingColors: state => {
-            return state.villageBuildingColors;
-        },
-        getActiveVillageId: state => {
-            return state.activeVillageId;
-        },
+        getVillageResources:                state => { return state.villageResources; },
+        getVillageMaxResources:             state => { return state.villageMaxResources; },
+        getVillageResourceFieldLevels:      state => { return state.villageResourceFieldLevels; },
+        getVillageResourceFieldTypes:       state => { return state.villageResourceFieldTypes; },
+        getVillageResourceFieldColors:      state => { return state.villageResourceFieldColors; },
+        getVillageProduction:               state => { return state.villageProduction; },
+        getVillageResFieldUpgrades:         state => { return state.villageResFieldUpgrades; },
+        getVillageBuildingUpgrades:         state => { return state.villageBuildingUpgrades; },
+        getVillageOwnTroops:                state => { return state.villageOwnTroops; },
+        getVillageReinforcements:           state => { return state.villageReinforcements; },
+        getVillageOutgoingAttacks:          state => { return state.villageOutgoingAttacks; },
+        getVillageOutgoingReinforcements:   state => { return state.villageOutgoingReinforcements; },
+        getVillageIncomingAttacks:          state => { return state.villageIncomingAttacks; },
+        getVillageIncomingReinforcements:   state => { return state.villageIncomingReinforcements; },
+        getVillageBarracksProduction:       state => { return state.villageBarracksProduction; },
+        getVillageStableProduction:         state => { return state.villageStableProduction; },
+        getVillageBuildingLevels:           state => { return state.villageBuildingLevels; },
+        getVillageBuildingTypes:            state => { return state.villageBuildingTypes; },
+        getVillageBuildingColors:           state => { return state.villageBuildingColors; },
+        getActiveVillageId:                 state => { return state.activeVillageId; },
+        getActiveVillageName:               state => { return state.activeVillageName; },
     }
 })
 

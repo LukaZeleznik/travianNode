@@ -41,6 +41,9 @@ export default {
 
     mixins: [fetchMixins,toolsMixins],
 
+    watch: {
+    },
+
     created() {
         this.loadMethods();
     },

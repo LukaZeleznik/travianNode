@@ -4,9 +4,9 @@
         <div >
             <div class="h5">
                 <div class="d-flex align-center" v-for="(village, index) in villages" :key="index">
-                    <h5 @click="changeVillage(village._id)">
+                    <a style="cursor: pointer;"><h5 @click="changeVillage(village._id)">
                         {{ village.name }} ({{ village.xCoordinate }}|{{ village.yCoordinate }})
-                    </h5>
+                    </h5></a>
                 </div>
             </div>
         </div>
@@ -46,6 +46,7 @@ export default {
         },
         reloadVillage(){
             //TODO REALLY BAD, TO BE DONE - PROPERLY
+            this.getVillageName();
             this.fetchVillageOwnTroops();
             this.fetchVillageResources();
             this.fetchVillageProduction();
