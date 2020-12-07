@@ -132,6 +132,7 @@ const store = new Vuex.Store({
         villageBuildingColors: [],
         activeVillageId: localStorage.getItem('activeVillageId'),
         activeVillageName: "",
+        sidebarVillageList: [],
     },
 
     mutations: {
@@ -156,6 +157,7 @@ const store = new Vuex.Store({
         setVillageBuildingColors(state, villageBuildingColors)                  { state.villageBuildingColors = villageBuildingColors; },
         setActiveVillageId(state, activeVillageId)                              { state.activeVillageId = activeVillageId; },
         setActiveVillageName(state, activeVillageName)                          { state.activeVillageName = activeVillageName; },
+        setSidebarVillageList(state, sidebarVillageList)                        { state.sidebarVillageList = sidebarVillageList; },
     },
     actions: {
         async fetchActiveVillageId(context) {
@@ -231,6 +233,15 @@ const store = new Vuex.Store({
                 .then(res => {
                     let villageReinforcements = res.data;
                     context.commit('setVillageReinforcements', villageReinforcements);
+                })
+                .catch(err => console.log(err));
+        },
+        async fetchSidebarVillageList(context) {
+            await fetch('http://localhost:8080/api/villages/owner/' + getCookie('userId'))
+                .then(res => res.json())
+                .then(res => {
+                    let sidebarVillageList = res.data;
+                    context.commit('setSidebarVillageList', sidebarVillageList);
                 })
                 .catch(err => console.log(err));
         },
@@ -438,6 +449,7 @@ const store = new Vuex.Store({
         getVillageBuildingColors:           state => { return state.villageBuildingColors; },
         getActiveVillageId:                 state => { return state.activeVillageId; },
         getActiveVillageName:               state => { return state.activeVillageName; },
+        getSidebarVillageList:              state => { return state.sidebarVillageList; },
     }
 })
 
@@ -455,10 +467,8 @@ new Vue({
 
 });
 
-/*
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
-*/

@@ -20,6 +20,7 @@ export const fetchMixins = {
             villageResFieldUpgrades:        this.$store.getters.getVillageResFieldUpgrades,
             villageBuildingUpgrades:        this.$store.getters.getVillageBuildingUpgrades,
             activeVillageId:                this.$store.getters.getActiveVillageId,
+            sidebarVillageList:             this.$store.getters.getSidebarVillageList,
             buildingInfoLookup: [],
             resourceInfoLookup: [],
             troopInfoLookup: [],
@@ -52,6 +53,7 @@ export const fetchMixins = {
         '$store.getters.getVillageResFieldUpgrades':            function() { this.villageResFieldUpgrades = this.$store.getters.getVillageResFieldUpgrades; },
         '$store.getters.getVillageBuildingUpgrades':            function() { this.villageBuildingUpgrades = this.$store.getters.getVillageBuildingUpgrades; },
         '$store.getters.getActiveVillageId':                    function() { this.activeVillageId = this.$store.getters.getActiveVillageId; },
+        '$store.getters.getSidebarVillageList':                 function() { this.sidebarVillageList = this.$store.getters.getSidebarVillageList; },
         
     },
 
@@ -73,6 +75,7 @@ export const fetchMixins = {
         fetchVillageResFieldUpgrades()  { this.$store.dispatch('fetchVillageResFieldUpgrades') },
         fetchVillageBuildingUpgrades()  { this.$store.dispatch('fetchVillageBuildingUpgrades') },
         fetchActiveVillageId()          { this.$store.dispatch('fetchActiveVillageId') },
+        fetchSidebarVillageList()       { this.$store.dispatch('fetchSidebarVillageList') },
 
         fetchBuildingData(vbid){
             fetch('http://localhost:8080/api/villageBuildingFields/' + this.activeVillageId)

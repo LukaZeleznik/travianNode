@@ -3,7 +3,7 @@
         <div class="h3 mt-3">Villages:</div>
         <div >
             <div class="h5">
-                <div class="d-flex align-center" v-for="(village, index) in villages" :key="index">
+                <div class="d-flex align-center" v-for="(village, index) in sidebarVillageList" :key="index">
                     <a style="cursor: pointer;"><h5 @click="changeVillage(village._id)">
                         {{ village.name }} ({{ village.xCoordinate }}|{{ village.yCoordinate }})
                     </h5></a>
@@ -20,7 +20,6 @@ import { toolsMixins } from '@/mixins/toolsMixins'
 export default {
     data() {
         return {
-            villages: [],
         };
     },
 
@@ -30,13 +29,10 @@ export default {
     },
 
     created() {
-        this.getVillageList();
+        this.fetchSidebarVillageList();
     },
 
     methods: {
-        async getVillageList(){
-            this.villages = await(await(await this.doApiRequest("villages/owner/" + this.getCookie('userId'),"GET","",false)).json()).data;
-        },
         changeVillage(idVillage){
             if(idVillage){
                 this.$store.commit('setActiveVillageId', idVillage);
