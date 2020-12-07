@@ -5,7 +5,7 @@
             <div class="row">
                 <!-- Resource Fields -->
                 <div class="col-md-8 col-sm-12 col-12">
-                    <div class="h2 text-center mb-5"><strong>VillageName</strong></div>
+                    <div class="h2 text-center mb-5"><strong>{{ villageName }}</strong></div>
                     <!-- Fields -->
                     <resourcesFields></resourcesFields>
                     <!-- Footer Queue -->
@@ -30,25 +30,26 @@
 <script>
 import { fetchMixins } from '@/mixins/fetchMixins'
 
+
 export default {
-  data() {
-    return {
+    data() {
+        return {
+        };
+    },
 
-    };
-  },
+    mixins: [fetchMixins],
 
-  mixins: [fetchMixins],
+    created() {
+        this.loadMethods();
+    },
 
-  created() {
-      this.loadMethods();
-  },
-
-  methods: {
-      loadMethods(){
+    methods: {
+        loadMethods(){
             if(this.checkIfLoggedIn(true)){ //Should redirect
                 this.fetchVillageResources();
+                this.getVillageName();
             }
-        }
+        },
     }
 }
 </script>

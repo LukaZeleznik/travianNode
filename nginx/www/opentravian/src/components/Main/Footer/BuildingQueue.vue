@@ -30,7 +30,7 @@
 <script>
 import { fetchMixins } from '@/mixins/fetchMixins'
 import { toolsMixins } from '@/mixins/toolsMixins'
-import { apiRequestMixins } from '@/mixins/apiRequestMixins'
+
 
 export default {
     data() {
@@ -40,7 +40,7 @@ export default {
         };
     },
 
-    mixins: [fetchMixins,toolsMixins,apiRequestMixins],
+    mixins: [fetchMixins,toolsMixins],
 
     created() {
         this.fetchVillageResFieldUpgrades();

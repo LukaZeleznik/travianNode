@@ -5,7 +5,7 @@
             <div class="h5">
                 <div class="d-flex align-center" v-for="(village, index) in villages" :key="index">
                     <h5 @click="changeVillage(village._id)">
-                        {{ village.name }}
+                        {{ village.name }} ({{ village.xCoordinate }}|{{ village.yCoordinate }})
                     </h5>
                 </div>
             </div>
@@ -15,7 +15,6 @@
 
 <script>
 import { fetchMixins } from '@/mixins/fetchMixins'
-import { apiRequestMixins } from '@/mixins/apiRequestMixins'
 import { toolsMixins } from '@/mixins/toolsMixins'
 
 export default {
@@ -25,7 +24,7 @@ export default {
         };
     },
 
-    mixins: [fetchMixins,apiRequestMixins,toolsMixins],
+    mixins: [fetchMixins,toolsMixins],
 
     watch: {
     },

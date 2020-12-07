@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { apiRequestMixins } from '@/mixins/apiRequestMixins' 
+ 
 import { toolsMixins } from '@/mixins/toolsMixins' 
 import { fetchMixins } from '@/mixins/fetchMixins' 
 
@@ -22,7 +22,7 @@ import { fetchMixins } from '@/mixins/fetchMixins'
             }
         },
 
-        mixins: [apiRequestMixins,toolsMixins,fetchMixins],
+        mixins: [toolsMixins,fetchMixins],
 
         created(){
             this.checkIfLoggedIn(true);

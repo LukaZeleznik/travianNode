@@ -1,5 +1,11 @@
 export const toolsMixins = {
 
+    data() {
+        return {
+           villageName: "",
+        };
+    },
+
     methods: {
         secondsToTimeCompleted(seconds) {
             return new Date(seconds).toLocaleTimeString('sl-SI');
@@ -29,6 +35,25 @@ export const toolsMixins = {
         },
         async mapTileIdToIdVillage(mapTileId){
             return await(await(await this.doApiRequest("villages/" + mapTileId,"GET","",false)).json()).data._id;
+        },
+        async doApiRequest(path, method, data, jsonf) {
+            let response;
+            console.log('http://localhost:8080/api/' + path);
+            if (jsonf){
+                response = await fetch('http://localhost:8080/api/' + path, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+            } else {
+                response = await fetch('http://localhost:8080/api/' + path, { method: method });
+            }
+            return response;
+        },
+        async getVillageName(){ //to call only when changing village - todo
+            this.villageName = await(await(await this.doApiRequest("/villages/" + localStorage.getItem('activeVillageId'),"GET","",false)).json()).data.name;
         },
     }
 }

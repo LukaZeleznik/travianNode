@@ -38,7 +38,7 @@
 <script>
 import { fetchMixins } from '@/mixins/fetchMixins'
 import { toolsMixins } from '@/mixins/toolsMixins'
-import { apiRequestMixins } from '@/mixins/apiRequestMixins'
+
 
 export default {
     data() {
@@ -48,7 +48,7 @@ export default {
         };
     },
 
-    mixins: [toolsMixins,fetchMixins,apiRequestMixins],
+    mixins: [toolsMixins,fetchMixins],
 
     created() {
         this.loadMethods();

@@ -6,7 +6,6 @@
 
 <script>
 import { fetchMixins } from '@/mixins/fetchMixins'
-import { apiRequestMixins } from '@/mixins/apiRequestMixins'
 
 export default {
 
@@ -17,7 +16,7 @@ export default {
         };
     },
 
-    mixins: [fetchMixins,apiRequestMixins],
+    mixins: [fetchMixins],
 
     created() {
         this.infoLookup();

@@ -66,7 +66,7 @@
 <script>
 import { fetchMixins } from '@/mixins/fetchMixins'
 import { toolsMixins } from '@/mixins/toolsMixins'
-import { apiRequestMixins } from '@/mixins/apiRequestMixins'
+
 
     export default {
         data() {
@@ -83,7 +83,7 @@ import { apiRequestMixins } from '@/mixins/apiRequestMixins'
         watch:{
         },
 
-        mixins: [fetchMixins,toolsMixins,apiRequestMixins],
+        mixins: [fetchMixins,toolsMixins],
 
         created(){
             this.getFieldData();

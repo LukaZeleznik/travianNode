@@ -123,7 +123,7 @@ router.route('/villages')
     .post(villageController.new)
     .get(villageController.find);
 router.route('/villages/:mapTileId')
-    .get(villageController.view)
+    .get(villageController.view) //ugly but works - pls change
     .put(villageController.update)
     .patch(villageController.update)
     .delete(villageController.delete);

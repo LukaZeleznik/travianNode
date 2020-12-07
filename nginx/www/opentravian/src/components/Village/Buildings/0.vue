@@ -44,7 +44,6 @@
 
 <script>
 import { fetchMixins } from '@/mixins/fetchMixins'
-import { apiRequestMixins } from '@/mixins/apiRequestMixins'
 import { toolsMixins } from '@/mixins/toolsMixins'
 
 //Buildings
@@ -71,7 +70,7 @@ export default {
         };
     },
 
-    mixins: [fetchMixins,apiRequestMixins,toolsMixins],
+    mixins: [fetchMixins,toolsMixins],
 
     created() {
         this.fetchvillageBuildingFields();

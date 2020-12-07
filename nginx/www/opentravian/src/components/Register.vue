@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { apiRequestMixins } from '@/mixins/apiRequestMixins' 
+ 
 import { toolsMixins } from '@/mixins/toolsMixins' 
 
     export default {
@@ -27,7 +27,7 @@ import { toolsMixins } from '@/mixins/toolsMixins'
             }
         },
 
-        mixins: [apiRequestMixins,toolsMixins],
+        mixins: [toolsMixins],
 
         created(){
             this.checkIfLoggedIn(true);

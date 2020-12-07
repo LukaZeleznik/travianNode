@@ -1,8 +1,8 @@
-import { apiRequestMixins } from './apiRequestMixins'
+import { toolsMixins } from './toolsMixins'
 
 export const upgradeMixins = {
 
-    mixins: [apiRequestMixins],
+    mixins: [toolsMixins],
 
     methods: {
         async upgradeBuilding(vbid){

@@ -42,7 +42,7 @@
 
 
 <script>
-import { apiRequestMixins } from '@/mixins/apiRequestMixins'
+
 import { fetchMixins } from '@/mixins/fetchMixins'
 import { upgradeMixins } from '@/mixins/upgradeMixins'
 import { hasMixins } from '@/mixins/hasMixins'
@@ -62,7 +62,7 @@ export default {
 
     mixins: [
         fetchMixins,
-        apiRequestMixins,
+        
         upgradeMixins,
         hasMixins,
         toolsMixins
