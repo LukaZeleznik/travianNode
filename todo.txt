@@ -1,3 +1,5 @@
+0. Config file!!
+
 1. /resources
     1.1 Village sidebar - polish
 
@@ -25,4 +27,5 @@
 
 8. Auth so that it works... :)
     8.1 Server / admin token
-    
+
+9. Code review /check all code and improve parts/logic that can be improved before alpha deployment
