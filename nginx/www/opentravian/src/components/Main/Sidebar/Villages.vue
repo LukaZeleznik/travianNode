@@ -45,20 +45,29 @@ export default {
             }
         },
         reloadVillage(){
-            //TODO REALLY BAD, TO BE DONE - PROPERLY
+            switch (this.$route.name) {
+                case 'resources':
+                    this.reloadStore();
+                    this.fetchResourceFieldsData();
+                    this.fetchvillageResourceFields();
+                    break;
+                case 'village':
+                    this.reloadStore();
+                    this.fetchBuildingData();
+                    this.fetchvillageBuildingFields();
+                    break;
+            }
+        },
+        reloadStore(){
             this.getVillageName();
             this.fetchVillageOwnTroops();
             this.fetchVillageResources();
             this.fetchVillageProduction();
             this.fetchVillageMaxResources();
-            this.fetchvillageBuildingFields();
-            this.fetchvillageResourceFields();
             this.fetchVillageTroopMovements();
             this.fetchVillageReinforcements();
             this.fetchVillageResFieldUpgrades();
-            this.fetchVillageBuildingUpgrades();
-            this.fetchBuildingData();
-            this.fetchResourceFieldsData();
+            this.fetchVillageBuildingUpgrades();    
         }
     }
 }

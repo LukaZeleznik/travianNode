@@ -55,8 +55,10 @@ Vue.use(Vuex);
 
 const router = new VueRouter({
     mode: 'history',
-    routes: [{
+    routes: [
+        {
             path: '/',
+            name: 'home',
             redirect: '/resources'
         },
         {
