@@ -1,0 +1,28 @@
+1. /resources
+    1.1 Village sidebar - polish
+
+2. /villages
+    2.1 Wall ne dela (unable to level up + no functionality yet)
+    2.2 New building CSS
+    2.3 Palace
+    2.4 Building requirements
+    2.5 Troop research
+
+3. /map
+    3.1 Mark currently active village on map
+    3.2 Sending troops (must be expanded and polished)
+    3.3 Settling new village
+
+4. /stats
+    4.1 Player list
+    4.2 Population calculation logic
+
+5. /profile
+    5.1 name, villages, Population
+
+6. /reports (simple, very simple)
+7. /messages (maybe not in alpha yet)
+
+8. Auth so that it works... :)
+    8.1 Server / admin token
+    

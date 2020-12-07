@@ -1,6 +1,6 @@
 const path = require('path');
-const sendTroopsModel = require('../models/sendTroopsModel');
 const fetch = require("node-fetch");
+const sendTroopsModel = require('../models/sendTroopsModel');
 const troopInfoLookup = require('../infoTables/troopInfoLookup');
 var tools = require('../tools/tools')
 
