@@ -1,5 +1,7 @@
 const path = require('path');
 const villageReinforcementsModel = require('../models/villageReinforcementsModel');
+var tools = require('../tools/tools');
+var config = require('../config.json');
 
 exports.view = function (req, res) {
     villageReinforcementsModel.find({$or: [{idVillageFrom: req.params.idVillage}, {idVillage: req.params.idVillage}] }, function (err, villageReinforcements) {
@@ -19,16 +21,9 @@ exports.new = function (req, res) {
     villageReinforcements.idVillage = req.body.idVillage;
     villageReinforcements.idVillageFrom = req.body.idVillageFrom;
     villageReinforcements.tribe = req.body.tribe;
-    villageReinforcements.troop1 = req.body.troop1;
-    villageReinforcements.troop2 = req.body.troop2;
-    villageReinforcements.troop3 = req.body.troop3;
-    villageReinforcements.troop4 = req.body.troop4;
-    villageReinforcements.troop5 = req.body.troop5;
-    villageReinforcements.troop6 = req.body.troop6;
-    villageReinforcements.troop7 = req.body.troop7;
-    villageReinforcements.troop8 = req.body.troop8;
-    villageReinforcements.troop9 = req.body.troop9;
-    villageReinforcements.troop10 = req.body.troop10;
+    for(let troop in tools.troopInfoLookup[req.body.tribe]){
+        villageReinforcements['troop' + tools.troopInfoLookup[req.body.tribe][troop].id] = req.body['troop' + tools.troopInfoLookup[req.body.tribe][troop].id];
+    }
 
     villageReinforcements.save(function (err) {
         if (err){
@@ -52,16 +47,9 @@ exports.update = function (req, res) {
         villageReinforcements.idVillage = req.body.idVillage;
         villageReinforcements.idVillageFrom = req.body.idVillageFrom;
         villageReinforcements.tribe = req.body.tribe;
-        villageReinforcements.troop1 = req.body.troop1;
-        villageReinforcements.troop2 = req.body.troop2;
-        villageReinforcements.troop3 = req.body.troop3;
-        villageReinforcements.troop4 = req.body.troop4;
-        villageReinforcements.troop5 = req.body.troop5;
-        villageReinforcements.troop6 = req.body.troop6;
-        villageReinforcements.troop7 = req.body.troop7;
-        villageReinforcements.troop8 = req.body.troop8;
-        villageReinforcements.troop9 = req.body.troop9;
-        villageReinforcements.troop10 = req.body.troop10;
+        for(let troop in tools.troopInfoLookup[req.body.tribe]){
+            villageReinforcements['troop' + tools.troopInfoLookup[req.body.tribe][troop].id] = req.body['troop' + tools.troopInfoLookup[req.body.tribe][troop].id];
+        }
 
         villageReinforcements.save(function (err) {
             if (err)
