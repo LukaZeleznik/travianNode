@@ -10,7 +10,7 @@
                             <img src="/images/resources/iron.gif">  {{ buildingInfoLookup[availableBuilding]['iron'][1] }} |
                             <img src="/images/resources/crop.gif">  {{ buildingInfoLookup[availableBuilding]['crop'][1] }} |
                             <img src="/images/consum.gif">          {{ buildingInfoLookup[availableBuilding]['consumption'][1] }} |
-                            <img src="/images/clock.gif">           {{ secondsToTimeRemaining(buildingInfoLookup[availableBuilding]['constructionTime'][1] * 1000) }}
+                            <img src="/images/clock.gif">           {{ secondsToTimeRemaining(buildingInfoLookup[availableBuilding]['constructionTime'][1] / config.SERVER_SPEED * 1000) }}
                         </span>
                         <div class="mt-3">
                             <span v-if="villageBuildingUpgrades.length > 0">Another building is already being upgraded</span>
@@ -31,7 +31,7 @@
                             <img src="/images/resources/iron.gif">  {{ buildingInfoLookup[soonAvailableBuilding]['iron'][1] }} |
                             <img src="/images/resources/crop.gif">  {{ buildingInfoLookup[soonAvailableBuilding]['crop'][1] }} |
                             <img src="/images/consum.gif">          {{ buildingInfoLookup[soonAvailableBuilding]['consumption'][1] }} |
-                            <img src="/images/clock.gif">           {{ secondsToTimeRemaining(buildingInfoLookup[soonAvailableBuilding]['constructionTime'][1] * 1000) }}
+                            <img src="/images/clock.gif">           {{ secondsToTimeRemaining(buildingInfoLookup[soonAvailableBuilding]['constructionTime'][1] / config.SERVER_SPEED * 1000) }}
                         </span>
                     </th>
                 </tr>

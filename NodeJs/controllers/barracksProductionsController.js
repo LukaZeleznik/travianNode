@@ -1,6 +1,9 @@
 const path = require('path');
 const fetch = require("node-fetch");
 const barracksProductionsModel = require('../models/barracksProductionsModel');
+var tools = require('../tools/tools');
+var config = require('../config.json');
+
 const BARRACKS = 1;
 
 exports.view = function (req, res) {
@@ -21,19 +24,14 @@ exports.view = function (req, res) {
 // Handle create barracksProductions actions
 exports.new = function (req, res) {
     (async () => {
-        let troopInfo = require('/home/node/app/infoTables/troopInfoLookup.json');
-        let buildingInfo = require('/home/node/app/infoTables/buildingInfoLookup.json');
-        let idVillage = req.body.idVillage;
+        const idVillage = req.body.idVillage;
+        const userTribe = await tools.getTribeFromIdVillage(idVillage);
+
         let currentUnixTime = Math.round(new Date().getTime()/1000);
 
-        let villageResourcesApiUrl = 'http://localhost:8080/api/villageResources/' + idVillage;
-        let villageResources = await(await(await fetch(villageResourcesApiUrl)).json()).data;
-
-        let villageBuildingFieldsApiUrl = 'http://localhost:8080/api/villageBuildingFields/' + idVillage;
-        let villageBuildingFields = await(await(await fetch(villageBuildingFieldsApiUrl)).json()).data;
-
-        let barracksProductionsApiUrl = 'http://localhost:8080/api/barracksProductions/' + idVillage;
-        let barracksProductionResponse = await(await(await fetch(barracksProductionsApiUrl)).json()).data;
+        let villageResources =      await(await(await tools.doApiRequest("villageResources/" + idVillage, "GET", "", false)).json()).data;
+        let villageBuildingFields = await(await(await tools.doApiRequest("villageBuildingFields/" + idVillage, "GET", "", false)).json()).data;
+        let barracksProduction =    await(await(await tools.doApiRequest("barracksProductions/" + idVillage, "GET", "", false)).json()).data;
 
         let villageBuildingLevel = 0;
         for(let i = 1; i <= Object.keys(villageBuildingFields).length; i++){
@@ -43,10 +41,10 @@ exports.new = function (req, res) {
             }
         }
 
-        let requirementWood = troopInfo["teuton"][req.body.troopId-1]["wood"] * req.body.troopCount;
-        let requirementClay = troopInfo["teuton"][req.body.troopId-1]["clay"] * req.body.troopCount;
-        let requirementIron = troopInfo["teuton"][req.body.troopId-1]["iron"] * req.body.troopCount;
-        let requirementCrop = troopInfo["teuton"][req.body.troopId-1]["crop"] * req.body.troopCount;
+        let requirementWood = tools.troopInfoLookup[userTribe][req.body.troopId-1]["wood"] * req.body.troopCount;
+        let requirementClay = tools.troopInfoLookup[userTribe][req.body.troopId-1]["clay"] * req.body.troopCount;
+        let requirementIron = tools.troopInfoLookup[userTribe][req.body.troopId-1]["iron"] * req.body.troopCount;
+        let requirementCrop = tools.troopInfoLookup[userTribe][req.body.troopId-1]["crop"] * req.body.troopCount;
 
         if(req.body.troopCount < 1){
             res.json({
@@ -57,7 +55,7 @@ exports.new = function (req, res) {
         }
 
         if(villageResources.currentWood < requirementWood || villageResources.currentClay < requirementClay || 
-          villageResources.currentIron < requirementIron || villageResources.currentCrop < requirementCrop ){
+           villageResources.currentIron < requirementIron || villageResources.currentCrop < requirementCrop ){
             res.json({
                 message: 'Not enough resources',
                 data: ""
@@ -65,23 +63,13 @@ exports.new = function (req, res) {
             return;
         }
 
-        console.log("enough resources");
-
         villageResources.currentWood -= requirementWood;
         villageResources.currentClay -= requirementClay;
         villageResources.currentIron -= requirementIron;
         villageResources.currentCrop -= requirementCrop;
         villageResources.lastUpdate = currentUnixTime;
 
-        await fetch(villageResourcesApiUrl, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(villageResources),
-        });
-
-        console.log("resources deducted");
+        await tools.doApiRequest("villageResources/" + idVillage, "PATCH", villageResources, true);
 
         var barracksProductions = new barracksProductionsModel();
 
@@ -89,11 +77,10 @@ exports.new = function (req, res) {
         barracksProductions.troopId     = req.body.troopId;
         barracksProductions.troopCount  = req.body.troopCount;
 
-        let barracksProductionResponseLength = Object.keys(barracksProductionResponse).length;
-        let troopQueueTime = barracksProductionResponseLength > 0 ? barracksProductionResponse[barracksProductionResponseLength-1]['timeCompleted'] : currentUnixTime
-        let troopTrainingTime = troopInfo.teuton[req.body.troopId-1]["time"] * buildingInfo[BARRACKS]['buildingModifier'][villageBuildingLevel];
+        const troopQueueTime = Object.keys(barracksProduction).length > 0 ? barracksProduction[Object.keys(barracksProduction).length-1]['timeCompleted'] : currentUnixTime
+        const troopTrainingTime = (tools.troopInfoLookup['teuton'][req.body.troopId-1]['time'] * tools.buildingInfoLookup[BARRACKS]['buildingModifier'][villageBuildingLevel]) / config.SERVER_SPEED;
         
-        barracksProductions.troopName       = troopInfo.teuton[req.body.troopId-1]["name"];
+        barracksProductions.troopName       = tools.troopInfoLookup.teuton[req.body.troopId-1]['name'];
         barracksProductions.troopProdTime   = troopTrainingTime;
         barracksProductions.timeStarted     = troopQueueTime;
         barracksProductions.timeCompleted   = troopQueueTime + Math.floor(req.body.troopCount * troopTrainingTime);

@@ -1,6 +1,9 @@
 const path = require('path');
 const fetch = require("node-fetch");
 const stableProductionsModel = require('../models/stableProductionsModel');
+var tools = require('../tools/tools');
+var config = require('../config.json');
+const STABLE = 4;
 
 exports.view = function (req, res) {
     stableProductionsModel.find({idVillage: req.params.idVillage}, function (err, stableProductions) {
@@ -20,20 +23,13 @@ exports.view = function (req, res) {
 // Handle create stableProductions actions
 exports.new = function (req, res) {
     (async () => {
-        const STABLE = 4;
-        let troopInfo = require('/home/node/app/infoTables/troopInfoLookup.json');
-        let buildingInfo = require('/home/node/app/infoTables/buildingInfoLookup.json');
-        let idVillage = req.body.idVillage;
-        let currentUnixTime = Math.round(new Date().getTime()/1000);
+        const idVillage = req.body.idVillage;
+        var userTribe = await tools.getTribeFromIdVillage(req.body.idVillageFrom);
+        const currentUnixTime = Math.round(new Date().getTime()/1000);
 
-        let villageResourcesApiUrl = 'http://localhost:8080/api/villageResources/' + idVillage;
-        let villageResources = await(await(await fetch(villageResourcesApiUrl)).json()).data;
-
-        let villageBuildingFieldsApiUrl = 'http://localhost:8080/api/villageBuildingFields/' + idVillage;
-        let villageBuildingFields = await(await(await fetch(villageBuildingFieldsApiUrl)).json()).data;
-
-        let stableProductionsApiUrl = 'http://localhost:8080/api/stableProductions/' + idVillage;
-        let stableProductionResponse = await(await(await fetch(stableProductionsApiUrl)).json()).data;
+        const villageResources = await(await(await tools.doApiRequest('villageResources/' + idVillage, 'GET', '', false)).json()).data;
+        const villageBuildingFields = await(await(await tools.doApiRequest('villageBuildingFields/' + idVillage, 'GET', '', false)).json()).data;
+        const stableProductionResponse = await(await(await tools.doApiRequest('stableProductions/' + idVillage, 'GET', '', false)).json()).data;
 
         let villageBuildingLevel = 0;
         for(let i = 1; i <= Object.keys(villageBuildingFields).length; i++){
@@ -43,13 +39,21 @@ exports.new = function (req, res) {
             }
         }
 
-        let requirementWood = troopInfo["teuton"][req.body.troopId-1]["wood"] * req.body.troopCount;
-        let requirementClay = troopInfo["teuton"][req.body.troopId-1]["clay"] * req.body.troopCount;
-        let requirementIron = troopInfo["teuton"][req.body.troopId-1]["iron"] * req.body.troopCount;
-        let requirementCrop = troopInfo["teuton"][req.body.troopId-1]["crop"] * req.body.troopCount;
+        let requirementWood = tools.troopInfoLookup.userTribe[req.body.troopId-1]["wood"] * req.body.troopCount;
+        let requirementClay = tools.troopInfoLookup.userTribe[req.body.troopId-1]["clay"] * req.body.troopCount;
+        let requirementIron = tools.troopInfoLookup.userTribe[req.body.troopId-1]["iron"] * req.body.troopCount;
+        let requirementCrop = tools.troopInfoLookup.userTribe[req.body.troopId-1]["crop"] * req.body.troopCount;
+
+        if(req.body.troopCount < 1){
+            res.json({
+                message: 'Insert troops to train',
+                data: ""
+            });
+            return;
+        }
 
         if(villageResources.currentWood < requirementWood || villageResources.currentClay < requirementClay || 
-          villageResources.currentIron < requirementIron || villageResources.currentCrop < requirementCrop ){
+           villageResources.currentIron < requirementIron || villageResources.currentCrop < requirementCrop ){
             res.json({
                 message: 'Not enough resources',
                 data: ""
@@ -57,39 +61,27 @@ exports.new = function (req, res) {
             return;
         }
 
-        console.log("enough resources");
-
         villageResources.currentWood -= requirementWood;
         villageResources.currentClay -= requirementClay;
         villageResources.currentIron -= requirementIron;
         villageResources.currentCrop -= requirementCrop;
-        villageResources.lastUpdate = currentUnixTime;
+        villageResources.lastUpdate   = currentUnixTime;
 
-        await fetch(villageResourcesApiUrl, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(villageResources),
-        });
-
-        console.log("resources deducted");
+        await tools.doApiRequest("villageResources/" + idVillage, "PATCH", villageResources, true);
 
         var stableProductions = new stableProductionsModel();
-
         stableProductions.idVillage   = req.body.idVillage;
         stableProductions.troopId     = req.body.troopId;
         stableProductions.troopCount  = req.body.troopCount;
 
-        let stableProductionResponseLength = Object.keys(stableProductionResponse).length;
-        let troopQueueTime = stableProductionResponseLength > 0 ? stableProductionResponse[stableProductionResponseLength-1]['timeCompleted'] : currentUnixTime
-        let troopTrainingTime = troopInfo.teuton[req.body.troopId-1]["time"] * buildingInfo[STABLE]['buildingModifier'][villageBuildingLevel];
+        let troopQueueTime = Object.keys(stableProductionResponse).length > 0 ? stableProductionResponse[Object.keys(stableProductionResponse).length-1]['timeCompleted'] : currentUnixTime
+        let troopTrainingTime = (tools.troopInfoLookup.userTribe[req.body.troopId-1]["time"] * tools.buildingInfoLookup[STABLE]['buildingModifier'][villageBuildingLevel]) / config.SERVER_SPEED;
 
-        stableProductions.troopName       = troopInfo.teuton[req.body.troopId-1]["name"];
-        stableProductions.troopProdTime   = troopTrainingTime;
-        stableProductions.timeStarted     = troopQueueTime;
-        stableProductions.timeCompleted   = troopQueueTime + Math.floor(req.body.troopCount * troopTrainingTime);
-        stableProductions.lastUpdate      = currentUnixTime;
+        stableProductions.troopName         = tools.troopInfoLookup.userTribe[req.body.troopId-1]["name"];
+        stableProductions.troopProdTime     = troopTrainingTime;
+        stableProductions.timeStarted       = troopQueueTime;
+        stableProductions.timeCompleted     = troopQueueTime + Math.floor(req.body.troopCount * troopTrainingTime);
+        stableProductions.lastUpdate        = currentUnixTime;
         stableProductions.troopsDoneAlready = 0;
 
         stableProductions.save(function (err) {

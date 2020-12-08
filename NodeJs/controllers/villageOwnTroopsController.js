@@ -1,6 +1,8 @@
 const path = require('path');
 const fetch = require("node-fetch");
 const villageOwnTroopsModel = require('../models/villageOwnTroopsModel');
+var tools = require('../tools/tools');
+var config = require('../config.json');
 
 exports.view = function (req, res) {
     villageOwnTroopsModel.findOne({idVillage: req.params.idVillage}, function (err, villageOwnTroops) {
@@ -9,112 +11,16 @@ exports.view = function (req, res) {
         }
         else{
             (async () => {
-                let idVillage = req.params.idVillage;
+                var idVillage = req.params.idVillage;
+                var userTribe = await tools.getTribeFromIdVillage(idVillage);
 
-                let barracksProductionsApiUrl = 'http://localhost:8080/api/barracksProductions/' + idVillage;
-                let barracksProductions = await(await(await fetch(barracksProductionsApiUrl)).json()).data;
+                let barracksProductions = await(await(await tools.doApiRequest("barracksProductions/" + idVillage, "GET", "", false)).json()).data;
+                let stableProductions = await(await(await tools.doApiRequest("stableProductions/" + idVillage, "GET", "", false)).json()).data;
+                doProcessTroopProductions(barracksProductions,villageOwnTroops,'barracksProductions');
+                doProcessTroopProductions(stableProductions,villageOwnTroops,'stableProductions');
 
-                let stableProductionsApiUrl = 'http://localhost:8080/api/stableProductions/' + idVillage;
-                let stableProductions = await(await(await fetch(stableProductionsApiUrl)).json()).data;
-
-                // ======================== BARRACKS PRODUCTIONS ======================== //
-                barracksProductions.forEach(async (barracksProduction) => {
-                    let currentUnixTime = Math.round(new Date().getTime()/1000);
-                    let timeDiff = currentUnixTime - barracksProduction.lastUpdate;
-                    let timeDiffFromStart = currentUnixTime - barracksProduction.timeStarted;
-    
-                    let troopsProduced = timeDiff / barracksProduction.troopProdTime;
-                    let troopsProducedAlready = timeDiffFromStart / barracksProduction.troopProdTime;
-
-                    troopsProduced = Number(troopsProduced.toFixed(1));
-                    troopsProducedAlready = Number(troopsProducedAlready.toFixed(1));
-    
-                    if(troopsProduced+barracksProduction.troopsDoneAlready  >= barracksProduction.troopCount){
-                        troopsProduced = Number((barracksProduction.troopCount - barracksProduction.troopsDoneAlready).toFixed(1));
-                        villageOwnTroops["troop"+barracksProduction.troopId] += troopsProduced;
-
-                        let barracksProductionsDeleteApiUrl = 'http://localhost:8080/api/barracksProductions/' + barracksProduction._id;
-
-                        await fetch(barracksProductionsDeleteApiUrl, {
-                            method: 'DELETE',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            }
-                        });
-                    }
-                    else{
-
-                        villageOwnTroops["troop"+barracksProduction.troopId] += troopsProduced;
-                        if(troopsProducedAlready<0) troopsProducedAlready = 0;
-                        barracksProduction.troopsDoneAlready = troopsProducedAlready;
-
-                        barracksProduction.lastUpdate = currentUnixTime;
-
-                        let barracksProductionsPatchApiUrl = 'http://localhost:8080/api/barracksProductions/' + barracksProduction._id;
-
-                        await fetch(barracksProductionsPatchApiUrl, {
-                            method: 'PATCH', // or 'PUT'
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify(barracksProduction),
-                        });
-                    }
-
-                    villageOwnTroops["troop"+barracksProduction.troopId] = Number(villageOwnTroops["troop"+barracksProduction.troopId].toFixed(1));
-                    
-                });
-
-                // ======================== STABLE PRODUCTIONS ======================== //
-                stableProductions.forEach(async (stableProduction) => {
-                    let currentUnixTime = Math.round(new Date().getTime()/1000);
-                    let timeDiff = currentUnixTime - stableProduction.lastUpdate;
-                    let timeDiffFromStart = currentUnixTime - stableProduction.timeStarted;
-    
-                    let troopsProduced = timeDiff / stableProduction.troopProdTime;
-                    let troopsProducedAlready = timeDiffFromStart / stableProduction.troopProdTime;
-
-                    troopsProduced = Number(troopsProduced.toFixed(1));
-                    troopsProducedAlready = Number(troopsProducedAlready.toFixed(1));
-    
-                    if(troopsProduced+stableProduction.troopsDoneAlready  >= stableProduction.troopCount){
-                        troopsProduced = Number((stableProduction.troopCount - stableProduction.troopsDoneAlready).toFixed(1));
-                        villageOwnTroops["troop"+stableProduction.troopId] += troopsProduced;
-
-                        let stableProductionsDeleteApiUrl = 'http://localhost:8080/api/stableProductions/' + stableProduction._id;
-
-                        await fetch(stableProductionsDeleteApiUrl, {
-                            method: 'DELETE',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            }
-                        });
-                    }
-                    else{
-
-                        villageOwnTroops["troop"+stableProduction.troopId] += troopsProduced;
-                        if(troopsProducedAlready<0) troopsProducedAlready = 0;
-                        stableProduction.troopsDoneAlready = troopsProducedAlready;
-
-                        stableProduction.lastUpdate = currentUnixTime;
-
-                        let stableProductionsPatchApiUrl = 'http://localhost:8080/api/stableProductions/' + stableProduction._id;
-
-                        await fetch(stableProductionsPatchApiUrl, {
-                            method: 'PATCH', // or 'PUT'
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify(stableProduction),
-                        });
-                    }
-
-                    villageOwnTroops["troop"+stableProduction.troopId] = Number(villageOwnTroops["troop"+stableProduction.troopId].toFixed(1));
-                    
-                });
-
-                for(let i = 1; i < 11; i++){
-                    villageOwnTroops["troop" + i] = Number(villageOwnTroops["troop" + i].toFixed(1));
+                for(let troop in tools.troopInfoLookup[userTribe]){
+                    villageOwnTroops['troop' + tools.troopInfoLookup[userTribe][troop].id] = Number(villageOwnTroops['troop' + tools.troopInfoLookup[userTribe][troop].id].toFixed(1));
                 }
 
                 villageOwnTroops.save(function (err) {
@@ -135,16 +41,9 @@ exports.new = function (req, res) {
     var villageOwnTroops = new villageOwnTroopsModel();
     villageOwnTroops.idVillage = req.body.idVillage;
     villageOwnTroops.tribe = req.body.tribe;
-    villageOwnTroops.troop1 = req.body.troop1;
-    villageOwnTroops.troop2 = req.body.troop2;
-    villageOwnTroops.troop3 = req.body.troop3;
-    villageOwnTroops.troop4 = req.body.troop4;
-    villageOwnTroops.troop5 = req.body.troop5;
-    villageOwnTroops.troop6 = req.body.troop6;
-    villageOwnTroops.troop7 = req.body.troop7;
-    villageOwnTroops.troop8 = req.body.troop8;
-    villageOwnTroops.troop9 = req.body.troop9;
-    villageOwnTroops.troop10 = req.body.troop10;
+    for(let troop in tools.troopInfoLookup[req.body.tribe]){
+        villageOwnTroops['troop' + tools.troopInfoLookup[req.body.tribe][troop].id] = req.body['troop' + tools.troopInfoLookup[req.body.tribe][troop].id];
+    }
 
     villageOwnTroops.save(function (err) {
         if (err){
@@ -166,16 +65,9 @@ exports.update = function (req, res) {
         
         villageOwnTroops.idVillage = req.body.idVillage;
         villageOwnTroops.tribe = req.body.tribe;
-        villageOwnTroops.troop1 = req.body.troop1;
-        villageOwnTroops.troop2 = req.body.troop2;
-        villageOwnTroops.troop3 = req.body.troop3;
-        villageOwnTroops.troop4 = req.body.troop4;
-        villageOwnTroops.troop5 = req.body.troop5;
-        villageOwnTroops.troop6 = req.body.troop6;
-        villageOwnTroops.troop7 = req.body.troop7;
-        villageOwnTroops.troop8 = req.body.troop8;
-        villageOwnTroops.troop9 = req.body.troop9;
-        villageOwnTroops.troop10 = req.body.troop10;
+        for(let troop of tools.troopInfoLookup[userTribe]){
+            villageOwnTroops['troop' + troop['id']] = req.body['troop' + troop['id']];
+        }
 
         villageOwnTroops.save(function (err) {
             if (err)
@@ -199,3 +91,34 @@ exports.delete = function (req, res) {
         });
     });
 };
+
+function doProcessTroopProductions(productions,villageOwnTroops,path){
+    productions.forEach(async (production) => {
+        const currentUnixTime = Math.round(new Date().getTime()/1000);
+        const timeDiff = currentUnixTime - production.lastUpdate;
+        const timeDiffFromStart = currentUnixTime - production.timeStarted;
+
+        let troopsProduced = timeDiff / production.troopProdTime;
+        let troopsProducedAlready = timeDiffFromStart / production.troopProdTime;
+
+        troopsProduced = Number(troopsProduced.toFixed(1));
+        troopsProducedAlready = Number(troopsProducedAlready.toFixed(1));
+
+        if(troopsProduced+production.troopsDoneAlready  >= production.troopCount){
+            troopsProduced = Number((production.troopCount - production.troopsDoneAlready).toFixed(1));
+            villageOwnTroops["troop"+production.troopId] += troopsProduced;
+
+            await tools.doApiRequest(path + "/" + production._id, "DELETE", "", false);
+        }
+        else{
+            villageOwnTroops["troop"+production.troopId] += troopsProduced;
+            if(troopsProducedAlready < 0) troopsProducedAlready = 0;
+            production.troopsDoneAlready = troopsProducedAlready;
+
+            production.lastUpdate = currentUnixTime;
+
+            await tools.doApiRequest(path + "/" + production._id, "PATCH", production, true);
+        }
+        villageOwnTroops["troop"+production.troopId] = Number(villageOwnTroops["troop"+production.troopId].toFixed(1));
+    });
+}

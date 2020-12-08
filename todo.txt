@@ -1,4 +1,6 @@
-0. Config file!!
+0. Config file!! √
+    0.1 Create file automatically during install
+    0.2 Improve install with actual options..
 
 1. /resources
     1.1 Village sidebar - polish
@@ -14,6 +16,7 @@
     3.1 Mark currently active village on map
     3.2 Sending troops (must be expanded and polished)
     3.3 Settling new village
+    3.4 Troop speed should be implemented
 
 4. /stats
     4.1 Player list
@@ -29,3 +32,4 @@
     8.1 Server / admin token
 
 9. Code review /check all code and improve parts/logic that can be improved before alpha deployment
+    9.1 view/find in API must be checked and re-named properly

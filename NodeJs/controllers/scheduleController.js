@@ -1,107 +1,70 @@
 const path = require('path');
 const schedule = require('node-schedule');
 const fetch = require("node-fetch");
+const combatScript = require("../helperScripts/combatScript");
+var tools = require('../tools/tools');
+var config = require('../config.json');
 
 let scheduledTasks = [];
 
 exports.new = function (req, res) {
-    let taskReqBody = req.body;
-    let taskType = taskReqBody.taskType;
-    let taskUnixTime = taskReqBody.taskUnixTime;
-    let taskData = taskReqBody.taskData;
+    const taskReqBody = req.body;
+    const taskType = taskReqBody.taskType;
+    const taskUnixTime = taskReqBody.taskUnixTime;
+    const taskData = taskReqBody.taskData;
+    const taskName = `${taskType}_${taskData.idVillage}_${taskUnixTime}`;
+    const taskDateTime = new Date(taskUnixTime * 1000);
+    const taskDateTimeString = taskDateTime.toString();
 
-    let taskName = `${taskType}_${taskData.idVillage}_${taskUnixTime}`;
+    var newTask = schedule.scheduleJob(taskName, taskDateTime, async function(taskReqBody, fireDate){
+        const idVillage = taskReqBody.taskData.idVillage;
+        const idVillageFrom = taskReqBody.taskData.idVillageFrom;
+        const idVillageTo = taskReqBody.taskData.idVillageTo;
+        const userTribe = await tools.getTribeFromIdVillage(idVillage);
 
-    let taskDateTime = new Date(taskUnixTime * 1000);
-    let taskDateTimeString = taskDateTime.toString();
-
-    var newTask = schedule.scheduleJob(taskName, taskDateTime, function(taskReqBody, fireDate){
         switch(taskReqBody.taskType){
             case "upgradeResField":
                 (async () => {
-                    let idVillage = taskReqBody.taskData.idVillage;
-                    let resFieldId = taskReqBody.taskData.resFieldId;
-                    let resFieldUpgradeId = taskReqBody.taskData.resFieldUpgradeId;
-                    let villageResourceFieldsApiUrl = 'http://localhost:8080/api/villageResourceFields/' + idVillage;
-                    let villageResourceFields = await(await(await fetch(villageResourceFieldsApiUrl)).json()).data;
+                    const resFieldId = taskReqBody.taskData.resFieldId;
+                    const resFieldUpgradeId = taskReqBody.taskData.resFieldUpgradeId;
+                    let villageResourceFields = await(await(await tools.doApiRequest("villageResourceFields/" + idVillage, "GET", "", false)).json()).data;
+
                     villageResourceFields["field"+resFieldId+"Level"]++;
                     
-                    fetch(villageResourceFieldsApiUrl, {
-                        method: 'PATCH',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(villageResourceFields),
-                    });
-
-                    let villageResFieldUpgradeApiUrl = 'http://localhost:8080/api/villageResFieldUpgrade/' + resFieldUpgradeId;
-
-                    fetch(villageResFieldUpgradeApiUrl, {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        }
-                    });
+                    await tools.doApiRequest("villageResourceFields/" + idVillage, "PATCH", villageResourceFields, true);
+                    await tools.doApiRequest("villageResFieldUpgrade/" + resFieldUpgradeId, "DELETE", "", false);
                 })();                
                 break;
 
             case "upgradeBuilding":
                 (async () => {
-                    let idVillage = taskReqBody.taskData.idVillage;
-                    let buildingId = taskReqBody.taskData.buildingId;
-                    let buildingUpgradeId = taskReqBody.taskData.buildingUpgradeId;
-                    let newBuildingType = taskReqBody.taskData.newBuildingType ? taskReqBody.taskData.newBuildingType : 0;
+                    const buildingId = taskReqBody.taskData.buildingId;
+                    const buildingUpgradeId = taskReqBody.taskData.buildingUpgradeId;
+                    const newBuildingType = taskReqBody.taskData.newBuildingType ? taskReqBody.taskData.newBuildingType : 0;
 
-                    let villageBuildingFieldsApiUrl = 'http://localhost:8080/api/villageBuildingFields/' + idVillage;
-                    let villageBuildingFields = await(await(await fetch(villageBuildingFieldsApiUrl)).json()).data;
+                    let villageBuildingFields = await(await(await tools.doApiRequest("villageBuildingFields/" + idVillage, "GET", "", false)).json()).data;
 
-                    let buildingLevel = Number(villageBuildingFields["field"+buildingId+"Level"]);
-                    
+                    const buildingLevel = Number(villageBuildingFields["field"+buildingId+"Level"]);
+
                     villageBuildingFields["field"+buildingId+"Level"] = buildingLevel + 1;
                     if(newBuildingType>0) villageBuildingFields["field"+buildingId+"Type"] = newBuildingType;
                     
-                    fetch(villageBuildingFieldsApiUrl, {
-                        method: 'PATCH', // or 'PUT'
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(villageBuildingFields),
-                    });
-
-                    let buildingUpgradeApiUrl = 'http://localhost:8080/api/villageBuildingUpgrade/' + buildingUpgradeId;
-
-                    fetch(buildingUpgradeApiUrl, {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        }
-                    });
+                    await tools.doApiRequest("villageBuildingFields/" + idVillage, "PATCH", villageBuildingFields, true);
+                    await tools.doApiRequest("villageBuildingUpgrade/" + buildingUpgradeId, "DELETE", "", false);
                 })();                
                 break;
 
             case "attack":
                 (async () => {
-                    const combatScript = require("../helperScripts/combatScript");
-                    let idVillageFrom = taskReqBody.taskData.idVillageFrom;
-                    let idVillageTo = taskReqBody.taskData.idVillageTo;
+                    let defendingVillageOwnTroops = await(await(await tools.doApiRequest("villageOwnTroops/" + idVillageTo, "GET", "", false)).json()).data;
 
-                    let defendingVillageOwnTroopsApiUrl = 'http://localhost:8080/api/villageOwnTroops/' + idVillageTo;
-                    let defendingVillageOwnTroops = await(await(await fetch(defendingVillageOwnTroopsApiUrl)).json()).data;
-
-                    let attackingVillageTroops = {
-                        "tribe": taskReqBody.taskData.troopTribe,
-                        "troop1" : taskReqBody.taskData.troop1num,
-                        "troop2" : taskReqBody.taskData.troop2num,
-                        "troop3" : taskReqBody.taskData.troop3num,
-                        "troop4" : taskReqBody.taskData.troop4num,
-                        "troop5" : taskReqBody.taskData.troop5num,
-                        "troop6" : taskReqBody.taskData.troop6num,
-                        "troop7" : taskReqBody.taskData.troop7num,
-                        "troop8" : taskReqBody.taskData.troop8num,
-                        "troop9" : taskReqBody.taskData.troop9num,
-                        "troop10" : taskReqBody.taskData.troop10num
+                    let attackingVillageTroops = {};
+                    attackingVillageTroops['tribe'] = userTribe;
+                    for(let troop of tools.troopInfoLookup[userTribe]){
+                        attackingVillageTroops['troop' + troop['id']] = taskReqBody.taskData['troop' + troop['id'] + 'num'];
                     }
 
+                    /* TODO */
                     let constants = {
                         attackType: "full",
                         palaceLevel: 0,
@@ -109,64 +72,31 @@ exports.new = function (req, res) {
                         basicDefense: 0,
                         troopsNumCoef: 1.5
                     }
+                    /* TODO */
 
-                    let combatResult = combatScript.calculateCombat(attackingVillageTroops,defendingVillageOwnTroops,constants);
+                    const combatResult = combatScript.calculateCombat(attackingVillageTroops,defendingVillageOwnTroops,constants);
 
-                    for(let i = 1; i < 11; i++){
-                        defendingVillageOwnTroops["troop"+i] = combatResult.defendersTroopsAfter[i-1];
-                        attackingVillageTroops["troop"+i] = combatResult.attackersTroopsAfter[i-1];
+                    for(let troop of tools.troopInfoLookup[userTribe]){
+                        defendingVillageOwnTroops['troop' + troop['id']] = combatResult.defendersTroopsAfter[troop['id']-1];
+                        attackingVillageTroops['troop' + troop['id']] = combatResult.attackersTroopsAfter[troop['id']-1];
                     }
 
-
-                    await fetch(defendingVillageOwnTroopsApiUrl, {
-                        method: 'PATCH', // or 'PUT'
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(defendingVillageOwnTroops),
-                    });
-
-                    let sendTroopsDeleteApiUrl = 'http://localhost:8080/api/sendTroops/' + taskReqBody.taskData.sendTroopsId;
-
-                    await fetch(sendTroopsDeleteApiUrl, {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        }
-                    });
-
+                    await tools.doApiRequest("villageOwnTroops/" + idVillageTo, "PATCH", defendingVillageOwnTroops, true);
+                    await tools.doApiRequest("sendTroops/" + taskReqBody.taskData.sendTroopsId, "DELETE", "", false);
                     
-                    let totalAttTroopsLeft = combatResult.attackersTroopsAfter.reduce((a, b) => a + b, 0);
+                    const totalAttTroopsLeft = combatResult.attackersTroopsAfter.reduce((a, b) => a + b, 0);
 
                     if(totalAttTroopsLeft > 0){
-                        let sendTroopsPostApiUrl = 'http://localhost:8080/api/sendTroops/';
-
                         let attackingVillageTroopsReturning = {};
-
                         attackingVillageTroopsReturning["sendType"] = "return";
                         attackingVillageTroopsReturning["idVillageFrom"] = idVillageTo;
                         attackingVillageTroopsReturning["idVillageTo"] = idVillageFrom;
                         attackingVillageTroopsReturning["troopTribe"] = attackingVillageTroops["tribe"];
-                        attackingVillageTroopsReturning["troop1num"] = attackingVillageTroops["troop1"];
-                        attackingVillageTroopsReturning["troop2num"] = attackingVillageTroops["troop2"];
-                        attackingVillageTroopsReturning["troop3num"] = attackingVillageTroops["troop3"];
-                        attackingVillageTroopsReturning["troop4num"] = attackingVillageTroops["troop4"];
-                        attackingVillageTroopsReturning["troop5num"] = attackingVillageTroops["troop5"];
-                        attackingVillageTroopsReturning["troop6num"] = attackingVillageTroops["troop6"];
-                        attackingVillageTroopsReturning["troop7num"] = attackingVillageTroops["troop7"];
-                        attackingVillageTroopsReturning["troop8num"] = attackingVillageTroops["troop8"];
-                        attackingVillageTroopsReturning["troop9num"] = attackingVillageTroops["troop9"];
-                        attackingVillageTroopsReturning["troop10num"] = attackingVillageTroops["troop10"];
-
-                        await fetch(sendTroopsPostApiUrl, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify(attackingVillageTroopsReturning),
-                        });
+                        for(let troop of tools.troopInfoLookup[userTribe]){
+                            attackingVillageTroopsReturning['troop' + troop['id'] + 'num'] = attackingVillageTroops['troop' + troop['id']];
+                        }
+                        await tools.doApiRequest("sendTroops", "POST", sendTroopsPostApiUrl, true);
                     }
-
                     return;
                 })();
                 break;
@@ -178,39 +108,18 @@ exports.new = function (req, res) {
 
             case "return":
                 (async () => {
-                    
-                    let idVillageTo = taskReqBody.taskData.idVillageTo;
+                    let villageOwnTroops = await(await(await tools.doApiRequest("villageOwnTroops/" + idVillageTo, "GET", "", false)).json()).data;
 
-                    let villageOwnTroopsApiUrl = 'http://localhost:8080/api/villageOwnTroops/' + idVillageTo;
-                    let villageOwnTroops = await(await(await fetch(villageOwnTroopsApiUrl)).json()).data;
-
-                    for(let i = 1; i < 11; i++){
-                        villageOwnTroops["troop"+i] += Number(taskReqBody.taskData["troop"+i+"num"]);
+                    for(let troop of tools.troopInfoLookup[userTribe]){
+                        villageOwnTroops['troop' + troop['id']] += Number(taskReqBody.taskData['troop' + troop['id'] + 'num']);
                     }
 
-                    await fetch(villageOwnTroopsApiUrl, {
-                        method: 'PATCH', // or 'PUT'
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(villageOwnTroops),
-                    });
-
-                    let sendTroopsDeleteApiUrl = 'http://localhost:8080/api/sendTroops/' + taskReqBody.taskData.sendTroopsId;
-
-                    await fetch(sendTroopsDeleteApiUrl, {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        }
-                    });
-                    
+                    await tools.doApiRequest("villageOwnTroops/" + idVillageTo, "PATCH", villageOwnTroops, true);
+                    await tools.doApiRequest("sendTroops/" + taskReqBody.taskData.sendTroopsId, "DELETE", "", false);
                 })();
                 break;
         }
-
-
-        console.log(JSON.stringify(taskReqBody) + ' successfully ran at ' + new Date() + ' (was scheduled to run at '+ fireDate + ')');
+        //console.log(JSON.stringify(taskReqBody) + ' successfully ran at ' + new Date() + ' (was scheduled to run at '+ fireDate + ')');
     }.bind(null, taskReqBody));
 
     scheduledTasks.push(newTask);
@@ -228,78 +137,9 @@ exports.new = function (req, res) {
     });
 };
 
-
-
 exports.view = function (req, res) {
     res.json({
         message: 'Loading tasks..',
         data: scheduledTasks
     });
 };
-/*
-// Handle create barracksProductions actions
-exports.new = function (req, res) {
-    var barracksProductions = new barracksProductionsModel();
-    barracksProductions.idVillage = req.body.idVillage;
-    barracksProductions.troopName = req.body.troopName;
-    barracksProductions.troopId = req.body.troopId;
-    barracksProductions.troopCount = req.body.troopCount;
-    barracksProductions.troopProdTime = req.body.troopProdTime;
-    barracksProductions.timeStarted = req.body.timeStarted;
-    barracksProductions.timeCompleted = req.body.timeCompleted;
-    barracksProductions.barrProdId = req.body.barrProdId;
-    barracksProductions.lastUpdate = req.body.lastUpdate;
-    barracksProductions.troopsDoneAlready = req.body.troopsDoneAlready;
-
-    barracksProductions.save(function (err) {
-        if (err){
-            res.json(err);
-        }
-        else{
-            res.json({
-                message: 'New barracksProductions created',
-                data: barracksProductions
-            });
-        }
-    });
-};
-
-exports.update = function (req, res) {
-    barracksProductionsModel.findOne({barrProdId: req.params.barrProdId}, function (err, barracksProductions) {
-        if (err)
-            res.send(err);
-        
-        
-        barracksProductions.idVillage = req.body.idVillage;
-        barracksProductions.troopName = req.body.troopName;
-        barracksProductions.troopId = req.body.troopId;
-        barracksProductions.troopCount = req.body.troopCount;
-        barracksProductions.troopProdTime = req.body.troopProdTime;
-        barracksProductions.timeStarted = req.body.timeStarted;
-        barracksProductions.timeCompleted = req.body.timeCompleted;
-        barracksProductions.barrProdId = req.body.barrProdId;
-        barracksProductions.lastUpdate = req.body.lastUpdate;
-        barracksProductions.troopsDoneAlready = req.body.troopsDoneAlready;
-
-        barracksProductions.save(function (err) {
-            if (err)
-                res.json(err);
-            res.json({
-                message: 'barracksProductions Info updated',
-                data: barracksProductions
-            });
-        });
-    });
-};
-
-exports.delete = function (req, res) {
-    barracksProductionsModel.remove({barrProdId: req.params.barrProdId}, function (err, barracksProductions) {
-        if (err)
-            res.send(err);
-        res.json({
-            status: "success",
-            message: 'barracksProductions deleted'
-        });
-    });
-};
-*/

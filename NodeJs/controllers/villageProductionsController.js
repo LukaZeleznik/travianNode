@@ -1,6 +1,9 @@
 const path = require('path');
 const villageProductionsModel = require('../models/villageProductionsModel');
 const fetch = require("node-fetch");
+var tools = require('../tools/tools');
+var config = require('../config.json');
+
 //Resources
 const WOODCUTTER = 0;
 const CLAY_PIT = 1;
@@ -21,31 +24,28 @@ exports.view = function (req, res) {
         }
         else{     
             (async () => {    
-                let resourceInfo = require('/home/node/app/infoTables/resourceInfoLookup.json');
-                let idVillage = req.params.idVillage;
+                var idVillage = req.params.idVillage;
                 let baseWoodProd = 0;
                 let baseClayProd = 0;
                 let baseIronProd = 0;
                 let baseCropProd = 0;
 
-                let villageResourceFieldsApiUrl = 'http://localhost:8080/api/villageResourceFields/' + idVillage;
-                let villageResourceFields = await(await(await fetch(villageResourceFieldsApiUrl)).json()).data;
+                var villageResourceFields = await(await(await tools.doApiRequest("villageResourceFields/" + idVillage, "GET", "", false)).json()).data;
 
                 for(let i = 1; i < 19; i++){
                     switch (villageResourceFields['field'+i+'Type']) {
-                        case WOODCUTTER: baseWoodProd += resourceInfo[WOODCUTTER]['production'][villageResourceFields['field'+i+'Level']]; break;
-                        case CLAY_PIT:   baseClayProd += resourceInfo[CLAY_PIT]['production'][villageResourceFields['field'+i+'Level']]; break;
-                        case IRON_MINE:  baseIronProd += resourceInfo[IRON_MINE]['production'][villageResourceFields['field'+i+'Level']]; break;
-                        case CROPLAND:   baseCropProd += resourceInfo[CROPLAND]['production'][villageResourceFields['field'+i+'Level']]; break;
+                        case WOODCUTTER: baseWoodProd += tools.resourceInfoLookup[WOODCUTTER]['production'][villageResourceFields['field'+i+'Level']]; break;
+                        case CLAY_PIT:   baseClayProd += tools.resourceInfoLookup[CLAY_PIT]['production'][villageResourceFields['field'+i+'Level']]; break;
+                        case IRON_MINE:  baseIronProd += tools.resourceInfoLookup[IRON_MINE]['production'][villageResourceFields['field'+i+'Level']]; break;
+                        case CROPLAND:   baseCropProd += tools.resourceInfoLookup[CROPLAND]['production'][villageResourceFields['field'+i+'Level']]; break;
                     }
                 }          
-                
-                bonusProduction = await getBuildingBonusProductions(idVillage);
 
-                villageProductions.productionWood = baseWoodProd + (baseWoodProd*bonusProduction[0]);
-                villageProductions.productionClay = baseClayProd + (baseClayProd*bonusProduction[1]);
-                villageProductions.productionIron = baseIronProd + (baseIronProd*bonusProduction[2]);
-                villageProductions.productionCrop = baseCropProd + (baseCropProd*bonusProduction[3]);
+                bonusProduction = await getBuildingBonusProductions(idVillage);
+                villageProductions.productionWood = (baseWoodProd + (baseWoodProd*bonusProduction[0])) * config.SERVER_SPEED;
+                villageProductions.productionClay = (baseClayProd + (baseClayProd*bonusProduction[1])) * config.SERVER_SPEED;
+                villageProductions.productionIron = (baseIronProd + (baseIronProd*bonusProduction[2])) * config.SERVER_SPEED;
+                villageProductions.productionCrop = (baseCropProd + (baseCropProd*bonusProduction[3])) * config.SERVER_SPEED;
 
                 villageProductions.save(function (err) {
                     if (err)
@@ -122,12 +122,9 @@ async function getBuildingBonusProductions(idVillage){
     let clayBonus = 0;
     let ironBonus = 0;
     let cropBonus = 0;
-
-    let villageBuildingFieldsApiUrl = 'http://localhost:8080/api/villageBuildingFields/' + idVillage;
-    let villageBuildingFields = await(await(await fetch(villageBuildingFieldsApiUrl)).json()).data;
-
-    let buildingInfo = require('/home/node/app/infoTables/buildingInfoLookup.json');
     
+    var villageBuildingFields = await(await(await tools.doApiRequest("villageBuildingFields/" + idVillage, "GET", "", false)).json()).data;
+
     for(let i = 1; i < 20; i++){
         villageBuildingTypes.push(villageBuildingFields['field'+i+'Type']);
         villageBuildingLevels.push(villageBuildingFields['field'+i+'Level']);
@@ -135,11 +132,11 @@ async function getBuildingBonusProductions(idVillage){
 
     for(let i = 0; i < villageBuildingTypes.length; i++){
         switch (villageBuildingTypes[i]) {
-            case SAWMILL:       woodBonus += buildingInfo[SAWMILL]['buildingModifier'][villageBuildingLevels[i]]; break;
-            case BRICKYARD:     clayBonus += buildingInfo[BRICKYARD]['buildingModifier'][villageBuildingLevels[i]]; break;
-            case IRON_FOUNDRY:  ironBonus += buildingInfo[IRON_FOUNDRY]['buildingModifier'][villageBuildingLevels[i]]; break;
-            case BAKERY:        cropBonus += buildingInfo[BAKERY]['buildingModifier'][villageBuildingLevels[i]]; break;
-            case GRAIN_MILL:    cropBonus += buildingInfo[GRAIN_MILL]['buildingModifier'][villageBuildingLevels[i]]; break;
+            case SAWMILL:       woodBonus += tools.buildingInfoLookup[SAWMILL]['buildingModifier'][villageBuildingLevels[i]]; break;
+            case BRICKYARD:     clayBonus += tools.buildingInfoLookup[BRICKYARD]['buildingModifier'][villageBuildingLevels[i]]; break;
+            case IRON_FOUNDRY:  ironBonus += tools.buildingInfoLookup[IRON_FOUNDRY]['buildingModifier'][villageBuildingLevels[i]]; break;
+            case BAKERY:        cropBonus += tools.buildingInfoLookup[BAKERY]['buildingModifier'][villageBuildingLevels[i]]; break;
+            case GRAIN_MILL:    cropBonus += tools.buildingInfoLookup[GRAIN_MILL]['buildingModifier'][villageBuildingLevels[i]]; break;
         }
     }
 

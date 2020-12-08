@@ -115,10 +115,10 @@ export default {
             /* CREATE: villageMaxResources */
             let villageMaxResourcesData = {
                 "idVillage": village['_id'],
-                "maxWood": 800,
-                "maxClay": 800,
-                "maxIron": 800,
-                "maxCrop": 800
+                "maxWood": 800 * this.config.STORAGE_MODIFIER,
+                "maxClay": 800 * this.config.STORAGE_MODIFIER,
+                "maxIron": 800 * this.config.STORAGE_MODIFIER,
+                "maxCrop": 800 * this.config.STORAGE_MODIFIER
             }
             await this.doApiRequest("villageMaxResources","POST",villageMaxResourcesData,true);
 
@@ -146,10 +146,10 @@ export default {
             /* CREATE: villageResources */
             let villageResourcesData = {
                 "idVillage": village['_id'],
-                "currentWood": 800,
-                "currentClay": 800,
-                "currentIron": 800,
-                "currentCrop": 800,
+                "currentWood": 800 * this.config.STORAGE_MODIFIER,
+                "currentClay": 800 * this.config.STORAGE_MODIFIER,
+                "currentIron": 800 * this.config.STORAGE_MODIFIER,
+                "currentCrop": 800 * this.config.STORAGE_MODIFIER,
                 "lastUpdate": currentUnixTime
             }
             await this.doApiRequest("villageResources","POST",villageResourcesData,true);

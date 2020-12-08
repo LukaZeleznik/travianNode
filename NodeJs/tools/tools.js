@@ -1,8 +1,12 @@
 const fetch = require("node-fetch");
 
-
 module.exports = {
-    doApiRequest: async function (path, method, data, jsonf) {
+    buildingInfoLookup:             require('../infoTables/buildingInfoLookup.json'),
+    resourceInfoLookup:             require('../infoTables/resourceInfoLookup.json'),
+    troopInfoLookup:                require('../infoTables/troopInfoLookup.json'),
+    resFieldVariationsInfoLookup:   require('../infoTables/resFieldVariationsInfoLookup.json'),
+
+    doApiRequest: async function (path, method, data, jsonf){
         let response;
         console.log('http://localhost:8080/api/' + path);
         if (jsonf){
@@ -17,5 +21,10 @@ module.exports = {
             response = await fetch('http://localhost:8080/api/' + path, { method: method });
         }
         return response;
-    }
+    },
+    getTribeFromIdVillage: async function (idVillage){
+        const villageOwner = await(await(await this.doApiRequest("villages/" + idVillage, "GET", "", false)).json()).data.owner;
+        const userTribe = await(await(await this.doApiRequest("users/" + villageOwner, "GET", "", false)).json()).data.tribe;
+        return userTribe;
+    },
 };

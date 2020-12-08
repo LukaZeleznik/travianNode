@@ -25,11 +25,13 @@ export const fetchMixins = {
             resourceInfoLookup: [],
             troopInfoLookup: [],
             resFieldVariationsInfoLookup: [],
+            config: {},
         };
     },
 
     created() {
         this.infoLookup();
+        this.loadConfiguration();
     },
 
     mixins: [toolsMixins],
@@ -58,6 +60,9 @@ export const fetchMixins = {
     },
 
     methods: {
+        loadConfiguration(){
+            this.config = require('@/config.json');
+        },
         infoLookup(){
             this.buildingInfoLookup =               require('@/assets/infoTables/buildingInfoLookup.json');
             this.resourceInfoLookup =               require('@/assets/infoTables/resourceInfoLookup.json');
