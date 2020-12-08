@@ -31,31 +31,33 @@
                     </div>
                 </div>
                 <div class="col-md-4 text-center mb-3 rightSide">
-                    <div class="h3 mt-3 text-left">Distribution:</div>
+                    <div>
+                        <div class="h3 mt-3 text-center" v-if="villageData">
+                            <span v-if="villageData.name">{{ villageData.name }}</span> 
+                            <span v-else>Abandoned valley</span>
+                            ({{ villageData.xCoordinate }}|{{ villageData.yCoordinate }})
+                        </div>
+                        <div class="h5 text-center">
+                            <div v-if="villageData.owner">
+                                <h5 style="text-transform: capitalize;">Tribe: {{ userData.tribe }}</h5>
+                                <h5>Owner: {{ userData.nickname }}</h5>
+                                <h5>Population: {{ villageData.population }}</h5>
+                            </div>
+                        </div>
+                    </div>
                     <div class="h5">
-                        <div class="text-left">
+                        <div class="h3 mt-3 text-center">Distribution:</div>
+                        <div class="text-center">
                             <h5>
-                                <img src="/images/resources/wood.gif" /> {{ fieldDistribution[0] }}  
-                                <img src="/images/resources/clay.gif" /> {{ fieldDistribution[1] }}  
-                                <img src="/images/resources/iron.gif" /> {{ fieldDistribution[2] }}   
-                                <img src="/images/resources/crop.gif" /> {{ fieldDistribution[3] }}  
+                                <img src="/images/resources/wood.gif" /> {{ fieldDistribution[0] }}
+                                <img src="/images/resources/clay.gif" /> {{ fieldDistribution[1] }}
+                                <img src="/images/resources/iron.gif" /> {{ fieldDistribution[2] }}
+                                <img src="/images/resources/crop.gif" /> {{ fieldDistribution[3] }}
                             </h5>
                         </div>
                     </div>
-                    <div class="h3 mt-3 text-left" v-if="villageData">
-                        <span v-if="villageData.name">{{ villageData.name }}</span> 
-                        <span v-else>Abandoned valley</span>
-                        ({{ villageData.xCoordinate }}|{{ villageData.yCoordinate }})
-                    </div>
-                    <div class="h5 text-left">
-                        <div class="text-left" v-if="villageData.owner">
-                            <h5 style="text-transform: capitalize;">Tribe: {{ userData.tribe }}</h5>
-                            <h5>Owner: {{ userData.nickname }}</h5>
-                            <h5>Population: {{ villageData.population }}</h5>
-                        </div>
-                        <div class="mt-3" v-if="villageData['_id'] != activeVillageId">
-                             <router-link class="btn btn-success" :to="{ path: '/sendTroops/' + $route.params.tileid }">Send troops</router-link>
-                        </div>
+                    <div class="mt-3" v-if="villageData['_id'] != activeVillageId">
+                            <router-link class="btn btn-success" :to="{ path: '/sendTroops/' + $route.params.tileid }">Send troops</router-link>
                     </div>
                 </div>
             </div>

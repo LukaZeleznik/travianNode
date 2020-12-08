@@ -1,9 +1,9 @@
 <template>
     <div>
-        <div class="h3 pl-5 ml-4 my-3" v-if="villageResFieldUpgrades.length > 0 || villageBuildingUpgrades.length > 0">Buildings:</div>
+        <div class="h3 my-3 text-center" v-if="villageResFieldUpgrades.length > 0 || villageBuildingUpgrades.length > 0">Buildings:</div>
         
-        <div class="d-flex justify-content-between pl-5 ml-4" v-if="villageResFieldUpgrades.length > 0">
-            <h5 style="min-width: 200px;"><img @click="cancelResFieldUpgrade(villageResFieldUpgrades)" style="width: 1.0rem;height: 0.9rem;cursor: pointer;" src="/images/del.gif">
+        <div class="d-flex justify-content-between" v-if="villageResFieldUpgrades.length > 0">
+            <h5><img @click="cancelResFieldUpgrade(villageResFieldUpgrades)" style="width: 1.0rem;height: 0.9rem;cursor: pointer;" src="/images/del.gif">
                 {{ resourceInfoLookup[villageResFieldUpgrades[0].fieldType]['name']}} <!-- should NOT be name..should be field type... -->
                 (Level {{ (villageResFieldUpgrades[0].fieldLevel+1) }})</h5>
             <h5 class="text-center" v-if="villageResFieldUpgradesTimeLeft[0] > -1">
@@ -13,8 +13,8 @@
                 done at {{ secondsToTimeCompleted(villageResFieldUpgrades[0].timeCompleted*1000) }}
             </h5>
         </div>
-        <div class="d-flex justify-content-between pl-5 ml-4" v-if="villageBuildingUpgrades.length > 0">
-            <h5 style="min-width: 200px;"><img @click="cancelBuildingUpgrade(villageBuildingUpgrades)" style="width: 1.0rem;height: 0.9rem;cursor: pointer;" src="/images/del.gif">
+        <div class="d-flex justify-content-between" v-if="villageBuildingUpgrades.length > 0">
+            <h5><img @click="cancelBuildingUpgrade(villageBuildingUpgrades)" style="width: 1.0rem;height: 0.9rem;cursor: pointer;" src="/images/del.gif">
                 {{ buildingInfoLookup[villageBuildingUpgrades[0].buildingType]['name'] }}
                 (Level {{ (villageBuildingUpgrades[0].buildingLevel+1) }})</h5>
             <h5 class="text-center" v-if="villageBuildingUpgradesTimeLeft[0] > -1">

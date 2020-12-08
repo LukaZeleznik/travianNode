@@ -4,8 +4,8 @@
         <div v-if="villageOwnTroops.length > 0">
             <div class="h5" v-if="villageOwnTroops.reduce((accumulator, currentValue) => accumulator + Math.floor(currentValue)) > 0">
                 <div class="d-flex align-center" v-for="(villageOwnTroop, index) in villageOwnTroops" :key="index">
-                    <h5 v-if="villageOwnTroop"><img :src="'/images/troops/' + userTribe + '/' + (index+1) + '.gif'">  
-                        {{ (villageOwnTroop).toFixed(0) }} {{ troopInfoLookup[userTribe][index]['name'] }} 
+                    <h5 v-if="Math.floor(villageOwnTroop)"><img :src="'/images/troops/' + userTribe + '/' + (index+1) + '.gif'">  
+                        {{ Math.floor(villageOwnTroop)}} {{ troopInfoLookup[userTribe][index]['name'] }} 
                     </h5>
                 </div>
             </div>

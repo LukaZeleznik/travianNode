@@ -1,10 +1,10 @@
 <template>
     <div>
-        <table class="table table-bordered w-75 m-auto">
+        <table class="table table-bordered">
             <tbody>
                 <tr v-for="(availableBuilding, index) in availableBuildings" v-bind:key="'availableBuilding'+index">
-                    <th scope="row" class="align-middle text-left" style="min-width:650px"> {{ buildingInfoLookup[availableBuilding]['name'] }}
-                        <span class="troopRequirements float-right">
+                    <th scope="row" class="align-middle text-center"> <span class="d-block">{{ buildingInfoLookup[availableBuilding]['name'] }}</span>
+                        <span class="troopRequirements my-3">
                             <img src="/images/resources/wood.gif">  {{ buildingInfoLookup[availableBuilding]['wood'][1] }} |
                             <img src="/images/resources/clay.gif">  {{ buildingInfoLookup[availableBuilding]['clay'][1] }} |
                             <img src="/images/resources/iron.gif">  {{ buildingInfoLookup[availableBuilding]['iron'][1] }} |
@@ -12,20 +12,20 @@
                             <img src="/images/consum.gif">          {{ buildingInfoLookup[availableBuilding]['consumption'][1] }} |
                             <img src="/images/clock.gif">           {{ secondsToTimeRemaining(buildingInfoLookup[availableBuilding]['constructionTime'][1] * 1000) }}
                         </span>
-                    </th>
-                    <td class="align-middle">
-                        <div class="input-group input-group-sm mb-3 align-middle"> 
-                            <h5 class="mt-4">
-                                <span v-if="villageBuildingUpgrades.length > 0">Another building is already being upgraded</span>
-                                <button v-else type="button" class="btn btn-success" @click="build(availableBuilding)">Build</button> 
-                            </h5>
+                        <div class="mt-3">
+                            <span v-if="villageBuildingUpgrades.length > 0">Another building is already being upgraded</span>
+                            <button v-else type="button" class="btn btn-success w-50" @click="build(availableBuilding)">Build</button> 
                         </div>
-                    </td>
+                    </th>
                 </tr>
-                <h5 style="text-align:left;">AVAILABLE SOON</h5>
+            </tbody>
+        </table>
+        <h5 class="text-center mt-5 mb-3">AVAILABLE SOON</h5>
+        <table class="table table-bordered m-auto">
+            <tbody>
                 <tr v-for="(soonAvailableBuilding, index) in soonAvailableBuildings" v-bind:key="'soonAvailableBuilding'+index">
-                    <th scope="row" class="align-middle text-left" style="min-width:650px"> {{ buildingInfoLookup[soonAvailableBuilding]['name'] }}
-                        <span class="troopRequirements float-right">
+                    <th scope="row" class="align-middle text-center"> <span class="d-block">{{ buildingInfoLookup[soonAvailableBuilding]['name'] }}</span>
+                        <span class="troopRequirements my-3">
                             <img src="/images/resources/wood.gif">  {{ buildingInfoLookup[soonAvailableBuilding]['wood'][1] }} |
                             <img src="/images/resources/clay.gif">  {{ buildingInfoLookup[soonAvailableBuilding]['clay'][1] }} |
                             <img src="/images/resources/iron.gif">  {{ buildingInfoLookup[soonAvailableBuilding]['iron'][1] }} |

@@ -85,20 +85,25 @@ exports.new = function (req, res) {
 };
 
 exports.update = function (req, res) {
+    console.log('req.params', req.params);
     villageResourcesModel.findOne({idVillage: req.params.idVillage}, function (err, villageResources) {
-        if (err)
+        if (err){
             res.send(err);
-        
+            return;
+        }
+        let currentTime = Math.round(+new Date()/1000);
+        console.log('villageResources', villageResources);
+
         villageResources.idVillage = req.body.idVillage;
         villageResources.currentWood = req.body.currentWood;
         villageResources.currentClay = req.body.currentClay;
         villageResources.currentIron = req.body.currentIron;
         villageResources.currentCrop = req.body.currentCrop;
-        villageResources.lastUpdate = req.body.lastUpdate;
+        villageResources.lastUpdate = currentTime;
 
-        villageResources.save(function (err) {
-            if (err)
-                res.json(err);
+        villageResources.save(function (err2) {
+            if (err2)
+                res.json(err2);
             res.json({
                 message: 'villageResources Info updated',
                 data: villageResources

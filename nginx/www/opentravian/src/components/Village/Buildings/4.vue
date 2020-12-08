@@ -1,6 +1,6 @@
 <template>
     <div>
-        <table class="table table-bordered w-75 m-auto">
+        <table class="table table-bordered m-auto">
             <thead>
                 <tr>
                 <th scope="col">Name</th>
@@ -10,9 +10,9 @@
             </thead>
             <tbody>
                 <tr v-for="(troop, index) in researchedTroops" :key="index">
-                    <th scope="row" class="align-middle text-left" style="min-width:700px">
+                    <th scope="row" class="align-middle text-center">
                         <img :src="'/images/troops/' + userTribe + '/' + troop['id'] + '.gif'"> {{ troop['name'] }} (Available: {{Math.floor(villageOwnTroops[troop['id']-1])}})
-                        <span class="troopRequirements float-right">
+                        <span class="troopRequirements d-block">
                             <img src="/images/resources/wood.gif">  {{ troop['wood'] }} |
                             <img src="/images/resources/clay.gif">  {{ troop['clay'] }} |
                             <img src="/images/resources/iron.gif">  {{ troop['iron'] }} |
@@ -22,8 +22,8 @@
                         </span>
                     </th>
                     <td class="align-middle">
-                        <div class="input-group input-group-sm mb-3 align-middle">
-                            <input type="text" class="form-control trainTroop" :data-troopId="troop['id']" aria-label="Small" aria-describedby="inputGroup-sizing-sm" :id="'troop' + troop['id']">
+                        <div class="input-group input-group-sm align-middle">
+                            <input type="number" class="form-control trainTroop" :data-troopId="troop['id']" aria-label="Small" aria-describedby="inputGroup-sizing-sm" :id="'troop' + troop['id']">
                         </div>
                     </td>
                     <td class="align-middle">
@@ -33,11 +33,11 @@
 
             </tbody>
         </table>
-        <div class="btn-group my-4 w-75" role="group" aria-label="Train">
-            <button type="button" class="btn btn-success w-75 m-auto mt-3" @click="train();">Train</button>
+        <div class="btn-group my-4 w-100" role="group" aria-label="Train">
+            <button type="button" class="btn btn-success m-auto mt-3" @click="train();">Train</button>
         </div>
         <h5 class="mt-4 text-danger" id="errorMessage"></h5>                
-        <table class="table table-bordered w-75 m-auto" v-if="villageStableProductions && villageStableProductions.length > 0">
+        <table class="table table-bordered m-auto" v-if="villageStableProductions && villageStableProductions.length > 0">
             <thead >
                 <tr>
                     <th scope="col">Training</th>
