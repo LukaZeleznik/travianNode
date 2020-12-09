@@ -61,7 +61,7 @@ exports.new = async function (req, res) {
    
         if(queueFull(idVillage,res)==true) return;
         
-        if(newBuildingType>0) {
+        if(newBuildingType > 0) {
             for(let i = 1; i < 20; i++){
                 villageBuildingTypes.push(villageBuildingFields['field'+i+'Type']);
                 villageBuildingLevels.push(villageBuildingFields['field'+i+'Level']);
@@ -110,9 +110,9 @@ exports.new = async function (req, res) {
                 return;
             }
             villageBuildingType = Number(newBuildingType);
-            villageBuildingLevel++;
         } else {
             villageBuildingType = Number(villageBuildingFields["field"+buildingFieldId+"Type"]);
+            console.log("villageBuildingType", villageBuildingType);
             
             if(villageBuildingLevel > tools.buildingInfoLookup[villageBuildingType]['wood'].length-1){
                 res.json({
@@ -122,20 +122,12 @@ exports.new = async function (req, res) {
                 return;
             }
         }
-
-        //weird solution for wall
-        if(villageBuildingLevel == 0){
-            villageBuildingLevel++;
-            wallf = true;
-        }
         
         const requirementWood = tools.buildingInfoLookup[villageBuildingType]["wood"][villageBuildingLevel+1];
         const requirementClay = tools.buildingInfoLookup[villageBuildingType]["clay"][villageBuildingLevel+1];
         const requirementIron = tools.buildingInfoLookup[villageBuildingType]["iron"][villageBuildingLevel+1];
         const requirementCrop = tools.buildingInfoLookup[villageBuildingType]["crop"][villageBuildingLevel+1];
         const requirementConstructionTime = Math.floor(Number(tools.buildingInfoLookup[villageBuildingType]["constructionTime"][villageBuildingLevel+1]) / config.SERVER_SPEED);
-
-        if(newBuildingType>0 || wallf) villageBuildingLevel--;
 
         if(villageResources.currentWood < requirementWood || villageResources.currentClay < requirementClay || 
            villageResources.currentIron < requirementIron || villageResources.currentCrop < requirementCrop ){
@@ -185,7 +177,7 @@ exports.new = async function (req, res) {
                 };
                 await tools.doApiRequest("schedule", "POST", scheduleData, true);
 
-                if(newBuildingType>0) {
+                if(newBuildingType > 0) {
                     villageBuildingFields["field"+buildingFieldId+"Type"] = newBuildingType;
                     await tools.doApiRequest("villageBuildingFields/" + idVillage, "PATCH", villageBuildingFields, true);
                 }
@@ -244,6 +236,13 @@ exports.cancel = async function (req, res) {
         } else if (villageBuildingUpgrades.deletedCount > 0){
             (async () => {
                 const currentUnixTime =  Math.round(new Date().getTime()/1000);
+                
+                if(upgradeData['buildingLevel'] == 0 && upgradeData['vbid'] != 19){
+                    let currentVillageFields = await(await(await tools.doApiRequest('villageBuildingFields/' + upgradeData['idVillage'], 'GET', '', false)).json()).data;
+                    currentVillageFields['field'+upgradeData['vbid']+'Type'] = 0;
+                    await tools.doApiRequest("villageBuildingFields/" + upgradeData['idVillage'], "PATCH", currentVillageFields, true);
+                }                
+                
                 let villageResources = await(await(await tools.doApiRequest('villageResources/' + upgradeData['idVillage'], 'GET', '', false)).json()).data;
 
                 villageResources.currentWood += upgradeData['woodUsed'];

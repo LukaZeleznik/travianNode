@@ -168,7 +168,8 @@ router.route('/villageResFieldUpgrades')
     .post(villageResFieldUpgradesController.new);
 router.route('/villageResFieldUpgrades/:idVillage')
     .get(villageResFieldUpgradesController.view);
-router.route('/villageResFieldUpgrades/:upgradeId')
+router.route('/villageResFieldUpgrade/:upgradeId')
+    .get(villageResFieldUpgradesController.find)
     .put(villageResFieldUpgradesController.update)
     .patch(villageResFieldUpgradesController.update);
 router.route('/villageResFieldUpgrade/:upgradeId')

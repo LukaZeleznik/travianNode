@@ -5,44 +5,44 @@ var tools = require('../tools/tools');
 var config = require('../config.json');
 
 exports.view = function (req, res) {
-    villageOwnTroopsModel.findOne({idVillage: req.params.idVillage}, function (err, villageOwnTroops) {
+    villageOwnTroopsModel.findOne({idVillage: req.params.idVillage}, async function (err, villageOwnTroops) {
         if (err){
             res.send(err);
         }
         else{
-            (async () => {
-                var idVillage = req.params.idVillage;
-                var userTribe = await tools.getTribeFromIdVillage(idVillage);
+            var idVillage = req.params.idVillage;
+            var userTribe = await tools.getTribeFromIdVillage(idVillage);
 
-                let barracksProductions = await(await(await tools.doApiRequest("barracksProductions/" + idVillage, "GET", "", false)).json()).data;
-                let stableProductions = await(await(await tools.doApiRequest("stableProductions/" + idVillage, "GET", "", false)).json()).data;
-                doProcessTroopProductions(barracksProductions,villageOwnTroops,'barracksProductions');
-                doProcessTroopProductions(stableProductions,villageOwnTroops,'stableProductions');
+            let barracksProductions = await(await(await tools.doApiRequest("barracksProductions/" + idVillage, "GET", "", false)).json()).data;
+            let stableProductions = await(await(await tools.doApiRequest("stableProductions/" + idVillage, "GET", "", false)).json()).data;
+            doProcessTroopProductions(barracksProductions,villageOwnTroops,'barracksProductions');
+            doProcessTroopProductions(stableProductions,villageOwnTroops,'stableProductions');
 
-                for(let troop in tools.troopInfoLookup[userTribe]){
-                    villageOwnTroops['troop' + tools.troopInfoLookup[userTribe][troop].id] = Number(villageOwnTroops['troop' + tools.troopInfoLookup[userTribe][troop].id].toFixed(1));
-                }
+            for(let troop of tools.troopInfoLookup[userTribe]){
+                villageOwnTroops['troop' + troop['id']] = Number(villageOwnTroops['troop' + troop['id']].toFixed(1));
+            }
 
-                villageOwnTroops.save(function (err) {
-                    if (err)
-                        res.json(err);
-                    res.json({
-                        message: 'villageOwnTroops Info updated',
-                        data: villageOwnTroops
-                    });
+            villageOwnTroops.save(function (err) {
+                if (err)
+                    res.json(err);
+                res.json({
+                    message: 'villageOwnTroops Info updated',
+                    data: villageOwnTroops
                 });
-            })();
+            });
         }
     });
 };
 
 // Handle create villageOwnTroops actions
-exports.new = function (req, res) {
+exports.new = async function (req, res) {
+    let userTribe = await tools.getTribeFromIdVillage(req.body.idVillage);
+
     var villageOwnTroops = new villageOwnTroopsModel();
     villageOwnTroops.idVillage = req.body.idVillage;
-    villageOwnTroops.tribe = req.body.tribe;
-    for(let troop in tools.troopInfoLookup[req.body.tribe]){
-        villageOwnTroops['troop' + tools.troopInfoLookup[req.body.tribe][troop].id] = req.body['troop' + tools.troopInfoLookup[req.body.tribe][troop].id];
+    villageOwnTroops.tribe = userTribe;
+    for(let troop of tools.troopInfoLookup[userTribe]){
+        villageOwnTroops['troop' + troop['id']] = req.body['troop' + troop['id']];
     }
 
     villageOwnTroops.save(function (err) {
@@ -59,12 +59,13 @@ exports.new = function (req, res) {
 };
 
 exports.update = function (req, res) {
-    villageOwnTroopsModel.findOne({idVillage: req.params.idVillage}, function (err, villageOwnTroops) {
+    villageOwnTroopsModel.findOne({idVillage: req.params.idVillage}, async function (err, villageOwnTroops) {
         if (err)
             res.send(err);
-        
+
+        let userTribe = await tools.getTribeFromIdVillage(req.body.idVillage);
         villageOwnTroops.idVillage = req.body.idVillage;
-        villageOwnTroops.tribe = req.body.tribe;
+        villageOwnTroops.tribe = userTribe;
         for(let troop of tools.troopInfoLookup[userTribe]){
             villageOwnTroops['troop' + troop['id']] = req.body['troop' + troop['id']];
         }
@@ -92,7 +93,7 @@ exports.delete = function (req, res) {
     });
 };
 
-function doProcessTroopProductions(productions,villageOwnTroops,path){
+function doProcessTroopProductions(productions, villageOwnTroops, path){
     productions.forEach(async (production) => {
         const currentUnixTime = Math.round(new Date().getTime()/1000);
         const timeDiff = currentUnixTime - production.lastUpdate;

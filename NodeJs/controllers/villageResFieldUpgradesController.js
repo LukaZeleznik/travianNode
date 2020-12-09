@@ -44,8 +44,11 @@ exports.new = async function (req, res) {
         let requirementIron = tools.resourceInfoLookup[villageResourceFieldType]["iron"][villageResourceFieldLevel+1];
         let requirementCrop = tools.resourceInfoLookup[villageResourceFieldType]["crop"][villageResourceFieldLevel+1];
         let requirementConstructionTime = Math.floor(Number(tools.resourceInfoLookup[villageResourceFieldType]["constructionTime"][villageResourceFieldLevel+1]) / config.SERVER_SPEED);
+        const timeCompleted = currentUnixTime + requirementConstructionTime;
 
-        if(queueFull(idVillage,res)==true) return;
+        console.log("long boy", tools.resourceInfoLookup[villageResourceFieldType]["constructionTime"][villageResourceFieldLevel+1]);
+
+        if(queueFull(idVillage,res) == true) return;
 
         if( villageResources.currentWood < requirementWood || villageResources.currentClay < requirementClay || 
             villageResources.currentIron < requirementIron || villageResources.currentCrop < requirementCrop ){
@@ -74,7 +77,7 @@ exports.new = async function (req, res) {
         villageResFieldUpgrades.clayUsed = requirementClay;
         villageResFieldUpgrades.cropUsed = requirementCrop;
         villageResFieldUpgrades.timeStarted = currentUnixTime;
-        villageResFieldUpgrades.timeCompleted = currentUnixTime + requirementConstructionTime;
+        villageResFieldUpgrades.timeCompleted = timeCompleted;
 
         console.log("idVillage",idVillage);
 
@@ -141,7 +144,7 @@ exports.delete = async function (req, res) {
 };
 
 exports.cancel = async function (req, res) {
-    var upgradeData = await(await(await tools.doApiRequest("villageResFieldUpgrades/" + req.params.upgradeId, "GET", "", false)).json()).data;
+    var upgradeData = await(await(await tools.doApiRequest("villageResFieldUpgrade/" + req.params.upgradeId, "GET", "", false)).json()).data;
 
     villageResFieldUpgradesModel.deleteOne({_id: req.params.upgradeId}, function (err, villageResFieldUpgrades) {
         if (err){

@@ -40,14 +40,11 @@ exports.new = function (req, res) {
                 (async () => {
                     const buildingId = taskReqBody.taskData.buildingId;
                     const buildingUpgradeId = taskReqBody.taskData.buildingUpgradeId;
-                    const newBuildingType = taskReqBody.taskData.newBuildingType ? taskReqBody.taskData.newBuildingType : 0;
 
                     let villageBuildingFields = await(await(await tools.doApiRequest("villageBuildingFields/" + idVillage, "GET", "", false)).json()).data;
 
                     const buildingLevel = Number(villageBuildingFields["field"+buildingId+"Level"]);
-
                     villageBuildingFields["field"+buildingId+"Level"] = buildingLevel + 1;
-                    if(newBuildingType>0) villageBuildingFields["field"+buildingId+"Type"] = newBuildingType;
                     
                     await tools.doApiRequest("villageBuildingFields/" + idVillage, "PATCH", villageBuildingFields, true);
                     await tools.doApiRequest("villageBuildingUpgrade/" + buildingUpgradeId, "DELETE", "", false);

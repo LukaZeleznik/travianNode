@@ -41,7 +41,7 @@ exports.view = function (req, res) {
                     }
                 }          
 
-                bonusProduction = await getBuildingBonusProductions(idVillage);
+                let bonusProduction = await getBuildingBonusProductions(idVillage);
                 villageProductions.productionWood = (baseWoodProd + (baseWoodProd*bonusProduction[0])) * config.SERVER_SPEED;
                 villageProductions.productionClay = (baseClayProd + (baseClayProd*bonusProduction[1])) * config.SERVER_SPEED;
                 villageProductions.productionIron = (baseIronProd + (baseIronProd*bonusProduction[2])) * config.SERVER_SPEED;

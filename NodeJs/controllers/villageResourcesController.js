@@ -40,10 +40,10 @@ exports.view = function (req, res) {
                 
 
                 villageResources.idVillage = idVillage;
-                villageResources.currentWood = newWood * config.SERVER_SPEED;
-                villageResources.currentClay = newClay * config.SERVER_SPEED;
-                villageResources.currentIron = newIron * config.SERVER_SPEED;
-                villageResources.currentCrop = newCrop * config.SERVER_SPEED;
+                villageResources.currentWood = newWood;
+                villageResources.currentClay = newClay;
+                villageResources.currentIron = newIron;
+                villageResources.currentCrop = newCrop;
                 villageResources.lastUpdate = currentTime;
                 
                 villageResources.save(function (err) {

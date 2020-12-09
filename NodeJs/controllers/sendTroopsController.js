@@ -1,7 +1,6 @@
 const path = require('path');
 const fetch = require('node-fetch');
 const sendTroopsModel = require('../models/sendTroopsModel');
-const troopInfoLookup = require('../infoTables/troopInfoLookup');
 var tools = require('../tools/tools');
 var config = require('../config.json');
 
@@ -20,17 +19,17 @@ exports.new = async function (req, res) {
     var userTribe = await tools.getTribeFromIdVillage(req.body.idVillageFrom);
     var taskType = req.body.sendType;
     if (!checkValidIdVillageTo(req.body.idVillageFrom,req.body.idVillageTo,res)) return;
-    if (!checkSentAmount(req,res)) return;
+    if (!checkSentAmount(req, res, userTribe)) return;
 
     (async () => {
-        if (!await updateVillageOwnTroops(req.body.idVillageFrom,req,res)) return;
+        if (!await updateVillageOwnTroops(req, res, userTribe)) return;
         switch (taskType) {
             case 'full':
             case 'raid':
             case 'reinf':
             case 'return':
             default: 
-                doSendTroops(req,res); 
+                doSendTroops(req, res, userTribe); 
                 break;
         }
     })();
@@ -83,9 +82,9 @@ function checkValidIdVillageTo(idVillage,idVillageTo,res){
     return true;
 }
 
-function checkSentAmount(req,res,userTribe){
+function checkSentAmount(req, res, userTribe){
     let totalTroops = 0;
-    for(let troop of troopInfoLookup[userTribe]){
+    for(let troop of tools.troopInfoLookup[userTribe]){
         totalTroops += req.body['troop' + troop['id'] + 'num'];
     }
     if(totalTroops <= 0){
@@ -98,10 +97,10 @@ function checkSentAmount(req,res,userTribe){
     return true; 
 }
 
-async function updateVillageOwnTroops(idVillage,req,res){
-    let villageOwnTroops = await(await(await tools.doApiRequest('villageOwnTroops/' + idVillage, 'GET', '', false)).json()).data;
+async function updateVillageOwnTroops(req, res, userTribe){
+    let villageOwnTroops = await(await(await tools.doApiRequest('villageOwnTroops/' + req.body.idVillageFrom, 'GET', '', false)).json()).data;
 
-    for(let troop of troopInfoLookup[userTribe]){
+    for(let troop of tools.troopInfoLookup[userTribe]){
         villageOwnTroops['troop' + troop['id']] -= Number(req.body['troop' + troop['id'] + 'num']);
         if(villageOwnTroops['troop' + troop['id']] < 0){
             res.json({
@@ -112,40 +111,43 @@ async function updateVillageOwnTroops(idVillage,req,res){
         }
     }
 
-    const villageOwnTroopsResponse = await tools.doApiRequest('villageOwnTroops/' + idVillage, 'PATCH', villageOwnTroops, true);
+    const villageOwnTroopsResponse = await tools.doApiRequest('villageOwnTroops/' + req.body.idVillageFrom, 'PATCH', villageOwnTroops, true);
     if (villageOwnTroopsResponse.status == 200){
         return true;
     }
     return false;
 }
 
-function calculateTroopArrival(idVillageToData,idVillageFromData){
+function calculateTroopArrival(req, idVillageToData, idVillageFromData, userTribe){
     const distance = Math.hypot(idVillageToData['xCoordinate']-idVillageFromData['xCoordinate'], idVillageToData['yCoordinate']-idVillageFromData['yCoordinate']);
     let troopSpeed = 99;
-    for(let troop of troopInfoLookup[userTribe]){
+    for(let troop of tools.troopInfoLookup[userTribe]){
         if(req.body['troop' + troop['id'] + 'num'] > 0){
             let tempSpeed = troop['speed'];
             if(tempSpeed < troopSpeed) troopSpeed = tempSpeed;
         }
     }
 
-    return (distance / troopSpeed * 3600) / config.TROOP_SPEED
+    console.log("distance", distance);
+    console.log("troopSpeed", troopSpeed);
+
+    return Number((distance / troopSpeed * 3600) / config.TROOP_SPEED)
 }
 
-async function doSendTroops(req,res){
+async function doSendTroops(req, res, userTribe){
     const currentUnixTime =  Math.round(new Date().getTime()/1000);
-    const idVillageFromData = await(await(await tools.doApiRequest('villageOwnTroops/' + idVillage, 'GET', '', false)).json()).data;
-    const idVillageToData   = await(await(await tools.doApiRequest('villageOwnTroops/' + idVillage, 'GET', '', false)).json()).data;
-    const timeArrived = calculateTroopArrival(idVillageToData,idVillageFromData)
+    const idVillageFromData = await(await(await tools.doApiRequest('villages/' + req.body.idVillageFrom, 'GET', '', false)).json()).data;
+    const idVillageToData   = await(await(await tools.doApiRequest('villages/' + req.body.idVillageTo, 'GET', '', false)).json()).data;
+    const timeArrived = currentUnixTime + calculateTroopArrival(req, idVillageToData, idVillageFromData, userTribe)
 
     let sendTroops = new sendTroopsModel();
-    sendTroops.sendType = taskType;
+    sendTroops.sendType = req.body.sendType;
     sendTroops.idVillageFrom = req.body.idVillageFrom;
     sendTroops.idVillageTo = req.body.idVillageTo;
     sendTroops.timeSent = currentUnixTime;
     sendTroops.timeArrived = timeArrived;
     sendTroops.troopTribe = userTribe;
-    for(let troop of troopInfoLookup[userTribe]){
+    for(let troop of tools.troopInfoLookup[userTribe]){
         sendTroops['troop' + troop['id'] + 'num'] = req.body['troop' + troop['id'] + 'num'];
     }
 
@@ -155,7 +157,7 @@ async function doSendTroops(req,res){
         }
         else{
             let scheduleData = {
-                'taskType': taskType,
+                'taskType': req.body.sendType,
                 'taskUnixTime': timeArrived,
                 'taskData': {
                     'sendTroopsId': sendTroopsId._id,
@@ -165,7 +167,7 @@ async function doSendTroops(req,res){
                 }
             };
 
-            for(let troop of troopInfoLookup[userTribe]){
+            for(let troop of tools.troopInfoLookup[userTribe]){
                 scheduleData['taskData']['troop' + troop['id'] + 'num'] = req.body['troop' + troop['id'] + 'num'];
             }
 

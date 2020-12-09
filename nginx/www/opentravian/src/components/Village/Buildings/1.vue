@@ -197,8 +197,9 @@ export default {
             setInterval( ()=> {
                 for(let i = 0; i < this.villageBarracksProductionsTimeLeft.length; i++){
                     this.$set(this.villageBarracksProductionsTimeLeft, i, this.villageBarracksProductionsTimeLeft[i] - 1);
-                    if(this.villageBarracksProductionsTimeLeft[i] < 0){
+                    if(this.villageBarracksProductionsTimeLeft[i] <= 0){
                         this.fetchVillageOwnTroops();
+                        this.fetchVillageBarracksProduction();
                     }
                 }
             }, 1000);

@@ -92,16 +92,17 @@ export default {
             }, 1000);
         },
         async cancelBuildingUpgrade(villageBuildingUpgrades){
-            const cancelBuildingUpgradesApiUrl = 'villageBuildingUpgrade/' + villageBuildingUpgrades[0]._id;
+            const cancelBuildingUpgradesApiUrl = 'cancelVillageBuildingUpgrade/' + villageBuildingUpgrades[0]._id;
             let cancelBuildingUpgradesJson = await(await this.doApiRequest(cancelBuildingUpgradesApiUrl, "DELETE","",false)).json();
 
             if(cancelBuildingUpgradesJson.status == "success"){
                 this.fetchVillageBuildingUpgrades();
                 this.fetchVillageResources();
+                this.fetchvillageBuildingFields();
             }
         },
         async cancelResFieldUpgrade(villageResFieldUpgrades){
-            const cancelResFieldUpgradesApiUrl = 'villageResFieldUpgrade/' + villageResFieldUpgrades[0]._id;
+            const cancelResFieldUpgradesApiUrl = 'cancelVillageResFieldUpgrade/' + villageResFieldUpgrades[0]._id;
             let cancelResFieldUpgradesJson = await(await this.doApiRequest(cancelResFieldUpgradesApiUrl, "DELETE","",false)).json();
 
             if(cancelResFieldUpgradesJson.status == "success"){

@@ -63,7 +63,7 @@ export default {
             }
             await this.doApiRequest("generateMapVillages","POST",villageData,true);
         },
-        async createNewUser(email,password,nickname,tribe,village){
+        async createNewUser(email, password, nickname, tribe, village){
             const currentUnixTime = Math.round(new Date().getTime()/1000);
             let villageBuildingFieldsData = {};
             let villageResFieldsData = {};
