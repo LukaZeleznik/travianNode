@@ -22,7 +22,7 @@ exports.new = function (req, res) {
     villageReinforcements.idVillageFrom = req.body.idVillageFrom;
     villageReinforcements.tribe = req.body.tribe;
     for(let troop in tools.troopInfoLookup[req.body.tribe]){
-        villageReinforcements['troop' + tools.troopInfoLookup[req.body.tribe][troop].id] = req.body['troop' + tools.troopInfoLookup[req.body.tribe][troop].id];
+        villageReinforcements['troop' + tools.troopInfoLookup[req.body.tribe][troop]['id']] = req.body['troop' + tools.troopInfoLookup[req.body.tribe][troop]['id']];
     }
 
     villageReinforcements.save(function (err) {
@@ -48,7 +48,7 @@ exports.update = function (req, res) {
         villageReinforcements.idVillageFrom = req.body.idVillageFrom;
         villageReinforcements.tribe = req.body.tribe;
         for(let troop in tools.troopInfoLookup[req.body.tribe]){
-            villageReinforcements['troop' + tools.troopInfoLookup[req.body.tribe][troop].id] = req.body['troop' + tools.troopInfoLookup[req.body.tribe][troop].id];
+            villageReinforcements['troop' + tools.troopInfoLookup[req.body.tribe][troop]['id']] = req.body['troop' + tools.troopInfoLookup[req.body.tribe][troop]['id']];
         }
 
         villageReinforcements.save(function (err) {

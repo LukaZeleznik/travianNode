@@ -3,6 +3,8 @@ const villageResourcesModel = require('../models/villageResourcesModel');
 const villageMaxResourcesModel = require('../models/villageMaxResourcesModel');
 const villageProductionsModel = require('../models/villageProductionsModel');
 const fetch = require("node-fetch");
+var tools = require('../tools/tools');
+var config = require('../config.json');
 
 exports.view = function (req, res) {
     villageResourcesModel.findOne({idVillage: req.params.idVillage}, function (err, villageResources) {
@@ -10,23 +12,22 @@ exports.view = function (req, res) {
             res.send(err);
         else{
             (async () => {                
-                let idVillage = req.params.idVillage;
+                const idVillage = req.params.idVillage;
+                const currentTime = Math.round(+new Date()/1000);
+                const timeDiff = (currentTime - villageResources.lastUpdate) / 3600;
 
-                let villageMaxRes = await(await(await fetch('http://localhost:8080/api/villageMaxResources/' + idVillage)).json()).data;
-                let villageProd = await(await(await fetch('http://localhost:8080/api/villageProductions/' + idVillage)).json()).data;
+                let villageMaxRes = await(await(await tools.doApiRequest("villageMaxResources/" + idVillage, "GET", "", false)).json()).data;
+                let villageProd = await(await(await tools.doApiRequest("villageProductions/" + idVillage, "GET", "", false)).json()).data;
                
-                let currentTime = Math.round(+new Date()/1000);
-                let timeDiff = (currentTime - villageResources.lastUpdate) / 3600;
-                
                 let newWood = villageResources.currentWood + (timeDiff * villageProd.productionWood);
                 let newClay = villageResources.currentClay + (timeDiff * villageProd.productionClay);
                 let newIron = villageResources.currentIron + (timeDiff * villageProd.productionIron);
                 let newCrop = villageResources.currentCrop + (timeDiff * villageProd.productionCrop);
 
                 if(villageResources.currentWood == newWood && villageResources.currentClay == newClay && 
-                    villageResources.currentIron == newIron && villageResources.currentCrop == newCrop){
+                   villageResources.currentIron == newIron && villageResources.currentCrop == newCrop){
                         res.json({
-                            message: 'VillageResources updated!',
+                            message: 'VillageResources not changed!',
                             data: villageResources
                         });
                         return;
@@ -38,16 +39,16 @@ exports.view = function (req, res) {
                 if (newCrop >= villageMaxRes.maxCrop){ newCrop = villageMaxRes.maxCrop }
                 
 
-                villageResources.idVillage = req.params.idVillage;
-                villageResources.currentWood = newWood;
-                villageResources.currentClay = newClay;
-                villageResources.currentIron = newIron;
-                villageResources.currentCrop = newCrop;
+                villageResources.idVillage = idVillage;
+                villageResources.currentWood = newWood * config.SERVER_SPEED;
+                villageResources.currentClay = newClay * config.SERVER_SPEED;
+                villageResources.currentIron = newIron * config.SERVER_SPEED;
+                villageResources.currentCrop = newCrop * config.SERVER_SPEED;
                 villageResources.lastUpdate = currentTime;
                 
-                villageResources.save(function (err2) {
-                    if (err2){
-                        res.json(err2);
+                villageResources.save(function (err) {
+                    if (err){
+                        res.json(err);
                     }
                     else{
                         res.json({
@@ -85,14 +86,12 @@ exports.new = function (req, res) {
 };
 
 exports.update = function (req, res) {
-    console.log('req.params', req.params);
     villageResourcesModel.findOne({idVillage: req.params.idVillage}, function (err, villageResources) {
         if (err){
             res.send(err);
             return;
         }
-        let currentTime = Math.round(+new Date()/1000);
-        console.log('villageResources', villageResources);
+        const currentTime = Math.round(+new Date()/1000);
 
         villageResources.idVillage = req.body.idVillage;
         villageResources.currentWood = req.body.currentWood;
@@ -101,9 +100,9 @@ exports.update = function (req, res) {
         villageResources.currentCrop = req.body.currentCrop;
         villageResources.lastUpdate = currentTime;
 
-        villageResources.save(function (err2) {
-            if (err2)
-                res.json(err2);
+        villageResources.save(function (err) {
+            if (err)
+                res.json(err);
             res.json({
                 message: 'villageResources Info updated',
                 data: villageResources

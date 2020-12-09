@@ -1,6 +1,8 @@
 const path = require('path');
 const fetch = require("node-fetch");
 const villageResFieldUpgradesModel = require('../models/villageResFieldUpgradesModel');
+var tools = require('../tools/tools');
+var config = require('../config.json');
 
 
 exports.view = function (req, res) {
@@ -26,37 +28,24 @@ exports.find = function (req, res) {
 };
 
 exports.new = async function (req, res) {
-    let resourceInfo = require('/home/node/app/infoTables/resourceInfoLookup.json');
-
     (async () => {
-        let idVillage = req.body.idVillage;
-        let resFieldId = req.body.rfid;
-        let currentUnixTime =  Math.round(new Date().getTime()/1000);
+        const idVillage = req.body.idVillage;
+        const resFieldId = req.body.rfid;
+        const currentUnixTime =  Math.round(new Date().getTime()/1000);
 
-        let villageResourcesApiUrl = 'http://localhost:8080/api/villageResources/' + idVillage;
-        let villageResources = await(await(await fetch(villageResourcesApiUrl)).json()).data;
+        let villageResources = await(await(await tools.doApiRequest("villageResources/" + idVillage, "GET", "", false)).json()).data;
+        let villageResourceFields = await(await(await tools.doApiRequest("villageResourceFields/" + idVillage, "GET", "", false)).json()).data;
 
-        let villageResourceFieldsApiUrl = 'http://localhost:8080/api/villageResourceFields/' + idVillage;
-        let villageResourceFields = await(await(await fetch(villageResourceFieldsApiUrl)).json()).data;
-        let villageResourceFieldLevel = Number(villageResourceFields["field"+resFieldId+"Level"]);
-        let villageResourceFieldType = Number(villageResourceFields["field"+resFieldId+"Type"]);
+        const villageResourceFieldLevel = Number(villageResourceFields["field"+resFieldId+"Level"]);
+        const villageResourceFieldType = Number(villageResourceFields["field"+resFieldId+"Type"]);
 
-        let villageResFieldUpgradesApiUrl = 'http://localhost:8080/api/villageResFieldUpgrades/' + idVillage;
-        let villageResFieldUpgradesCurrent = await(await(await fetch(villageResFieldUpgradesApiUrl)).json()).data;
+        let requirementWood = tools.resourceInfoLookup[villageResourceFieldType]["wood"][villageResourceFieldLevel+1];
+        let requirementClay = tools.resourceInfoLookup[villageResourceFieldType]["clay"][villageResourceFieldLevel+1];
+        let requirementIron = tools.resourceInfoLookup[villageResourceFieldType]["iron"][villageResourceFieldLevel+1];
+        let requirementCrop = tools.resourceInfoLookup[villageResourceFieldType]["crop"][villageResourceFieldLevel+1];
+        let requirementConstructionTime = Math.floor(Number(tools.resourceInfoLookup[villageResourceFieldType]["constructionTime"][villageResourceFieldLevel+1]) / config.SERVER_SPEED);
 
-        let requirementWood = resourceInfo[villageResourceFieldType]["wood"][villageResourceFieldLevel+1];
-        let requirementClay = resourceInfo[villageResourceFieldType]["clay"][villageResourceFieldLevel+1];
-        let requirementIron = resourceInfo[villageResourceFieldType]["iron"][villageResourceFieldLevel+1];
-        let requirementCrop = resourceInfo[villageResourceFieldType]["crop"][villageResourceFieldLevel+1];
-        let requirementConstructionTime = Math.floor(Number(resourceInfo[villageResourceFieldType]["constructionTime"][villageResourceFieldLevel+1])/100);
-
-        if(villageResFieldUpgradesCurrent.length > 0){
-            res.json({
-                message: 'Another resource field is being upgraded',
-                data: ""
-            });
-            return;
-        }
+        if(queueFull(idVillage,res)==true) return;
 
         if( villageResources.currentWood < requirementWood || villageResources.currentClay < requirementClay || 
             villageResources.currentIron < requirementIron || villageResources.currentCrop < requirementCrop ){
@@ -67,33 +56,17 @@ exports.new = async function (req, res) {
             return;
         }
 
-        console.log("enough resources");
-
         villageResources.currentWood -= requirementWood;
         villageResources.currentClay -= requirementClay;
         villageResources.currentIron -= requirementIron;
         villageResources.currentCrop -= requirementCrop;
         villageResources.lastUpdate = currentUnixTime;
 
-        await fetch(villageResourcesApiUrl, {
-            method: 'PATCH', // or 'PUT'
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(villageResources),
-        });
-
-        console.log("resources deducted");
-
-        let timeCompleted = currentUnixTime + requirementConstructionTime;
-
-        console.log("currentTime :" + currentUnixTime);
-        console.log("requirementConstructionTime :" + requirementConstructionTime);
-        console.log("timeCompleted :" + timeCompleted);
+        await tools.doApiRequest("villageResources/" + idVillage, "PATCH", villageResources, true);
         
         var villageResFieldUpgrades = new villageResFieldUpgradesModel();
-        villageResFieldUpgrades.idVillage = req.body.idVillage;
-        villageResFieldUpgrades.rfid = req.body.rfid;
+        villageResFieldUpgrades.idVillage = idVillage;
+        villageResFieldUpgrades.rfid = resFieldId;
         villageResFieldUpgrades.fieldType = villageResourceFieldType;
         villageResFieldUpgrades.fieldLevel = villageResourceFieldLevel;
         villageResFieldUpgrades.woodUsed = requirementWood;
@@ -101,7 +74,7 @@ exports.new = async function (req, res) {
         villageResFieldUpgrades.clayUsed = requirementClay;
         villageResFieldUpgrades.cropUsed = requirementCrop;
         villageResFieldUpgrades.timeStarted = currentUnixTime;
-        villageResFieldUpgrades.timeCompleted = timeCompleted;
+        villageResFieldUpgrades.timeCompleted = currentUnixTime + requirementConstructionTime;
 
         console.log("idVillage",idVillage);
 
@@ -110,7 +83,6 @@ exports.new = async function (req, res) {
                 res.json(err);
             }
             else{
-                let scheduleApiUrl = 'http://localhost:8080/api/schedule/';
                 let scheduleData = {
                     "taskType": "upgradeResField",
                     "taskUnixTime": timeCompleted,
@@ -120,16 +92,7 @@ exports.new = async function (req, res) {
                         "resFieldUpgradeId": villageResFieldUpgrade._id
                     }
                 };
-
-                await fetch(scheduleApiUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(scheduleData),
-                });
-
-                console.log("scheduled");
+                await tools.doApiRequest("schedule", "POST", scheduleData, true);
 
                 res.json({
                     message: 'villageResFieldUpgrade success',
@@ -178,7 +141,7 @@ exports.delete = async function (req, res) {
 };
 
 exports.cancel = async function (req, res) {
-    var upgradeData = await getUsedResources(req.params.upgradeId);
+    var upgradeData = await(await(await tools.doApiRequest("villageResFieldUpgrades/" + req.params.upgradeId, "GET", "", false)).json()).data;
 
     villageResFieldUpgradesModel.deleteOne({_id: req.params.upgradeId}, function (err, villageResFieldUpgrades) {
         if (err){
@@ -187,8 +150,7 @@ exports.cancel = async function (req, res) {
             (async () => {
                 
                 const currentUnixTime =  Math.round(new Date().getTime()/1000);
-                const villageResourcesApiUrl = 'http://localhost:8080/api/villageResources/' + upgradeData['idVillage'];
-                let villageResources = await(await(await fetch(villageResourcesApiUrl)).json()).data;
+                let villageResources = await(await(await tools.doApiRequest("villageResources/" + upgradeData['idVillage'], "GET", "", false)).json()).data;
 
                 villageResources.currentWood += upgradeData['woodUsed'];
                 villageResources.currentClay += upgradeData['clayUsed'];
@@ -196,11 +158,7 @@ exports.cancel = async function (req, res) {
                 villageResources.currentCrop += upgradeData['cropUsed'];
                 villageResources.lastUpdate = currentUnixTime;
 
-                await fetch(villageResourcesApiUrl, {
-                    method: 'PATCH',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(villageResources),
-                });
+                await tools.doApiRequest("villageResources/" + upgradeData['idVillage'], "PATCH", villageResources, true);
 
                 res.json({
                     status: "success",
@@ -217,9 +175,14 @@ exports.cancel = async function (req, res) {
     });
 };
 
-async function getUsedResources(upgradeId){
-    const villageResFieldUpgradesApiUrl = 'http://localhost:8080/api/villageResFieldUpgrade/' + upgradeId;
-    let villageResFieldUpgrades = await(await(await fetch(villageResFieldUpgradesApiUrl)).json()).data;
-
-    return villageResFieldUpgrades;
-}
+async function queueFull(idVillage,res){
+    let villageResFieldUpgradesCurrent = await(await(await tools.doApiRequest("villageResFieldUpgrades/" + idVillage, "GET", "", false)).json()).data;
+    if(villageResFieldUpgradesCurrent.length > 0){
+        res.json({
+            message: 'Another resource field is being upgraded',
+            data: ""
+        });
+        return true;
+    }
+    return false;
+};

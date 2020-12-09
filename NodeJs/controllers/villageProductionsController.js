@@ -24,13 +24,13 @@ exports.view = function (req, res) {
         }
         else{     
             (async () => {    
-                var idVillage = req.params.idVillage;
+                const idVillage = req.params.idVillage;
                 let baseWoodProd = 0;
                 let baseClayProd = 0;
                 let baseIronProd = 0;
                 let baseCropProd = 0;
 
-                var villageResourceFields = await(await(await tools.doApiRequest("villageResourceFields/" + idVillage, "GET", "", false)).json()).data;
+                const villageResourceFields = await(await(await tools.doApiRequest("villageResourceFields/" + idVillage, "GET", "", false)).json()).data;
 
                 for(let i = 1; i < 19; i++){
                     switch (villageResourceFields['field'+i+'Type']) {
