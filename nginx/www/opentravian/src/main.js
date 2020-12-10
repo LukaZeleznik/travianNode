@@ -92,7 +92,7 @@ const router = new VueRouter({
             component: VillageBuilding
         },
         {
-            path: '/sendTroops/:vid',
+            path: '/sendTroops/:tileid',
             name: 'sendTroops',
             component: SendTroops
         },

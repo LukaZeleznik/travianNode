@@ -38,9 +38,25 @@ exports.new = async function (req, res) {
         }
     }
 
-    if (villageBuildingLevel <= 0){
+    if(villageBuildingLevel >= 10){
+        var allowed = 1 + Math.floor((villageBuildingLevel - 10) / 5);
+    } else {
         res.json({
-            message: 'Building must be at least level 1',
+            message: 'Building must be at least level 10',
+            data: ""
+        });
+        return;
+    }
+
+    const existingTroops = await getExistingTroops(idVillage);
+    const trained = existingTroops[0] + (existingTroops[1] / 3);
+    const troop9avail = Math.floor(allowed - trained);
+    const troop10avail = Math.floor((allowed - trained) * 3);
+
+    if((req.body.troopId == 9  && req.body.troopCount > troop9avail) ||
+       (req.body.troopId == 10 && req.body.troopCount > troop10avail)){
+        res.json({
+            message: 'You can\'t train that many troops',
             data: ""
         });
         return;
@@ -140,3 +156,30 @@ exports.delete = function (req, res) {
         });
     });
 };
+
+async function getExistingTroops(idVillage){
+    let troop9 = 0;
+    let troop10 = 0;
+
+    const villageOwnTroops = await(await(await tools.doApiRequest("villageOwnTroops/" + idVillage,"GET", "", false)).json()).data
+    troop9 += villageOwnTroops['troop9'];
+    troop10 += villageOwnTroops['troop10'];
+
+    const palaceProductions = await(await(await tools.doApiRequest("palaceProductions/" + idVillage,"GET", "", false)).json()).data
+    palaceProductions.forEach(production =>{
+        if(production['troopId'] == 9) troop9 += production['troopCount'];
+        if(production['troopId'] == 10) troop10 += production['troopCount'];
+    });
+
+    // To be tested and check if it maybe picks up incomming attacks with such units
+    const sendTroops = await(await(await tools.doApiRequest("sendTroops/" + idVillage,"GET", "", false)).json()).data
+    sendTroops.forEach(troopMovement =>{
+        troop9 += troopMovement['troop9num'];
+        troop10 += troopMovement['troop10num'];
+    });
+
+    //TODO
+    //const villageReinforcements = await(await(await this.doApiRequest("villageReinforcements/" + idVillage,"GET", "", false)).json()).data
+
+    return [troop9, troop10];
+}

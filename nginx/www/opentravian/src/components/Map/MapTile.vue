@@ -3,6 +3,19 @@
         <div class="container mt-4">
             <div class="row">
                 <div class="col-md-8 col-sm-12 col-12">
+                    <div class="h2 text-center mb-5">
+                        <div class="h5">
+                            <div class="h3 mt-3 text-center">Field distribution:</div>
+                            <div class="text-center">
+                                <h5>
+                                    <img src="/images/resources/wood.gif" /> {{ fieldDistribution[0] }}  
+                                    <img src="/images/resources/clay.gif" /> {{ fieldDistribution[1] }}  
+                                    <img src="/images/resources/iron.gif" /> {{ fieldDistribution[2] }}  
+                                    <img src="/images/resources/crop.gif" /> {{ fieldDistribution[3] }}  
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
                     <div class="outerGrid">
                         <div class="grid">
                             <ul id="hexGrid" style="padding-left: 0px;">
@@ -45,19 +58,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="h5">
-                        <div class="h3 mt-3 text-center">Distribution:</div>
-                        <div class="text-center">
-                            <h5>
-                                <img src="/images/resources/wood.gif" /> {{ fieldDistribution[0] }}
-                                <img src="/images/resources/clay.gif" /> {{ fieldDistribution[1] }}
-                                <img src="/images/resources/iron.gif" /> {{ fieldDistribution[2] }}
-                                <img src="/images/resources/crop.gif" /> {{ fieldDistribution[3] }}
-                            </h5>
-                        </div>
-                    </div>
                     <div class="mt-3" v-if="villageData['_id'] != activeVillageId">
-                            <router-link class="btn btn-success" :to="{ path: '/sendTroops/' + $route.params.tileid }">Send troops</router-link>
+                            <router-link v-if="villageData['owner'] == '' && canSettle || villageData['owner'] != ''" class="btn btn-success" :to="{ path: '/sendTroops/' + $route.params.tileid }">Send troops</router-link>
+                            <button v-else class="btn btn-secondary" style="cursor: default">No available units</button>
                     </div>
                 </div>
             </div>
@@ -79,6 +82,7 @@ import { toolsMixins } from '@/mixins/toolsMixins'
                 userData: [],
                 villageData: [],
                 fieldDistribution: [0,0,0,0],
+                canSettle: false,
             };
         },
 
@@ -89,6 +93,7 @@ import { toolsMixins } from '@/mixins/toolsMixins'
 
         created(){
             this.getFieldData();
+            this.hasSettlers(this.activeVillageId);
         },
         methods: {
             async getFieldData(){
@@ -116,6 +121,10 @@ import { toolsMixins } from '@/mixins/toolsMixins'
                     this.userData = await(await(await this.doApiRequest("users/" + this.villageData.owner,"GET","",false)).json()).data;
                 }
             },  
+            async hasSettlers(idVillage){
+                const settlers = await(await(await this.doApiRequest("villageOwnTroops/" + idVillage,"GET", "", false)).json()).data['troop10'];
+                if(settlers >= 3) this.canSettle = true;
+            }
         }
 
     }

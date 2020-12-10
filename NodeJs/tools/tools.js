@@ -27,4 +27,8 @@ module.exports = {
         const userTribe = await(await(await this.doApiRequest("users/" + villageOwner, "GET", "", false)).json()).data.tribe;
         return userTribe;
     },
+    getVillageData: async function (idVillage){
+        const villageData = await(await(await this.doApiRequest("villages/" + idVillage, "GET", "", false)).json()).data;
+        return villageData;
+    },
 };

@@ -1,155 +1,75 @@
 <template>
-  <div>
+    <div>
     <div class="container mt-5">
-      <div class="justify-content-center text-center">
-          <h1> Send Troops to VillageName2 1/1</h1><br />
-          <br />
-          <table class="table table-bordered w-100 m-auto" v-if="!isMobile()">
-              <thead >
-                  <tr>
-                    <th scope="col">Clubswinger</th>
-                    <th scope="col">Spearman</th>
-                    <th scope="col">Axeman</th>
-                    <th scope="col">Scout</th>
-                    <th scope="col">Paladin</th>
-                    <th scope="col">Teutonic Knight</th>
-                    <th scope="col">Ram</th>
-                    <th scope="col">Catapult</th>
-                    <th scope="col">Chief</th>
-                    <th scope="col">Settler</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr v-if="villageOwnTroops.length > 0">
-                      <td class="align-middle" v-for="(villageOwnTroop, index) in villageOwnTroops" v-bind:key="index"> 
-                          <div class="input-group input-group-sm align-middle">
-                              <input :id="'troopInput'+index" type="number" class="form-control mr-2" min="0" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                              <a href="#" v-on:click="insertTroopData(index)" style="color:green"><strong>({{villageOwnTroop}})</strong></a>
-                          </div>
-                      </td>
-                  </tr>
-              </tbody>
-          </table>
-          <div v-else>
-            <table class="table table-bordered w-100 m-auto">
-                <thead>
-                    <tr>
-                      <th scope="col">Clubswinger</th>
-                      <th scope="col">Spearman</th>
-                      <th scope="col">Axeman</th>
-                      <th scope="col">Scout</th>
-                    </tr>
-                </thead>
+        <div class="justify-content-center text-center">
+            <h1 class="mb-5" v-if="villageData['owner'] == ''"> Settle new village at Abandoned valley 
+                {{ '(' + villageData['xCoordinate'] + '|' + villageData['yCoordinate'] + ')' }}
+            </h1>
+            <h1 class="mb-5" v-else> Send troops to  
+                {{ villageData['name'] }} 
+                {{ '(' + villageData['xCoordinate'] + '|' + villageData['yCoordinate'] + ')' }}
+            </h1>
+            <table class="table table-borderless">
                 <tbody>
                     <tr>
-                        <td class="align-middle">
-                            <div class="input-group input-group-sm align-middle">
-                                <input type="number" class="form-control mr-2" min="0" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                                <a href="#" style="color:green"><strong>({{villageOwnTroops[0]}})</strong></a>
+                        <th scope="row"></th>
+                        <div v-for="(troop, index) in troopInfoLookup[userTribe]" v-bind:key="index">
+                            <div v-if="troop['id'] == 1 || troop['id'] == 4 || troop['id'] == 7 || troop['id'] == 9">
+                                <td><img :src="'../images/troops/' + userTribe + '/' + troop['id'] +'.gif'"></td>
+                                <td>
+                                    <div class="input-group input-group-sm align-middle">
+                                        <input :disabled="villageData['owner'] == ''" type="number" class="form-control mr-2" min="0" aria-label="Small" :id="'troop' + troop['id']" aria-describedby="inputGroup-sizing-sm">
+                                        <a @click="insertTroops(troop['id']);"  href="#" style="color:green"><strong>(<span :id="'maxTroops' + troop['id']">{{ villageOwnTroops[index] }}</span>)</strong></a>
+                                    </div>
+                                </td>
                             </div>
-                        </td>
-                        <td class="align-middle">
-                            <div class="input-group input-group-sm align-middle">
-                                <input type="number" class="form-control mr-2" min="0" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                                <a href="#" style="color:green"><strong>({{villageOwnTroops[1]}})</strong></a>
+                        </div>
+                    </tr>
+                    <tr>
+                        <th scope="row"></th>
+                        <div v-for="(troop, index) in troopInfoLookup[userTribe]" v-bind:key="index">
+                            <div v-if="troop['id'] == 2 || troop['id'] == 5 || troop['id'] == 8 || troop['id'] == 10">
+                                <td><img :src="'../images/troops/' + userTribe + '/' + troop['id'] +'.gif'"></td>
+                                <td>
+                                    <div class="input-group input-group-sm align-middle">
+                                        <input :disabled="villageData['owner'] == '' && troop['id'] != 10" type="number" class="form-control mr-2" min="0" aria-label="Small" :id="'troop' + troop['id']" aria-describedby="inputGroup-sizing-sm">
+                                        <a @click="insertTroops(troop['id']);"  href="#" style="color:green"><strong>(<span :id="'maxTroops' + troop['id']">{{ villageOwnTroops[index] }}</span>)</strong></a>
+                                    </div>
+                                </td>
                             </div>
-                        </td>
-                        <td class="align-middle">
-                            <div class="input-group input-group-sm align-middle">
-                                <input type="number" class="form-control mr-2" min="0" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                                <a href="#" style="color:green"><strong>({{villageOwnTroops[2]}})</strong></a>
+                        </div>
+                    </tr>
+                    <tr>
+                        <th scope="row"></th>
+                        <div v-for="(troop, index) in troopInfoLookup[userTribe]" v-bind:key="index">
+                            <div v-if="troop['id'] == 3 || troop['id'] == 6">
+                                <td><img :src="'../images/troops/' + userTribe + '/' + troop['id'] +'.gif'"></td>
+                                <td>
+                                    <div class="input-group input-group-sm align-middle">
+                                        <input :disabled="villageData['owner'] == ''" type="number" class="form-control mr-2" min="0" aria-label="Small" :id="'troop' + troop['id']" aria-describedby="inputGroup-sizing-sm">
+                                        <a @click="insertTroops(troop['id']);"  href="#" style="color:green"><strong>(<span :id="'maxTroops' + troop['id']">{{ villageOwnTroops[index] }}</span>)</strong></a>
+                                    </div>
+                                </td>
                             </div>
-                        </td>
-                        <td class="align-middle">
-                            <div class="input-group input-group-sm align-middle">
-                                <input type="number" class="form-control mr-2" min="0" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                                <a href="#" style="color:green"><strong>({{villageOwnTroops[3]}})</strong></a>
-                            </div>
-                        </td>
+                        </div>
                     </tr>
                 </tbody>
             </table>
-            <table class="table table-bordered w-100 m-auto">
-                <thead>
-                    <tr>
-                      <th scope="col">Paladin</th>
-                      <th scope="col">Teutonic Knight</th>
-                      <th scope="col">Ram</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="align-middle">
-                            <div class="input-group input-group-sm align-middle">
-                                <input type="number" class="form-control mr-2" min="0" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                                <a href="#" style="color:green"><strong>({{villageOwnTroops[4]}})</strong></a>
-                            </div>
-                        </td>
-                        <td class="align-middle">
-                            <div class="input-group input-group-sm align-middle">
-                                <input type="number" class="form-control mr-2" min="0" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                                <a href="#" style="color:green"><strong>({{villageOwnTroops[5]}})</strong></a>
-                            </div>
-                        </td>
-                        <td class="align-middle">
-                            <div class="input-group input-group-sm align-middle">
-                                <input type="number" class="form-control mr-2" min="0" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                                <a href="#" style="color:green"><strong>({{villageOwnTroops[6]}})</strong></a>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <table class="table table-bordered w-100 m-auto">
-                <thead>
-                    <tr>
-                      <th scope="col">Catapult</th>
-                      <th scope="col">Chief</th>
-                      <th scope="col">Settler</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="align-middle">
-                            <div class="input-group input-group-sm align-middle">
-                                <input type="number" class="form-control mr-2" min="0" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                                <a href="#" style="color:green"><strong>({{villageOwnTroops[7]}})</strong></a>
-                            </div>
-                        </td>
-                        <td class="align-middle">
-                            <div class="input-group input-group-sm align-middle">
-                                <input type="number" class="form-control mr-2" min="0" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                                <a href="#" style="color:green"><strong>({{villageOwnTroops[8]}})</strong></a>
-                            </div>
-                        </td>
-                        <td class="align-middle">
-                            <div class="input-group input-group-sm align-middle">
-                                <input type="number" class="form-control mr-2" min="0" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                                <a href="#" style="color:green"><strong>({{villageOwnTroops[9]}})</strong></a>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-          </div>
-          <div class="dropdown mt-3 w-100">
-              <button class="btn btn-danger dropdown-toggle w-50" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Full Attack
-              </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <!--<a class="dropdown-item" id="ddItem1" href="#">Reinforcement</a>-->
-                  <a class="dropdown-item" id="ddItem2" href="#">Full Attack</a>
-                  <!--<a class="dropdown-item" id="ddItem3" href="#">Raid Attack</a>-->
-              </div>                    
-              <div class="btn-group w-50" role="group" aria-label="Train">
-                  <button type="button" class="btn btn-success w-75 m-auto" id="sendType" @click="sendTroops()">Full Attack</button>
-              </div>
-          </div>
-          <h5 class="mt-4 text-danger" id="errorMessage">
-          </h5>
-      </div>
+        </div>
+        <div class="mt-3 w-50 ml-5">
+            <div v-if="villageData['owner'] == ''"><input :checked="villageData['owner'] == ''" type="radio" id="sendTroops" name="attackType" value="settle"> <label>Settle new village</label><br></div>
+            <input type="radio" id="sendTroops" name="attackType" value="reinf" :disabled="villageData['owner'] == ''"> <label>Reinforcement</label><br>
+            <input type="radio" id="sendTroops" name="attackType" value="full" :disabled="villageData['owner'] == ''" :checked="villageData['owner'] != ''"> <label>Attack: Full</label><br>
+            <input type="radio" id="sendTroops" name="attackType" value="raid" :disabled="villageData['owner'] == ''"> <label>Attack: Raid</label>
+
+            <div class="btn-group w-20 pl-2 ml-5" role="group" aria-label="Train">
+                <button type="button" class="btn btn-success" id="sendType" @click="sendTroops()">Send</button>
+            </div>
+        </div>
+        <h5 class="mt-4 text-danger" id="errorMessage">
+        </h5>
+        </div>
     </div>
-  </div>
 </template>
 
 
@@ -159,97 +79,75 @@ import { toolsMixins } from '@/mixins/toolsMixins'
 
 
 export default {
-  data() {
-    return {
-      villageOwnTroops : []
-    };
-  },
-
-  mixins: [fetchMixins,toolsMixins],
-
-  created() {
-    this.fetchVillageOwnTroops();
-  },
-
-  methods: {
-    async sendTroops(){
-
-      let idVillageFrom = this.activeVillageId;
-      let idVillageTo = await this.mapTileIdToIdVillage(this.$route.params.vid);
-
-      if(idVillageFrom == idVillageTo){
-        document.querySelector("#errorMessage").innerText = "Cannot send troops to the same village";
-        return false;
-      }
-
-      console.log("idVillageFrom", idVillageFrom);
-      console.log("idVillageTo", idVillageTo);
-
-      let sendTroopsData = {
-        "sendType": "full",
-        "idVillageFrom": idVillageFrom,
-        "idVillageTo": idVillageTo,
-        "troopTribe": "teuton",
-        "troop1num": 0,
-        "troop2num": 0,
-        "troop3num": 0,
-        "troop4num": 0,
-        "troop5num": 0,
-        "troop6num": 0,
-        "troop7num": 0,
-        "troop8num": 0,
-        "troop9num": 0,
-        "troop10num": 0
-      }
-
-      let inputs = document.querySelectorAll("input[type=number]");
-
-      for(let i = 1; i < 11; i++){
-        if(inputs[i-1].value == "" || inputs[i-1].value < 0){ inputs[i-1].value = 0 }
-        sendTroopsData["troop"+i+"num"] = inputs[i-1].value;
-      }
-
-      console.log(sendTroopsData);
-
-
-      let sendTroopsResponse = await fetch('http://localhost:8080/api/sendTroops', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(sendTroopsData),
-      });
-
-      let sendTroopsDataJson = await sendTroopsResponse.json();
-
-      console.log(sendTroopsDataJson);
-
-      if(sendTroopsDataJson.message == "sendTroops success"){
-        this.fetchVillageTroopMovements();
-        this.$router.push({ name: 'resources' });
-      }
-      else{
-        document.getElementById("errorMessage").innerText = sendTroopsDataJson.message;
-      }
+    data() {
+        return {
+            villageOwnTroops : [],
+            villageData: [],
+            userTribe: undefined,
+        };
     },
-    fetchVillageOwnTroops(){
-      this.villageOwnTroops = this.$store.getters.getVillageOwnTroops;
 
-      this.$store.dispatch('fetchVillageOwnTroops')
-      .then( () => {
-        this.villageOwnTroops = this.$store.getters.getVillageOwnTroops;
-      });
+    mixins: [fetchMixins,toolsMixins],
+
+    created() {
+        this.getVillageFromData();
+        this.getVillageToData();
+        this.fetchVillageOwnTroops();
     },
-    isMobile() {
-      if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        return true;
-      }
-      return false;
-    },
-    insertTroopData(index){
-        document.querySelector("#troopInput"+index).value = this.villageOwnTroops[index];
+
+    methods: {
+        async getVillageToData(){
+            this.villageData = await(await(await this.doApiRequest("villages/" + this.$route.params.tileid,"GET","",false)).json()).data;
+        },          
+        async getVillageFromData(){
+            this.userTribe = await this.getTribeFromIdVillage(this.activeVillageId);
+        },
+        insertTroops(id){    
+            if (this.villageData['owner'] == '' && id != 10) return;    
+            document.getElementById("troop"+id).value = document.getElementById("maxTroops"+id).innerHTML;
+        },
+        async sendTroops(){
+            const idVillageFrom = this.activeVillageId;
+            const idVillageTo = await this.mapTileIdToIdVillage(this.$route.params.tileid);
+            const attackType = document.querySelector('input[name="attackType"]:checked').value;
+
+            if(idVillageFrom == idVillageTo){
+                document.querySelector("#errorMessage").innerText = "Cannot send troops to the same village";
+                return false;
+            }
+
+            let sendTroopsData = {
+                "sendType": attackType,
+                "idVillageFrom": idVillageFrom,
+                "idVillageTo": idVillageTo,
+                "troopTribe": this.userTribe,
+            }
+
+            for(let i = 1; i < 11; i++){
+                let inputValue = document.querySelector('#troop' + i).value;
+                if (inputValue == '' || inputValue < 0){ inputValue = 0 }
+                sendTroopsData['troop' + i + 'num'] = inputValue;
+            }
+
+            const sendTroopsDataJson = await(await this.doApiRequest('sendTroops', 'POST', sendTroopsData, true)).json();
+
+            if(sendTroopsDataJson.message == "sendTroops success"){
+                this.fetchVillageTroopMovements();
+                this.$router.push({ name: 'resources' });
+            }
+            else{
+                document.getElementById("errorMessage").innerText = sendTroopsDataJson.message;
+            }
+        },
+        /*
+        isMobile() {
+            if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            return true;
+            }
+            return false;
+        },
+        */
     }
-  }
 }
 </script>
 

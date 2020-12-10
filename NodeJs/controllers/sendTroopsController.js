@@ -16,10 +16,11 @@ exports.view = function (req, res) {
 };
 
 exports.new = async function (req, res) {
+    var villageToData = await tools.getVillageData(req.body.idVillageTo);
     var userTribe = await tools.getTribeFromIdVillage(req.body.idVillageFrom);
     var taskType = req.body.sendType;
-    if (!checkValidIdVillageTo(req.body.idVillageFrom,req.body.idVillageTo,res)) return;
-    if (!checkSentAmount(req, res, userTribe)) return;
+    if (!checkValidIdVillageTo(req, res)) return;
+    if (!checkSentAmount(req, res, userTribe, villageToData)) return;
 
     (async () => {
         if (!await updateVillageOwnTroops(req, res, userTribe)) return;
@@ -28,6 +29,7 @@ exports.new = async function (req, res) {
             case 'raid':
             case 'reinf':
             case 'return':
+            case 'settle':
             default: 
                 doSendTroops(req, res, userTribe); 
                 break;
@@ -71,8 +73,8 @@ exports.delete = function (req, res) {
     });
 };
 
-function checkValidIdVillageTo(idVillage,idVillageTo,res){
-    if(idVillage == idVillageTo){
+function checkValidIdVillageTo(req, res){
+    if (req.body.idVillageFrom == req.body.idVillageTo){
         res.json({
             message: 'Cannot send troops to the same village',
             data: ''
@@ -82,7 +84,7 @@ function checkValidIdVillageTo(idVillage,idVillageTo,res){
     return true;
 }
 
-function checkSentAmount(req, res, userTribe){
+function checkSentAmount(req, res, userTribe, villageToData){
     let totalTroops = 0;
     for(let troop of tools.troopInfoLookup[userTribe]){
         totalTroops += req.body['troop' + troop['id'] + 'num'];
@@ -93,6 +95,25 @@ function checkSentAmount(req, res, userTribe){
             data: ''
         });
         return false;
+    }
+    if (villageToData['owner'] == '') {
+        for (let troop of tools.troopInfoLookup[userTribe]){
+            if (troop['id'] != 10 && req.body['troop' + troop['id'] + 'num'] > 0){
+                res.json({
+                    message: 'Invalid troops selected',
+                    data: ''
+                });
+                return false;
+            } 
+            if (req.body['troop' + troop['id'] + 'num'] != 3 && troop['id'] == 10){
+                console.log(req.body['troop' + troop['id'] + 'num'], troop['id'])
+                res.json({
+                    message: 'Three settlers are required',
+                    data: ''
+                });
+                return false;
+            } 
+        }
     }
     return true; 
 }

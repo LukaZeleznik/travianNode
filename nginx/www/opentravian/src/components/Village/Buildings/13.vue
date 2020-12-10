@@ -27,7 +27,7 @@
                         </div>
                     </td>
                     <td class="align-middle">
-                        <a @click="insertTroops(troop['id']);" href="#" style="color:green" v-if="villageResources"><strong>(<span :id="'maxTroops' + troop['id']">{{ calculateMaxTroops(troop) > troop['availableQty'] ? troop['availableQty'] : calculateMaxTroops(troop) }}</span>)</strong></a>
+                        <a @click="insertTroops(troop['id']);" href="#" style="color:green" v-if="villageResources"><strong>(<span :id="'maxTroops' + troop['id']">{{ calculateMaxTroops(troop) >= troop['availableQty'] ? troop['availableQty'] : calculateMaxTroops(troop) }}</span>)</strong></a>
                     </td>
                 </tr>
 
@@ -117,7 +117,7 @@ export default {
 
     created() {
         this.fetchVillageOwnTroops();
-        this.getResearchedTroops();
+        this.getAvailableTroops();
         this.startCountdownInterval();
         this.fetchVillagePalaceProduction();
     },
@@ -139,55 +139,38 @@ export default {
                 }
             });
         },
-        insertTroops(id){        
-            console.log(document.getElementById("maxTroops"+id).innerHTML);
-            document.getElementById("troop"+id).value = document.getElementById("maxTroops"+id).innerHTML;
+        insertTroops(id){ 
+            if (document.getElementById("troop"+id).value > 0){
+                document.getElementById("troop"+id).value = document.getElementById("maxTroops"+id).innerHTML;
+            }      
         },
-        async getResearchedTroops(){
-            this.researchedTroops = [];
-            const troopInfoLookup = this.troopInfoLookup;
-            const villageBuildingType = this.$parent.villageBuildingType;
-            const troopsAvailable = await this.checkTroopRequirement();
-            let researchedTroops = this.researchedTroops;
-
+        async getAvailableTroops(){
+            var researchedTroops = [];
+            const troopsAvailable = await this.getMaxAvailableTroops();
             this.userTribe = await this.getTribeFromIdVillage(this.activeVillageId);
 
-            Object.keys(troopInfoLookup).forEach((tribe) => {
-                console.log(tribe,this.userTribe);
-                if(tribe == this.userTribe){
-                    Object.keys(troopInfoLookup[tribe]).forEach(async function(troop){
-                        if(troopInfoLookup[tribe][troop]['buildingId'] == villageBuildingType){
-                            if(troopInfoLookup[tribe][troop]['id'] == 9 && troopsAvailable[0] >= 1){
-                                researchedTroops.push(troopInfoLookup[tribe][troop]);
-                            } else if(troopInfoLookup[tribe][troop]['id'] == 10 && troopsAvailable[1] >= 1){
-                                researchedTroops.push(troopInfoLookup[tribe][troop]);
-                            }
-                        }
-                    });
+            for(let troop of this.troopInfoLookup[this.userTribe]){
+                if(troop['buildingId'] == this.$parent.villageBuildingType){
+                    if(troop['id'] == 9 && troopsAvailable[0] >= 1){
+                        troop['availableQty'] = troopsAvailable[0];
+                        researchedTroops.push(troop);
+                    } else if(troop['id'] == 10 && troopsAvailable[1] >= 1){
+                        troop['availableQty'] = troopsAvailable[1];
+                        researchedTroops.push(troop);
+                    }
                 }
-            });
-            for(const [index, troop] of researchedTroops.entries()) {
-                if(troop['id'] == 9) researchedTroops[index]['availableQty'] = troopsAvailable[0];
-                if(troop['id'] == 10) researchedTroops[index]['availableQty'] = troopsAvailable[1];
             }
             this.researchedTroops = researchedTroops;
-            console.log( this.researchedTroops );
-
         },
-        async checkTroopRequirement(){
-            let allowed = 0;
+        async getMaxAvailableTroops(){
             if(this.$parent.villageBuildingLevel >= 10){
-                allowed++;
-                const level = this.$parent.villageBuildingLevel-10;
-                allowed += Math.floor(level/5);
-                console.log(allowed);
+                var allowed = 1 + Math.floor((this.$parent.villageBuildingLevel - 10) / 5);
             }
             const existingTroops = await this.getExistingTroops();
+            const trained = existingTroops[0] + (existingTroops[1] / 3);
+            const troop9avail = Math.floor(allowed - trained);
+            const troop10avail = Math.floor((allowed - trained) * 3);
 
-            allowed -= existingTroops[0];
-            let troop9avail = allowed;
-            let troop10avail = (allowed - existingTroops[1]) * 3;
-            
             return [troop9avail,troop10avail];
         },
         async getExistingTroops(){
@@ -240,7 +223,7 @@ export default {
                 this.fetchVillageOwnTroops();
                 this.fetchVillageResources();
                 this.fetchVillagePalaceProduction();
-                this.getResearchedTroops();
+                this.getAvailableTroops();
             }
             else{
                 document.getElementById("errorMessage").innerText = palaceProductionsResponse.message;

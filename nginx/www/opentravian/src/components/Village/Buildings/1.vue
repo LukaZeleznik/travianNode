@@ -143,7 +143,6 @@ export default {
             });
         },
         insertTroops(id){        
-            console.log(document.getElementById("maxTroops"+id).innerHTML);
             document.getElementById("troop"+id).value = document.getElementById("maxTroops"+id).innerHTML;
         },
         getResearchedTroops(){
