@@ -60,5 +60,10 @@ export const toolsMixins = {
             this.villageName = await(await(await this.doApiRequest("/villages/" + localStorage.getItem('activeVillageId'),"GET","",false)).json()).data.name;
             this.$store.commit('setActiveVillageName', this.villageName);
         },
+        async getTribeFromIdVillage(idVillage){
+            const villageOwner = await(await(await this.doApiRequest("villages/" + idVillage, "GET", "", false)).json()).data.owner;
+            const userTribe = await(await(await this.doApiRequest("users/" + villageOwner, "GET", "", false)).json()).data.tribe;
+            return userTribe;
+        },
     }
 }

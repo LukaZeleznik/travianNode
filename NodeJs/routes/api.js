@@ -16,6 +16,7 @@ const villageReinforcementsController = require('../controllers/villageReinforce
 const sendTroopsController = require('../controllers/sendTroopsController');
 const barracksProductionsController = require('../controllers/barracksProductionsController');
 const stableProductionsController = require('../controllers/stableProductionsController');
+const palaceProductionsController = require('../controllers/palaceProductionsController');
 const userController = require('../controllers/userController');
 const villageController = require('../controllers/villageController');
 const villageBuildingFieldsController = require('../controllers/villageBuildingFieldsController');
@@ -217,10 +218,19 @@ router.route('/stableProductions')
     .post(stableProductionsController.new);
 router.route('/stableProductions/:idVillage')
     .get(stableProductionsController.view);
-router.route('/stableProductions/:barrProdId')
+router.route('/stableProductions/:stableProdId')
     .put(stableProductionsController.update)
     .patch(stableProductionsController.update)
     .delete(stableProductionsController.delete);
+
+router.route('/palaceProductions')
+    .post(palaceProductionsController.new);
+router.route('/palaceProductions/:idVillage')
+    .get(palaceProductionsController.view);
+router.route('/palaceProductions/:palaceProdId')
+    .put(palaceProductionsController.update)
+    .patch(palaceProductionsController.update)
+    .delete(palaceProductionsController.delete);
 
 router.route('/users')
     .post(userController.new)

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <table class="table table-bordered m-auto">
+        <table class="table table-bordered m-auto" v-if="$parent.villageBuildingLevel > 0">
             <thead>
                 <tr>
                 <th scope="col">Name</th>
@@ -18,7 +18,7 @@
                             <img src="/images/resources/iron.gif">  {{ troop['iron'] }} |
                             <img src="/images/resources/crop.gif">  {{ troop['crop'] }} |
                             <img src="/images/consum.gif">          {{ troop['consumption'] }} |
-                            <img src="/images/clock.gif">           {{ secondsToTimeRemaining(calculateTroopTrainingTime(troop['time'] / config.SERVER_SPEED)) }}
+                            <img src="/images/clock.gif">           {{ secondsToTimeRemaining(calculateTroopTrainingTime(troop['time'])) }}
                         </span>
                     </th>
                     <td class="align-middle">
@@ -27,17 +27,17 @@
                         </div>
                     </td>
                     <td class="align-middle">
-                        <a @click="insertTroops(troop['id']);" href="#" style="color:green" v-if="villageResources"><strong>(<span :id="'maxTroops' + troop['id']">{{ calculateMaxTroops(troop) }}</span>)</strong></a>
+                        <a @click="insertTroops(troop['id']);" href="#" style="color:green" v-if="villageResources"><strong>(<span :id="'maxTroops' + troop['id']">{{ calculateMaxTroops(troop) > troop['availableQty'] ? troop['availableQty'] : calculateMaxTroops(troop) }}</span>)</strong></a>
                     </td>
                 </tr>
 
             </tbody>
         </table>
-        <div class="btn-group my-4 w-100" role="group" aria-label="Train">
+        <div class="btn-group my-4 w-100" role="group" aria-label="Train" v-if="$parent.villageBuildingLevel > 0">
             <button type="button" class="btn btn-success m-auto mt-3" @click="train();">Train</button>
         </div>
         <h5 class="mt-4 text-danger" id="errorMessage"></h5>                
-        <table class="table table-bordered m-auto" v-if="villageStableProductions && villageStableProductions.length > 0">
+        <table class="table table-bordered m-auto" v-if="villagePalaceProductions && villagePalaceProductions.length > 0">
             <thead >
                 <tr>
                     <th scope="col">Training</th>
@@ -46,18 +46,18 @@
                 </tr>
             </thead>
             <tbody>
-                <tr  v-for="(villageStableProduction, index) in villageStableProductions" :key="index">
+                <tr  v-for="(villagePalaceProduction, index) in villagePalaceProductions" :key="index">
                     <th scope="row" class="align-middle">
-                        <img :src="'/images/troops/' + userTribe + '/' + (villageStableProduction.troopId) + '.gif'">{{
-                            Math.ceil(villageStableProduction.troopCount - villageStableProduction.troopsDoneAlready)
-                            }} {{villageStableProduction.troopName}}
+                        <img :src="'/images/troops/' + userTribe + '/' + (villagePalaceProduction.troopId) + '.gif'">{{
+                            Math.ceil(villagePalaceProduction.troopCount - villagePalaceProduction.troopsDoneAlready)
+                            }} {{villagePalaceProduction.troopName}}
                         <br />
                     </th>
                     <td class="align-middle">
-                        <span class="trainCD">{{ secondsToTimeRemaining(villageStableProductionsTimeLeft[index]*1000) }}</span>
+                        <span class="trainCD">{{ secondsToTimeRemaining(villagePalaceProductionsTimeLeft[index]*1000) }}</span>
                     </td>
                     <td class="align-middle">
-                        {{ secondsToTimeCompleted(villageStableProduction.timeCompleted*1000) }}
+                        {{ secondsToTimeCompleted(villagePalaceProduction.timeCompleted*1000) }}
                     </td>
                 </tr>
             </tbody>
@@ -90,24 +90,24 @@
 <script>
 import { fetchMixins } from '@/mixins/fetchMixins'
 import { hasMixins } from '@/mixins/hasMixins'
-
 import { upgradeMixins } from '@/mixins/upgradeMixins'
 import { toolsMixins } from '@/mixins/toolsMixins'
 
 export default {
     data() {
         return {
-            villageStableProductions: undefined,
-            villageStableProductionsTimeLeft: [],
+            villagePalaceProductions: undefined,
+            villagePalaceProductionsTimeLeft: [],
             researchedTroops: [],
-            userTribe: "teuton",
+            troop9avail: 0,
+            troop10avail: 0,
+            userTribe: 0,
         };
     },
 
     mixins: [
         fetchMixins,
         hasMixins,
-        
         upgradeMixins,
         toolsMixins
         ],
@@ -119,22 +119,23 @@ export default {
         this.fetchVillageOwnTroops();
         this.getResearchedTroops();
         this.startCountdownInterval();
+        this.fetchVillagePalaceProduction();
     },
 
     methods: {
-        fetchVillageStableProduction(){
-            this.villageStableProductions = this.$store.getters.getVillageStableProduction;
-            this.villageStableProductionsTimeLeft = [];
-            for(let i = 0; i < this.villageStableProductions.length; i++){
-                this.villageStableProductionsTimeLeft[i] = this.villageStableProductions[i].timeCompleted - Math.floor(new Date().getTime()/1000);
+        fetchVillagePalaceProduction(){
+            this.villagePalaceProductions = this.$store.getters.getVillagePalaceProduction;
+            this.villagePalaceProductionsTimeLeft = [];
+            for(let i = 0; i < this.villagePalaceProductions.length; i++){
+                this.villagePalaceProductionsTimeLeft[i] = this.villagePalaceProductions[i].timeCompleted - Math.floor(new Date().getTime()/1000);
             }
 
-            this.$store.dispatch('fetchVillageStableProduction')
+            this.$store.dispatch('fetchVillagePalaceProduction')
             .then( () => {
-                this.villageStableProductions = this.$store.getters.getVillageStableProduction;
-                this.villageStableProductionsTimeLeft = [];
-                for(let i = 0; i < this.villageStableProductions.length; i++){
-                    this.villageStableProductionsTimeLeft[i] = this.villageStableProductions[i].timeCompleted - Math.floor(new Date().getTime()/1000);
+                this.villagePalaceProductions = this.$store.getters.getVillagePalaceProduction;
+                this.villagePalaceProductionsTimeLeft = [];
+                for(let i = 0; i < this.villagePalaceProductions.length; i++){
+                    this.villagePalaceProductionsTimeLeft[i] = this.villagePalaceProductions[i].timeCompleted - Math.floor(new Date().getTime()/1000);
                 }
             });
         },
@@ -142,38 +143,78 @@ export default {
             console.log(document.getElementById("maxTroops"+id).innerHTML);
             document.getElementById("troop"+id).value = document.getElementById("maxTroops"+id).innerHTML;
         },
-        getResearchedTroops(){
-            Object.keys(this.troopInfoLookup).forEach((tribe) => {
+        async getResearchedTroops(){
+            this.researchedTroops = [];
+            const troopInfoLookup = this.troopInfoLookup;
+            const villageBuildingType = this.$parent.villageBuildingType;
+            const troopsAvailable = await this.checkTroopRequirement();
+            let researchedTroops = this.researchedTroops;
+
+            this.userTribe = await this.getTribeFromIdVillage(this.activeVillageId);
+
+            Object.keys(troopInfoLookup).forEach((tribe) => {
+                console.log(tribe,this.userTribe);
                 if(tribe == this.userTribe){
-                    Object.keys(this.troopInfoLookup[tribe]).forEach( (troop) =>{
-                        if(this.troopInfoLookup[tribe][troop]['buildingId'] == this.$parent.villageBuildingType){
-                            //this.checkTroopRequirement(this.troopInfoLookup[tribe][troop])
-                            this.researchedTroops.push(this.troopInfoLookup[tribe][troop]);
+                    Object.keys(troopInfoLookup[tribe]).forEach(async function(troop){
+                        if(troopInfoLookup[tribe][troop]['buildingId'] == villageBuildingType){
+                            if(troopInfoLookup[tribe][troop]['id'] == 9 && troopsAvailable[0] >= 1){
+                                researchedTroops.push(troopInfoLookup[tribe][troop]);
+                            } else if(troopInfoLookup[tribe][troop]['id'] == 10 && troopsAvailable[1] >= 1){
+                                researchedTroops.push(troopInfoLookup[tribe][troop]);
+                            }
                         }
                     });
                 }
             });
-        },
-        checkTroopRequirement(troop){
-            let allowed = 0;
-            let level = 0;
-            if(troop['id'] == 9){ // CHIEF/SENATOR/CHIEFTAIN
-               if(this.$parent.villageBuildingLevel >= 10){
-                   allowed++;
-                   level = this.$parent.villageBuildingLevel-10;
-                   allowed += Math.floor(level/5) - this.existingTroops(troop['id']);
-                   console.log(allowed)
-               }
-            
-                //if(this.villageTroopCount(troop['id']) >)
-
-            } else if(troop['id'] == 10){ // SETTLER
-
+            for(const [index, troop] of researchedTroops.entries()) {
+                if(troop['id'] == 9) researchedTroops[index]['availableQty'] = troopsAvailable[0];
+                if(troop['id'] == 10) researchedTroops[index]['availableQty'] = troopsAvailable[1];
             }
-            //this.researchedTroops.push(this.troopInfoLookup[tribe][troop]);
+            this.researchedTroops = researchedTroops;
+            console.log( this.researchedTroops );
+
         },
-        existingTroops(){
-            return 0;
+        async checkTroopRequirement(){
+            let allowed = 0;
+            if(this.$parent.villageBuildingLevel >= 10){
+                allowed++;
+                const level = this.$parent.villageBuildingLevel-10;
+                allowed += Math.floor(level/5);
+                console.log(allowed);
+            }
+            const existingTroops = await this.getExistingTroops();
+
+            allowed -= existingTroops[0];
+            let troop9avail = allowed;
+            let troop10avail = (allowed - existingTroops[1]) * 3;
+            
+            return [troop9avail,troop10avail];
+        },
+        async getExistingTroops(){
+            let troop9 = 0;
+            let troop10 = 0;
+
+            const villageOwnTroops = await(await(await this.doApiRequest("villageOwnTroops/" + this.activeVillageId,"GET", "", false)).json()).data
+            troop9 += villageOwnTroops['troop9'];
+            troop10 += villageOwnTroops['troop10'];
+
+            const palaceProductions = await(await(await this.doApiRequest("palaceProductions/" + this.activeVillageId,"GET", "", false)).json()).data
+            palaceProductions.forEach(production =>{
+                if(production['troopId'] == 9) troop9 += production['troopCount'];
+                if(production['troopId'] == 10) troop10 += production['troopCount'];
+            });
+
+            const sendTroops = await(await(await this.doApiRequest("sendTroops/" + this.activeVillageId,"GET", "", false)).json()).data
+            // To be tested and check if it maybe picks up incomming attacks with such units
+            sendTroops.forEach(troopMovement =>{
+                troop9 += troopMovement['troop9num'];
+                troop10 += troopMovement['troop10num'];
+            });
+
+            //TODO
+            //const villageReinforcements = await(await(await this.doApiRequest("villageReinforcements/" + this.activeVillageId,"GET", "", false)).json()).data
+
+            return [troop9, troop10];
         },
         
         async train(){
@@ -194,29 +235,30 @@ export default {
                 "troopCount": troopNum
             }
 
-            let stableProductionsResponse = await this.doApiRequest("stableProductions","POST",troopData,true);
-            let stableProductionsResponseJson = await stableProductionsResponse.json();
-
-            if(stableProductionsResponseJson.message == "stableProductions success"){
+            let palaceProductionsResponse = await(await this.doApiRequest("palaceProductions","POST",troopData,true)).json();
+            if(palaceProductionsResponse.message == "palaceProductions success"){
                 this.fetchVillageOwnTroops();
                 this.fetchVillageResources();
+                this.fetchVillagePalaceProduction();
+                this.getResearchedTroops();
             }
             else{
-                document.getElementById("errorMessage").innerText = stableProductionsResponseJson.message;
+                document.getElementById("errorMessage").innerText = palaceProductionsResponse.message;
             }
         },
         calculateMaxTroops(troop){
             return Math.floor(Math.min(this.villageResources[0]/troop["wood"],this.villageResources[1]/troop["clay"],this.villageResources[2]/troop["iron"],this.villageResources[3]/troop["crop"]))
         },
         calculateTroopTrainingTime(curTrainTime){
-            return (curTrainTime * 1000) * this.buildingInfoLookup[this.$parent.villageBuildingType]['buildingModifier'][this.$parent.villageBuildingLevel]
+            return ((curTrainTime * 1000) * this.buildingInfoLookup[this.$parent.villageBuildingType]['buildingModifier'][this.$parent.villageBuildingLevel]) / this.config.SERVER_SPEED;
         },
         startCountdownInterval(){
             setInterval( ()=> {
-                for(let i = 0; i < this.villageStableProductionsTimeLeft.length; i++){
-                    this.$set(this.villageStableProductionsTimeLeft, i, this.villageStableProductionsTimeLeft[i] - 1);
-                    if(this.villageStableProductionsTimeLeft[i] < 0){
+                for(let i = 0; i < this.villagePalaceProductionsTimeLeft.length; i++){
+                    this.$set(this.villagePalaceProductionsTimeLeft, i, this.villagePalaceProductionsTimeLeft[i] - 1);
+                    if(this.villagePalaceProductionsTimeLeft[i] < 0){
                         this.fetchVillageOwnTroops();
+                        this.fetchVillagePalaceProduction();
                     }
                 }
             }, 1000);

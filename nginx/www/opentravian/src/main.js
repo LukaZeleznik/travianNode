@@ -127,6 +127,7 @@ const store = new Vuex.Store({
         villageOutgoingReinforcements: [],
         villageBarracksProduction: [],
         villageStableProduction: [],
+        villagePalaceProduction: [],
         villageBuildingLevels: [],
         villageBuildingTypes: [],
         villageBuildingColors: [],
@@ -152,6 +153,7 @@ const store = new Vuex.Store({
         setVillageIncomingReinforcements(state, villageIncomingReinforcements)  { state.villageIncomingReinforcements = villageIncomingReinforcements; },
         setVillageBarracksProduction(state, villageBarracksProduction)          { state.villageBarracksProduction = villageBarracksProduction; },
         setVillageStableProduction(state, villageStableProduction)              { state.villageStableProduction = villageStableProduction; },
+        setVillagePalaceProduction(state, villagePalaceProduction)              { state.villagePalaceProduction = villagePalaceProduction; },
         setVillageBuildingLevels(state, villageBuildingLevels)                  { state.villageBuildingLevels = villageBuildingLevels; },
         setVillageBuildingTypes(state, villageBuildingTypes)                    { state.villageBuildingTypes = villageBuildingTypes; },
         setVillageBuildingColors(state, villageBuildingColors)                  { state.villageBuildingColors = villageBuildingColors; },
@@ -232,6 +234,7 @@ const store = new Vuex.Store({
                 .then(res => res.json())
                 .then(res => {
                     let villageReinforcements = res.data;
+                    console.log("res.data",res.data);
                     context.commit('setVillageReinforcements', villageReinforcements);
                 })
                 .catch(err => console.log(err));
@@ -293,6 +296,15 @@ const store = new Vuex.Store({
                 .then(res => {
                     let villageStableProduction = res.data;
                     context.commit('setVillageStableProduction', villageStableProduction);
+                })
+                .catch(err => console.log(err));
+        },
+        async fetchVillagePalaceProduction(context) {
+            await fetch('http://localhost:8080/api/palaceProductions/' + context.getters.getActiveVillageId)
+                .then(res => res.json())
+                .then(res => {
+                    let villagePalaceProduction = res.data;
+                    context.commit('setVillagePalaceProduction', villagePalaceProduction);
                 })
                 .catch(err => console.log(err));
         },
@@ -444,6 +456,7 @@ const store = new Vuex.Store({
         getVillageIncomingReinforcements:   state => { return state.villageIncomingReinforcements; },
         getVillageBarracksProduction:       state => { return state.villageBarracksProduction; },
         getVillageStableProduction:         state => { return state.villageStableProduction; },
+        getVillagePalaceProduction:         state => { return state.villagePalaceProduction; },
         getVillageBuildingLevels:           state => { return state.villageBuildingLevels; },
         getVillageBuildingTypes:            state => { return state.villageBuildingTypes; },
         getVillageBuildingColors:           state => { return state.villageBuildingColors; },

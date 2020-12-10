@@ -112,7 +112,6 @@ exports.new = async function (req, res) {
             villageBuildingType = Number(newBuildingType);
         } else {
             villageBuildingType = Number(villageBuildingFields["field"+buildingFieldId+"Type"]);
-            console.log("villageBuildingType", villageBuildingType);
             
             if(villageBuildingLevel > tools.buildingInfoLookup[villageBuildingType]['wood'].length-1){
                 res.json({
@@ -122,7 +121,7 @@ exports.new = async function (req, res) {
                 return;
             }
         }
-        
+
         const requirementWood = tools.buildingInfoLookup[villageBuildingType]["wood"][villageBuildingLevel+1];
         const requirementClay = tools.buildingInfoLookup[villageBuildingType]["clay"][villageBuildingLevel+1];
         const requirementIron = tools.buildingInfoLookup[villageBuildingType]["iron"][villageBuildingLevel+1];

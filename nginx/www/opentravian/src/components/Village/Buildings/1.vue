@@ -1,6 +1,6 @@
 <template>
     <div>
-        <table class="table table-bordered m-auto">
+        <table class="table table-bordered m-auto" v-if="$parent.villageBuildingLevel > 0">
             <thead>
                 <tr>
                 <th scope="col">Name</th>
@@ -18,7 +18,7 @@
                             <img src="/images/resources/iron.gif">  {{ troop['iron'] }} |
                             <img src="/images/resources/crop.gif">  {{ troop['crop'] }} |
                             <img src="/images/consum.gif">          {{ troop['consumption'] }} |
-                            <img src="/images/clock.gif">           {{ secondsToTimeRemaining(calculateTroopTrainingTime(troop['time'] / config.SERVER_SPEED)) }}
+                            <img src="/images/clock.gif">           {{ secondsToTimeRemaining(calculateTroopTrainingTime(troop['time'])) }}
                         </span>
                     </th>
                     <td class="align-middle">
@@ -33,7 +33,7 @@
 
             </tbody>
         </table>
-        <div class="btn-group my-4 w-100" role="group" aria-label="Train">
+        <div class="btn-group my-4 w-100" role="group" aria-label="Train" v-if="$parent.villageBuildingLevel > 0">
             <button type="button" class="btn btn-success m-auto mt-3" @click="train();">Train</button>
         </div>
         <h5 class="mt-4 text-danger" id="errorMessage"></h5>                
@@ -92,7 +92,6 @@
 <script>
 import { fetchMixins } from '@/mixins/fetchMixins'
 import { hasMixins } from '@/mixins/hasMixins'
-
 import { upgradeMixins } from '@/mixins/upgradeMixins'
 import { toolsMixins } from '@/mixins/toolsMixins'
 
@@ -191,7 +190,7 @@ export default {
             return Math.floor(Math.min(this.villageResources[0]/troop["wood"],this.villageResources[1]/troop["clay"],this.villageResources[2]/troop["iron"],this.villageResources[3]/troop["crop"]))
         },
         calculateTroopTrainingTime(curTrainTime){
-            return (curTrainTime * 1000) * this.buildingInfoLookup[this.$parent.villageBuildingType]['buildingModifier'][this.$parent.villageBuildingLevel];
+            return ((curTrainTime * 1000) * this.buildingInfoLookup[this.$parent.villageBuildingType]['buildingModifier'][this.$parent.villageBuildingLevel]) / this.config.SERVER_SPEED;
         },
         startCountdownInterval(){
             setInterval( ()=> {

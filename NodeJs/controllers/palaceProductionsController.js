@@ -1,26 +1,26 @@
 const path = require('path');
 const fetch = require("node-fetch");
-const stableProductionsModel = require('../models/stableProductionsModel');
+const palaceProductionsModel = require('../models/palaceProductionsModel');
 var tools = require('../tools/tools');
 var config = require('../config.json');
-const STABLE = 4;
+const PALACE = 13;
 
 exports.view = function (req, res) {
-    stableProductionsModel.find({idVillage: req.params.idVillage}, function (err, stableProductions) {
+    palaceProductionsModel.find({idVillage: req.params.idVillage}, function (err, palaceProductions) {
         if (err){
             res.send(err);
         }
         else{
             res.json({
-                message: 'loading stableProductions...',
-                data: stableProductions
+                message: 'loading palaceProductions...',
+                data: palaceProductions
             });
 
         }
     });
 };
 
-// Handle create stableProductions actions
+// Handle create palaceProductions actions
 exports.new = async function (req, res) {
     const idVillage = req.body.idVillage;
     const userTribe = await tools.getTribeFromIdVillage(idVillage);
@@ -28,11 +28,11 @@ exports.new = async function (req, res) {
 
     const villageResources = await(await(await tools.doApiRequest('villageResources/' + idVillage, 'GET', '', false)).json()).data;
     const villageBuildingFields = await(await(await tools.doApiRequest('villageBuildingFields/' + idVillage, 'GET', '', false)).json()).data;
-    const stableProductionResponse = await(await(await tools.doApiRequest('stableProductions/' + idVillage, 'GET', '', false)).json()).data;
+    const palaceProductionResponse = await(await(await tools.doApiRequest('palaceProductions/' + idVillage, 'GET', '', false)).json()).data;
 
     let villageBuildingLevel = 0;
     for(let i = 1; i <= Object.keys(villageBuildingFields).length; i++){
-        if(villageBuildingFields['field'+i+'Type'] == STABLE){
+        if(villageBuildingFields['field'+i+'Type'] == PALACE){
             villageBuildingLevel = villageBuildingFields['field'+i+'Level'];
             break;
         }
@@ -60,7 +60,7 @@ exports.new = async function (req, res) {
     }
 
     if(villageResources.currentWood < requirementWood || villageResources.currentClay < requirementClay || 
-        villageResources.currentIron < requirementIron || villageResources.currentCrop < requirementCrop ){
+       villageResources.currentIron < requirementIron || villageResources.currentCrop < requirementCrop ){
         res.json({
             message: 'Not enough resources',
             data: ""
@@ -76,67 +76,67 @@ exports.new = async function (req, res) {
 
     await tools.doApiRequest("villageResources/" + idVillage, "PATCH", villageResources, true);
 
-    var stableProductions = new stableProductionsModel();
-    stableProductions.idVillage   = req.body.idVillage;
-    stableProductions.troopId     = req.body.troopId;
-    stableProductions.troopCount  = req.body.troopCount;
+    var palaceProductions = new palaceProductionsModel();
+    palaceProductions.idVillage   = req.body.idVillage;
+    palaceProductions.troopId     = req.body.troopId;
+    palaceProductions.troopCount  = req.body.troopCount;
 
-    let troopQueueTime = Object.keys(stableProductionResponse).length > 0 ? stableProductionResponse[Object.keys(stableProductionResponse).length-1]['timeCompleted'] : currentUnixTime
-    let troopTrainingTime = (tools.troopInfoLookup[userTribe][req.body.troopId-1]["time"] * tools.buildingInfoLookup[STABLE]['buildingModifier'][villageBuildingLevel]) / config.SERVER_SPEED;
+    let troopQueueTime = Object.keys(palaceProductionResponse).length > 0 ? palaceProductionResponse[Object.keys(palaceProductionResponse).length-1]['timeCompleted'] : currentUnixTime
+    let troopTrainingTime = (tools.troopInfoLookup[userTribe][req.body.troopId-1]["time"] * tools.buildingInfoLookup[PALACE]['buildingModifier'][villageBuildingLevel]) / config.SERVER_SPEED;
 
-    stableProductions.troopName         = tools.troopInfoLookup[userTribe][req.body.troopId-1]["name"];
-    stableProductions.troopProdTime     = troopTrainingTime;
-    stableProductions.timeStarted       = troopQueueTime;
-    stableProductions.timeCompleted     = troopQueueTime + Math.floor(req.body.troopCount * troopTrainingTime);
-    stableProductions.lastUpdate        = currentUnixTime;
-    stableProductions.troopsDoneAlready = 0;
+    palaceProductions.troopName         = tools.troopInfoLookup[userTribe][req.body.troopId-1]["name"];
+    palaceProductions.troopProdTime     = troopTrainingTime;
+    palaceProductions.timeStarted       = troopQueueTime;
+    palaceProductions.timeCompleted     = troopQueueTime + Math.floor(req.body.troopCount * troopTrainingTime);
+    palaceProductions.lastUpdate        = currentUnixTime;
+    palaceProductions.troopsDoneAlready = 0;
 
-    stableProductions.save(function (err) {
+    palaceProductions.save(function (err) {
         if (err){
             res.json(err);
         }
         else{
             res.json({
-                message: 'stableProductions success',
-                data: stableProductions
+                message: 'palaceProductions success',
+                data: palaceProductions
             });
         }
     });
 };
 
 exports.update = function (req, res) {
-    stableProductionsModel.findOne({_id: req.params.stableProdId}, function (err, stableProductions) {
+    palaceProductionsModel.findOne({_id: req.params.palaceProdId}, function (err, palaceProductions) {
         if (err)
             res.send(err);        
         
-            stableProductions.idVillage = req.body.idVillage;
-            stableProductions.troopName = req.body.troopName;
-            stableProductions.troopId = req.body.troopId;
-            stableProductions.troopCount = req.body.troopCount;
-            stableProductions.troopProdTime = req.body.troopProdTime;
-            stableProductions.timeStarted = req.body.timeStarted;
-            stableProductions.timeCompleted = req.body.timeCompleted;
-            stableProductions.lastUpdate = req.body.lastUpdate;
-            stableProductions.troopsDoneAlready = req.body.troopsDoneAlready;
+            palaceProductions.idVillage = req.body.idVillage;
+            palaceProductions.troopName = req.body.troopName;
+            palaceProductions.troopId = req.body.troopId;
+            palaceProductions.troopCount = req.body.troopCount;
+            palaceProductions.troopProdTime = req.body.troopProdTime;
+            palaceProductions.timeStarted = req.body.timeStarted;
+            palaceProductions.timeCompleted = req.body.timeCompleted;
+            palaceProductions.lastUpdate = req.body.lastUpdate;
+            palaceProductions.troopsDoneAlready = req.body.troopsDoneAlready;
 
-            stableProductions.save(function (err) {
+            palaceProductions.save(function (err) {
             if (err)
                 res.json(err);
             res.json({
-                message: 'stableProductions Info updated',
-                data: stableProductions
+                message: 'palaceProductions Info updated',
+                data: palaceProductions
             });
         });
     });
 };
 
 exports.delete = function (req, res) {
-    stableProductionsModel.remove({_id: req.params.stableProdId}, function (err, stableProductions) {
+    palaceProductionsModel.remove({_id: req.params.palaceProdId}, function (err, palaceProductions) {
         if (err)
             res.send(err);
         res.json({
             status: "success",
-            message: 'stableProductions deleted'
+            message: 'palaceProductions deleted'
         });
     });
 };

@@ -3,7 +3,9 @@
         <table class="table table-bordered">
             <tbody>
                 <tr v-for="(availableBuilding, index) in availableBuildings" v-bind:key="'availableBuilding'+index">
-                    <th scope="row" class="align-middle text-center"> <span class="d-block">{{ buildingInfoLookup[availableBuilding]['name'] }}</span>
+                    <th scope="row" class="align-middle text-center"> 
+                        <span class="d-block">{{ buildingInfoLookup[availableBuilding]['name'] }}</span>
+                        <span class="d-block my-4" style="font-weight:normal !important;">{{ buildingInfoLookup[availableBuilding]['desc'] }}</span>
                         <span class="troopRequirements my-3">
                             <img src="/images/resources/wood.gif">  {{ buildingInfoLookup[availableBuilding]['wood'][1] }} |
                             <img src="/images/resources/clay.gif">  {{ buildingInfoLookup[availableBuilding]['clay'][1] }} |
@@ -24,7 +26,9 @@
         <table class="table table-bordered m-auto">
             <tbody>
                 <tr v-for="(soonAvailableBuilding, index) in soonAvailableBuildings" v-bind:key="'soonAvailableBuilding'+index">
-                    <th scope="row" class="align-middle text-center"> <span class="d-block">{{ buildingInfoLookup[soonAvailableBuilding]['name'] }}</span>
+                    <th scope="row" class="align-middle text-center"> 
+                        <span class="d-block">{{ buildingInfoLookup[soonAvailableBuilding]['name'] }}</span>
+                        <span class="d-block my-4" style="font-weight:normal !important;">{{ buildingInfoLookup[soonAvailableBuilding]['desc'] }}</span>
                         <span class="troopRequirements my-3">
                             <img src="/images/resources/wood.gif">  {{ buildingInfoLookup[soonAvailableBuilding]['wood'][1] }} |
                             <img src="/images/resources/clay.gif">  {{ buildingInfoLookup[soonAvailableBuilding]['clay'][1] }} |

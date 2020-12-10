@@ -8,7 +8,7 @@ module.exports = {
 
     doApiRequest: async function (path, method, data, jsonf){
         let response;
-        console.log('http://localhost:8080/api/' + path);
+        //console.log('http://localhost:8080/api/' + path);
         if (jsonf){
             response = await fetch('http://localhost:8080/api/' + path, {
                 method: method,

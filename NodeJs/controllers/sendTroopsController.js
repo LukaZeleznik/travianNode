@@ -45,8 +45,8 @@ exports.update = function (req, res) {
         sendTroops.timeSent = req.body.timeSent;
         sendTroops.timeArrived = req.body.timeArrived;
         sendTroops.troopTribe = req.body.troopTribe;
-        for(let troop in tools.troopInfoLookup[req.body.troopTribe]){
-            sendTroops['troop' + tools.troopInfoLookup[req.body.troopTribe][troop].id + 'num'] = req.body['troop' + tools.troopInfoLookup[req.body.troopTribe][troop].id + 'num'];
+        for(let troop of tools.troopInfoLookup[req.body.troopTribe]){
+            sendTroops['troop' + troop['id'] + 'num'] = req.body['troop' + troop['id'] + 'num'];
         }
 
         sendTroops.save(function (err) {
