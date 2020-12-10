@@ -9,12 +9,11 @@
                 {{ villageData['name'] }} 
                 {{ '(' + villageData['xCoordinate'] + '|' + villageData['yCoordinate'] + ')' }}
             </h1>
-            <table class="table table-borderless">
+            <table class="table table-borderless" dir="ltr">
                 <tbody>
-                    <tr>
-                        <th scope="row"></th>
-                        <div v-for="(troop, index) in troopInfoLookup[userTribe]" v-bind:key="index">
-                            <div v-if="troop['id'] == 1 || troop['id'] == 4 || troop['id'] == 7 || troop['id'] == 9">
+                    <tr style="float: left">
+                        <div v-for="(troop, index) in troopInfoLookup[userTribe]" v-bind:key="index" style="display: unset">
+                            <div v-if="troop['id'] == 1 || troop['id'] == 4 || troop['id'] == 7 || troop['id'] == 9" style="display: table-cell;">
                                 <td><img :src="'../images/troops/' + userTribe + '/' + troop['id'] +'.gif'"></td>
                                 <td>
                                     <div class="input-group input-group-sm align-middle">
@@ -25,10 +24,9 @@
                             </div>
                         </div>
                     </tr>
-                    <tr>
-                        <th scope="row"></th>
-                        <div v-for="(troop, index) in troopInfoLookup[userTribe]" v-bind:key="index">
-                            <div v-if="troop['id'] == 2 || troop['id'] == 5 || troop['id'] == 8 || troop['id'] == 10">
+                    <tr style="float: left">
+                        <div v-for="(troop, index) in troopInfoLookup[userTribe]" v-bind:key="index" style="display: unset">
+                            <div v-if="troop['id'] == 2 || troop['id'] == 5 || troop['id'] == 8 || troop['id'] == 10" style="display: table-cell;">
                                 <td><img :src="'../images/troops/' + userTribe + '/' + troop['id'] +'.gif'"></td>
                                 <td>
                                     <div class="input-group input-group-sm align-middle">
@@ -39,10 +37,9 @@
                             </div>
                         </div>
                     </tr>
-                    <tr>
-                        <th scope="row"></th>
-                        <div v-for="(troop, index) in troopInfoLookup[userTribe]" v-bind:key="index">
-                            <div v-if="troop['id'] == 3 || troop['id'] == 6">
+                    <tr style="float: left">
+                        <div v-for="(troop, index) in troopInfoLookup[userTribe]" v-bind:key="index" style="display: unset;">
+                            <div v-if="troop['id'] == 3 || troop['id'] == 6" style="display: table-cell;">
                                 <td><img :src="'../images/troops/' + userTribe + '/' + troop['id'] +'.gif'"></td>
                                 <td>
                                     <div class="input-group input-group-sm align-middle">
