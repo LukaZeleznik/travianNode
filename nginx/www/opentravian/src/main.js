@@ -12,6 +12,8 @@ import SendTroops from './components/SendTroops.vue';
 import Map from './components/Map.vue';
 import App from './components/app.vue';
 import Install from './components/Install.vue';
+import Stats from './components/Stats.vue';
+import Profile from './components/Profile.vue';
 
 // Navbar
 Vue.component('navbarMenu', require('./components/Main/Navbar/Menu.vue').default);
@@ -105,6 +107,16 @@ const router = new VueRouter({
             path: '/install',
             name: 'install',
             component: Install
+        },
+        {
+            path: '/stats',
+            name: 'stats',
+            component: Stats
+        },
+        {
+            path: '/profile/:uid?',
+            name: 'profile',
+            component: Profile
         },
     ],
 });
@@ -234,7 +246,6 @@ const store = new Vuex.Store({
                 .then(res => res.json())
                 .then(res => {
                     let villageReinforcements = res.data;
-                    console.log("res.data",res.data);
                     context.commit('setVillageReinforcements', villageReinforcements);
                 })
                 .catch(err => console.log(err));
@@ -244,6 +255,7 @@ const store = new Vuex.Store({
                 .then(res => res.json())
                 .then(res => {
                     let sidebarVillageList = res.data;
+                    console.log("TEST",res.data);
                     context.commit('setSidebarVillageList', sidebarVillageList);
                 })
                 .catch(err => console.log(err));
@@ -260,13 +272,13 @@ const store = new Vuex.Store({
 
                     for (let troopMovement of res.data) {
                         if (troopMovement.idVillageFrom == context.getters.getActiveVillageId) {
-                            if (troopMovement.sendType == "full" || troopMovement.sendType == "raid") {
+                            if (troopMovement.sendType == "full" || troopMovement.sendType == "raid" || troopMovement.sendType == 'settle'){
                                 villageOutgoingAttacks.push(troopMovement);
                             } else if (troopMovement.sendType == "reinforcement") {
                                 villageOutgoingReinforcements.push(troopMovement);
                             }
                         } else if (troopMovement.idVillageTo == context.getters.getActiveVillageId) {
-                            if (troopMovement.sendType == "full" || troopMovement.sendType == "raid") {
+                            if (troopMovement.sendType == "full" || troopMovement.sendType == "raid" || troopMovement.sendType == 'settle'){
                                 villageIncomingAttacks.push(troopMovement);
                             } else if (troopMovement.sendType == "reinforcement" || troopMovement.sendType == "return") {
                                 villageIncomingReinforcements.push(troopMovement);

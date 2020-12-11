@@ -16,48 +16,61 @@ exports.new = function (req, res) {
     const taskDateTime = new Date(taskUnixTime * 1000);
     const taskDateTimeString = taskDateTime.toString();
 
-    var newTask = schedule.scheduleJob(taskName, taskDateTime, async function(taskReqBody, fireDate){
-        const idVillage = taskReqBody.taskData.idVillage;
-        const idVillageFrom = taskReqBody.taskData.idVillageFrom;
-        const idVillageTo = taskReqBody.taskData.idVillageTo;
-        const userTribe = await tools.getTribeFromIdVillage(idVillage);
+    var newTask = schedule.scheduleJob(taskName, taskDateTime, function(taskReqBody, fireDate){
+        var idVillage = taskReqBody.taskData.idVillage;
+        var idVillageTo = taskReqBody.taskData.idVillageTo;
+        var idVillageFrom = taskReqBody.taskData.idVillageFrom;
 
         switch(taskReqBody.taskType){
             case "upgradeResField":
-                (async () => {
+                (async () => {  
                     const resFieldId = taskReqBody.taskData.resFieldId;
                     const resFieldUpgradeId = taskReqBody.taskData.resFieldUpgradeId;
-                    let villageResourceFields = await(await(await tools.doApiRequest("villageResourceFields/" + idVillage, "GET", "", false)).json()).data;
+                    let villageData = await tools.getVillageData(idVillage);
+                    let userData = await tools.getUserDataFromIdVillage(idVillage);
 
+                    let villageResourceFields = await(await(await tools.doApiRequest("villageResourceFields/" + idVillage, "GET", "", false)).json()).data;
                     villageResourceFields["field"+resFieldId+"Level"]++;
-                    
+
+                    const consumption = tools.resourceInfoLookup[villageResourceFields["field"+resFieldId+"Type"]]['consumption'][villageResourceFields["field"+resFieldId+"Level"]];
+                    villageData['population'] += consumption;
+                    userData['population'] += consumption;
+
+                    console.log("userData",userData);
+
+                    await tools.doApiRequest("users/" + userData['_id'], "PATCH", userData, true);
+                    await tools.doApiRequest("villages/" + villageData['mapTileId'], "PATCH", villageData, true);
                     await tools.doApiRequest("villageResourceFields/" + idVillage, "PATCH", villageResourceFields, true);
                     await tools.doApiRequest("villageResFieldUpgrade/" + resFieldUpgradeId, "DELETE", "", false);
-                })();                
+                })();
                 break;
-
             case "upgradeBuilding":
-                (async () => {
+                (async () => {  
                     const buildingId = taskReqBody.taskData.buildingId;
                     const buildingUpgradeId = taskReqBody.taskData.buildingUpgradeId;
+                    let villageData = await tools.getVillageData(idVillage);
+                    let userData = await tools.getUserDataFromIdVillage(idVillage);
 
                     let villageBuildingFields = await(await(await tools.doApiRequest("villageBuildingFields/" + idVillage, "GET", "", false)).json()).data;
+                    villageBuildingFields["field"+buildingId+"Level"]++;
 
-                    const buildingLevel = Number(villageBuildingFields["field"+buildingId+"Level"]);
-                    villageBuildingFields["field"+buildingId+"Level"] = buildingLevel + 1;
-                    
+                    const consumption = tools.buildingInfoLookup[villageBuildingFields["field"+buildingId+"Type"]]['consumption'][villageBuildingFields["field"+buildingId+"Level"]];
+                    villageData['population'] += consumption;
+                    userData['population'] += consumption;
+
+                    await tools.doApiRequest("users/" + userData['_id'], "PATCH", userData, true);
                     await tools.doApiRequest("villageBuildingFields/" + idVillage, "PATCH", villageBuildingFields, true);
                     await tools.doApiRequest("villageBuildingUpgrade/" + buildingUpgradeId, "DELETE", "", false);
-                })();                
+                })();
                 break;
-
             case "attack":
-                (async () => {
+                (async () => {  
                     let defendingVillageOwnTroops = await(await(await tools.doApiRequest("villageOwnTroops/" + idVillageTo, "GET", "", false)).json()).data;
+                    const userTribeFrom = await tools.getTribeFromIdVillage(idVillageFrom);
 
                     let attackingVillageTroops = {};
-                    attackingVillageTroops['tribe'] = userTribe;
-                    for(let troop of tools.troopInfoLookup[userTribe]){
+                    attackingVillageTroops['tribe'] = userTribeFrom;
+                    for(let troop of tools.troopInfoLookup[userTribeFrom]){
                         attackingVillageTroops['troop' + troop['id']] = taskReqBody.taskData['troop' + troop['id'] + 'num'];
                     }
 
@@ -73,7 +86,7 @@ exports.new = function (req, res) {
 
                     const combatResult = combatScript.calculateCombat(attackingVillageTroops,defendingVillageOwnTroops,constants);
 
-                    for(let troop of tools.troopInfoLookup[userTribe]){
+                    for(let troop of tools.troopInfoLookup[userTribeFrom]){
                         defendingVillageOwnTroops['troop' + troop['id']] = combatResult.defendersTroopsAfter[troop['id']-1];
                         attackingVillageTroops['troop' + troop['id']] = combatResult.attackersTroopsAfter[troop['id']-1];
                     }
@@ -89,29 +102,51 @@ exports.new = function (req, res) {
                         attackingVillageTroopsReturning["idVillageFrom"] = idVillageTo;
                         attackingVillageTroopsReturning["idVillageTo"] = idVillageFrom;
                         attackingVillageTroopsReturning["troopTribe"] = attackingVillageTroops["tribe"];
-                        for(let troop of tools.troopInfoLookup[userTribe]){
+                        for(let troop of tools.troopInfoLookup[userTribeFrom]){
                             attackingVillageTroopsReturning['troop' + troop['id'] + 'num'] = attackingVillageTroops['troop' + troop['id']];
                         }
                         await tools.doApiRequest("sendTroops", "POST", sendTroopsPostApiUrl, true);
                     }
                     return;
                 })();
-                break;
             case "reinforcement":
-                (async () => {
-                    
-                })();                
+                (async () => {  
+                })();
                 break;
-
             case "return":
-                (async () => {
+                (async () => {  
+                    const userTribeFrom = await tools.getTribeFromIdVillage(idVillageFrom);
                     let villageOwnTroops = await(await(await tools.doApiRequest("villageOwnTroops/" + idVillageTo, "GET", "", false)).json()).data;
 
-                    for(let troop of tools.troopInfoLookup[userTribe]){
+                    for(let troop of tools.troopInfoLookup[userTribeFrom]){
                         villageOwnTroops['troop' + troop['id']] += Number(taskReqBody.taskData['troop' + troop['id'] + 'num']);
                     }
 
                     await tools.doApiRequest("villageOwnTroops/" + idVillageTo, "PATCH", villageOwnTroops, true);
+                    await tools.doApiRequest("sendTroops/" + taskReqBody.taskData.sendTroopsId, "DELETE", "", false);
+                })();
+                break;
+            case "settle":
+                (async () => {  
+                    const idVillageFrom = taskReqBody.taskData.idVillageFrom;
+                    const idVillageTo = taskReqBody.taskData.idVillageTo;
+                    const troopTribe = taskReqBody.taskData.troopTribe;
+                    const userTribeFrom = await tools.getTribeFromIdVillage(idVillageFrom);
+                
+                    const idVillageToData = await tools.getVillageData(idVillageTo);
+                    if (idVillageToData['owner'] != ''){
+                        let sendTroopsData = {
+                            "sendType": "return",
+                            "idVillageFrom": idVillageTo,
+                            "idVillageTo": idVillageFrom,
+                            "troopTribe": troopTribe,
+                            "troop10num": 3
+                        }
+                        await tools.doApiRequest('sendTroops', 'POST', sendTroopsData, true);
+                        return;
+                    }
+
+                    await createVillage(idVillageToData,userData);
                     await tools.doApiRequest("sendTroops/" + taskReqBody.taskData.sendTroopsId, "DELETE", "", false);
                 })();
                 break;
@@ -140,3 +175,86 @@ exports.view = function (req, res) {
         data: scheduledTasks
     });
 };
+
+async function createVillage(villageData,userData){
+    const currentUnixTime = Math.round(new Date().getTime()/1000);
+    let villageBuildingFieldsData = {};
+    let villageResFieldsData = {};
+    let villageOwnTroopsData = {};
+    let wallType = 0;
+
+    console.log("test 1",userData);
+
+    /* Update Village with userId */
+    villageData['owner'] = userData['_id'];
+    villageData['name']  = userData['nickname'] + "'s new village";
+    await tools.doApiRequest("villages/" + villageData['mapTileId'],"PATCH",villageData,true);
+    console.log("test 2");
+
+    /* CREATE: villageBuildingFields */
+    for(let l = 1; l < 20; l++){
+        villageBuildingFieldsData['field'+l+'Type'] = 0;
+        villageBuildingFieldsData['field'+l+'Level'] = 0;
+    }
+    switch (userData['tribe']) {
+        case "teuton":  wallType = 5; break;
+        case "roman":   wallType = 6; break;
+        case "gaul":    wallType = 7; break;
+    }
+    villageBuildingFieldsData['field19Type'] = wallType;
+    villageBuildingFieldsData['idVillage'] = villageData['_id'];
+    await tools.doApiRequest("villageBuildingFields","POST",villageBuildingFieldsData,true);
+
+    console.log("test 3");
+    /* CREATE: villageResourceFields */
+    for(let l = 1; l < 19; l++){
+        villageResFieldsData['field'+l+'Type'] = tools.resFieldVariationsInfoLookup[villageData['fieldVariation']]['variation'][l-1];
+        villageResFieldsData['field'+l+'Level'] = 0;
+    }
+    villageResFieldsData['idVillage'] = villageData['_id'];
+    await tools.doApiRequest("villageResourceFields","POST",villageResFieldsData,true);
+    console.log("test 4");
+
+    /* CREATE: villageMaxResources */
+    let villageMaxResourcesData = {
+        "idVillage": villageData['_id'],
+        "maxWood": 800,
+        "maxClay": 800,
+        "maxIron": 800,
+        "maxCrop": 800
+    }
+    await tools.doApiRequest("villageMaxResources","POST",villageMaxResourcesData,true);
+    console.log("test 5");
+
+    /* CREATE: villageOwnTroops */
+    for(let l = 0; l < tools.troopInfoLookup[userData['tribe']].length; l++){
+        villageOwnTroopsData['troop' + (l+1)] = 0;
+    }
+    villageOwnTroopsData['idVillage'] = villageData['_id'];
+    villageOwnTroopsData['tribe'] = userData['tribe'];
+    await tools.doApiRequest("villageOwnTroops","POST",villageOwnTroopsData,true);
+
+    console.log("test 6");
+    /* CREATE: villageProductions */
+    let villageProductionsData = {
+        "idVillage": villageData['_id'],
+        "productionWood": 0,
+        "productionClay": 0,
+        "productionIron": 0,
+        "productionCrop": 0
+    }
+    await tools.doApiRequest("villageProductions","POST",villageProductionsData,true);
+    console.log("test 7");
+
+    /* CREATE: villageResources */
+    let villageResourcesData = {
+        "idVillage": villageData['_id'],
+        "currentWood": 750,
+        "currentClay": 750,
+        "currentIron": 750,
+        "currentCrop": 750,
+        "lastUpdate": currentUnixTime
+    }
+    await tools.doApiRequest("villageResources","POST",villageResourcesData,true);
+    console.log("test 8");
+}

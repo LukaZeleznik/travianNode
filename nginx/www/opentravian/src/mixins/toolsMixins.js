@@ -65,5 +65,8 @@ export const toolsMixins = {
             const userTribe = await(await(await this.doApiRequest("users/" + villageOwner, "GET", "", false)).json()).data.tribe;
             return userTribe;
         },
+        async getUser(userId){
+            return await(await(await this.doApiRequest("users/" + userId, "GET", "", false)).json()).data;
+        }
     }
 }

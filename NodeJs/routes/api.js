@@ -236,7 +236,8 @@ router.route('/users')
     .post(userController.new)
     .get(userController.view);
 router.route('/users/:uid')
-    .get(userController.find);
+    .get(userController.find)
+    .patch(userController.update);
 /*
 router.route('/user/:user')
     .get(userController.view)

@@ -98,6 +98,7 @@ export default {
                 if(this.villageIncomingAttacksTimeLeft[0] <= 0 || this.villageIncomingReinforcementsTimeLeft[0] <= 0 || this.villageOutgoingAttacksTimeLeft[0] <= 0 || this.villageOutgoingReinforcementsTimeLeft[0] <= 0){
                     this.fetchVillageOwnTroops();
                     this.fetchVillageTroopMovements();
+                    this.fetchSidebarVillageList();
                 }
             }, 1000);
         }

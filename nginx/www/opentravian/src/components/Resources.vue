@@ -47,6 +47,7 @@ export default {
         loadMethods(){
             if(this.checkIfLoggedIn(true)){ //Should redirect
                 this.fetchVillageResources();
+                this.fetchSidebarVillageList();
                 this.getVillageName();
             }
         },

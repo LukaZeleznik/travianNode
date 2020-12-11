@@ -29,7 +29,6 @@ export default {
     },
 
     created() {
-        this.fetchSidebarVillageList();
     },
 
     methods: {

@@ -49,7 +49,7 @@ exports.new = function (req, res) {
 };
 
 exports.update = function (req, res) {
-    userModel.findById(req.params.id, function (err, user) {
+    userModel.findById(req.params.uid, function (err, user) {
         if (err)
             res.send(err);
         

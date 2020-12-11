@@ -19,13 +19,16 @@
                     <router-link class="nav-link" :to="{ name: 'map' }">Map</router-link>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Stats</a>
+                    <router-link class="nav-link" :to="{ name: 'stats' }">Stats</router-link>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Reports</a>
+                    <a class="nav-link" href="#"><strike>Reports</strike></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Messages</a>
+                    <a class="nav-link" href="#"><strike>Messages</strike></a>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" :to="{ name: 'profile' }">Profile</router-link>
                 </li>
             </ul>
         </div>

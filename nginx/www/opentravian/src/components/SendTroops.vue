@@ -9,24 +9,24 @@
                 {{ villageData['name'] }} 
                 {{ '(' + villageData['xCoordinate'] + '|' + villageData['yCoordinate'] + ')' }}
             </h1>
-            <table class="table table-borderless" dir="ltr">
+            <table class="table table-borderless">
                 <tbody>
                     <tr style="float: left">
-                        <div v-for="(troop, index) in troopInfoLookup[userTribe]" v-bind:key="index" style="display: unset">
-                            <div v-if="troop['id'] == 1 || troop['id'] == 4 || troop['id'] == 7 || troop['id'] == 9" style="display: table-cell;">
-                                <td><img :src="'../images/troops/' + userTribe + '/' + troop['id'] +'.gif'"></td>
+                        <span v-for="(troop, index) in troopInfoLookup[userTribe]" v-bind:key="index">
+                            <span v-if="troop['id'] == 1 || troop['id'] == 4 || troop['id'] == 7 || troop['id'] == 9">
+                                <td ><img :src="'../images/troops/' + userTribe + '/' + troop['id'] +'.gif'"></td>
                                 <td>
                                     <div class="input-group input-group-sm align-middle">
                                         <input :disabled="villageData['owner'] == ''" type="number" class="form-control mr-2" min="0" aria-label="Small" :id="'troop' + troop['id']" aria-describedby="inputGroup-sizing-sm">
                                         <a @click="insertTroops(troop['id']);"  href="#" style="color:green"><strong>(<span :id="'maxTroops' + troop['id']">{{ villageOwnTroops[index] }}</span>)</strong></a>
                                     </div>
                                 </td>
-                            </div>
-                        </div>
+                            </span>
+                        </span>
                     </tr>
                     <tr style="float: left">
-                        <div v-for="(troop, index) in troopInfoLookup[userTribe]" v-bind:key="index" style="display: unset">
-                            <div v-if="troop['id'] == 2 || troop['id'] == 5 || troop['id'] == 8 || troop['id'] == 10" style="display: table-cell;">
+                        <span v-for="(troop, index) in troopInfoLookup[userTribe]" v-bind:key="index">
+                            <span v-if="troop['id'] == 2 || troop['id'] == 5 || troop['id'] == 8 || troop['id'] == 10">
                                 <td><img :src="'../images/troops/' + userTribe + '/' + troop['id'] +'.gif'"></td>
                                 <td>
                                     <div class="input-group input-group-sm align-middle">
@@ -34,12 +34,12 @@
                                         <a @click="insertTroops(troop['id']);"  href="#" style="color:green"><strong>(<span :id="'maxTroops' + troop['id']">{{ villageOwnTroops[index] }}</span>)</strong></a>
                                     </div>
                                 </td>
-                            </div>
-                        </div>
+                            </span>
+                        </span>
                     </tr>
                     <tr style="float: left">
-                        <div v-for="(troop, index) in troopInfoLookup[userTribe]" v-bind:key="index" style="display: unset;">
-                            <div v-if="troop['id'] == 3 || troop['id'] == 6" style="display: table-cell;">
+                        <span v-for="(troop, index) in troopInfoLookup[userTribe]" v-bind:key="index">
+                            <span v-if="troop['id'] == 3 || troop['id'] == 6">
                                 <td><img :src="'../images/troops/' + userTribe + '/' + troop['id'] +'.gif'"></td>
                                 <td>
                                     <div class="input-group input-group-sm align-middle">
@@ -47,8 +47,8 @@
                                         <a @click="insertTroops(troop['id']);"  href="#" style="color:green"><strong>(<span :id="'maxTroops' + troop['id']">{{ villageOwnTroops[index] }}</span>)</strong></a>
                                     </div>
                                 </td>
-                            </div>
-                        </div>
+                            </span>
+                        </span>
                     </tr>
                 </tbody>
             </table>
