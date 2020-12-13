@@ -20,7 +20,7 @@ const sendTroopsSchema = new Schema ({
         troop10num:     { type: Number, required: true }
 });
 
-var sendTroops = module.exports = mongoose.model('sendTroops', sendTroopsSchema);
+var sendTroops = module.exports = mongoose.model('sendTroops', sendTroopsSchema, 'sendTroops');
 
 module.exports.get = function (callback, limit) {
         sendTroops.find(callback).limit(limit);

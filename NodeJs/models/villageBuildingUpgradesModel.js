@@ -14,7 +14,7 @@ const villageBuildingUpgradesSchema = new Schema ({
         timeCompleted:  { type: Number, required: true }
 });
 
-var villageBuildingUpgrades = module.exports = mongoose.model('villageBuildingUpgrades', villageBuildingUpgradesSchema);
+var villageBuildingUpgrades = module.exports = mongoose.model('villageBuildingUpgrades', villageBuildingUpgradesSchema, 'villageBuildingUpgrades');
 
 module.exports.get = function (callback, limit) {
     villageBuildingUpgrades.find(callback).limit(limit);

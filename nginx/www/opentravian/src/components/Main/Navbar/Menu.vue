@@ -56,6 +56,7 @@ export default {
 
             this.$store.replaceState(newState);
             localStorage.removeItem('activeVillageId');
+            localStorage.removeItem('userTribe');
             document.cookie = 'jwt=; Max-Age=-99999999;domain=localhost;path=/;';
             document.cookie = 'userId=; Max-Age=-99999999;domain=localhost;path=/;';
             this.$router.push({ name: 'login' });

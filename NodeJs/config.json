@@ -1,5 +1,5 @@
 {
-    "SERVER_SPEED": 50, 
+    "SERVER_SPEED": 100, 
     "TROOP_SPEED": 50,
-    "STORAGE_MODIFIER": 2
+    "STORAGE_MODIFIER": 50
 }

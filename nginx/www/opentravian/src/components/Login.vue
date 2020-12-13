@@ -43,6 +43,7 @@ import { fetchMixins } from '@/mixins/fetchMixins'
                     document.cookie = "jwt=" + response.token + ";path=/";
                     document.cookie = "userId=" + response.userId + ";path=/";
                     localStorage.setItem('activeVillageId', response.capital);
+                    localStorage.setItem('userTribe', response.userTribe);
                     this.$store.commit('setActiveVillageId', response.capital);
                     this.$router.push({ name: 'resources' });
                 }

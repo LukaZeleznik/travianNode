@@ -4,6 +4,8 @@ const UserModel = require('../models/userModel');
 const JWTstrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 const fetch = require("node-fetch");
+var tools = require('../tools/tools');
+var config = require('../config.json');
 
 var cookieExtractor = function(req) {
     var token = null;
@@ -38,7 +40,7 @@ passport.use(
             //console.log(req);
             try {
                 let availableTiles = [];
-                const villages = await(await(await doApiRequest("villages","GET","",false)).json()).data;
+                const villages = await(await(await tools.doApiRequest("villages","GET","",false)).json()).data;
                 for(let village of villages){
                     if(village.owner == "" && village.fieldVariation == 0){
                         availableTiles.push(village);
@@ -91,15 +93,12 @@ passport.use(
     )
 );
 
-const resFieldVariationsInfoLookup = require('../infoTables/resFieldVariationsInfoLookup.json');
-const troopInfoLookup = require('../infoTables/troopInfoLookup.json');
-
-
 async function createNewUser(email,password,nickname,tribe,village){
     const currentUnixTime = Math.round(new Date().getTime()/1000);
     let villageBuildingFieldsData = {};
     let villageResFieldsData = {};
     let villageOwnTroopsData = {};
+    let researchesCompleted = {};
     let wallType = 0;
 
     let userData = {
@@ -108,14 +107,15 @@ async function createNewUser(email,password,nickname,tribe,village){
         "nickname": nickname,
         "tribe": tribe,
         "population": 0,
+        "group": 1,
         "capital": village['_id'],
     }
-    let userDataResponse = await(await(await doApiRequest("users","POST",userData,true)).json()).data
+    let userDataResponse = await(await(await tools.doApiRequest("users","POST",userData,true)).json()).data
 
     /* Update Village with userId */
     village['owner'] = userDataResponse['_id'];
     village['name']  = userDataResponse['nickname'] + "'s Village";
-    await doApiRequest("villages/" + village['mapTileId'],"PATCH",village,true);
+    await tools.doApiRequest("villages/" + village['mapTileId'],"PATCH",village,true);
     
 
     /* CREATE: villageBuildingFields */
@@ -130,16 +130,16 @@ async function createNewUser(email,password,nickname,tribe,village){
     }
     villageBuildingFieldsData['field19Type'] = wallType;
     villageBuildingFieldsData['idVillage'] = village['_id'];
-    await doApiRequest("villageBuildingFields","POST",villageBuildingFieldsData,true);
+    await tools.doApiRequest("villageBuildingFields","POST",villageBuildingFieldsData,true);
 
 
     /* CREATE: villageResourceFields */
     for(let l = 1; l < 19; l++){
-        villageResFieldsData['field'+l+'Type'] = resFieldVariationsInfoLookup[village['fieldVariation']]['variation'][l-1];
+        villageResFieldsData['field'+l+'Type'] = tools.resFieldVariationsInfoLookup[village['fieldVariation']]['variation'][l-1];
         villageResFieldsData['field'+l+'Level'] = 0;
     }
     villageResFieldsData['idVillage'] = village['_id'];
-    await doApiRequest("villageResourceFields","POST",villageResFieldsData,true);
+    await tools.doApiRequest("villageResourceFields","POST",villageResFieldsData,true);
 
 
     /* CREATE: villageMaxResources */
@@ -150,16 +150,16 @@ async function createNewUser(email,password,nickname,tribe,village){
         "maxIron": 800,
         "maxCrop": 800
     }
-    await doApiRequest("villageMaxResources","POST",villageMaxResourcesData,true);
+    await tools.doApiRequest("villageMaxResources","POST",villageMaxResourcesData,true);
 
 
     /* CREATE: villageOwnTroops */
-    for(let l = 0; l < troopInfoLookup[tribe].length; l++){
+    for(let l = 0; l < tools.troopInfoLookup[tribe].length; l++){
         villageOwnTroopsData['troop' + (l+1)] = 0;
     }
     villageOwnTroopsData['idVillage'] = village['_id'];
     villageOwnTroopsData['tribe'] = tribe;
-    await doApiRequest("villageOwnTroops","POST",villageOwnTroopsData,true);
+    await tools.doApiRequest("villageOwnTroops","POST",villageOwnTroopsData,true);
 
     
     /* CREATE: villageProductions */
@@ -170,7 +170,7 @@ async function createNewUser(email,password,nickname,tribe,village){
         "productionIron": 0,
         "productionCrop": 0
     }
-    await doApiRequest("villageProductions","POST",villageProductionsData,true);
+    await tools.doApiRequest("villageProductions","POST",villageProductionsData,true);
 
 
     /* CREATE: villageResources */
@@ -182,24 +182,17 @@ async function createNewUser(email,password,nickname,tribe,village){
         "currentCrop": 800,
         "lastUpdate": currentUnixTime
     }
-    await doApiRequest("villageResources","POST",villageResourcesData,true);
+    await tools.doApiRequest("villageResources","POST",villageResourcesData,true);
+
+    /* CREATE: researchesCompleted */
+    researchesCompleted.idVillage = village['_id'];
+    researchesCompleted.tribe = tribe;
+    researchesCompleted.troop1 = true;
+    researchesCompleted.troop10 = true;
+    for(let troop of tools.researchesInfoLookup[tribe]){
+        researchesCompleted['troop' + troop['id']] = false;
+    }
+    await tools.doApiRequest("researchesCompleted","POST",researchesCompleted,true);
 
     return userDataResponse;
-};
-
-async function doApiRequest(path, method, data, jsonf) {
-    let response;
-    console.log('http://localhost:8080/api/' + path);
-    if (jsonf){
-        response = await fetch('http://localhost:8080/api/' + path, {
-            method: method,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        });
-    } else {
-        response = await fetch('http://localhost:8080/api/' + path, { method: method });
-    }
-    return response;
 };

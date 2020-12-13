@@ -162,6 +162,7 @@
         }
     ],
     "roman": [{
+            "id": 1,
             "name": "Legionnaire",
             "attack": 40,
             "infantryDefense": 35,
@@ -177,6 +178,7 @@
             "buildingId": 1
         },
         {
+            "id": 2,
             "name": "Praetorian",
             "attack": 30,
             "infantryDefense": 65,
@@ -192,6 +194,7 @@
             "buildingId": 1
         },
         {
+            "id": 3,
             "name": "Imperian",
             "attack": 70,
             "infantryDefense": 40,
@@ -207,6 +210,7 @@
             "buildingId": 1
         },
         {
+            "id": 4,
             "name": "Equites Legati",
             "attack": 0,
             "infantryDefense": 20,
@@ -219,9 +223,10 @@
             "capacity": 0,
             "consumption": 2,
             "time": 1692,
-            "buildingId": 0
+            "buildingId": 4
         },
         {
+            "id": 5,
             "name": "Equites Imperatoris",
             "attack": 120,
             "infantryDefense": 65,
@@ -234,9 +239,10 @@
             "capacity": 100,
             "consumption": 3,
             "time": 3300,
-            "buildingId": 0
+            "buildingId": 4
         },
         {
+            "id": 6,
             "name": "Equites Caesaris",
             "attack": 180,
             "infantryDefense": 80,
@@ -249,10 +255,11 @@
             "capacity": 70,
             "consumption": 4,
             "time": 4392,
-            "buildingId": 0
+            "buildingId": 4
         },
         {
-            "name": "Ram",
+            "id": 7,
+            "name": "Battering Ram",
             "attack": 60,
             "infantryDefense": 30,
             "cavalryDefense": 75,
@@ -267,6 +274,7 @@
             "buildingId": 0
         },
         {
+            "id": 8,
             "name": "Fire Catapult",
             "attack": 75,
             "infantryDefense": 60,
@@ -282,6 +290,7 @@
             "buildingId": 0
         },
         {
+            "id": 9,
             "name": "Senator",
             "attack": 50,
             "infantryDefense": 40,
@@ -297,6 +306,7 @@
             "buildingId": 13
         },
         {
+            "id": 10,
             "name": "Settler",
             "attack": 0,
             "infantryDefense": 80,
@@ -313,6 +323,7 @@
         }
     ],
     "gaul": [{
+            "id": 1,
             "name": "Phalanx",
             "attack": 15,
             "infantryDefense": 40,
@@ -328,7 +339,8 @@
             "buildingId": 1
         },
         {
-            "name": "Swordsmen",
+            "id": 2,
+            "name": "Swordsman",
             "attack": 65,
             "infantryDefense": 35,
             "cavalryDefense": 20,
@@ -343,6 +355,7 @@
             "buildingId": 1
         },
         {
+            "id": 3,
             "name": "Pathfinder",
             "attack": 0,
             "infantryDefense": 20,
@@ -355,9 +368,10 @@
             "capacity": 0,
             "consumption": 2,
             "time": 1692,
-            "buildingId": 1
+            "buildingId": 4
         },
         {
+            "id": 4,
             "name": "Theutates Thunder",
             "attack": 90,
             "infantryDefense": 25,
@@ -370,9 +384,10 @@
             "capacity": 75,
             "consumption": 2,
             "time": 3084,
-            "buildingId": 0
+            "buildingId": 4
         },
         {
+            "id": 5,
             "name": "Druidrider",
             "attack": 45,
             "infantryDefense": 115,
@@ -385,9 +400,10 @@
             "capacity": 35,
             "consumption": 2,
             "time": 3192,
-            "buildingId": 0
+            "buildingId": 4
         },
         {
+            "id": 6,
             "name": "Haeduan",
             "attack": 140,
             "infantryDefense": 60,
@@ -400,9 +416,10 @@
             "capacity": 65,
             "consumption": 3,
             "time": 3900,
-            "buildingId": 0
+            "buildingId": 4
         },
         {
+            "id": 7,
             "name": "Ram",
             "attack": 50,
             "infantryDefense": 30,
@@ -418,6 +435,7 @@
             "buildingId": 0
         },
         {
+            "id": 8,
             "name": "Trebuchet",
             "attack": 70,
             "infantryDefense": 45,
@@ -433,6 +451,7 @@
             "buildingId": 0
         },
         {
+            "id": 9,
             "name": "Chieftain",
             "attack": 40,
             "infantryDefense": 50,
@@ -448,6 +467,7 @@
             "buildingId": 13
         },
         {
+            "id": 10,
             "name": "Settler",
             "attack": 0,
             "infantryDefense": 80,

@@ -67,6 +67,17 @@ export const toolsMixins = {
         },
         async getUser(userId){
             return await(await(await this.doApiRequest("users/" + userId, "GET", "", false)).json()).data;
-        }
+        },
+        getResearchedTroops(villageBuildingType){
+            for (let troop of this.troopInfoLookup[this.userTribe]){
+                if (troop['buildingId'] == villageBuildingType){
+                    if (troop['id'] == 1 || troop['id'] == 10) {
+                        this.researchedTroops.push(troop);
+                    } else if (this.researchesCompleted['troop' + troop['id']]){
+                        this.researchedTroops.push(troop);
+                    } 
+                }
+            }
+        },
     }
 }

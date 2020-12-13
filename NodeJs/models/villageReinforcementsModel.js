@@ -18,7 +18,7 @@ const villageOwnReinforcementsSchema = new Schema ({
         troop10: { type: Number, required: true }
 });
 
-var villageOwnReinforcements = module.exports = mongoose.model('villageOwnReinforcements', villageOwnReinforcementsSchema);
+var villageOwnReinforcements = module.exports = mongoose.model('villageOwnReinforcements', villageOwnReinforcementsSchema, 'villageOwnReinforcements');
 
 module.exports.get = function (callback, limit) {
         villageOwnReinforcements.find(callback).limit(limit);

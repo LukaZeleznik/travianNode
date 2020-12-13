@@ -187,12 +187,9 @@
         "buildingModifier": [0,0.05,0.1,0.15,0.2,0.25],
         "desc": "Iron is melted here. Based on its level your iron foundry can increase your iron production by up to 25 percent.",
         "allowMultiple": false,
-        "buildRequirements": [
-            {
-                "id": 13,
-                "level": 5
-            }
-        ]
+        "buildRequirements": {
+            "0": 0
+        }
     },
     {
         "id": 12,
@@ -223,6 +220,23 @@
         "culturePoints": [0,6,7,9,10,12,15,18,21,26,31,37,45,53,64,77,92,111,133,160,192],
         "buildingModifier": [0,2.0,8.0,18.0,32.0,50.0,72.0,98.0,128.0,162.0,200.0,242.0,288.0,338.0,392.0,450.0,512.0,578.0,648.0,722.0,800.0],
         "desc": "The King or Queen of the kingdom lives in the palace. Only one palace can exist in your realm at a time. Also the palace is the only building where you can proclaim a village to be your capital.",
+        "allowMultiple": false,
+        "buildRequirements": {
+            "0": 0
+        }
+    },
+    {
+        "id": 14,
+        "name": "Academy",
+        "wood": [0,220,280,360,460,590,755,970,1240,1585,2030,2595,3325,4255,5445,6970,8925,11425,14620,18715,23955],
+        "clay": [0,160,205,260,335,430,550,705,900,1155,1475,1890,2420,3095,3960,5070,6490,8310,10635,13610,17420],
+        "iron": [0,90,115,145,190,240,310,395,505,650,830,1065,1360,1740,2230,2850,3650,4675,5980,7655,9800],
+        "crop": [0,40,50,65,85,105,135,175,225,290,370,470,605,775,990,1270,1625,2075,2660,3405,4355],
+        "consumption": [0,4,2,2,2,2,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4],
+        "constructionTime": [0,2000,2620,3340,4170,5140,6260,7570,9080,10830,12860,15220,17950,21130,24810,29080,34030,39770,46440,54170,63130],
+        "culturePoints": [0,5,6,7,8,10,12,14,17,21,25,30,36,43,51,62,74,89,106,128,153],
+        "buildingModifier": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        "desc": "In the researches new unit types can be developed. By increasing its level you can order the research of better units. Once a unit type is researched in a village it remains researched, even if the researches has been demolished.",
         "allowMultiple": false,
         "buildRequirements": {
             "0": 0

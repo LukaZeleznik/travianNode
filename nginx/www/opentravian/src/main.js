@@ -44,6 +44,7 @@ Vue.component('villageBuilding10', require('./components/Village/Buildings/10.vu
 Vue.component('villageBuilding11', require('./components/Village/Buildings/11.vue').default); //Iron Foundry
 Vue.component('villageBuilding12', require('./components/Village/Buildings/12.vue').default); //Sawmill
 Vue.component('villageBuilding13', require('./components/Village/Buildings/13.vue').default); //Palace
+Vue.component('villageBuilding14', require('./components/Village/Buildings/14.vue').default); //ResearchesCompleted
 
 //Resources
 Vue.component('resourcesFields', require('./components/Resources/Fields.vue').default);
@@ -143,9 +144,12 @@ const store = new Vuex.Store({
         villageBuildingLevels: [],
         villageBuildingTypes: [],
         villageBuildingColors: [],
-        activeVillageId: localStorage.getItem('activeVillageId'),
+        activeVillageId:    localStorage.getItem('activeVillageId'),
+        userTribe:          localStorage.getItem('userTribe'),
         activeVillageName: "",
         sidebarVillageList: [],
+        researchesCompleted: [],
+        researches: [],
     },
 
     mutations: {
@@ -170,20 +174,23 @@ const store = new Vuex.Store({
         setVillageBuildingTypes(state, villageBuildingTypes)                    { state.villageBuildingTypes = villageBuildingTypes; },
         setVillageBuildingColors(state, villageBuildingColors)                  { state.villageBuildingColors = villageBuildingColors; },
         setActiveVillageId(state, activeVillageId)                              { state.activeVillageId = activeVillageId; },
+        setUserTribe(state, userTribe)                                          { state.userTribe = userTribe; },
         setActiveVillageName(state, activeVillageName)                          { state.activeVillageName = activeVillageName; },
         setSidebarVillageList(state, sidebarVillageList)                        { state.sidebarVillageList = sidebarVillageList; },
+        setResearchesCompleted(state, researchesCompleted)                      { state.researchesCompleted = researchesCompleted; },
+        setResearches(state, researches)                                        { state.researches = researches; },
+
     },
     actions: {
         async fetchActiveVillageId(context) {
             if(context.getters.getActiveVillageId){
                 return context.getters.getActiveVillageId;
             }
-            /*await fetch('http://localhost:8080/api/users/' + getCookie('userId'))
-                .then(res => res.json())
-                .then(res => {
-                    context.commit('setActiveVillageId', res.data.capital);
-                })
-                .catch(err => console.log(err));*/
+        },
+        async fetchUserTribe(context) {
+            if(context.getters.getUserTribe){
+                return context.getters.getUserTribe;
+            }
         },
         async fetchVillageResources(context) {
             await fetch('http://localhost:8080/api/villageResources/' + context.getters.getActiveVillageId,{credentials: 'include'})
@@ -255,7 +262,6 @@ const store = new Vuex.Store({
                 .then(res => res.json())
                 .then(res => {
                     let sidebarVillageList = res.data;
-                    console.log("TEST",res.data);
                     context.commit('setSidebarVillageList', sidebarVillageList);
                 })
                 .catch(err => console.log(err));
@@ -450,6 +456,24 @@ const store = new Vuex.Store({
                 })
                 .catch(err => console.log(err));
         },
+        async fetchResearchesCompleted(context) {
+            await fetch('http://localhost:8080/api/researchesCompleted/' + context.getters.getActiveVillageId)
+                .then(res => res.json())
+                .then(res => {
+                    let researchesCompleted = res.data;
+                    context.commit('setResearchesCompleted', researchesCompleted);
+                })
+                .catch(err => console.log(err));
+        },
+        async fetchResearches(context) {
+            await fetch('http://localhost:8080/api/researches/' + context.getters.getActiveVillageId)
+                .then(res => res.json())
+                .then(res => {
+                    let researches = res.data;
+                    context.commit('setResearches', researches);
+                })
+                .catch(err => console.log(err));
+        },
     },
     getters: {
         getVillageResources:                state => { return state.villageResources; },
@@ -473,8 +497,11 @@ const store = new Vuex.Store({
         getVillageBuildingTypes:            state => { return state.villageBuildingTypes; },
         getVillageBuildingColors:           state => { return state.villageBuildingColors; },
         getActiveVillageId:                 state => { return state.activeVillageId; },
+        getUserTribe:                       state => { return state.userTribe; },
         getActiveVillageName:               state => { return state.activeVillageName; },
         getSidebarVillageList:              state => { return state.sidebarVillageList; },
+        getResearchesCompleted:             state => { return state.researchesCompleted; },
+        getResearches:                      state => { return state.researches; },
     }
 })
 

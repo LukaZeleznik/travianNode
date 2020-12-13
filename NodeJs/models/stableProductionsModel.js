@@ -13,7 +13,7 @@ const stableProductionsSchema = new Schema ({
         troopsDoneAlready: { type: Number, required: true }
 });
 
-var stableProductions = module.exports = mongoose.model('stableProductions', stableProductionsSchema);
+var stableProductions = module.exports = mongoose.model('stableProductions', stableProductionsSchema, 'stableProductions');
 
 module.exports.get = function (callback, limit) {
     stableProductions.find(callback).limit(limit);

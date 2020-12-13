@@ -1,0 +1,224 @@
+{
+    "teuton": [
+        {
+            "id": 2,
+            "name": "Spearman",
+            "wood": 970,
+            "clay": 380,
+            "iron": 880,
+            "crop": 440,
+            "time": 6000
+        },
+        {
+            "id": 3,
+            "name": "Axeman",
+            "wood": 880,
+            "clay": 580,
+            "iron": 1560,
+            "crop": 580,
+            "time": 6300
+        },
+        {
+            "id": 4,
+            "name": "Scout",
+            "wood": 1060,
+            "clay": 500,
+            "iron": 600,
+            "crop": 460,
+            "time": 6000
+        },
+        {
+            "id": 5,
+            "name": "Paladin",
+            "wood": 2320,
+            "clay": 1180,
+            "iron": 2520,
+            "crop": 610,
+            "time": 10800
+        },
+        {
+            "id": 6,
+            "name": "Teutonic Knight",
+            "wood": 2800,
+            "clay": 2160,
+            "iron": 4040,
+            "crop": 640,
+            "time": 12900
+        },
+        {
+            "id": 7,
+            "name": "Ram",
+            "wood": 6100,
+            "clay": 1300,
+            "iron": 3000,
+            "crop": 580,
+            "time": 14400
+        },
+        {
+            "id": 8,
+            "name": "Catapult",
+            "wood": 5500,
+            "clay": 4900,
+            "iron": 5000,
+            "crop": 520,
+            "time": 28800
+        },
+        {
+            "id": 9,
+            "name": "Chief",
+            "wood": 18250,
+            "clay": 13500,
+            "iron": 20400,
+            "crop": 16480,
+            "time": 19425
+        }
+    ],
+    "roman": [
+        {
+            "id": 2,
+            "name": "Praetorian",
+            "wood": 700,
+            "clay": 620,
+            "iron": 1480,
+            "crop": 580,
+            "time": 8400
+        },
+        {
+            "id": 3,
+            "name": "Imperian",
+            "wood": 1000,
+            "clay": 740,
+            "iron": 1880,
+            "crop": 640,
+            "time": 9000
+        },
+        {
+            "id": 4,
+            "name": "Equites Legati",
+            "wood": 940,
+            "clay": 740,
+            "iron": 360,
+            "crop": 400,
+            "time": 6900
+        },
+        {
+            "id": 5,
+            "name": "Equites Imperatoris",
+            "wood": 3400,
+            "clay": 1860,
+            "iron": 2760,
+            "crop": 760,
+            "time": 11700
+        },
+        {
+            "id": 6,
+            "name": "Equites Caesaris",
+            "wood": 3400,
+            "clay": 2660,
+            "iron": 6600,
+            "crop": 1240,
+            "time": 15000
+        },
+        {
+            "id": 7,
+            "name": "Battering Ram",
+            "wood": 5500,
+            "clay": 1540,
+            "iron": 4200,
+            "crop": 580,
+            "time": 15600
+        },
+        {
+            "id": 8,
+            "name": "Fire Catapult",
+            "wood": 5800,
+            "clay": 5500,
+            "iron": 5000,
+            "crop": 700,
+            "time": 28800
+        },
+        {
+            "id": 9,
+            "name": "Senator",
+            "wood": 15875,
+            "clay": 13800,
+            "iron": 36400,
+            "crop": 22660,
+            "time": 24475
+        }
+    ],
+    "gaul": [
+        {
+            "id": 2,
+            "name": "Swordsman",
+            "wood": 940,
+            "clay": 700,
+            "iron": 1680,
+            "crop": 520,
+            "time": 7200
+        },
+        {
+            "id": 3,
+            "name": "Pathfinder",
+            "wood": 1120,
+            "clay": 700,
+            "iron": 360,
+            "crop": 400,
+            "time": 6900
+        },
+        {
+            "id": 4,
+            "name": "Theutates Thunder",
+            "wood": 2200,
+            "clay": 1900,
+            "iron": 2040,
+            "crop": 520,
+            "time": 11100
+        },
+        {
+            "id": 5,
+            "name": "Druidrider",
+            "wood": 2260,
+            "clay": 1420,
+            "iron": 2440,
+            "crop": 880,
+            "time": 11400
+        },
+        {
+            "id": 6,
+            "name": "Haeduan",
+            "wood": 3100,
+            "clay": 2580,
+            "iron": 5600,
+            "crop": 1180,
+            "time": 13500
+        },
+        {
+            "id": 7,
+            "name": "Ram",
+            "wood": 5800,
+            "clay": 2320,
+            "iron": 1840,
+            "crop": 610,
+            "time": 16800
+        },
+        {
+            "id": 8,
+            "name": "Trebuchet",
+            "wood": 5860,
+            "clay": 5900,
+            "iron": 5240,
+            "crop": 700,
+            "time": 28800
+        },
+        {
+            "id": 9,
+            "name": "Chieftain",
+            "wood": 15875,
+            "clay": 22900,
+            "iron": 25200,
+            "crop": 22660,
+            "time": 24475
+        }
+    ]
+}

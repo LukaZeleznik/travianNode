@@ -10,7 +10,7 @@ const villageResourcesSchema = new Schema ({
         lastUpdate: { type: Number, required: true },
 });
 
-var VillageResources = module.exports = mongoose.model('villageResources', villageResourcesSchema);
+var VillageResources = module.exports = mongoose.model('villageResources', villageResourcesSchema, 'villageResources');
 
 module.exports.get = function (callback, limit) {
         VillageResources.find(callback).limit(limit);

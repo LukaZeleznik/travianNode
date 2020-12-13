@@ -68,6 +68,7 @@ export default {
             let villageBuildingFieldsData = {};
             let villageResFieldsData = {};
             let villageOwnTroopsData = {};
+            let researchesCompleted = {};
             let wallType = 0;
 
             let adminData = {
@@ -153,6 +154,17 @@ export default {
                 "lastUpdate": currentUnixTime
             }
             await this.doApiRequest("villageResources","POST",villageResourcesData,true);
+
+            /* CREATE: researchesCompleted */
+            researchesCompleted.idVillage = village['_id'];
+            researchesCompleted.tribe = tribe;
+            researchesCompleted.troop1 = true;
+            for(let troop of this.researchesInfoLookup[tribe]){
+                researchesCompleted['troop' + troop['id']] = false;
+            }
+            researchesCompleted.troop10 = true;
+            await this.doApiRequest("researchesCompleted","POST",researchesCompleted,true);
+
         },
         async doInstall(width,height){
             /* GENERATE MAP */

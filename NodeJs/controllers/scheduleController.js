@@ -150,8 +150,23 @@ exports.new = function (req, res) {
                     await tools.doApiRequest("sendTroops/" + taskReqBody.taskData.sendTroopsId, "DELETE", "", false);
                 })();
                 break;
+            case "troopResearch":
+                (async () => {
+                    const researchId = taskReqBody.taskData.researchId;
+                    const idVillage = taskReqBody.taskData.idVillage;
+                    const troopId = taskReqBody.taskData.troopId;
+                    
+                    let researchesCompleted = await(await(await tools.doApiRequest("researchesCompleted/" + idVillage, "GET", "", false)).json()).data;
+                    researchesCompleted['troop' + troopId] = true;
+
+                    await tools.doApiRequest("researchesCompleted/" + idVillage, "PATCH", researchesCompleted, true);
+                    await tools.doApiRequest("researches/" + researchId, "DELETE", "", false);
+                })();
+                break;
+            case "troopUgrade":
+                //TODO
+                break;
         }
-        //console.log(JSON.stringify(taskReqBody) + ' successfully ran at ' + new Date() + ' (was scheduled to run at '+ fireDate + ')');
     }.bind(null, taskReqBody));
 
     scheduledTasks.push(newTask);

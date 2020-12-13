@@ -102,7 +102,6 @@ export default {
             villageStableProductions: undefined,
             villageStableProductionsTimeLeft: [],
             researchedTroops: [],
-            userTribe: "teuton",
         };
     },
 
@@ -115,13 +114,14 @@ export default {
         ],
     
     watch: {
+        'researchesCompleted': function() { this.getResearchedTroops(this.$parent.villageBuildingType); },
     },
 
     created() {
         this.fetchVillageOwnTroops();
-        this.getResearchedTroops();
         this.startCountdownInterval();
         this.fetchVillageStableProduction();
+        this.fetchResearchesCompleted();
     },
 
     methods: {
@@ -143,17 +143,6 @@ export default {
         },
         insertTroops(id){        
             document.getElementById("troop"+id).value = document.getElementById("maxTroops"+id).innerHTML;
-        },
-        getResearchedTroops(){
-            Object.keys(this.troopInfoLookup).forEach((tribe) => {
-                if(tribe == this.userTribe){
-                    Object.keys(this.troopInfoLookup[tribe]).forEach( (troop) =>{
-                        if(this.troopInfoLookup[tribe][troop]['buildingId'] == this.$parent.villageBuildingType){
-                            this.researchedTroops.push(this.troopInfoLookup[tribe][troop]);
-                        }
-                    });
-                }
-            });
         },
         async train(){
             let elementList = document.querySelectorAll(".trainTroop");

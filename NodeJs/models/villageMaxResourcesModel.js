@@ -9,7 +9,7 @@ const villageMaxResourcesSchema = new Schema ({
         maxCrop: { type: Number, required: true }
 });
 
-var villageMaxResources = module.exports = mongoose.model('villageMaxResources', villageMaxResourcesSchema);
+var villageMaxResources = module.exports = mongoose.model('villageMaxResources', villageMaxResourcesSchema, 'villageMaxResources');
 
 module.exports.get = function (callback, limit) {
         villageMaxResources.find(callback).limit(limit);

@@ -113,13 +113,14 @@ export default {
         ],
     
     watch: {
+        'researchesCompleted': function() { this.getAvailableTroops(); },
     },
 
     created() {
         this.fetchVillageOwnTroops();
-        this.getAvailableTroops();
         this.startCountdownInterval();
         this.fetchVillagePalaceProduction();
+        this.fetchResearchesCompleted();
     },
 
     methods: {
@@ -151,7 +152,7 @@ export default {
 
             for(let troop of this.troopInfoLookup[this.userTribe]){
                 if(troop['buildingId'] == this.$parent.villageBuildingType){
-                    if(troop['id'] == 9 && troopsAvailable[0] >= 1){
+                    if(troop['id'] == 9 && troopsAvailable[0] >= 1 && this.researchesCompleted['troop' + troop['id']]){
                         troop['availableQty'] = troopsAvailable[0];
                         researchedTroops.push(troop);
                     } else if(troop['id'] == 10 && troopsAvailable[1] >= 1){

@@ -26,5 +26,19 @@ export const hasMixins = {
 
             return false;
         },
+        hasRequiredResearchResources(troopId){
+            let troopInfo = {};
+            for (let troop of this.researchesInfoLookup[this.userTribe]){
+                if (troop['id'] == troopId) {
+                    troopInfo = troop;
+                }
+            }
+            if (this.villageResources[0] >= troopInfo['wood'] && this.villageResources[1] >= troopInfo['clay'] && 
+                this.villageResources[2] >= troopInfo['iron'] && this.villageResources[3] >= troopInfo['crop']){
+                return true;
+            }
+
+            return false;
+        },
     }
   }

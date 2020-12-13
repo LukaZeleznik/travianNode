@@ -12,7 +12,7 @@ const villageSchema = new Schema({
     owner:              {type: String, required: false}
 });
 
-var village = module.exports = mongoose.model('village', villageSchema);
+var village = module.exports = mongoose.model('village', villageSchema, 'village');
 
 module.exports.get = function (callback, limit) {
     village.find(callback).limit(limit);

@@ -3,6 +3,8 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const fetch = require("node-fetch");
+var tools = require('../tools/tools');
+var config = require('../config.json');
 
 const scheduleController = require('../controllers/scheduleController');
 const villageResourcesController = require('../controllers/villageResourcesController');
@@ -20,6 +22,8 @@ const palaceProductionsController = require('../controllers/palaceProductionsCon
 const userController = require('../controllers/userController');
 const villageController = require('../controllers/villageController');
 const villageBuildingFieldsController = require('../controllers/villageBuildingFieldsController');
+const researchesCompletedController = require('../controllers/researchesCompletedController');
+const researchesController = require('../controllers/researchesController');
 const auth = require('../auth/auth');
 
 router.get('/', function (req, res) {
@@ -74,6 +78,7 @@ router.route('/login')
                                 return res.json({
                                     token: token,
                                     capital: user.capital,
+                                    userTribe: user.tribe,
                                     userId: user._id
                                 });
                             }
@@ -267,14 +272,28 @@ router.route('/villageBuildingUpgrade/:upgradeId')
 router.route('/cancelVillageBuildingUpgrade/:upgradeId')
     .delete(villageBuildingUpgradesController.cancel);
 
+router.route('/researchesCompleted')
+    .post(researchesCompletedController.new);
+router.route('/researchesCompleted/:idVillage')
+    .get(researchesCompletedController.view)
+    .put(researchesCompletedController.update)
+    .patch(researchesCompletedController.update)
+    .delete(researchesCompletedController.delete);
+
+router.route('/researches')
+    .post(researchesController.new);
+router.route('/researches/:idVillage')
+    .get(researchesController.view);
+router.route('/researches/:researchId')
+    .put(researchesController.update)
+    .patch(researchesController.update)
+    .delete(researchesController.delete);
+
 module.exports = router;
 
 async function checkIdVillage(req, res, next) {
-    let villagesApiUrl = "http://localhost:8080/api/villages/" + req.params.idVillage;
-    let village = await(await(await fetch(villagesApiUrl)).json()).data;
-    console.log("villageOwner", village.owner);
-    console.log("req.user._id", req.user._id);
-
+    let village = await(await(await tools.doApiRequest("villages/" + req.params.idVillage, "GET", "", false)).json()).data;
+    
     if(req.user._id == village.owner || req.user.email == "admin@openTravian.com"){
         return next();
     } else{

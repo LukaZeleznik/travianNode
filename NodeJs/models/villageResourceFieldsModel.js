@@ -41,7 +41,7 @@ const villageResourceFieldsSchema = new Schema ({
         field18Type: { type: Number, required: true }
 });
 
-var villageResourceFields = module.exports = mongoose.model('villageResourceFields', villageResourceFieldsSchema);
+var villageResourceFields = module.exports = mongoose.model('villageResourceFields', villageResourceFieldsSchema, 'villageResourceFields');
 
 module.exports.get = function (callback, limit) {
         villageResourceFields.find(callback).limit(limit);

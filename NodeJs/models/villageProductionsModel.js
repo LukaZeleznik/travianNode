@@ -9,7 +9,7 @@ const villageProductionsSchema = new Schema ({
         productionCrop: { type: Number, required: true }
 });
 
-var villageProductions = module.exports = mongoose.model('villageProductions', villageProductionsSchema);
+var villageProductions = module.exports = mongoose.model('villageProductions', villageProductionsSchema, 'villageProductions');
 
 module.exports.get = function (callback, limit) {
         villageProductions.find(callback).limit(limit);

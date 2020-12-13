@@ -13,7 +13,7 @@ const palaceProductionsSchema = new Schema ({
         troopsDoneAlready: { type: Number, required: true }
 });
 
-var palaceProductions = module.exports = mongoose.model('palaceProductions', palaceProductionsSchema);
+var palaceProductions = module.exports = mongoose.model('palaceProductions', palaceProductionsSchema, 'palaceProductions');
 
 module.exports.get = function (callback, limit) {
     palaceProductions.find(callback).limit(limit);

@@ -13,7 +13,7 @@ const barracksProductionsSchema = new Schema ({
         troopsDoneAlready: { type: Number, required: true }
 });
 
-var barracksProductions = module.exports = mongoose.model('barracksProductions', barracksProductionsSchema);
+var barracksProductions = module.exports = mongoose.model('barracksProductions', barracksProductionsSchema, 'barracksProductions');
 
 module.exports.get = function (callback, limit) {
         barracksProductions.find(callback).limit(limit);

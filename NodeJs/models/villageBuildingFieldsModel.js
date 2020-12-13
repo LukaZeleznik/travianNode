@@ -43,7 +43,7 @@ const villageBuildingFieldsSchema = new Schema ({
         field19Type: { type: Number, required: true }
 });
 
-var villageBuildingFields = module.exports = mongoose.model('villageBuildingFields', villageBuildingFieldsSchema);
+var villageBuildingFields = module.exports = mongoose.model('villageBuildingFields', villageBuildingFieldsSchema, 'villageBuildingFields');
 
 module.exports.get = function (callback, limit) {
     villageBuildingFields.find(callback).limit(limit);

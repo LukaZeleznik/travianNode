@@ -21,10 +21,14 @@ export const fetchMixins = {
             villageBuildingUpgrades:        this.$store.getters.getVillageBuildingUpgrades,
             activeVillageId:                this.$store.getters.getActiveVillageId,
             sidebarVillageList:             this.$store.getters.getSidebarVillageList,
+            researchesCompleted:            this.$store.getters.getResearchesCompleted,
+            researches:                     this.$store.getters.getResearches,
+            userTribe:                      this.$store.getters.getUserTribe,
             buildingInfoLookup: [],
             resourceInfoLookup: [],
             troopInfoLookup: [],
             resFieldVariationsInfoLookup: [],
+            researchesInfoLookup: [],
             config: {},
         };
     },
@@ -56,7 +60,8 @@ export const fetchMixins = {
         '$store.getters.getVillageBuildingUpgrades':            function() { this.villageBuildingUpgrades = this.$store.getters.getVillageBuildingUpgrades; },
         '$store.getters.getActiveVillageId':                    function() { this.activeVillageId = this.$store.getters.getActiveVillageId; },
         '$store.getters.getSidebarVillageList':                 function() { this.sidebarVillageList = this.$store.getters.getSidebarVillageList; },
-        
+        '$store.getters.getResearchesCompleted':                function() { this.researchesCompleted = this.$store.getters.getResearchesCompleted; },
+        '$store.getters.getResearches':                         function() { this.researches = this.$store.getters.getResearches; },        
     },
 
     methods: {
@@ -68,6 +73,7 @@ export const fetchMixins = {
             this.resourceInfoLookup =               require('@/assets/infoTables/resourceInfoLookup.json');
             this.troopInfoLookup =                  require('@/assets/infoTables/troopInfoLookup.json');
             this.resFieldVariationsInfoLookup =     require('@/assets/infoTables/resFieldVariationsInfoLookup.json');
+            this.researchesInfoLookup =             require('@/assets/infoTables/researchesInfoLookup.json');
         },
         fetchVillageOwnTroops()         { this.$store.dispatch('fetchVillageOwnTroops') },
         fetchVillageResources()         { this.$store.dispatch('fetchVillageResources') },
@@ -81,17 +87,18 @@ export const fetchMixins = {
         fetchVillageBuildingUpgrades()  { this.$store.dispatch('fetchVillageBuildingUpgrades') },
         fetchActiveVillageId()          { this.$store.dispatch('fetchActiveVillageId') },
         fetchSidebarVillageList()       { this.$store.dispatch('fetchSidebarVillageList') },
+        fetchResearchesCompleted()      { this.$store.dispatch('fetchResearchesCompleted') },
+        fetchResearches()               { this.$store.dispatch('fetchResearches') },
 
         fetchBuildingData(vbid){
             fetch('http://localhost:8080/api/villageBuildingFields/' + this.activeVillageId)
             .then(res => res.json())
             .then(res => {
-                let keyType = "field"+vbid+"Type";
-                let keyLevel = "field"+vbid+"Level";
-                let userTribe = "teuton";
+                const keyType = "field"+vbid+"Type";
+                const keyLevel = "field"+vbid+"Level";
 
                 if(vbid == 19){
-                    switch (userTribe) {
+                    switch (this.userTribe) {
                         case "teuton":  this.villageBuildingType = 5; break;
                         case "roman":   this.villageBuildingType = 6; break;
                         case "gaul":    this.villageBuildingType = 7; break;
@@ -108,8 +115,8 @@ export const fetchMixins = {
             fetch('http://localhost:8080/api/villageResourceFields/' + this.activeVillageId)
             .then(res => res.json())
             .then(res => {
-                let keyType = "field"+rfid+"Type";
-                let keyLevel = "field"+rfid+"Level";
+                const keyType = "field"+rfid+"Type";
+                const keyLevel = "field"+rfid+"Level";
 
                 this.villageResourceType = res.data[keyType];
                 this.villageResourceLevel = res.data[keyLevel];
