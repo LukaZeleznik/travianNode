@@ -49,7 +49,6 @@ calculateCombat(attacker, defender, constants);
 const troopInfoLookup = require('../infoTables/troopInfoLookup.json');
 module.exports = {
     calculateCombat: function calculateCombat(attacker, defender, constants){
-
         let winner;
 
         let attackerTroops = [];
@@ -68,7 +67,6 @@ module.exports = {
             attackerTroops.push(attacker["troop"+i]);
             defenderTroops.push(defender["troop"+i]);
         }
-
 
         let totalAttTroops = attackerTroops.reduce((a, b) => a + b, 0);
         let totalDefTroops = defenderTroops.reduce((a, b) => a + b, 0);

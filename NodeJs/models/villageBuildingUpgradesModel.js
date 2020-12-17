@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const villageBuildingUpgradesSchema = new Schema ({
         idVillage:      { type: String, required: true },
         vbid:           { type: Number, required: true },
+        taskId:         { type: String, required: true },
         buildingType:   { type: Number, required: true },
         buildingLevel:  { type: Number, required: true },
         woodUsed:       { type: Number, required: true },

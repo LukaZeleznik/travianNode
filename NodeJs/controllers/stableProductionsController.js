@@ -29,6 +29,7 @@ exports.new = async function (req, res) {
     const villageResources = await(await(await tools.doApiRequest('villageResources/' + idVillage, 'GET', '', false)).json()).data;
     const villageBuildingFields = await(await(await tools.doApiRequest('villageBuildingFields/' + idVillage, 'GET', '', false)).json()).data;
     const stableProductionResponse = await(await(await tools.doApiRequest('stableProductions/' + idVillage, 'GET', '', false)).json()).data;
+    const researchesCompleted =   await(await(await tools.doApiRequest("researchesCompleted/" + idVillage, "GET", "", false)).json()).data;
 
     let villageBuildingLevel = 0;
     for(let i = 1; i <= Object.keys(villageBuildingFields).length; i++){
@@ -46,11 +47,20 @@ exports.new = async function (req, res) {
         return;
     }
 
+    if (tools.troopInfoLookup[userTribe][req.body.troopId-1]['buildingId'] != STABLE || !researchesCompleted['troop' + req.body.troopId]){
+        res.json({
+            message: 'This troop cannot be trained',
+            data: ""
+        });
+        return;
+    }
+
     let requirementWood = tools.troopInfoLookup[userTribe][req.body.troopId-1]["wood"] * req.body.troopCount;
     let requirementClay = tools.troopInfoLookup[userTribe][req.body.troopId-1]["clay"] * req.body.troopCount;
     let requirementIron = tools.troopInfoLookup[userTribe][req.body.troopId-1]["iron"] * req.body.troopCount;
     let requirementCrop = tools.troopInfoLookup[userTribe][req.body.troopId-1]["crop"] * req.body.troopCount;
 
+    console.log(requirementWood,requirementClay,requirementIron,requirementCrop);
     if(req.body.troopCount < 1){
         res.json({
             message: 'Insert troops to train',
@@ -60,7 +70,7 @@ exports.new = async function (req, res) {
     }
 
     if(villageResources.currentWood < requirementWood || villageResources.currentClay < requirementClay || 
-        villageResources.currentIron < requirementIron || villageResources.currentCrop < requirementCrop ){
+       villageResources.currentIron < requirementIron || villageResources.currentCrop < requirementCrop ){
         res.json({
             message: 'Not enough resources',
             data: ""

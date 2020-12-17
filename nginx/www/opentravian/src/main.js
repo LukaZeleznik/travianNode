@@ -44,7 +44,8 @@ Vue.component('villageBuilding10', require('./components/Village/Buildings/10.vu
 Vue.component('villageBuilding11', require('./components/Village/Buildings/11.vue').default); //Iron Foundry
 Vue.component('villageBuilding12', require('./components/Village/Buildings/12.vue').default); //Sawmill
 Vue.component('villageBuilding13', require('./components/Village/Buildings/13.vue').default); //Palace
-Vue.component('villageBuilding14', require('./components/Village/Buildings/14.vue').default); //ResearchesCompleted
+Vue.component('villageBuilding14', require('./components/Village/Buildings/14.vue').default); //Academy
+Vue.component('villageBuilding15', require('./components/Village/Buildings/15.vue').default); //Marketplace
 
 //Resources
 Vue.component('resourcesFields', require('./components/Resources/Fields.vue').default);

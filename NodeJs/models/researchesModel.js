@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const researchesSchema = new Schema ({
         idVillage:      { type: String, required: true },
+        taskId:         { type: String, required: true },
         researchType:   { type: String, required: true },
         troopName:      { type: String, required: false },
         troopId:        { type: Number, required: true },

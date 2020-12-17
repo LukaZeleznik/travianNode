@@ -12,11 +12,11 @@ exports.new = function (req, res) {
     const taskType = taskReqBody.taskType;
     const taskUnixTime = taskReqBody.taskUnixTime;
     const taskData = taskReqBody.taskData;
-    const taskName = `${taskType}_${taskData.idVillage}_${taskUnixTime}`;
+    const taskId = taskReqBody.taskData.taskId;
     const taskDateTime = new Date(taskUnixTime * 1000);
     const taskDateTimeString = taskDateTime.toString();
 
-    var newTask = schedule.scheduleJob(taskName, taskDateTime, function(taskReqBody, fireDate){
+    var newTask = schedule.scheduleJob(taskId, taskDateTime, function(taskReqBody, fireDate){
         var idVillage = taskReqBody.taskData.idVillage;
         var idVillageTo = taskReqBody.taskData.idVillageTo;
         var idVillageFrom = taskReqBody.taskData.idVillageFrom;
@@ -59,11 +59,13 @@ exports.new = function (req, res) {
                     userData['population'] += consumption;
 
                     await tools.doApiRequest("users/" + userData['_id'], "PATCH", userData, true);
+                    await tools.doApiRequest("villages/" + villageData['mapTileId'], "PATCH", villageData, true);
                     await tools.doApiRequest("villageBuildingFields/" + idVillage, "PATCH", villageBuildingFields, true);
                     await tools.doApiRequest("villageBuildingUpgrade/" + buildingUpgradeId, "DELETE", "", false);
                 })();
                 break;
             case "attack":
+                //TODO FIX SCHEDULER
                 (async () => {  
                     let defendingVillageOwnTroops = await(await(await tools.doApiRequest("villageOwnTroops/" + idVillageTo, "GET", "", false)).json()).data;
                     const userTribeFrom = await tools.getTribeFromIdVillage(idVillageFrom);
@@ -114,6 +116,7 @@ exports.new = function (req, res) {
                 })();
                 break;
             case "return":
+                //TODO FIX SCHEDULER
                 (async () => {  
                     const userTribeFrom = await tools.getTribeFromIdVillage(idVillageFrom);
                     let villageOwnTroops = await(await(await tools.doApiRequest("villageOwnTroops/" + idVillageTo, "GET", "", false)).json()).data;
@@ -127,11 +130,11 @@ exports.new = function (req, res) {
                 })();
                 break;
             case "settle":
+                //TODO FIX SCHEDULER
                 (async () => {  
                     const idVillageFrom = taskReqBody.taskData.idVillageFrom;
                     const idVillageTo = taskReqBody.taskData.idVillageTo;
                     const troopTribe = taskReqBody.taskData.troopTribe;
-                    const userTribeFrom = await tools.getTribeFromIdVillage(idVillageFrom);
                 
                     const idVillageToData = await tools.getVillageData(idVillageTo);
                     if (idVillageToData['owner'] != ''){
@@ -163,7 +166,7 @@ exports.new = function (req, res) {
                     await tools.doApiRequest("researches/" + researchId, "DELETE", "", false);
                 })();
                 break;
-            case "troopUgrade":
+            case "troopUpgrade":
                 //TODO
                 break;
         }
@@ -176,7 +179,7 @@ exports.new = function (req, res) {
         status: 'New task scheduled',
         data: {
             idVillage: taskData.idVillage,
-            taskName: taskName,
+            taskId: taskId,
             taskType: taskType,
             taskUnixTime: taskUnixTime,
             taskDateTime: taskDateTimeString
@@ -198,13 +201,10 @@ async function createVillage(villageData,userData){
     let villageOwnTroopsData = {};
     let wallType = 0;
 
-    console.log("test 1",userData);
-
     /* Update Village with userId */
     villageData['owner'] = userData['_id'];
     villageData['name']  = userData['nickname'] + "'s new village";
     await tools.doApiRequest("villages/" + villageData['mapTileId'],"PATCH",villageData,true);
-    console.log("test 2");
 
     /* CREATE: villageBuildingFields */
     for(let l = 1; l < 20; l++){
@@ -220,7 +220,6 @@ async function createVillage(villageData,userData){
     villageBuildingFieldsData['idVillage'] = villageData['_id'];
     await tools.doApiRequest("villageBuildingFields","POST",villageBuildingFieldsData,true);
 
-    console.log("test 3");
     /* CREATE: villageResourceFields */
     for(let l = 1; l < 19; l++){
         villageResFieldsData['field'+l+'Type'] = tools.resFieldVariationsInfoLookup[villageData['fieldVariation']]['variation'][l-1];
@@ -228,7 +227,6 @@ async function createVillage(villageData,userData){
     }
     villageResFieldsData['idVillage'] = villageData['_id'];
     await tools.doApiRequest("villageResourceFields","POST",villageResFieldsData,true);
-    console.log("test 4");
 
     /* CREATE: villageMaxResources */
     let villageMaxResourcesData = {
@@ -239,7 +237,6 @@ async function createVillage(villageData,userData){
         "maxCrop": 800
     }
     await tools.doApiRequest("villageMaxResources","POST",villageMaxResourcesData,true);
-    console.log("test 5");
 
     /* CREATE: villageOwnTroops */
     for(let l = 0; l < tools.troopInfoLookup[userData['tribe']].length; l++){
@@ -249,7 +246,6 @@ async function createVillage(villageData,userData){
     villageOwnTroopsData['tribe'] = userData['tribe'];
     await tools.doApiRequest("villageOwnTroops","POST",villageOwnTroopsData,true);
 
-    console.log("test 6");
     /* CREATE: villageProductions */
     let villageProductionsData = {
         "idVillage": villageData['_id'],
@@ -259,7 +255,6 @@ async function createVillage(villageData,userData){
         "productionCrop": 0
     }
     await tools.doApiRequest("villageProductions","POST",villageProductionsData,true);
-    console.log("test 7");
 
     /* CREATE: villageResources */
     let villageResourcesData = {
@@ -271,5 +266,4 @@ async function createVillage(villageData,userData){
         "lastUpdate": currentUnixTime
     }
     await tools.doApiRequest("villageResources","POST",villageResourcesData,true);
-    console.log("test 8");
 }

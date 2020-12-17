@@ -50,7 +50,7 @@
                     <th scope="row" class="align-middle">
                         <img :src="'/images/troops/' + userTribe + '/' + (villageBarracksProduction.troopId) + '.gif'">{{
                             Math.ceil(villageBarracksProduction.troopCount - villageBarracksProduction.troopsDoneAlready)
-                            }} {{villageBarracksProduction.troopName}}
+                            }}  {{villageBarracksProduction.troopName}}
                         <br />
                     </th>
                     <td class="align-middle">

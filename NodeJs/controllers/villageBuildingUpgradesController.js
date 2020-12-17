@@ -1,5 +1,7 @@
 const path = require('path');
 const fetch = require("node-fetch");
+var uuid = require('uuid-random');
+const schedule = require('node-schedule');
 const villageBuildingUpgradesModel = require('../models/villageBuildingUpgradesModel');
 var tools = require('../tools/tools');
 var config = require('../config.json');
@@ -146,10 +148,12 @@ exports.new = async function (req, res) {
         await tools.doApiRequest("villageResources/" + idVillage, "PATCH", villageResources, true);
 
         const timeCompleted = currentUnixTime + requirementConstructionTime;
-
+        const taskId = uuid();
+        
         var villageBuildingUpgrades = new villageBuildingUpgradesModel();
         villageBuildingUpgrades.idVillage = idVillage;
         villageBuildingUpgrades.vbid = buildingFieldId;
+        villageBuildingUpgrades.taskId = taskId;
         villageBuildingUpgrades.buildingType = villageBuildingType;
         villageBuildingUpgrades.buildingLevel = villageBuildingLevel;
         villageBuildingUpgrades.woodUsed = requirementWood;
@@ -159,7 +163,7 @@ exports.new = async function (req, res) {
         villageBuildingUpgrades.timeStarted = currentUnixTime;
         villageBuildingUpgrades.timeCompleted = timeCompleted;
 
-        const buildingUpgrade = villageBuildingUpgrades.save(async function (err,buildingUpgrade) {
+        villageBuildingUpgrades.save(async function (err,buildingUpgrade) {
             if (err){
                 res.json(err);
             }
@@ -169,6 +173,7 @@ exports.new = async function (req, res) {
                     "taskUnixTime": timeCompleted,
                     "taskData": {
                         "idVillage": idVillage,
+                        "taskId": taskId,
                         "buildingId": buildingFieldId,
                         "buildingUpgradeId": buildingUpgrade._id,
                         "newBuildingType": newBuildingType
@@ -251,6 +256,8 @@ exports.cancel = async function (req, res) {
                 villageResources.lastUpdate = currentUnixTime;
 
                 await tools.doApiRequest("villageResources/" + upgradeData['idVillage'], "PATCH", villageResources, true);
+
+                schedule.scheduledJobs[upgradeData['taskId']].cancel();
 
                 res.json({
                     status: "success",

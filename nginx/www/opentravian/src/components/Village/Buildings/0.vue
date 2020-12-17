@@ -79,7 +79,10 @@ export default {
     created() {
         this.fetchvillageBuildingFields();
         this.fetchvillageResourceFields();
-        this.getAvailableBuildings();
+    },
+
+    watch: {
+        'villageBuildingTypes': function () { this.getAvailableBuildings(); }
     },
 
     methods: {

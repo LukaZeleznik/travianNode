@@ -1,5 +1,7 @@
 const path = require('path');
 const fetch = require("node-fetch");
+var uuid = require('uuid-random');
+const schedule = require('node-schedule');
 const villageResFieldUpgradesModel = require('../models/villageResFieldUpgradesModel');
 var tools = require('../tools/tools');
 var config = require('../config.json');
@@ -44,9 +46,6 @@ exports.new = async function (req, res) {
         let requirementIron = tools.resourceInfoLookup[villageResourceFieldType]["iron"][villageResourceFieldLevel+1];
         let requirementCrop = tools.resourceInfoLookup[villageResourceFieldType]["crop"][villageResourceFieldLevel+1];
         let requirementConstructionTime = Math.floor(Number(tools.resourceInfoLookup[villageResourceFieldType]["constructionTime"][villageResourceFieldLevel+1]) / config.SERVER_SPEED);
-        const timeCompleted = currentUnixTime + requirementConstructionTime;
-
-        console.log("long boy", tools.resourceInfoLookup[villageResourceFieldType]["constructionTime"][villageResourceFieldLevel+1]);
 
         if(queueFull(idVillage,res) == true) return;
 
@@ -66,10 +65,14 @@ exports.new = async function (req, res) {
         villageResources.lastUpdate = currentUnixTime;
 
         await tools.doApiRequest("villageResources/" + idVillage, "PATCH", villageResources, true);
+
+        const timeCompleted = currentUnixTime + requirementConstructionTime;
+        const taskId = uuid();
         
         var villageResFieldUpgrades = new villageResFieldUpgradesModel();
         villageResFieldUpgrades.idVillage = idVillage;
         villageResFieldUpgrades.rfid = resFieldId;
+        villageResFieldUpgrades.taskId = taskId;
         villageResFieldUpgrades.fieldType = villageResourceFieldType;
         villageResFieldUpgrades.fieldLevel = villageResourceFieldLevel;
         villageResFieldUpgrades.woodUsed = requirementWood;
@@ -81,7 +84,7 @@ exports.new = async function (req, res) {
 
         console.log("idVillage",idVillage);
 
-        let villageResFieldUpgrade = villageResFieldUpgrades.save(async function (err,villageResFieldUpgrade) {
+        villageResFieldUpgrades.save(async function (err,villageResFieldUpgrade) {
             if (err){
                 res.json(err);
             }
@@ -91,6 +94,7 @@ exports.new = async function (req, res) {
                     "taskUnixTime": timeCompleted,
                     "taskData": {
                         "idVillage": idVillage,
+                        "taskId": taskId,
                         "resFieldId": resFieldId,
                         "resFieldUpgradeId": villageResFieldUpgrade._id
                     }
@@ -99,7 +103,7 @@ exports.new = async function (req, res) {
 
                 res.json({
                     message: 'villageResFieldUpgrade success',
-                    data: villageResFieldUpgrades
+                    data: villageResFieldUpgrade
                 });
             }
         });
@@ -162,6 +166,8 @@ exports.cancel = async function (req, res) {
                 villageResources.lastUpdate = currentUnixTime;
 
                 await tools.doApiRequest("villageResources/" + upgradeData['idVillage'], "PATCH", villageResources, true);
+
+                schedule.scheduledJobs[upgradeData['taskId']].cancel();
 
                 res.json({
                     status: "success",

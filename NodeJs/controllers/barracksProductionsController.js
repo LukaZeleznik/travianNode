@@ -25,12 +25,13 @@ exports.view = function (req, res) {
 exports.new = async function (req, res) {
     const idVillage = req.body.idVillage;
     const userTribe = await tools.getTribeFromIdVillage(idVillage);
+    
+    const currentUnixTime = Math.round(new Date().getTime()/1000);
 
-    let currentUnixTime = Math.round(new Date().getTime()/1000);
-
-    let villageResources =      await(await(await tools.doApiRequest("villageResources/" + idVillage, "GET", "", false)).json()).data;
-    let villageBuildingFields = await(await(await tools.doApiRequest("villageBuildingFields/" + idVillage, "GET", "", false)).json()).data;
-    let barracksProduction =    await(await(await tools.doApiRequest("barracksProductions/" + idVillage, "GET", "", false)).json()).data;
+    const villageResources =          await(await(await tools.doApiRequest("villageResources/" + idVillage, "GET", "", false)).json()).data;
+    const villageBuildingFields =   await(await(await tools.doApiRequest("villageBuildingFields/" + idVillage, "GET", "", false)).json()).data;
+    const barracksProduction =      await(await(await tools.doApiRequest("barracksProductions/" + idVillage, "GET", "", false)).json()).data;
+    const researchesCompleted =     await(await(await tools.doApiRequest("researchesCompleted/" + idVillage, "GET", "", false)).json()).data;
 
     let villageBuildingLevel = 0;
     for(let i = 1; i <= Object.keys(villageBuildingFields).length; i++){
@@ -43,6 +44,14 @@ exports.new = async function (req, res) {
     if (villageBuildingLevel <= 0){
         res.json({
             message: 'Building must be at least level 1',
+            data: ""
+        });
+        return;
+    }
+
+    if (tools.troopInfoLookup[userTribe][req.body.troopId-1]['buildingId'] != BARRACKS || !researchesCompleted['troop' + req.body.troopId]){
+        res.json({
+            message: 'This troop cannot be trained',
             data: ""
         });
         return;
@@ -87,7 +96,7 @@ exports.new = async function (req, res) {
     const troopQueueTime = Object.keys(barracksProduction).length > 0 ? barracksProduction[Object.keys(barracksProduction).length-1]['timeCompleted'] : currentUnixTime
     const troopTrainingTime = (tools.troopInfoLookup['teuton'][req.body.troopId-1]['time'] * tools.buildingInfoLookup[BARRACKS]['buildingModifier'][villageBuildingLevel]) / config.SERVER_SPEED;
     
-    barracksProductions.troopName       = tools.troopInfoLookup.teuton[req.body.troopId-1]['name'];
+    barracksProductions.troopName       = tools.troopInfoLookup[userTribe][req.body.troopId-1]['name'];
     barracksProductions.troopProdTime   = troopTrainingTime;
     barracksProductions.timeStarted     = troopQueueTime;
     barracksProductions.timeCompleted   = troopQueueTime + Math.floor(req.body.troopCount * troopTrainingTime);

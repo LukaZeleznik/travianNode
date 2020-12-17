@@ -29,6 +29,7 @@ exports.new = async function (req, res) {
     const villageResources = await(await(await tools.doApiRequest('villageResources/' + idVillage, 'GET', '', false)).json()).data;
     const villageBuildingFields = await(await(await tools.doApiRequest('villageBuildingFields/' + idVillage, 'GET', '', false)).json()).data;
     const palaceProductionResponse = await(await(await tools.doApiRequest('palaceProductions/' + idVillage, 'GET', '', false)).json()).data;
+    const researchesCompleted =   await(await(await tools.doApiRequest("researchesCompleted/" + idVillage, "GET", "", false)).json()).data;
 
     let villageBuildingLevel = 0;
     for(let i = 1; i <= Object.keys(villageBuildingFields).length; i++){
@@ -43,6 +44,14 @@ exports.new = async function (req, res) {
     } else {
         res.json({
             message: 'Building must be at least level 10',
+            data: ""
+        });
+        return;
+    }
+
+    if (tools.troopInfoLookup[userTribe][req.body.troopId-1]['buildingId'] != PALACE || !researchesCompleted['troop' + req.body.troopId]){
+        res.json({
+            message: 'This troop cannot be trained',
             data: ""
         });
         return;

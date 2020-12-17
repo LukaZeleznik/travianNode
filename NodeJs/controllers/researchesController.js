@@ -1,5 +1,6 @@
 const path = require('path');
 const fetch = require("node-fetch");
+var uuid = require('uuid-random');
 const researchesModel = require('../models/researchesModel');
 var tools = require('../tools/tools');
 var config = require('../config.json');
@@ -59,8 +60,11 @@ exports.new = async function (req, res) {
 
             await tools.doApiRequest("villageResources/" + idVillage, "PATCH", villageResources, true);
 
+            const taskId = uuid();
+
             var researches = new researchesModel();
             researches.idVillage = idVillage;
+            researches.taskId = taskId;
             researches.researchType = 'troopResearch';
             researches.troopName = troopInfo['name'];
             researches.troopId = troopId;
@@ -77,6 +81,7 @@ exports.new = async function (req, res) {
                         "taskUnixTime": timeCompleted,
                         "taskData": {
                             "researchId": researches._id,
+                            "taskId": taskId,
                             "idVillage": idVillage,
                             "troopTribe": userTribe,
                             "troopId": troopId,

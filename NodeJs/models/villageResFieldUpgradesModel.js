@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const villageResFieldUpgradesSchema = new Schema ({
         idVillage:      { type: String, required: true },
         rfid:           { type: Number, required: true },
+        taskId:         { type: String, required: true },
         fieldType:      { type: Number, required: true },
         fieldLevel:     { type: Number, required: true },
         woodUsed:       { type: Number, required: true },
