@@ -73,17 +73,6 @@ exports.delete = function (req, res) {
     });
 };
 
-function checkValidIdVillageTo(req, res){
-    if (req.body.idVillageFrom == req.body.idVillageTo){
-        res.json({
-            message: 'Cannot send troops to the same village',
-            data: ''
-        });
-        return false;
-    }
-    return true;
-}
-
 function checkSentAmount(req, res, userTribe, villageToData){
     let totalTroops = 0;
     for(let troop of tools.troopInfoLookup[userTribe]){
@@ -137,7 +126,7 @@ async function updateVillageOwnTroops(req, res, userTribe){
         return true;
     }
     return false;
-}
+};
 
 function calculateTroopArrival(req, idVillageToData, idVillageFromData, userTribe){
     const distance = Math.hypot(idVillageToData['xCoordinate']-idVillageFromData['xCoordinate'], idVillageToData['yCoordinate']-idVillageFromData['yCoordinate']);
@@ -153,7 +142,18 @@ function calculateTroopArrival(req, idVillageToData, idVillageFromData, userTrib
     console.log("troopSpeed", troopSpeed);
 
     return Number((distance / troopSpeed * 3600) / config.TROOP_SPEED)
-}
+};
+
+function checkValidIdVillageTo(req, res){
+    if (req.body.idVillageFrom == req.body.idVillageTo){
+        res.json({
+            message: 'Cannot send troops to the same village',
+            data: ''
+        });
+        return false;
+    }
+    return true;
+};
 
 async function doSendTroops(req, res, userTribe){
     const currentUnixTime =  Math.round(new Date().getTime()/1000);

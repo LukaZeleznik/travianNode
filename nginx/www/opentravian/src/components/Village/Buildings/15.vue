@@ -4,7 +4,7 @@
             <div class="container">
                 <ul class="nav nav-tabs nav-justified">
                     <li class="nav-item" v-for="(menuOption, key) in menuOptions" :key="key">
-                        <a class="nav-link" @click.prevent="setActive(key)" :class="{ active: isActive(key) }" :href="'#'+key">{{ menuOption }}</a>
+                        <a class="nav-link" @click.prevent="setActive(key)" :class="{ active: isActive(key), disabled: key!='sendResources'}" :href="'#'+key">{{ menuOption }}</a>
                     </li>
                 </ul>
                 <div class="tab-content py-3" id="myTabContent">
@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <h5 class="mt-5"> <p>Traders available: {{ buildingInfoLookup[$parent.villageBuildingType]['buildingModifier'][$parent.villageBuildingLevel] }} </p></h5>
+        <h5 class="mt-5"> <p>Traders: {{ buildingInfoLookup[$parent.villageBuildingType]['buildingModifier'][$parent.villageBuildingLevel] }} </p></h5>
         <div v-if="$parent.villageBuildingLevel < (buildingInfoLookup[$parent.villageBuildingType]['wood'].length-1)">
             <h5> <p>Traders at level {{ $parent.villageBuildingLevel+1 }}: {{ buildingInfoLookup[$parent.villageBuildingType]['buildingModifier'][$parent.villageBuildingLevel+1] }}</p></h5>
             <h4> <p>Cost for upgrading to Level {{ $parent.villageBuildingLevel+1 }}:</p></h4>

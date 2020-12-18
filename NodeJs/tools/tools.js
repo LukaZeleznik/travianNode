@@ -36,5 +36,5 @@ module.exports = {
         const villageOwner = await(await(await this.doApiRequest("villages/" + idVillage, "GET", "", false)).json()).data.owner;
         const userData = await(await(await this.doApiRequest("users/" + villageOwner, "GET", "", false)).json()).data;
         return userData;
-    }
+    },
 };

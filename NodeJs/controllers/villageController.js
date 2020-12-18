@@ -69,6 +69,24 @@ exports.findByOwner = function (req, res) {
     });
 };
 
+exports.findByCoords = function (req, res) {
+    villageModel.findOne({xCoordinate: req.params.xCoordinate, yCoordinate: req.params.yCoordinate}, function (err, village) {
+        if (err) res.send(err);
+        if (village) {
+            res.json({
+                status: 'success',
+                message: 'Loading village..',
+                data: village
+            });
+        } else {
+            res.json({
+                message: 'No village found on these coordinates',
+                data: ''
+            });
+        }
+    });
+};
+
 exports.insertMany = function (req, res) {
     villageModel.insertMany(req.body, function (err, villages) {
         if (err)
