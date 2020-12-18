@@ -109,8 +109,8 @@ export default {
                 document.querySelector("#errorMessage").innerText = "Cannot send troops to the same village";
                 return false;
             }
-
-            if (wood == 0 && clay == 0 && iron == 0 && crop == 0){
+    
+            if (wood == 0 && clay == 0 && iron == 0 && crop == 0){
                 document.querySelector("#errorMessage").innerText = "You need to send at least one resource";
                 return false;
             }
