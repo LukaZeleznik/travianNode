@@ -119,6 +119,7 @@ router.route('/schedule/:idTask')
 */
 /* Authenticated
 */
+/*
 router.route('/villageResources')
     .post(function(req, res, next) {passport.authenticate('jwt', {session: false}, function(err, user, info){console.log("user", user,"info", info); return next();})(req, res, next)}, villageResourcesController.new);
 router.route('/villageResources/:idVillage')
@@ -126,7 +127,7 @@ router.route('/villageResources/:idVillage')
     .put(function(req, res, next) {passport.authenticate('jwt', {session: false}, function(err, user, info){console.log("user", user,"info", info); return next();})(req, res, next)}, villageResourcesController.update)
     .patch(function(req, res, next) {passport.authenticate('jwt', {session: false}, function(err, user, info){console.log("user", user,"info", info); return next();})(req, res, next)}, villageResourcesController.update)
     .delete(function(req, res, next) {passport.authenticate('jwt', {session: false}, function(err, user, info){console.log("user", user,"info", info); return next();})(req, res, next)}, villageResourcesController.delete);
-
+*/
 
 router.route('/villages')
     .post(villageController.new)
