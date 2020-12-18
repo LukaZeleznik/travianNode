@@ -1,4 +1,5 @@
 const fetch = require("node-fetch");
+require('dotenv').config();
 
 module.exports = {
     buildingInfoLookup:             require('../infoTables/buildingInfoLookup.json'),
@@ -15,6 +16,7 @@ module.exports = {
                 method: method,
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': 'Bearer' + process.env.ADMIN_TOKEN
                 },
                 body: JSON.stringify(data),
             });

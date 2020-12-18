@@ -5,6 +5,7 @@ const passport = require('passport');
 const fetch = require("node-fetch");
 var tools = require('../tools/tools');
 var config = require('../config.json');
+require('dotenv').config()
 
 const scheduleController = require('../controllers/scheduleController');
 const villageResourcesController = require('../controllers/villageResourcesController');
@@ -29,7 +30,7 @@ const auth = require('../auth/auth');
 router.get('/', function (req, res) {
     res.json({
         status: 'API Its Working',
-        message: 'Welcome to RESTHub crafted with love!',
+        message: 'Welcome to RESTHub crafted with love!!!',
     });
 });
 router.route('/register')
@@ -115,15 +116,15 @@ router.route('/schedule/:idTask')
     .delete(scheduleController.delete);
 */
 /* Authenticated
-
-router.route('/villageResources')
-    .post(passport.authenticate('jwt', {session: false}), checkIdVillage, villageResourcesController.new);
-router.route('/villageResources/:idVillage')
-    .get(passport.authenticate('jwt', {session: false}), checkIdVillage, villageResourcesController.view)
-    .put(passport.authenticate('jwt', {session: false}), checkIdVillage, villageResourcesController.update)
-    .patch(passport.authenticate('jwt', {session: false}), checkIdVillage, villageResourcesController.update)
-    .delete(passport.authenticate('jwt', {session: false}), checkIdVillage, villageResourcesController.delete);
 */
+router.route('/villageResources')
+    .post(function(req, res, next) {passport.authenticate('jwt', {session: false}, function(err, user, info){console.log("user", user,"info", info); return next();})(req, res, next)}, villageResourcesController.new);
+router.route('/villageResources/:idVillage')
+    .get(function(req, res, next) {passport.authenticate('jwt', {session: false}, function(err, user, info){console.log("user", user,"info", info); return next();})(req, res, next)}, villageResourcesController.view)
+    .put(function(req, res, next) {passport.authenticate('jwt', {session: false}, function(err, user, info){console.log("user", user,"info", info); return next();})(req, res, next)}, villageResourcesController.update)
+    .patch(function(req, res, next) {passport.authenticate('jwt', {session: false}, function(err, user, info){console.log("user", user,"info", info); return next();})(req, res, next)}, villageResourcesController.update)
+    .delete(function(req, res, next) {passport.authenticate('jwt', {session: false}, function(err, user, info){console.log("user", user,"info", info); return next();})(req, res, next)}, villageResourcesController.delete);
+
 
 router.route('/villages')
     .post(villageController.new)
@@ -137,7 +138,7 @@ router.route('/generateMapVillages')
     .post(villageController.insertMany);
 router.route('/villages/owner/:uid')
     .get(villageController.findByOwner);
-
+/*
 router.route('/villageResources')
     .post( villageResourcesController.new);
 router.route('/villageResources/:idVillage')
@@ -145,7 +146,7 @@ router.route('/villageResources/:idVillage')
     .put(villageResourcesController.update)
     .patch(villageResourcesController.update)
     .delete(villageResourcesController.delete);
-
+*/
 router.route('/villageMaxResources')
     .post(villageMaxResourcesController.new);
 router.route('/villageMaxResources/:idVillage')
@@ -294,12 +295,26 @@ module.exports = router;
 async function checkIdVillage(req, res, next) {
     let village = await(await(await tools.doApiRequest("villages/" + req.params.idVillage, "GET", "", false)).json()).data;
     
-    if(req.user._id == village.owner || req.user.email == "admin@openTravian.com"){
+    if(req.user._id == village.owner || req.user.email == "admin@test.com"){
         return next();
     } else{
         res.json({
             message: 'Authentication failed',
-            data: ""
+            data: "{}"
+        });
+        return;
+    }
+}
+
+async function checkIfAdminOrServer(req, res, next) {
+
+    
+    if(req.user._id == village.owner || req.user.email == "admin@test.com"){
+        return next();
+    } else{
+        res.json({
+            message: 'Authentication failed',
+            data: "{}"
         });
         return;
     }

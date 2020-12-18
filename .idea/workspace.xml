@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="3d84dd1c-838a-47d8-9fb3-6bfaf38e0bd9" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/NodeJs/.env" beforeDir="false" afterPath="$PROJECT_DIR$/NodeJs/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NodeJs/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/NodeJs/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NodeJs/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/NodeJs/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NodeJs/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/NodeJs/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NodeJs/routes/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/NodeJs/routes/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NodeJs/tools/tools.js" beforeDir="false" afterPath="$PROJECT_DIR$/NodeJs/tools/tools.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.2.3\plugins\maven\lib\maven3" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1lo6g6cvbAiikVamX9x3zcXz4g3" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3d84dd1c-838a-47d8-9fb3-6bfaf38e0bd9" name="Default Changelist" comment="" />
+      <created>1608251205501</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1608251205501</updated>
+    </task>
+    <servers />
+  </component>
+</project>

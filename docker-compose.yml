@@ -12,6 +12,11 @@ services:
             - db
         env_file: .env
         command: nodemon -L app.js
+        #command: sh -c "
+        #        npm install
+        #        && pm2-dev processes.json
+        #    "
+
         environment:
         - MONGO_USERNAME=$MONGO_USERNAME
         - MONGO_PASSWORD=$MONGO_PASSWORD
