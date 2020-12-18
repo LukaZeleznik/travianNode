@@ -1,5 +1,20 @@
 <template>
-    <div>             
+    <div>
+        <div id="app">
+            <div class="container">
+                <ul class="nav nav-tabs nav-justified">
+                    <li class="nav-item" v-for="(menuOption, key) in menuOptions" :key="key">
+                        <a class="nav-link" @click.prevent="setActive(key)" :class="{ active: isActive(key) }" :href="'#'+key">{{ menuOption }}</a>
+                    </li>
+                </ul>
+                <div class="tab-content py-3" id="myTabContent">
+                    <div v-for="(menuOption, key) in menuOptions" :key="key">
+                        <div class="tab-pane fade" v-if="isActive(key)" :class="{ 'active show': isActive(key) }" :id="key"><component :is="'villageBuilding15-' + key"></component></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <h5 class="mt-5"> <p>Traders available: {{ buildingInfoLookup[$parent.villageBuildingType]['buildingModifier'][$parent.villageBuildingLevel] }} </p></h5>
         <div v-if="$parent.villageBuildingLevel < (buildingInfoLookup[$parent.villageBuildingType]['wood'].length-1)">
             <h5> <p>Traders at level {{ $parent.villageBuildingLevel+1 }}: {{ buildingInfoLookup[$parent.villageBuildingType]['buildingModifier'][$parent.villageBuildingLevel+1] }}</p></h5>
@@ -29,13 +44,19 @@
 <script>
 import { fetchMixins } from '@/mixins/fetchMixins'
 import { hasMixins } from '@/mixins/hasMixins'
-
 import { upgradeMixins } from '@/mixins/upgradeMixins'
 import { toolsMixins } from '@/mixins/toolsMixins'
 
 export default {
     data() {
         return {
+            menuOptions: {
+                'sendResources': 'Send Resources',
+                'buy': 'Buy',
+                'sell': 'Sell',
+                'npc': 'NPC Merchant'
+            },
+            activeItem: 'sendResources'
         };
     },
 
@@ -53,6 +74,19 @@ export default {
     },
 
     methods: {
+        isActive (menuItem) {
+            return this.activeItem === menuItem
+        },
+        setActive (menuItem) {
+            this.activeItem = menuItem
+        }
     }
 }
 </script>
+
+<style scoped>
+a {
+    color: #28a745;
+    font-weight: bold;
+}
+</style>
