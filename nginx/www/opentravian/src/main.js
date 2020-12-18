@@ -46,6 +46,10 @@ Vue.component('villageBuilding12', require('./components/Village/Buildings/12.vu
 Vue.component('villageBuilding13', require('./components/Village/Buildings/13.vue').default); //Palace
 Vue.component('villageBuilding14', require('./components/Village/Buildings/14.vue').default); //Academy
 Vue.component('villageBuilding15', require('./components/Village/Buildings/15.vue').default); //Marketplace
+Vue.component('villageBuilding15-sendResources', require('./components/Village/Buildings/15-sendResources.vue').default); //Marketplace > Send Resources
+Vue.component('villageBuilding15-buy', require('./components/Village/Buildings/15-buy.vue').default); //Marketplace > Buy
+Vue.component('villageBuilding15-sell', require('./components/Village/Buildings/15-sell.vue').default); //Marketplace > Sell
+Vue.component('villageBuilding15-npc', require('./components/Village/Buildings/15-npc.vue').default); //Marketplace > NPC Merchant
 
 //Resources
 Vue.component('resourcesFields', require('./components/Resources/Fields.vue').default);

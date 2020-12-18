@@ -25,6 +25,8 @@ const villageController = require('../controllers/villageController');
 const villageBuildingFieldsController = require('../controllers/villageBuildingFieldsController');
 const researchesCompletedController = require('../controllers/researchesCompletedController');
 const researchesController = require('../controllers/researchesController');
+const sendResourcesController = require('../controllers/sendResourcesController');
+
 const auth = require('../auth/auth');
 
 router.get('/', function (req, res) {
@@ -138,7 +140,10 @@ router.route('/generateMapVillages')
     .post(villageController.insertMany);
 router.route('/villages/owner/:uid')
     .get(villageController.findByOwner);
-/*
+router.route('/villages/coords/:xCoordinate/:yCoordinate')
+    .get(villageController.findByCoords);
+
+    
 router.route('/villageResources')
     .post( villageResourcesController.new);
 router.route('/villageResources/:idVillage')
@@ -146,7 +151,7 @@ router.route('/villageResources/:idVillage')
     .put(villageResourcesController.update)
     .patch(villageResourcesController.update)
     .delete(villageResourcesController.delete);
-*/
+
 router.route('/villageMaxResources')
     .post(villageMaxResourcesController.new);
 router.route('/villageMaxResources/:idVillage')
@@ -289,6 +294,15 @@ router.route('/researches/:researchId')
     .put(researchesController.update)
     .patch(researchesController.update)
     .delete(researchesController.delete);
+
+router.route('/sendResources')
+    .post(sendResourcesController.new);
+router.route('/sendResources/:idVillage')
+    .get(sendResourcesController.view);
+router.route('/sendResources/:sendResourcesId')
+    .put(sendResourcesController.update)
+    .patch(sendResourcesController.update)
+    .delete(sendResourcesController.delete);
 
 module.exports = router;
 
