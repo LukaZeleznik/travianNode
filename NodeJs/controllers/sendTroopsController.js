@@ -159,7 +159,7 @@ async function doSendTroops(req, res, userTribe){
     const currentUnixTime =  Math.round(new Date().getTime()/1000);
     const idVillageFromData = await(await(await tools.doApiRequest('villages/' + req.body.idVillageFrom, 'GET', '', false)).json()).data;
     const idVillageToData   = await(await(await tools.doApiRequest('villages/' + req.body.idVillageTo, 'GET', '', false)).json()).data;
-    const timeArrived = currentUnixTime + calculateTroopArrival(req, idVillageToData, idVillageFromData, userTribe);
+    const timeArrived = (currentUnixTime + calculateTroopArrival(req, idVillageToData, idVillageFromData, userTribe)).toFixed(0);
 
     let sendTroops = new sendTroopsModel();
     sendTroops.sendType = req.body.sendType;

@@ -109,7 +109,6 @@ exports.new = function (req, res) {
                         }
                         await tools.doApiRequest("sendTroops", "POST", sendTroopsPostApiUrl, true);
                     }
-                    return;
                 })();
                 break;
             case "reinforcement":
@@ -174,7 +173,7 @@ exports.new = function (req, res) {
     }.bind(null, taskReqBody));
 
     scheduledTasks.push(newTask);
-    //console.log(scheduledTasks);
+    console.log(newTask);
 
     return res.json({
         status: 'New task scheduled',
