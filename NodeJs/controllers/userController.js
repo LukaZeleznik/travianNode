@@ -15,7 +15,7 @@ exports.find = function (req, res) {
 exports.view = function (req, res) {
     userModel.find(function (err, users) {
         if (err)
-            res.send(err);
+            res.json(err);
         res.json({
             message: 'Finding users..',
             data: users

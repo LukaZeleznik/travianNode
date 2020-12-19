@@ -46,6 +46,7 @@ export const toolsMixins = {
             if (jsonf){
                 response = await fetch('http://localhost:8080/api/' + path, {
                     method: method,
+                    credentials: 'include',
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -57,7 +58,7 @@ export const toolsMixins = {
             return response;
         },
         async getVillageName(){
-            this.villageName = await(await(await this.doApiRequest("/villages/" + localStorage.getItem('activeVillageId'),"GET","",false)).json()).data.name;
+            this.villageName = await(await(await this.doApiRequest("villages/" + localStorage.getItem('activeVillageId'),"GET","",false)).json()).data.name;
             this.$store.commit('setActiveVillageName', this.villageName);
         },
         async getTribeFromIdVillage(idVillage){

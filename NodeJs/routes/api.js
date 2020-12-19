@@ -119,15 +119,15 @@ router.route('/schedule/:idTask')
 */
 /* Authenticated
 */
-/*
+
 router.route('/villageResources')
-    .post(function(req, res, next) {passport.authenticate('jwt', {session: false}, function(err, user, info){console.log("user", user,"info", info); return next();})(req, res, next)}, villageResourcesController.new);
+    .post((req,res,next) => authenticate(req,res,next), villageResourcesController.new);
 router.route('/villageResources/:idVillage')
-    .get(function(req, res, next) {passport.authenticate('jwt', {session: false}, function(err, user, info){console.log("user", user,"info", info); return next();})(req, res, next)}, villageResourcesController.view)
-    .put(function(req, res, next) {passport.authenticate('jwt', {session: false}, function(err, user, info){console.log("user", user,"info", info); return next();})(req, res, next)}, villageResourcesController.update)
-    .patch(function(req, res, next) {passport.authenticate('jwt', {session: false}, function(err, user, info){console.log("user", user,"info", info); return next();})(req, res, next)}, villageResourcesController.update)
-    .delete(function(req, res, next) {passport.authenticate('jwt', {session: false}, function(err, user, info){console.log("user", user,"info", info); return next();})(req, res, next)}, villageResourcesController.delete);
-*/
+    .get((req,res,next) => authenticate(req,res,next), checkIdVillage, villageResourcesController.view)
+    .put((req,res,next) => authenticate(req,res,next), checkIdVillage, villageResourcesController.update)
+    .patch((req,res,next) => authenticate(req,res,next), checkIdVillage, villageResourcesController.update)
+    .delete((req,res,next) => authenticate(req,res,next), checkIdVillage, villageResourcesController.delete);
+
 
 router.route('/villages')
     .post(villageController.new)
@@ -144,7 +144,7 @@ router.route('/villages/owner/:uid')
 router.route('/villages/coords/:xCoordinate/:yCoordinate')
     .get(villageController.findByCoords);
 
-    
+/*
 router.route('/villageResources')
     .post( villageResourcesController.new);
 router.route('/villageResources/:idVillage')
@@ -152,35 +152,35 @@ router.route('/villageResources/:idVillage')
     .put(villageResourcesController.update)
     .patch(villageResourcesController.update)
     .delete(villageResourcesController.delete);
-
+*/
 router.route('/villageMaxResources')
     .post(villageMaxResourcesController.new);
 router.route('/villageMaxResources/:idVillage')
-    .get(villageMaxResourcesController.view)
-    .put(villageMaxResourcesController.update)
-    .patch(villageMaxResourcesController.update)
-    .delete(villageMaxResourcesController.delete);
+    .get((req,res,next) => authenticate(req,res,next), checkIdVillage, villageMaxResourcesController.view)
+    .put((req,res,next) => authenticate(req,res,next), checkIdVillage, villageMaxResourcesController.update)
+    .patch((req,res,next) => authenticate(req,res,next), checkIdVillage, villageMaxResourcesController.update)
+    .delete((req,res,next) => authenticate(req,res,next), checkIdVillage, villageMaxResourcesController.delete);
 
 router.route('/villageResourceFields')
     .post(villageResourceFieldsController.new);
 router.route('/villageResourceFields/:idVillage')
-    .get(villageResourceFieldsController.view)
-    .put(villageResourceFieldsController.update)
-    .patch(villageResourceFieldsController.update)
-    .delete(villageResourceFieldsController.delete);
+    .get((req,res,next) => authenticate(req,res,next), checkIdVillage, villageResourceFieldsController.view)
+    .put((req,res,next) => authenticate(req,res,next), checkIdVillage, villageResourceFieldsController.update)
+    .patch((req,res,next) => authenticate(req,res,next), checkIdVillage, villageResourceFieldsController.update)
+    .delete((req,res,next) => authenticate(req,res,next), checkIdVillage, villageResourceFieldsController.delete);
 
 router.route('/villageProductions')
     .post(villageProductionsController.new);
 router.route('/villageProductions/:idVillage')
-    .get(villageProductionsController.view)
-    .put(villageProductionsController.update)
-    .patch(villageProductionsController.update)
-    .delete(villageProductionsController.delete);
+    .get((req,res,next) => authenticate(req,res,next), checkIdVillage, villageProductionsController.view)
+    .put((req,res,next) => authenticate(req,res,next), checkIdVillage, villageProductionsController.update)
+    .patch((req,res,next) => authenticate(req,res,next), checkIdVillage, villageProductionsController.update)
+    .delete((req,res,next) => authenticate(req,res,next), checkIdVillage, villageProductionsController.delete);
 
 router.route('/villageResFieldUpgrades')
     .post(villageResFieldUpgradesController.new);
 router.route('/villageResFieldUpgrades/:idVillage')
-    .get(villageResFieldUpgradesController.view);
+    .get((req,res,next) => authenticate(req,res,next), checkIdVillage, villageResFieldUpgradesController.view);
 router.route('/villageResFieldUpgrade/:upgradeId')
     .get(villageResFieldUpgradesController.find)
     .put(villageResFieldUpgradesController.update)
@@ -194,15 +194,15 @@ router.route('/cancelVillageResFieldUpgrade/:upgradeId')
 router.route('/villageOwnTroops')
     .post(villageOwnTroopsController.new);
 router.route('/villageOwnTroops/:idVillage')
-    .get(villageOwnTroopsController.view)
-    .put(villageOwnTroopsController.update)
-    .patch(villageOwnTroopsController.update)
-    .delete(villageOwnTroopsController.delete);
+    .get((req,res,next) => authenticate(req,res,next), checkIdVillage, villageOwnTroopsController.view)
+    .put((req,res,next) => authenticate(req,res,next), checkIdVillage, villageOwnTroopsController.update)
+    .patch((req,res,next) => authenticate(req,res,next), checkIdVillage, villageOwnTroopsController.update)
+    .delete((req,res,next) => authenticate(req,res,next), checkIdVillage, villageOwnTroopsController.delete);
 
 router.route('/villageReinforcements')
     .post(villageReinforcementsController.new);
 router.route('/villageReinforcements/:idVillage')
-    .get(villageReinforcementsController.view);
+    .get((req,res,next) => authenticate(req,res,next), checkIdVillage, villageReinforcementsController.view);
 router.route('/villageReinforcements/:reinforcementId')
     .put(villageReinforcementsController.update)
     .patch(villageReinforcementsController.update)
@@ -211,7 +211,7 @@ router.route('/villageReinforcements/:reinforcementId')
 router.route('/sendTroops')
     .post(sendTroopsController.new);
 router.route('/sendTroops/:idVillage')
-    .get(sendTroopsController.view);
+    .get((req,res,next) => authenticate(req,res,next), checkIdVillage, sendTroopsController.view);
 router.route('/sendTroops/:sendTroopsId')
     .put(sendTroopsController.update)
     .patch(sendTroopsController.update)
@@ -220,7 +220,7 @@ router.route('/sendTroops/:sendTroopsId')
 router.route('/barracksProductions')
     .post(barracksProductionsController.new);
 router.route('/barracksProductions/:idVillage')
-    .get(barracksProductionsController.view);
+    .get((req,res,next) => authenticate(req,res,next), checkIdVillage, barracksProductionsController.view);
 router.route('/barracksProductions/:barrProdId')
     .put(barracksProductionsController.update)
     .patch(barracksProductionsController.update)
@@ -229,7 +229,7 @@ router.route('/barracksProductions/:barrProdId')
 router.route('/stableProductions')
     .post(stableProductionsController.new);
 router.route('/stableProductions/:idVillage')
-    .get(stableProductionsController.view);
+    .get((req,res,next) => authenticate(req,res,next), checkIdVillage, stableProductionsController.view);
 router.route('/stableProductions/:stableProdId')
     .put(stableProductionsController.update)
     .patch(stableProductionsController.update)
@@ -238,7 +238,7 @@ router.route('/stableProductions/:stableProdId')
 router.route('/palaceProductions')
     .post(palaceProductionsController.new);
 router.route('/palaceProductions/:idVillage')
-    .get(palaceProductionsController.view);
+    .get((req,res,next) => authenticate(req,res,next), checkIdVillage, palaceProductionsController.view);
 router.route('/palaceProductions/:palaceProdId')
     .put(palaceProductionsController.update)
     .patch(palaceProductionsController.update)
@@ -261,15 +261,15 @@ router.route('/user/:user')
 router.route('/villageBuildingFields')
     .post(villageBuildingFieldsController.new);
 router.route('/villageBuildingFields/:idVillage')
-    .get(villageBuildingFieldsController.view)
-    .put(villageBuildingFieldsController.update)
-    .patch(villageBuildingFieldsController.update)
-    .delete(villageBuildingFieldsController.delete);
+    .get((req,res,next) => authenticate(req,res,next), checkIdVillage, villageBuildingFieldsController.view)
+    .put((req,res,next) => authenticate(req,res,next), checkIdVillage, villageBuildingFieldsController.update)
+    .patch((req,res,next) => authenticate(req,res,next), checkIdVillage, villageBuildingFieldsController.update)
+    .delete((req,res,next) => authenticate(req,res,next), checkIdVillage, villageBuildingFieldsController.delete);
 
 router.route('/villageBuildingUpgrades')
     .post(villageBuildingUpgradesController.new);
 router.route('/villageBuildingUpgrades/:idVillage')
-    .get(villageBuildingUpgradesController.view);
+    .get((req,res,next) => authenticate(req,res,next), checkIdVillage, villageBuildingUpgradesController.view);
 router.route('/villageBuildingUpgrades/:upgradeId')
     .put(villageBuildingUpgradesController.update)
     .patch(villageBuildingUpgradesController.update);
@@ -282,15 +282,15 @@ router.route('/cancelVillageBuildingUpgrade/:upgradeId')
 router.route('/researchesCompleted')
     .post(researchesCompletedController.new);
 router.route('/researchesCompleted/:idVillage')
-    .get(researchesCompletedController.view)
-    .put(researchesCompletedController.update)
-    .patch(researchesCompletedController.update)
-    .delete(researchesCompletedController.delete);
+    .get((req,res,next) => authenticate(req,res,next), checkIdVillage, researchesCompletedController.view)
+    .put((req,res,next) => authenticate(req,res,next), checkIdVillage, researchesCompletedController.update)
+    .patch((req,res,next) => authenticate(req,res,next), checkIdVillage, researchesCompletedController.update)
+    .delete((req,res,next) => authenticate(req,res,next), checkIdVillage, researchesCompletedController.delete);
 
 router.route('/researches')
     .post(researchesController.new);
 router.route('/researches/:idVillage')
-    .get(researchesController.view);
+    .get((req,res,next) => authenticate(req,res,next), checkIdVillage, researchesController.view);
 router.route('/researches/:researchId')
     .put(researchesController.update)
     .patch(researchesController.update)
@@ -299,7 +299,7 @@ router.route('/researches/:researchId')
 router.route('/sendResources')
     .post(sendResourcesController.new);
 router.route('/sendResources/:idVillage')
-    .get(sendResourcesController.view);
+    .get((req,res,next) => authenticate(req,res,next), checkIdVillage, sendResourcesController.view);
 router.route('/sendResources/:sendResourcesId')
     .put(sendResourcesController.update)
     .patch(sendResourcesController.update)
@@ -308,29 +308,31 @@ router.route('/sendResources/:sendResourcesId')
 module.exports = router;
 
 async function checkIdVillage(req, res, next) {
-    let village = await(await(await tools.doApiRequest("villages/" + req.params.idVillage, "GET", "", false)).json()).data;
-    
+    let village = await(await(await tools.doApiRequest("villages/" + req.params.idVillage, "GET", "", false)).json()).data;    
     if(req.user._id == village.owner || req.user.email == "admin@test.com"){
         return next();
     } else{
+        console.log("UNAUTHORIZED - VILLAGEID NOT MATCHING");
         res.json({
             message: 'Authentication failed',
-            data: "{}"
+            data: ""
         });
         return;
     }
 }
 
-async function checkIfAdminOrServer(req, res, next) {
-
-    
-    if(req.user._id == village.owner || req.user.email == "admin@test.com"){
-        return next();
-    } else{
-        res.json({
-            message: 'Authentication failed',
-            data: "{}"
-        });
-        return;
-    }
+function authenticate(req, res, next){
+    passport.authenticate('jwt', {session: false}, function (err, user, info){
+        if(user){
+            req.user = user;
+            return next();
+        } else {
+            console.log("UNAUTHORIZED - JWT INVALID");
+            res.json({
+                message:'Unauthorized',
+                data:""
+            });
+            return;
+        }
+    })(req, res, next)
 }

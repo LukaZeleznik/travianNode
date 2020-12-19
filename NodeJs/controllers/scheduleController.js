@@ -111,6 +111,7 @@ exports.new = function (req, res) {
                     }
                     return;
                 })();
+                break;
             case "reinforcement":
                 (async () => {  
                 })();

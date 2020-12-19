@@ -6,7 +6,7 @@ module.exports = {
     resourceInfoLookup:             require('../infoTables/resourceInfoLookup.json'),
     troopInfoLookup:                require('../infoTables/troopInfoLookup.json'),
     resFieldVariationsInfoLookup:   require('../infoTables/resFieldVariationsInfoLookup.json'),
-    researchesInfoLookup:    require('../infoTables/researchesInfoLookup.json'),
+    researchesInfoLookup:           require('../infoTables/researchesInfoLookup.json'),
 
     doApiRequest: async function (path, method, data, jsonf){
         let response;
@@ -16,12 +16,12 @@ module.exports = {
                 method: method,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer' + process.env.ADMIN_TOKEN
+                    'Authorization': 'Bearer ' + process.env.ADMIN_TOKEN
                 },
                 body: JSON.stringify(data),
             });
         } else {
-            response = await fetch('http://localhost:8080/api/' + path, { method: method });
+            response = await fetch('http://localhost:8080/api/' + path, { method: method, headers: {'Authorization': 'Bearer ' + process.env.ADMIN_TOKEN}});
         }
         return response;
     },

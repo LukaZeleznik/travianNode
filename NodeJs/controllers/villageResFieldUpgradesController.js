@@ -116,19 +116,19 @@ exports.update = function (req, res) {
         if (err)
             res.send(err);
         
-            villageResFieldUpgrades.idVillage = req.body.idVillage;
-            villageResFieldUpgrades.rfid = req.body.rfid;
-            villageResFieldUpgrades.fieldType = req.body.fieldType;
-            villageResFieldUpgrades.fieldLevel = req.body.fieldLevel;
-            villageResFieldUpgrades.timeStarted = req.body.timeStarted;
-            villageResFieldUpgrades.timeCompleted = req.body.timeCompleted;
+        villageResFieldUpgrades.idVillage = req.body.idVillage;
+        villageResFieldUpgrades.rfid = req.body.rfid;
+        villageResFieldUpgrades.fieldType = req.body.fieldType;
+        villageResFieldUpgrades.fieldLevel = req.body.fieldLevel;
+        villageResFieldUpgrades.timeStarted = req.body.timeStarted;
+        villageResFieldUpgrades.timeCompleted = req.body.timeCompleted;
 
-            villageResFieldUpgrades.save(function (err) {
-                if (err)
-                    res.json(err);
-                res.json({
-                    message: 'villageResFieldUpgrades Info updated',
-                    data: villageResFieldUpgrades
+        villageResFieldUpgrades.save(function (err) {
+            if (err)
+                res.json(err);
+            res.json({
+                message: 'villageResFieldUpgrades Info updated',
+                data: villageResFieldUpgrades
             });
         });
     });

@@ -11,12 +11,20 @@ var cookieExtractor = function(req) {
     var token = null;
     if (req && req.cookies) token = req.cookies['jwt'];
     return token;
-  };
+};
+
+var headerExtractor = function(req) {
+    var token = null;
+    if(req.headers['authorization']){
+        token = req.headers['authorization'].split(' ')[1];        
+    } 
+    return token;
+};
 
 passport.use(
     new JWTstrategy({
             secretOrKey: 'RgUkXp2s5v8y/B?E(H+MbPeShVmYq3t6w9z$C&F)J@NcRfUjWnZr4u7x!A%D*G-KaPdSgVkYp2s5v8y/B?E(H+MbQeThWmZq4t6w9z$C&F)J@NcRfUjXn2r5u8x!A%D*',
-            jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor])
+            jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor, headerExtractor])
         },
         async (token, done) => {
             try {
