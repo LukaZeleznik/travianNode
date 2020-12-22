@@ -11,7 +11,7 @@ services:
         depends_on:
             - db
         env_file: .env
-        #command: nodemon -L app.js
+        command: nodemon -L app.js
         #command: sh -c "
         #        npm install
         #        && pm2-dev processes.json
@@ -22,15 +22,15 @@ services:
         - MONGO_PASSWORD=$MONGO_PASSWORD
         - MONGO_HOSTNAME=db
         - MONGO_PORT=$MONGO_PORT
-        - MONGO_DB=$MONGO_DB 
+        - MONGO_DB=$MONGO_DB
         ports:
         - "8080:8080"
         volumes:
-        - ./nodejs:/home/node/app
-        - ./nodejs/node_modules:/home/node/app/node_modules
+        - ./NodeJs:/home/node/app
+        - ./NodeJs/node_modules:/home/node/app/node_modules
         networks:
         - app-network
-        
+
         #command: ./nodejs/wait-for.sh db:27017 -- /home/node/app/node_modules/.bin/nodemon app.js
     db:
         image: mongo:4.2.8
@@ -42,8 +42,8 @@ services:
             - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
         ports:
             - "27017:27017"
-        volumes:  
-            - dbdata:/data/db   
+        volumes:
+            - dbdata:/data/db
         networks:
             - app-network
 
@@ -64,7 +64,7 @@ services:
             - ./nginx/certbot-var:/var/lib/letsencrypt
         networks:
             - app-network
-    
+
 #    certbot:
 #        image: certbot/certbot
 #        container_name: certbot
@@ -79,7 +79,7 @@ services:
 networks:
     app-network:
         driver: bridge
-              
+
 volumes:
     dbdata:
     node_modules:
