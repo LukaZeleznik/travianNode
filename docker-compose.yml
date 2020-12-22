@@ -11,7 +11,7 @@ services:
         depends_on:
             - db
         env_file: .env
-        command: nodemon -L app.js
+        #command: nodemon -L app.js
         #command: sh -c "
         #        npm install
         #        && pm2-dev processes.json
