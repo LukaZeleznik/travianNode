@@ -8,10 +8,10 @@ services:
         image: nodejs
         container_name: nodejs
         restart: unless-stopped
-        depends_on:
-            - db
+        #depends_on:
+        #    - db
         env_file: .env
-        #command: nodemon -L app.js
+        command: nodemon -L app.js
         #command: sh -c "
         #        npm install
         #        && pm2-dev processes.json
@@ -23,8 +23,8 @@ services:
         - MONGO_HOSTNAME=db
         - MONGO_PORT=$MONGO_PORT
         - MONGO_DB=$MONGO_DB 
-        ports:
-        - "8080:8080"
+        #ports:
+        #- "8080:8080"
         volumes:
         - ./nodejs:/home/node/app
         - ./nodejs/node_modules:/home/node/app/node_modules
