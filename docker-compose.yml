@@ -5,11 +5,11 @@ services:
         build:
             context: NodeJs
             dockerfile: Dockerfile
-        image: nodejs
+        #image: nodejs
         container_name: nodejs
         restart: unless-stopped
-        #depends_on:
-        #    - db
+        depends_on:
+            - db
         env_file: .env
         command: nodemon -L app.js
         #command: sh -c "
