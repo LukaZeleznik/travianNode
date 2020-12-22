@@ -198,7 +198,7 @@ const store = new Vuex.Store({
             }
         },
         async fetchVillageResources(context) {
-            await fetch('http://localhost:8080/api/villageResources/' + context.getters.getActiveVillageId, {credentials: 'include'})
+            await fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/villageResources/' + context.getters.getActiveVillageId, {credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
                     let villageResources = [res.data.currentWood, res.data.currentClay, res.data.currentIron, res.data.currentCrop];
@@ -207,7 +207,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageMaxResources(context) {
-            await fetch('http://localhost:8080/api/villageMaxResources/' + context.getters.getActiveVillageId, {credentials: 'include'})
+            await fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/villageMaxResources/' + context.getters.getActiveVillageId, {credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
                     let villageMaxResources = [res.data.maxWood, res.data.maxClay, res.data.maxIron, res.data.maxCrop];
@@ -216,7 +216,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageProduction(context) {
-            await fetch('http://localhost:8080/api/villageProductions/' + context.getters.getActiveVillageId, {credentials: 'include'})
+            await fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/villageProductions/' + context.getters.getActiveVillageId, {credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
                     let villageProduction = [res.data.productionWood, res.data.productionClay, res.data.productionIron, res.data.productionCrop];
@@ -225,7 +225,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageResFieldUpgrades(context) {
-            await fetch('http://localhost:8080/api/villageResFieldUpgrades/' + context.getters.getActiveVillageId, {credentials: 'include'})
+            await fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/villageResFieldUpgrades/' + context.getters.getActiveVillageId, {credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
                     let villageResFieldUpgrades = res.data;
@@ -234,7 +234,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageBuildingUpgrades(context) {
-            await fetch('http://localhost:8080/api/villageBuildingUpgrades/' + context.getters.getActiveVillageId, {credentials: 'include'})
+            await fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/villageBuildingUpgrades/' + context.getters.getActiveVillageId, {credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
                     let villageBuildingUpgrades = res.data;
@@ -243,7 +243,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageOwnTroops(context) {
-            await fetch('http://localhost:8080/api/villageOwnTroops/' + context.getters.getActiveVillageId, {credentials: 'include'})
+            await fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/villageOwnTroops/' + context.getters.getActiveVillageId, {credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
                     let villageOwnTroops = [res.data.troop1, res.data.troop2, res.data.troop3, res.data.troop4, res.data.troop5,
@@ -254,7 +254,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageReinforcements(context) {
-            await fetch('http://localhost:8080/api/villageReinforcements/' + context.getters.getActiveVillageId, {credentials: 'include'})
+            await fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/villageReinforcements/' + context.getters.getActiveVillageId, {credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
                     let villageReinforcements = res.data;
@@ -263,7 +263,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchSidebarVillageList(context) {
-            await fetch('http://localhost:8080/api/villages/owner/' + getCookie('userId'), {credentials: 'include'})
+            await fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/villages/owner/' + getCookie('userId'), {credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
                     let sidebarVillageList = res.data;
@@ -272,7 +272,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageTroopMovements(context) {
-            await fetch('http://localhost:8080/api/sendTroops/' + context.getters.getActiveVillageId, {credentials: 'include'})
+            await fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/sendTroops/' + context.getters.getActiveVillageId, {credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
 
@@ -305,7 +305,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageBarracksProduction(context) {
-            await fetch('http://localhost:8080/api/barracksProductions/' + context.getters.getActiveVillageId, {credentials: 'include'})
+            await fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/barracksProductions/' + context.getters.getActiveVillageId, {credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
                     let villageBarracksProduction = res.data;
@@ -314,7 +314,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageStableProduction(context) {
-            await fetch('http://localhost:8080/api/stableProductions/' + context.getters.getActiveVillageId, {credentials: 'include'})
+            await fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/stableProductions/' + context.getters.getActiveVillageId, {credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
                     let villageStableProduction = res.data;
@@ -323,7 +323,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillagePalaceProduction(context) {
-            await fetch('http://localhost:8080/api/palaceProductions/' + context.getters.getActiveVillageId, {credentials: 'include'})
+            await fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/palaceProductions/' + context.getters.getActiveVillageId, {credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
                     let villagePalaceProduction = res.data;
@@ -332,7 +332,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageBuildingFields(context) {
-            await fetch('http://localhost:8080/api/villageBuildingFields/' + context.getters.getActiveVillageId, {credentials: 'include'})
+            await fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/villageBuildingFields/' + context.getters.getActiveVillageId, {credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
                     let villageBuildingTypes = [
@@ -400,7 +400,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchVillageResourceFields(context) {
-            await fetch('http://localhost:8080/api/villageResourceFields/' + context.getters.getActiveVillageId, {credentials: 'include'})
+            await fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/villageResourceFields/' + context.getters.getActiveVillageId, {credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
                     let villageResourceFieldTypes = [
@@ -462,7 +462,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchResearchesCompleted(context) {
-            await fetch('http://localhost:8080/api/researchesCompleted/' + context.getters.getActiveVillageId, {credentials: 'include'})
+            await fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/researchesCompleted/' + context.getters.getActiveVillageId, {credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
                     let researchesCompleted = res.data;
@@ -471,7 +471,7 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchResearches(context) {
-            await fetch('http://localhost:8080/api/researches/' + context.getters.getActiveVillageId, {credentials: 'include'})
+            await fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/researches/' + context.getters.getActiveVillageId, {credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
                     let researches = res.data;

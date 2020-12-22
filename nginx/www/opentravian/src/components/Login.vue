@@ -35,9 +35,7 @@ import { fetchMixins } from '@/mixins/fetchMixins'
 
                 if(!inputEmail || !inputPassword) return;
 
-                let loginApiUrl = 'http://localhost:8080/api/' + "login?email=" + inputEmail + "&password=" + inputPassword;
-
-                let response = await(await(await fetch(loginApiUrl,{method: "POST", credentials: 'include'})).json());
+                let response = await(await(await this.doApiRequest("login?email=" + inputEmail + "&password=" + inputPassword, "POST", "", true)).json());
 
                 if(response.token && response.capital){
                     document.cookie = "jwt=" + response.token + ";path=/";

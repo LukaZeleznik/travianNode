@@ -91,7 +91,7 @@ export const fetchMixins = {
         fetchResearches()               { this.$store.dispatch('fetchResearches') },
 
         fetchBuildingData(vbid){
-            fetch('http://localhost:8080/api/villageBuildingFields/' + this.activeVillageId, {credentials: 'include'})
+            fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/villageBuildingFields/' + this.activeVillageId, {credentials: 'include'})
             .then(res => res.json())
             .then(res => {
                 const keyType = "field"+vbid+"Type";
@@ -112,7 +112,7 @@ export const fetchMixins = {
             .catch(err => console.log(err));
         },
         fetchResourceFieldsData(rfid){
-            fetch('http://localhost:8080/api/villageResourceFields/' + this.activeVillageId, {credentials: 'include'})
+            fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/villageResourceFields/' + this.activeVillageId, {credentials: 'include'})
             .then(res => res.json())
             .then(res => {
                 const keyType = "field"+rfid+"Type";

@@ -42,9 +42,9 @@ export const toolsMixins = {
         },
         async doApiRequest(path, method, data, jsonf) {
             let response;
-            console.log('http://localhost:8080/api/' + path);
+            console.log('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/' + path);
             if (jsonf){
-                response = await fetch('http://localhost:8080/api/' + path, {
+                response = await fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/' + path, {
                     method: method,
                     credentials: 'include',
                     headers: {
@@ -53,7 +53,7 @@ export const toolsMixins = {
                     body: JSON.stringify(data),
                 });
             } else {
-                response = await fetch('http://localhost:8080/api/' + path, { method: method });
+                response = await fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/' + path, { method: method });
             }
             return response;
         },

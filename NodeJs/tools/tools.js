@@ -10,9 +10,9 @@ module.exports = {
 
     doApiRequest: async function (path, method, data, jsonf){
         let response;
-        console.log('http://localhost:8080/api/' + path);
+        console.log('http://' + process.env.HOSTNAME + '/api/' + path);
         if (jsonf){
-            response = await fetch('http://localhost:8080/api/' + path, {
+            response = await fetch('http://' + process.env.HOSTNAME + ':8080/api/' + path, {
                 method: method,
                 headers: {
                     'Content-Type': 'application/json',
@@ -21,7 +21,7 @@ module.exports = {
                 body: JSON.stringify(data),
             });
         } else {
-            response = await fetch('http://localhost:8080/api/' + path, { method: method, headers: {'Authorization': 'Bearer ' + process.env.ADMIN_TOKEN}});
+            response = await fetch('http://' + process.env.HOSTNAME + ':8080/api/' + path, { method: method, headers: {'Authorization': 'Bearer ' + process.env.ADMIN_TOKEN}});
         }
         return response;
     },
