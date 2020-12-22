@@ -43,7 +43,9 @@ import { toolsMixins } from '@/mixins/toolsMixins'
 
                 if(!inputEmail || !inputPassword || !inputNickname || !inputTribe) return;
 
-                let response = await(await(await this.doApiRequest("register?email=" + inputEmail + "&password=" + inputPassword + "&nickname=" + inputNickname + "&tribe=" + inputTribe, "POST", "", true)).json());
+                let registerApiUrl = 'http://' + process.env.VUE_APP_BASE_URL + ':8080/api/' + "register?email=" + inputEmail + "&password=" + inputPassword + "&nickname=" + inputNickname + "&tribe=" + inputTribe;
+
+                let response = await(await(await fetch(registerApiUrl,{method: "POST"})).json());
                 if(response.message == "Registration successful"){
                     this.$router.push({ name: 'login' });
                 }

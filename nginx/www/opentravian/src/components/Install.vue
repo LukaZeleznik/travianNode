@@ -6,17 +6,16 @@
 
 <script>
 import { fetchMixins } from '@/mixins/fetchMixins'
+import { toolsMixins } from '@/mixins/toolsMixins'
 
 export default {
 
     data() {
         return {
-            width: 11,
-            height: 9,
         };
     },
 
-    mixins: [fetchMixins],
+    mixins: [fetchMixins,toolsMixins],
 
     created() {
         this.infoLookup();
@@ -25,159 +24,16 @@ export default {
     methods: {
         async install(){
             if (confirm('Are you sure you want to start Installation process?')) {
-                await this.doInstall(this.width,this.height);
+                const installParameters = {
+                    width: 11,
+                    height: 9
+                }
+                const installResponse = await(await this.doApiRequest("install", "POST", installParameters, true)).json();
+                if (installResponse.status == 'success') this.$router.push({ name: 'login' });
             } else {
                 console.log('Aborted.');
             }
         },
-        getRandomVariation(){
-            var gen = Math.floor(Math.random() * 90) + 1;
-            let counter = 0;
-            for(let l of this.resFieldVariationsInfoLookup){
-                counter += l.chance
-                if(counter >= gen) return l.id;
-            }
-        },
-        async generateMap(width,height){
-            let villageData = [];
-            let xCoords = [];
-            let yCoords = [];
-            for(let y = 0; y < height; y++){
-                for(let x = 0; x < width; x++){
-                    if (y % 2 && x == width-1) break;
-                    xCoords.push((x - Math.floor(width/2)));
-                    yCoords.push(-(y - Math.floor(height/2)));
-                }
-            }
-
-            for(let i = 0; i < height*width-(Math.floor(height/2)); i++){
-                const variation = this.getRandomVariation();
-                villageData.push({
-                    "mapTileId": i+1,
-                    "xCoordinate": xCoords[i],
-                    "yCoordinate": yCoords[i],
-                    "fieldVariation": variation,
-                    "owner": "",
-                    "name": "",
-                })
-            }
-            await this.doApiRequest("generateMapVillages","POST",villageData,true);
-        },
-        async createNewUser(email, password, nickname, tribe, village){
-            const currentUnixTime = Math.round(new Date().getTime()/1000);
-            let villageBuildingFieldsData = {};
-            let villageResFieldsData = {};
-            let villageOwnTroopsData = {};
-            let researchesCompleted = {};
-            let wallType = 0;
-
-            let adminData = {
-                "email": email,
-                "password": password,
-                "nickname": nickname,
-                "tribe": tribe,
-                "population": 200,
-                "group": 2,
-                "capital": village['_id'],
-            }
-            let adminDataResponse = await(await(await this.doApiRequest("users","POST",adminData,true)).json()).data
-
-            /* Update Village with userId */
-            village['owner'] = adminDataResponse['_id'];
-            village['name']  = adminDataResponse['nickname'] + "'s Village";
-            village['fieldVariation'] = 0;
-            await this.doApiRequest("villages/" + village['mapTileId'],"PATCH",village,true);
-            
-
-            /* CREATE: villageBuildingFields */
-            for(let l = 1; l < 20; l++){
-                villageBuildingFieldsData['field'+l+'Type'] = 0;
-                villageBuildingFieldsData['field'+l+'Level'] = 0;
-            }
-            switch (tribe) {
-                case "teuton":  wallType = 5; break;
-                case "roman":   wallType = 6; break;
-                case "gaul":    wallType = 7; break;
-            }
-            villageBuildingFieldsData['field19Type'] = wallType;
-            villageBuildingFieldsData['idVillage'] = village['_id'];
-            await this.doApiRequest("villageBuildingFields","POST",villageBuildingFieldsData,true);
-
-
-            /* CREATE: villageResourceFields */
-            for(let l = 1; l < 19; l++){
-                villageResFieldsData['field'+l+'Type'] = this.resFieldVariationsInfoLookup[village['fieldVariation']]['variation'][l-1];
-                villageResFieldsData['field'+l+'Level'] = 0;
-            }
-            villageResFieldsData['idVillage'] = village['_id'];
-            await this.doApiRequest("villageResourceFields","POST",villageResFieldsData,true);
-
-
-            /* CREATE: villageMaxResources */
-            let villageMaxResourcesData = {
-                "idVillage": village['_id'],
-                "maxWood": 800 * this.config.STORAGE_MODIFIER,
-                "maxClay": 800 * this.config.STORAGE_MODIFIER,
-                "maxIron": 800 * this.config.STORAGE_MODIFIER,
-                "maxCrop": 800 * this.config.STORAGE_MODIFIER
-            }
-            await this.doApiRequest("villageMaxResources","POST",villageMaxResourcesData,true);
-
-
-            /* CREATE: villageOwnTroops */
-            for(let l = 0; l < this.troopInfoLookup[tribe].length; l++){
-                villageOwnTroopsData['troop' + (l+1)] = 0;
-            }
-            villageOwnTroopsData['idVillage'] = village['_id'];
-            villageOwnTroopsData['tribe'] = tribe;
-            await this.doApiRequest("villageOwnTroops","POST",villageOwnTroopsData,true);
-
-            
-            /* CREATE: villageProductions */
-            let villageProductionsData = {
-                "idVillage": village['_id'],
-                "productionWood": 0,
-                "productionClay": 0,
-                "productionIron": 0,
-                "productionCrop": 0
-            }
-            await this.doApiRequest("villageProductions","POST",villageProductionsData,true);
-
-
-            /* CREATE: villageResources */
-            let villageResourcesData = {
-                "idVillage": village['_id'],
-                "currentWood": 800 * this.config.STORAGE_MODIFIER,
-                "currentClay": 800 * this.config.STORAGE_MODIFIER,
-                "currentIron": 800 * this.config.STORAGE_MODIFIER,
-                "currentCrop": 800 * this.config.STORAGE_MODIFIER,
-                "lastUpdate": currentUnixTime
-            }
-            await this.doApiRequest("villageResources","POST",villageResourcesData,true);
-
-            /* CREATE: researchesCompleted */
-            researchesCompleted.idVillage = village['_id'];
-            researchesCompleted.tribe = tribe;
-            researchesCompleted.troop1 = true;
-            for(let troop of this.researchesInfoLookup[tribe]){
-                researchesCompleted['troop' + troop['id']] = false;
-            }
-            researchesCompleted.troop10 = true;
-            await this.doApiRequest("researchesCompleted","POST",researchesCompleted,true);
-
-        },
-        async doInstall(width,height){
-            /* GENERATE MAP */
-            await this.generateMap(width,height);
-
-            /* CREATE NEW USER */
-            const adminTile = Math.ceil((height*width-(Math.floor(height/2)))/2);
-            const villageData = await(await(await this.doApiRequest("villages/" + adminTile,"GET","",false)).json()).data;
-            await this.createNewUser("admin@test.com","password","Admin","teuton",villageData);
-
-            this.$router.push({ name: 'login' });
-        },
-        
     }
 }
 </script>

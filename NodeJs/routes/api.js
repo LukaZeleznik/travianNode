@@ -9,6 +9,7 @@ var authTools = require('../tools/auth');
 require('dotenv').config()
 
 const scheduleController = require('../controllers/scheduleController');
+const installController = require('../controllers/installController');
 const villageResourcesController = require('../controllers/villageResourcesController');
 const villageMaxResourcesController = require('../controllers/villageMaxResourcesController');
 const villageResourceFieldsController = require('../controllers/villageResourceFieldsController');
@@ -111,6 +112,9 @@ router.route('/profile')
 router.route('/schedule')
     .post(scheduleController.new)
     .get(scheduleController.view);
+
+router.route('/install')
+    .post(installController.new);
 /*
 router.route('/schedule/:idTask')
     .get(scheduleController.view)
