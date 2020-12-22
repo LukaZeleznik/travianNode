@@ -1,12 +1,13 @@
 FROM node:14.5-alpine
 
-#RUN mkdir -p /home/node/app/node_modules
+RUN mkdir -p /home/node/app/
 
 WORKDIR /home/node/app
 
 COPY package*.json ./
+COPY ["package.json", "package-lock.json*", "./"]
 
-RUN npm install -g nodemon --save
+RUN npm install -g nodemon
 
 #USER node
 
