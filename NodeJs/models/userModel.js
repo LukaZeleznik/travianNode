@@ -19,9 +19,7 @@ UserSchema.pre(
     'save',
     async function(next) {
         const user = this;
-        const salt = "$2b$10$R4TZHwzrSPIC0rKPP4Kd.u";
         const hash = await bcrypt.hash(this.password, process.env.BCRYPT_SALT);
-        console.log(hash)
         this.password = hash;
         next();
     }
