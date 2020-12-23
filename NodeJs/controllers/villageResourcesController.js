@@ -11,8 +11,7 @@ exports.view = function (req, res) {
         if (err)
             res.send(err);
         else{
-            (async () => {                
-                console.log("villageResources")
+            (async () => {
                 const idVillage = req.params.idVillage;
                 const currentTime = Math.round(+new Date()/1000);
                 const timeDiff = (currentTime - villageResources.lastUpdate) / 3600;

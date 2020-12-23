@@ -87,13 +87,14 @@ import { toolsMixins } from '@/mixins/toolsMixins'
         },
 
         watch:{
+            'villageOwnTroops': function() { this.hasSettlers(); }
         },
 
         mixins: [fetchMixins,toolsMixins],
 
         created(){
             this.getFieldData();
-            this.hasSettlers();
+            this.fetchVillageOwnTroops();
         },
         methods: {
             async getFieldData(){
@@ -122,10 +123,10 @@ import { toolsMixins } from '@/mixins/toolsMixins'
                 }
             },  
             async hasSettlers(){
-                console.log(this.activeVillageId);
-                const settlers = await(await(await this.doApiRequest("villageOwnTroops/" + this.activeVillageId,"GET", "", false)).json()).data['troop10'];
-                console.log(settlers,this.activeVillageId);
-                if(settlers >= 3) this.canSettle = true;
+                console.log(this.villageOwnTroops);
+                const settlers = this.villageOwnTroops[9];
+                console.log("settlers", settlers);
+                this.canSettle = settlers >= 3 ? true : false;
             }
         }
 

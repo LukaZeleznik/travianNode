@@ -131,11 +131,11 @@ exports.new = function (req, res) {
                 })();
                 break;
             case "settle":
-                //TODO FIX SCHEDULER
                 (async () => {  
                     const idVillageFrom = taskReqBody.taskData.idVillageFrom;
                     const idVillageTo = taskReqBody.taskData.idVillageTo;
                     const troopTribe = taskReqBody.taskData.troopTribe;
+                    const userData = await tools.getUserDataFromIdVillage(idVillageFrom);
                 
                     const idVillageToData = await tools.getVillageData(idVillageTo);
                     if (idVillageToData['owner'] != ''){
@@ -150,7 +150,7 @@ exports.new = function (req, res) {
                         return;
                     }
 
-                    await createVillage(idVillageToData,userData);
+                    await createVillage(idVillageToData, userData);
                     await tools.doApiRequest("sendTroops/" + taskReqBody.taskData.sendTroopsId, "DELETE", "", false);
                 })();
                 break;
