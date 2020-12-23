@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+require('dotenv').config();
 
 const Schema = mongoose.Schema;
 
@@ -18,7 +19,9 @@ UserSchema.pre(
     'save',
     async function(next) {
         const user = this;
-        const hash = await bcrypt.hash(this.password, 10);  
+        const salt = "$2b$10$R4TZHwzrSPIC0rKPP4Kd.u";
+        const hash = await bcrypt.hash(this.password, process.env.BCRYPT_SALT);
+        console.log(hash)
         this.password = hash;
         next();
     }
@@ -26,6 +29,7 @@ UserSchema.pre(
 
 UserSchema.methods.isValidPassword = async function(password) {
     const user = this;
+    console.log("password", password, "user.password", user.password);
     const compare = await bcrypt.compare(password, user.password);
   
     return compare;
