@@ -57,8 +57,8 @@ export default {
             this.$store.replaceState(newState);
             localStorage.removeItem('activeVillageId');
             localStorage.removeItem('userTribe');
-            document.cookie = 'jwt=; Max-Age=-99999999;domain=localhost;path=/;';
-            document.cookie = 'userId=; Max-Age=-99999999;domain=localhost;path=/;';
+            document.cookie = 'jwt=; Max-Age=-99999999;domain=' + process.env.VUE_APP_BASE_URL + ';path=/;';
+            document.cookie = 'userId=; Max-Age=-99999999;domain=' + process.env.VUE_APP_BASE_URL + ';path=/;';
             this.$router.push({ name: 'login' });
         }
     }
