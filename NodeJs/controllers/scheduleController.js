@@ -12,7 +12,12 @@ let scheduledTasks = [];
 exports.new = function (req, res) {
     const taskReqBody = req.body;
     const taskType = taskReqBody.taskType;
-    const taskUnixTime = taskReqBody.taskUnixTime;
+    let taskUnixTime = taskReqBody.taskUnixTime;
+    const currentUnixTime = Math.round(new Date().getTime()/1000);
+    
+    if (taskUnixTime - currentUnixTime < 1) taskUnixTime = currentUnixTime + 1; //quick math
+    console.log("test",taskReqBody.taskUnixTime);
+
     const taskData = taskReqBody.taskData;
     const taskId = taskReqBody.taskData.taskId;
     const taskDateTime = new Date(taskUnixTime * 1000);
