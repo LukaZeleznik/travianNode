@@ -54,7 +54,7 @@ export default {
             }
         },
         reloadStore(){
-            this.getVillageName();
+            this.getActiveVillageName();
             this.fetchVillageOwnTroops();
             this.fetchVillageResources();
             this.fetchVillageProduction();

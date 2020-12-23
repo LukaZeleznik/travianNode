@@ -51,6 +51,7 @@ async function generateMap(width,height){
             "fieldVariation": variation,
             "owner": "",
             "name": "",
+            "merchantsAvailable": 0,
         })
     }
     await tools.doApiRequest("generateMapVillages", "POST", villageData, true);

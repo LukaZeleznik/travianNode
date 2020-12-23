@@ -7,6 +7,7 @@ module.exports = {
     troopInfoLookup:                require('../infoTables/troopInfoLookup.json'),
     resFieldVariationsInfoLookup:   require('../infoTables/resFieldVariationsInfoLookup.json'),
     researchesInfoLookup:           require('../infoTables/researchesInfoLookup.json'),
+    merchantInfoLookup:             require('../infoTables/merchantInfoLookup.json'),
 
     doApiRequest: async function (path, method, data, jsonf){
         let response;

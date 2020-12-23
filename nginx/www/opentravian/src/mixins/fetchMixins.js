@@ -24,11 +24,14 @@ export const fetchMixins = {
             researchesCompleted:            this.$store.getters.getResearchesCompleted,
             researches:                     this.$store.getters.getResearches,
             userTribe:                      this.$store.getters.getUserTribe,
+            villageOutgoingResources:       this.$store.getters.getVillageOutgoingResources,
+            villageIncomingResources:       this.$store.getters.getVillageIncomingResources,
             buildingInfoLookup: [],
             resourceInfoLookup: [],
             troopInfoLookup: [],
             resFieldVariationsInfoLookup: [],
             researchesInfoLookup: [],
+            merchantInfoLookup: [],
             config: {},
         };
     },
@@ -61,7 +64,10 @@ export const fetchMixins = {
         '$store.getters.getActiveVillageId':                    function() { this.activeVillageId = this.$store.getters.getActiveVillageId; },
         '$store.getters.getSidebarVillageList':                 function() { this.sidebarVillageList = this.$store.getters.getSidebarVillageList; },
         '$store.getters.getResearchesCompleted':                function() { this.researchesCompleted = this.$store.getters.getResearchesCompleted; },
-        '$store.getters.getResearches':                         function() { this.researches = this.$store.getters.getResearches; },        
+        '$store.getters.getResearches':                         function() { this.researches = this.$store.getters.getResearches; },    
+        '$store.getters.getUserTribe':                          function() { this.userTribe = this.$store.getters.getUserTribe; },
+        '$store.getters.getVillageOutgoingResources':           function() { this.villageOutgoingResources = this.$store.getters.getVillageOutgoingResources; },
+        '$store.getters.getVillageIncomingResources':           function() { this.villageIncomingResources = this.$store.getters.getVillageIncomingResources; },
     },
 
     methods: {
@@ -74,6 +80,7 @@ export const fetchMixins = {
             this.troopInfoLookup =                  require('@/assets/infoTables/troopInfoLookup.json');
             this.resFieldVariationsInfoLookup =     require('@/assets/infoTables/resFieldVariationsInfoLookup.json');
             this.researchesInfoLookup =             require('@/assets/infoTables/researchesInfoLookup.json');
+            this.merchantInfoLookup =               require('@/assets/infoTables/merchantInfoLookup.json');
         },
         fetchVillageOwnTroops()         { this.$store.dispatch('fetchVillageOwnTroops') },
         fetchVillageResources()         { this.$store.dispatch('fetchVillageResources') },
@@ -89,6 +96,8 @@ export const fetchMixins = {
         fetchSidebarVillageList()       { this.$store.dispatch('fetchSidebarVillageList') },
         fetchResearchesCompleted()      { this.$store.dispatch('fetchResearchesCompleted') },
         fetchResearches()               { this.$store.dispatch('fetchResearches') },
+        fetchUserTribe()                { this.$store.dispatch('fetchUserTribe') },
+        fetchVillageResourceMovements() { this.$store.dispatch('fetchVillageResourceMovements') },
 
         fetchBuildingData(vbid){
             fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/villageBuildingFields/' + this.activeVillageId, {credentials: 'include'})

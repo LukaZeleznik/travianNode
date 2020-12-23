@@ -17,9 +17,9 @@ exports.view = function (req, res) {
 };
 
 exports.new = async function (req, res) {
-    var villageToData = await tools.getVillageData(req.body.idVillageTo);
-    var userTribe = await tools.getTribeFromIdVillage(req.body.idVillageFrom);
-    var taskType = req.body.sendType;
+    const villageToData = await tools.getVillageData(req.body.idVillageTo);
+    const userTribe = await tools.getTribeFromIdVillage(req.body.idVillageFrom);
+    const taskType = req.body.sendType;
     if (!checkValidIdVillageTo(req, res)) return;
     if (!checkSentAmount(req, res, userTribe, villageToData)) return;
 

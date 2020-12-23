@@ -57,7 +57,7 @@ export const toolsMixins = {
             }
             return response;
         },
-        async getVillageName(){
+        async getActiveVillageName(){
             this.villageName = await(await(await this.doApiRequest("villages/" + localStorage.getItem('activeVillageId'),"GET","",false)).json()).data.name;
             this.$store.commit('setActiveVillageName', this.villageName);
         },
@@ -79,6 +79,9 @@ export const toolsMixins = {
                     } 
                 }
             }
+        },
+        async getVillageData(idVillage){
+            return await(await(await this.doApiRequest("villages/" + idVillage, "GET", "", false)).json()).data;
         },
     }
 }

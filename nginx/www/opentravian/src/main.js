@@ -155,6 +155,8 @@ const store = new Vuex.Store({
         sidebarVillageList: [],
         researchesCompleted: [],
         researches: [],
+        villageOutgoingResources: [],
+        villageIncomingResources: [],
     },
 
     mutations: {
@@ -184,6 +186,8 @@ const store = new Vuex.Store({
         setSidebarVillageList(state, sidebarVillageList)                        { state.sidebarVillageList = sidebarVillageList; },
         setResearchesCompleted(state, researchesCompleted)                      { state.researchesCompleted = researchesCompleted; },
         setResearches(state, researches)                                        { state.researches = researches; },
+        setVillageOutgoingResources(state, villageOutgoingResources)            { state.villageOutgoingResources = villageOutgoingResources; },
+        setVillageIncomingResources(state, villageIncomingResources)            { state.villageIncomingResources = villageIncomingResources; },
 
     },
     actions: {
@@ -193,6 +197,7 @@ const store = new Vuex.Store({
             }
         },
         async fetchUserTribe(context) {
+            console.log(context.getters.getUserTribe);
             if(context.getters.getUserTribe){
                 return context.getters.getUserTribe;
             }
@@ -301,6 +306,27 @@ const store = new Vuex.Store({
                     context.commit('setVillageOutgoingReinforcements', villageOutgoingReinforcements);
                     context.commit('setVillageIncomingAttacks', villageIncomingAttacks);
                     context.commit('setVillageIncomingReinforcements', villageIncomingReinforcements);
+                })
+                .catch(err => console.log(err));
+        },
+        async fetchVillageResourceMovements(context) {
+            await fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/sendResources/' + context.getters.getActiveVillageId, {credentials: 'include'})
+                .then(res => res.json())
+                .then(res => {
+
+                    let villageOutgoingResources = [];
+                    let villageIncomingResources = [];
+
+                    for (let sendResources of res.data) {
+                        if (sendResources.idVillageFrom == context.getters.getActiveVillageId && !sendResources.return) {
+                            villageOutgoingResources.push(sendResources);
+                        } else if (sendResources.idVillageTo == context.getters.getActiveVillageId) {
+                            villageIncomingResources.push(sendResources);
+                        }
+                    }
+                    
+                    context.commit('setVillageOutgoingResources', villageOutgoingResources);
+                    context.commit('setVillageIncomingResources', villageIncomingResources);
                 })
                 .catch(err => console.log(err));
         },
@@ -507,6 +533,8 @@ const store = new Vuex.Store({
         getSidebarVillageList:              state => { return state.sidebarVillageList; },
         getResearchesCompleted:             state => { return state.researchesCompleted; },
         getResearches:                      state => { return state.researches; },
+        getVillageOutgoingResources:        state => { return state.villageOutgoingResources; },
+        getVillageIncomingResources:        state => { return state.villageIncomingResources; },
     }
 })
 

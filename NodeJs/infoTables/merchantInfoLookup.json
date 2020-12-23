@@ -1,0 +1,14 @@
+{
+    "teuton": {
+        "speed": 12,
+        "capacity": 1000
+    },
+    "roman": {
+        "speed": 16,
+        "capacity": 500
+    },
+    "gaul": {
+        "speed": 24,
+        "capacity": 750
+    }
+}

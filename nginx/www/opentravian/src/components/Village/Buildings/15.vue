@@ -15,9 +15,7 @@
             </div>
         </div>
 
-        <h5 class="mt-5"> <p>Traders: {{ buildingInfoLookup[$parent.villageBuildingType]['buildingModifier'][$parent.villageBuildingLevel] }} </p></h5>
         <div v-if="$parent.villageBuildingLevel < (buildingInfoLookup[$parent.villageBuildingType]['wood'].length-1)">
-            <h5> <p>Traders at level {{ $parent.villageBuildingLevel+1 }}: {{ buildingInfoLookup[$parent.villageBuildingType]['buildingModifier'][$parent.villageBuildingLevel+1] }}</p></h5>
             <h4> <p>Cost for upgrading to Level {{ $parent.villageBuildingLevel+1 }}:</p></h4>
             <h5> <p>
                 <img src="/images/resources/wood.gif">      {{ buildingInfoLookup[$parent.villageBuildingType]['wood'][$parent.villageBuildingLevel+1] }} |
@@ -56,7 +54,9 @@ export default {
                 'sell': 'Sell',
                 'npc': 'NPC Merchant'
             },
-            activeItem: 'sendResources'
+            activeItem: 'sendResources',
+            villageBuildingType: this.$parent.villageBuildingType,
+            villageBuildingLevel: this.$parent.villageBuildingLevel,
         };
     },
 

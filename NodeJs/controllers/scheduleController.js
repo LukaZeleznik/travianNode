@@ -5,6 +5,8 @@ const combatScript = require("../helperScripts/combatScript");
 var tools = require('../tools/tools');
 var config = require('../config.json');
 
+var MARKETPLACE = 15;
+
 let scheduledTasks = [];
 
 exports.new = function (req, res) {
@@ -58,6 +60,10 @@ exports.new = function (req, res) {
                     villageData['population'] += consumption;
                     userData['population'] += consumption;
 
+                    if (villageBuildingFields["field"+buildingId+"Type"] == MARKETPLACE) { //todo check how many merchants is currently going/coming
+                        villageData['merchantsAvailable'] = villageBuildingFields["field"+buildingId+"Level"];
+                    }
+
                     await tools.doApiRequest("users/" + userData['_id'], "PATCH", userData, true);
                     await tools.doApiRequest("villages/" + villageData['mapTileId'], "PATCH", villageData, true);
                     await tools.doApiRequest("villageBuildingFields/" + idVillage, "PATCH", villageBuildingFields, true);
@@ -107,9 +113,7 @@ exports.new = function (req, res) {
                         for (let troop of tools.troopInfoLookup[userTribeFrom]){
                             attackingVillageTroopsReturning['troop' + troop['id'] + 'num'] = attackingVillageTroops['troop' + troop['id']];
                         }
-                        console.log("BEFORE REQUEST");
                         console.log(await tools.doApiRequest("sendTroops", "POST", attackingVillageTroopsReturning, true));
-                        console.log("AFTER REQUEST");
                     }
                 })();
                 break;
@@ -147,7 +151,6 @@ exports.new = function (req, res) {
                             "troop10num": 3
                         }
                         await tools.doApiRequest('sendTroops', 'POST', sendTroopsData, true);
-                        return;
                     }
 
                     await createVillage(idVillageToData, userData);
@@ -170,11 +173,59 @@ exports.new = function (req, res) {
             case "troopUpgrade":
                 //TODO
                 break;
+            case "sendResources":
+                (async () => {  
+                    const idVillageFrom = taskReqBody.taskData.idVillageFrom;
+                    const idVillageTo = taskReqBody.taskData.idVillageTo;
+                    const userTribe = taskReqBody.taskData.userTribe;
+                    const currentUnixTime = Math.round(new Date().getTime()/1000);
+
+                    /* Update resources in destination village */
+                    let villageToResources = await(await(await tools.doApiRequest("villageResources/" + idVillageTo, "GET", "", false)).json()).data;
+
+                    villageToResources.currentWood += taskReqBody.taskData.wood;
+                    villageToResources.currentClay += taskReqBody.taskData.clay;
+                    villageToResources.currentIron += taskReqBody.taskData.iron;
+                    villageToResources.currentCrop += taskReqBody.taskData.crop;
+                    villageToResources.lastUpdate = currentUnixTime;
+
+                    await tools.doApiRequest("villageResources/" + idVillageTo, "PATCH", villageToResources, true);
+
+                    /* Return merchants */
+                    const idVillageToData = await tools.getVillageData(idVillageTo);
+                    if (idVillageToData['owner'] != ''){
+                        const sendResourcesData = {
+                            "sendType": "sendResourcesReturn",
+                            "idVillageFrom": idVillageTo,
+                            "idVillageTo": idVillageFrom,
+                            "userTribe": userTribe,
+                            "wood": taskReqBody.taskData.wood,
+                            "clay": taskReqBody.taskData.clay,
+                            "iron": taskReqBody.taskData.iron, 
+                            "crop": taskReqBody.taskData.crop,
+                        }
+                        await tools.doApiRequest('sendResources', 'POST', sendResourcesData, true);
+                    }
+                    await tools.doApiRequest("sendResources/" + taskReqBody.taskData.sendResourcesId, "DELETE", "", false);
+                })();
+                break;
+            case "sendResourcesReturn":
+                (async () => {  
+                    const idVillageTo = taskReqBody.taskData.idVillageTo;
+                    let villageToData = await tools.getVillageData(idVillageTo);
+
+                    villageToData.merchantsAvailable += taskReqBody.taskData.merchantAmount;
+
+                    await tools.doApiRequest("villages/" + villageToData['mapTileId'], "PATCH", villageToData, true);
+                    await tools.doApiRequest("sendResources/" + taskReqBody.taskData.sendResourcesId, "DELETE", "", false);
+                })();
+                break;
         }
     }.bind(null, taskReqBody));
 
     scheduledTasks.push(newTask);
     console.log(newTask);
+    console.log(newTask.job);
 
     return res.json({
         status: 'New task scheduled',

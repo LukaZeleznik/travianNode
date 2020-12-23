@@ -52,7 +52,7 @@ exports.view = function (req, res) {
                     }
                     else{
                         res.json({
-                            message: 'VillageResources updated!',
+                            message: 'VillageResources received!',
                             data: villageResources
                         });
                     }
