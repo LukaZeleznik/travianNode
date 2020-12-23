@@ -15,21 +15,22 @@ const UserSchema = new Schema({
   clan:         {type: String, default: ""}
 });
 
-UserSchema.pre(
-    'save',
+UserSchema.pre('save', 
     async function(next) {
         const user = this;
-        const hash = await bcrypt.hash(this.password, process.env.BCRYPT_SALT);
+        if (!user.isModified('password')) return next();
+        //const salt = process.env.BCRYPT_SALT ? process.env.BCRYPT_SALT : 10;
+        const hash = await bcrypt.hash(this.password, 10);
         this.password = hash;
+
         next();
     }
 );
 
 UserSchema.methods.isValidPassword = async function(password) {
     const user = this;
-    console.log("password", password, "user.password", user.password);
     const compare = await bcrypt.compare(password, user.password);
-  
+
     return compare;
 }
 
