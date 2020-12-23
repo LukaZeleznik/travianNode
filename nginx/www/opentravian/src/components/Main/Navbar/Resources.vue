@@ -25,18 +25,23 @@
 
 <script>
 import { fetchMixins } from '@/mixins/fetchMixins'
-var isIntervalInProgress = false;
 
 export default {
     data() {
         return {
             maxResources: undefined,
+            woodInterval: undefined,
+            clayInterval: undefined,
+            ironInterval: undefined,
+            cropInterval: undefined,
         };
     },
 
     mixins: [fetchMixins],
 
-     watch: {
+    watch: {
+         'villageProduction': function(){     if (this.villageMaxResources[0] > 0) this.startIntervals(); },
+         'villageMaxResources': function(){   if (this.villageProduction[0] > 0) this.startIntervals(); }
     },
 
     created() {
@@ -45,54 +50,36 @@ export default {
 
     methods: {   
         loadMethods(){
-            if(this.checkIfLoggedIn(false)){
+            if (this.checkIfLoggedIn(false)){
                 this.fetchVillageResources();
                 this.fetchVillageMaxResources();
                 this.fetchVillageProduction();
-                this.startIntervals();
             }
         },
         startIntervals(){
-            console.log("NAVBAR/RESOURCES DEBUG");
-            if (isIntervalInProgress) return;
+            if (this.woodInterval) return;
 
-            var woodInterval = setInterval( ()=> {
-                if(parseInt(this.$store.getters.getVillageResources[0]) < this.villageMaxResources[0]){
-                    this.$set(this.$store.getters.getVillageResources, 0, this.$store.getters.getVillageResources[0]+1);
-                    isIntervalInProgress = true;
-                }
-                else if(this.$store.getters.getVillageResources[0] >= this.villageMaxResources[0]){
-                    clearInterval(woodInterval);
+            this.woodInterval = setInterval( ()=> {
+                if(parseInt(this.villageResources[0]) < this.villageMaxResources[0]){
+                    this.$set(this.villageResources, 0, this.villageResources[0]+1);
                 }
             }, 1000*3600 / this.villageProduction[0]);
 
-            var clayInterval = setInterval( ()=> {
-                if(parseInt(this.$store.getters.getVillageResources[1]) < this.villageMaxResources[1]){
-                    this.$set(this.$store.getters.getVillageResources, 1, this.$store.getters.getVillageResources[1]+1);
-                    isIntervalInProgress = true;
-                }
-                else if(this.$store.getters.getVillageResources[1] >= this.villageMaxResources[1]){
-                    clearInterval(clayInterval);
+            this.clayInterval = setInterval( ()=> {
+                if(parseInt(this.villageResources[1]) < this.villageMaxResources[1]){
+                    this.$set(this.villageResources, 1, this.villageResources[1]+1);
                 }
             }, 1000*3600 / this.villageProduction[1]);
 
-            var ironInterval = setInterval( ()=> {
-                if(parseInt(this.$store.getters.getVillageResources[2]) < this.villageMaxResources[2]){
-                    this.$set(this.$store.getters.getVillageResources, 2, this.$store.getters.getVillageResources[2]+1);
-                    isIntervalInProgress = true;
-                }
-                else if(this.$store.getters.getVillageResources[2] >= this.villageMaxResources[2]){
-                    clearInterval(ironInterval);
+            this.ironInterval = setInterval( ()=> {
+                if(parseInt(this.villageResources[2]) < this.villageMaxResources[2]){
+                    this.$set(this.villageResources, 2, this.villageResources[2]+1);
                 }
             }, 1000*3600 / this.villageProduction[2]);
                 
-            var cropInterval = setInterval( ()=> {
-                if(parseInt(this.$store.getters.getVillageResources[3]) < this.villageMaxResources[3]){
-                    this.$set(this.$store.getters.getVillageResources, 3, this.$store.getters.getVillageResources[3]+1);
-                    isIntervalInProgress = true;
-                }
-                else if(this.$store.getters.getVillageResources[3] >= this.villageMaxResources[3]){
-                    clearInterval(cropInterval);
+            this.cropInterval = setInterval( ()=> {
+                if(parseInt(this.villageResources[3]) < this.villageMaxResources[3]){
+                    this.$set(this.villageResources, 3, this.villageResources[3]+1);
                 }
             }, 1000*3600 / this.villageProduction[3]);
         },
