@@ -3,6 +3,7 @@ const villageModel = require('../models/villageModel');
 
 exports.view = function (req, res) {
     if(isNaN(req.params.mapTileId)){
+        //todo create new route for /_id/
         villageModel.findOne({_id: req.params.mapTileId}, function (err, village) {
             if (err) res.send(err);
             res.json({

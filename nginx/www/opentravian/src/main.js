@@ -283,13 +283,13 @@ const store = new Vuex.Store({
 
                     for (let troopMovement of res.data) {
                         if (troopMovement.idVillageFrom == context.getters.getActiveVillageId) {
-                            if (troopMovement.sendType == "full" || troopMovement.sendType == "raid" || troopMovement.sendType == 'settle'){
+                            if (troopMovement.sendType == "attack" || troopMovement.sendType == "raid" || troopMovement.sendType == 'settle'){
                                 villageOutgoingAttacks.push(troopMovement);
                             } else if (troopMovement.sendType == "reinforcement") {
                                 villageOutgoingReinforcements.push(troopMovement);
                             }
                         } else if (troopMovement.idVillageTo == context.getters.getActiveVillageId) {
-                            if (troopMovement.sendType == "full" || troopMovement.sendType == "raid" || troopMovement.sendType == 'settle'){
+                            if (troopMovement.sendType == "attack" || troopMovement.sendType == "raid" || troopMovement.sendType == 'settle'){
                                 villageIncomingAttacks.push(troopMovement);
                             } else if (troopMovement.sendType == "reinforcement" || troopMovement.sendType == "return") {
                                 villageIncomingReinforcements.push(troopMovement);

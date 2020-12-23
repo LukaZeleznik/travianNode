@@ -65,7 +65,6 @@ exports.new = function (req, res) {
                 })();
                 break;
             case "attack":
-                //TODO FIX SCHEDULER
                 (async () => {  
                     let defendingVillageOwnTroops = await(await(await tools.doApiRequest("villageOwnTroops/" + idVillageTo, "GET", "", false)).json()).data;
                     const userTribeFrom = await tools.getTribeFromIdVillage(idVillageFrom);
@@ -97,17 +96,20 @@ exports.new = function (req, res) {
                     await tools.doApiRequest("sendTroops/" + taskReqBody.taskData.sendTroopsId, "DELETE", "", false);
                     
                     const totalAttTroopsLeft = combatResult.attackersTroopsAfter.reduce((a, b) => a + b, 0);
-
-                    if(totalAttTroopsLeft > 0){
-                        let attackingVillageTroopsReturning = {};
-                        attackingVillageTroopsReturning["sendType"] = "return";
-                        attackingVillageTroopsReturning["idVillageFrom"] = idVillageTo;
-                        attackingVillageTroopsReturning["idVillageTo"] = idVillageFrom;
-                        attackingVillageTroopsReturning["troopTribe"] = attackingVillageTroops["tribe"];
-                        for(let troop of tools.troopInfoLookup[userTribeFrom]){
+                    
+                    if (totalAttTroopsLeft > 0){
+                        let attackingVillageTroopsReturning = {
+                            "sendType": "return",
+                            "idVillageFrom": idVillageTo,
+                            "idVillageTo": idVillageFrom,
+                            "troopTribe": attackingVillageTroops["tribe"]
+                        };
+                        for (let troop of tools.troopInfoLookup[userTribeFrom]){
                             attackingVillageTroopsReturning['troop' + troop['id'] + 'num'] = attackingVillageTroops['troop' + troop['id']];
                         }
-                        await tools.doApiRequest("sendTroops", "POST", sendTroopsPostApiUrl, true);
+                        console.log("BEFORE REQUEST");
+                        console.log(await tools.doApiRequest("sendTroops", "POST", attackingVillageTroopsReturning, true));
+                        console.log("AFTER REQUEST");
                     }
                 })();
                 break;
@@ -116,7 +118,6 @@ exports.new = function (req, res) {
                 })();
                 break;
             case "return":
-                //TODO FIX SCHEDULER
                 (async () => {  
                     const userTribeFrom = await tools.getTribeFromIdVillage(idVillageFrom);
                     let villageOwnTroops = await(await(await tools.doApiRequest("villageOwnTroops/" + idVillageTo, "GET", "", false)).json()).data;

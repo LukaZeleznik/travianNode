@@ -56,7 +56,7 @@
         <div class="mt-3 w-50 ml-5">
             <div v-if="villageData['owner'] == ''"><input :checked="villageData['owner'] == ''" type="radio" id="sendTroops" name="attackType" value="settle"> <label>Settle new village</label><br></div>
             <input type="radio" id="sendTroops" name="attackType" value="reinf" :disabled="villageData['owner'] == ''"> <label>Reinforcement</label><br>
-            <input type="radio" id="sendTroops" name="attackType" value="full" :disabled="villageData['owner'] == ''" :checked="villageData['owner'] != ''"> <label>Attack: Full</label><br>
+            <input type="radio" id="sendTroops" name="attackType" value="attack" :disabled="villageData['owner'] == ''" :checked="villageData['owner'] != ''"> <label>Attack: Full</label><br>
             <input type="radio" id="sendTroops" name="attackType" value="raid" :disabled="villageData['owner'] == ''"> <label>Attack: Raid</label>
 
             <div class="btn-group w-20 pl-2 ml-5" role="group" aria-label="Train">

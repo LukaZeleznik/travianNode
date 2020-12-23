@@ -3,6 +3,7 @@ const fetch = require('node-fetch');
 const sendTroopsModel = require('../models/sendTroopsModel');
 var tools = require('../tools/tools');
 var config = require('../config.json');
+var uuid = require('uuid-random');
 
 exports.view = function (req, res) {
     sendTroopsModel.find({$or: [{idVillageFrom: req.params.idVillage}, {idVillageTo: req.params.idVillage}] }, function (err, sendTroops) {
@@ -22,19 +23,17 @@ exports.new = async function (req, res) {
     if (!checkValidIdVillageTo(req, res)) return;
     if (!checkSentAmount(req, res, userTribe, villageToData)) return;
 
-    (async () => {
-        if (!await updateVillageOwnTroops(req, res, userTribe)) return;
-        switch (taskType) {
-            case 'full':
-            case 'raid':
-            case 'reinf':
-            case 'return':
-            case 'settle':
-            default: 
-                doSendTroops(req, res, userTribe); 
-                break;
-        }
-    })();
+    if (!await updateVillageOwnTroops(req, res, userTribe) && taskType != 'return') return;
+    switch (taskType) {
+        case 'attack':
+        case 'raid':
+        case 'reinf':
+        case 'return':
+        case 'settle':
+        default: 
+            await doSendTroops(req, res, userTribe); 
+            break;
+    }
 };
 
 exports.update = function (req, res) {
@@ -160,6 +159,7 @@ async function doSendTroops(req, res, userTribe){
     const idVillageFromData = await(await(await tools.doApiRequest('villages/' + req.body.idVillageFrom, 'GET', '', false)).json()).data;
     const idVillageToData   = await(await(await tools.doApiRequest('villages/' + req.body.idVillageTo, 'GET', '', false)).json()).data;
     const timeArrived = (currentUnixTime + calculateTroopArrival(req, idVillageToData, idVillageFromData, userTribe)).toFixed(0);
+    const taskId = uuid();
 
     let sendTroops = new sendTroopsModel();
     sendTroops.sendType = req.body.sendType;
@@ -172,6 +172,8 @@ async function doSendTroops(req, res, userTribe){
         sendTroops['troop' + troop['id'] + 'num'] = req.body['troop' + troop['id'] + 'num'];
     }
 
+    console.log("sendTroops",sendTroops);
+
     sendTroops.save(async function (err, sendTroopsId) {
         if (err){
             res.json(err);
@@ -181,6 +183,7 @@ async function doSendTroops(req, res, userTribe){
                 'taskType': req.body.sendType,
                 'taskUnixTime': timeArrived,
                 'taskData': {
+                    "taskId": taskId,
                     'sendTroopsId': sendTroopsId._id,
                     'idVillageFrom': req.body.idVillageFrom,
                     'idVillageTo': req.body.idVillageTo,
