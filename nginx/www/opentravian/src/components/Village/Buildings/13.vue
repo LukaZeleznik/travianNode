@@ -169,8 +169,8 @@ export default {
             }
             const existingTroops = await this.getExistingTroops();
             const trained = existingTroops[0] + (existingTroops[1] / 3);
-            const troop9avail = Math.floor(allowed - trained);
-            const troop10avail = Math.floor((allowed - trained) * 3);
+            const troop9avail = Math.floor(allowed - trained) ? Math.floor(allowed - trained) : 3;
+            const troop10avail = Math.floor(allowed - trained) ? Math.floor(allowed - trained) * 3 : 3 * 3;
 
             return [troop9avail,troop10avail];
         },
@@ -183,17 +183,17 @@ export default {
             troop10 += villageOwnTroops['troop10'];
 
             const palaceProductions = await(await(await this.doApiRequest("palaceProductions/" + this.activeVillageId,"GET", "", false)).json()).data
-            palaceProductions.forEach(production =>{
+            for (let production of palaceProductions){
                 if(production['troopId'] == 9) troop9 += production['troopCount'];
                 if(production['troopId'] == 10) troop10 += production['troopCount'];
-            });
+            }
 
             const sendTroops = await(await(await this.doApiRequest("sendTroops/" + this.activeVillageId,"GET", "", false)).json()).data
-            // To be tested and check if it maybe picks up incomming attacks with such units
-            sendTroops.forEach(troopMovement =>{
+            // To be tested and check if it maybe picks up incomming attacks with this
+            for (let troopMovement of sendTroops){
                 troop9 += troopMovement['troop9num'];
                 troop10 += troopMovement['troop10num'];
-            });
+            }
 
             //TODO
             //const villageReinforcements = await(await(await this.doApiRequest("villageReinforcements/" + this.activeVillageId,"GET", "", false)).json()).data
