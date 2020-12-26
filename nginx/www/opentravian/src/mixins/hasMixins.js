@@ -10,7 +10,6 @@ export const hasMixins = {
                 this.villageResources[2] >= ironRequired && this.villageResources[3] >= cropRequired){
                 return true;
             }
-            
             return false;
         },
         hasRequiredResFieldResources(){
@@ -23,7 +22,6 @@ export const hasMixins = {
                 this.villageResources[2] >= ironRequired && this.villageResources[3] >= cropRequired){
                 return true;
             }
-
             return false;
         },
         hasRequiredResearchResources(troopId){
@@ -37,7 +35,6 @@ export const hasMixins = {
                 this.villageResources[2] >= troopInfo['iron'] && this.villageResources[3] >= troopInfo['crop']){
                 return true;
             }
-
             return false;
         },
     }

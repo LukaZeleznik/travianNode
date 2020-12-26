@@ -1,11 +1,14 @@
 import { toolsMixins } from './toolsMixins'
+import { fetchMixins } from './fetchMixins'
 
 export const upgradeMixins = {
 
-    mixins: [toolsMixins],
+    mixins: [toolsMixins,fetchMixins],
 
     methods: {
         async upgradeBuilding(vbid){
+            document.getElementById("upgradeBuildingButton").disabled=true;
+
             let buildingData = {
                 "idVillage": this.activeVillageId,
                 "vbid": vbid,

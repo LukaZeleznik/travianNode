@@ -27,7 +27,7 @@
             </h5>
             <h5 class="mt-4"> 
                 <span v-if="villageBuildingUpgrades.length > 0">Another building is already being upgraded</span>
-                <button v-else-if="hasRequiredBuildingResources()" type="button" class="btn btn-success" @click="upgradeBuilding($route.params.vbid)">Upgrade to Level {{ $parent.villageBuildingLevel+1 }}</button> 
+                <button v-else-if="hasRequiredBuildingResources()" type="button" class="btn btn-success" id="upgradeBuildingButton" @click="upgradeBuilding($route.params.vbid)">Upgrade to Level {{ $parent.villageBuildingLevel+1 }}</button> 
                 <span v-else>Not enough resources</span>
             </h5>
         </div>

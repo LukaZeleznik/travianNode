@@ -16,7 +16,12 @@
                         </span>
                         <div class="mt-3">
                             <span v-if="villageBuildingUpgrades.length > 0">Another building is already being upgraded</span>
-                            <button v-else type="button" class="btn btn-success w-50" @click="build(availableBuilding)">Build</button> 
+                            <button v-else-if="hasRequiredBuildingResources(buildingInfoLookup[availableBuilding]['wood'][1],
+                                                                            buildingInfoLookup[availableBuilding]['clay'][1],
+                                                                            buildingInfoLookup[availableBuilding]['iron'][1],
+                                                                            buildingInfoLookup[availableBuilding]['crop'][1])" 
+                                    type="button" class="btn btn-success w-50" @click="build(availableBuilding)">Build</button> 
+                            <span v-else>Not enough resources</span>
                         </div>
                     </th>
                 </tr>
@@ -49,6 +54,8 @@
 <script>
 import { fetchMixins } from '@/mixins/fetchMixins'
 import { toolsMixins } from '@/mixins/toolsMixins'
+import { hasMixins } from '@/mixins/hasMixins'
+
 
 //Buildings
 const EARTH_WALL = 5;
@@ -74,7 +81,7 @@ export default {
         };
     },
 
-    mixins: [fetchMixins,toolsMixins],
+    mixins: [fetchMixins,toolsMixins,hasMixins],
 
     created() {
         this.fetchvillageBuildingFields();
@@ -161,6 +168,13 @@ export default {
             else{
                 document.getElementById("errorMessage").innerText = buildingUpgradeResponseJson.message;
             }
+        },
+        hasRequiredBuildingResources(woodRequired, clayRequired, ironRequired, cropRequired){
+            if (this.villageResources[0] >= woodRequired && this.villageResources[1] >= clayRequired && 
+                this.villageResources[2] >= ironRequired && this.villageResources[3] >= cropRequired){
+                return true;
+            }
+            return false;
         },
     }
 }
