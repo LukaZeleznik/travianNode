@@ -89,6 +89,7 @@ exports.new = async function (req, res) {
                 res.json(err);
             }
             else{
+                console.log(timeCompleted);
                 let scheduleData = {
                     "taskType": "upgradeResField",
                     "taskUnixTime": timeCompleted,
@@ -194,4 +195,4 @@ async function queueFull(idVillage,res){
         return true;
     }
     return false;
-};
+}

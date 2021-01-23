@@ -55,7 +55,7 @@ async function generateMap(width,height){
         })
     }
     await tools.doApiRequest("generateMapVillages", "POST", villageData, true);
-};
+}
 
 async function createNewUser(email, password, nickname, tribe, village){
     const currentUnixTime = Math.round(new Date().getTime()/1000);

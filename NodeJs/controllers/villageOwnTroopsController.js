@@ -15,11 +15,11 @@ exports.view = function (req, res) {
 
             let barracksProductions = await(await(await tools.doApiRequest("barracksProductions/" + idVillage, "GET", "", false)).json()).data;
             let stableProductions = await(await(await tools.doApiRequest("stableProductions/" + idVillage, "GET", "", false)).json()).data;
-            doProcessTroopProductions(barracksProductions,villageOwnTroops,'barracksProductions');
-            doProcessTroopProductions(stableProductions,villageOwnTroops,'stableProductions');
+            doProcessTroopProductions(barracksProductions, villageOwnTroops, 'barracksProductions');
+            doProcessTroopProductions(stableProductions, villageOwnTroops, 'stableProductions');
 
             for(let troop of tools.troopInfoLookup[userTribe]){
-                villageOwnTroops['troop' + troop['id']] = Number(villageOwnTroops['troop' + troop['id']].toFixed(1));
+                villageOwnTroops['troop' + troop['id']] = Number(villageOwnTroops['troop' + troop['id']].toFixed(2));
             }
 
             villageOwnTroops.save(function (err) {
@@ -96,19 +96,18 @@ exports.delete = function (req, res) {
 function doProcessTroopProductions(productions, villageOwnTroops, path){
     productions.forEach(async (production) => {
         const currentUnixTime = Math.round(new Date().getTime()/1000);
-        const timeDiff = currentUnixTime - production.lastUpdate;
         const timeDiffFromStart = currentUnixTime - production.timeStarted;
+
+        let timeDiff = (production.lastUpdate < production.timeStarted) ? timeDiffFromStart : currentUnixTime - production.lastUpdate; 
+        if (timeDiff < 0) return;       
 
         let troopsProduced = timeDiff / production.troopProdTime;
         let troopsProducedAlready = timeDiffFromStart / production.troopProdTime;
 
-        troopsProduced = Number(troopsProduced.toFixed(1));
-        troopsProducedAlready = Number(troopsProducedAlready.toFixed(1));
+        if(troopsProduced+production.troopsDoneAlready >= production.troopCount){
 
-        if(troopsProduced+production.troopsDoneAlready  >= production.troopCount){
-            troopsProduced = Number((production.troopCount - production.troopsDoneAlready).toFixed(1));
             villageOwnTroops["troop"+production.troopId] += troopsProduced;
-
+            villageOwnTroops["troop"+production.troopId] = Number(villageOwnTroops["troop"+production.troopId].toFixed(0));
             await tools.doApiRequest(path + "/" + production._id, "DELETE", "", false);
         }
         else{
@@ -120,6 +119,6 @@ function doProcessTroopProductions(productions, villageOwnTroops, path){
 
             await tools.doApiRequest(path + "/" + production._id, "PATCH", production, true);
         }
-        villageOwnTroops["troop"+production.troopId] = Number(villageOwnTroops["troop"+production.troopId].toFixed(1));
+        villageOwnTroops["troop"+production.troopId] = Number(villageOwnTroops["troop"+production.troopId].toFixed(2));
     });
 }
