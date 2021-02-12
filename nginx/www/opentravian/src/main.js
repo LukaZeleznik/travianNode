@@ -14,6 +14,7 @@ import App from './components/app.vue';
 import Install from './components/Install.vue';
 import Stats from './components/Stats.vue';
 import Profile from './components/Profile.vue';
+import './registerServiceWorker'
 
 // Navbar
 Vue.component('navbarMenu', require('./components/Main/Navbar/Menu.vue').default);
