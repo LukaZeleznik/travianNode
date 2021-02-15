@@ -23,7 +23,7 @@ app.use('/api', api);
 app.use(passport.initialize());
 app.use(passport.session());
 
-console.log("AAA");
+console.log("AAAA");
 
 app.use(function(err, req, res, next) {
     res.status(err.status || 500);

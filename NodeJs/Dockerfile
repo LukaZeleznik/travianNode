@@ -11,7 +11,7 @@ COPY ["package.json", "package-lock.json*", "./"]
 
 #USER node
 
-RUN npm install -g pm2
+RUN npm install -g pm2 --save
 
 RUN npm install
 

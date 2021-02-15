@@ -11,12 +11,11 @@ services:
         depends_on:
             - db
         env_file: .env
-        command: pm2 start app_pm2_config.json
+        command: pm2 start app_pm2_config.json --no-daemon
         #command: sh -c "
         #        npm install
         #        && pm2-dev processes.json
         #    "
-
         environment:
         - MONGO_USERNAME=$MONGO_USERNAME
         - MONGO_PASSWORD=$MONGO_PASSWORD
