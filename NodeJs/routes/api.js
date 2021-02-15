@@ -34,7 +34,7 @@ const auth = require('../auth/auth');
 router.get('/', function (req, res) {
     res.json({
         status: 'API Its Working',
-        message: 'Welcome to RESTHub crafted with love!!!',
+        message: 'Welcome to openTravian API crafted with love!',
     });
 });
 router.route('/register')
