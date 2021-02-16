@@ -28,6 +28,7 @@ const villageBuildingFieldsController = require('../controllers/villageBuildingF
 const researchesCompletedController = require('../controllers/researchesCompletedController');
 const researchesController = require('../controllers/researchesController');
 const sendResourcesController = require('../controllers/sendResourcesController');
+const reportsController = require('../controllers/reportsController');
 
 const auth = require('../auth/auth');
 
@@ -306,6 +307,14 @@ router.route('/sendResources/:sendResourcesId')
     .put(sendResourcesController.update)
     .patch(sendResourcesController.update)
     .delete(sendResourcesController.delete);
+
+router.route('/reports')
+    .post(reportsController.new);
+router.route('/reports/:idReport')
+    .get((req,res,next)     => authenticate(req,res,next), authTools.checkIdVillage, reportsController.view)
+    .put((req,res,next)     => authenticate(req,res,next), authTools.checkIdVillage, reportsController.update)
+    .patch((req,res,next)   => authenticate(req,res,next), authTools.checkIdVillage, reportsController.update)
+    .delete((req,res,next)  => authenticate(req,res,next), authTools.checkIdVillage, reportsController.delete);
 
 module.exports = router;
 

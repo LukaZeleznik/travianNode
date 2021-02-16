@@ -22,7 +22,7 @@
                     <router-link class="nav-link" :to="{ name: 'stats' }">Stats</router-link>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><strike>Reports</strike></a>
+                    <router-link class="nav-link" :to="{ name: 'reports' }">Reports</router-link>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#"><strike>Messages</strike></a>

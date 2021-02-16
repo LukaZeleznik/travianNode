@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
+import './registerServiceWorker'
 
 import Register from './components/Register.vue';
 import Login from './components/Login.vue';
@@ -13,8 +14,9 @@ import Map from './components/Map.vue';
 import App from './components/app.vue';
 import Install from './components/Install.vue';
 import Stats from './components/Stats.vue';
+import Reports from './components/Reports.vue';
+//import Report from './components/Report.vue';
 import Profile from './components/Profile.vue';
-import './registerServiceWorker'
 
 // Navbar
 Vue.component('navbarMenu', require('./components/Main/Navbar/Menu.vue').default);
@@ -58,6 +60,9 @@ Vue.component('resourcesField', require('./components/Resources/ResourceField.vu
 
 //Map
 Vue.component('mapTile', require('./components/Map/MapTile.vue').default);
+
+//Report
+Vue.component('report', require('./components/Report.vue').default);
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
@@ -124,6 +129,11 @@ const router = new VueRouter({
             path: '/profile/:uid?',
             name: 'profile',
             component: Profile
+        },
+        {
+            path: '/reports/:id?',
+            name: 'reports',
+            component: Reports
         },
     ],
 });
