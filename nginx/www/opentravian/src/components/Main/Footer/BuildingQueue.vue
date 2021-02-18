@@ -1,7 +1,6 @@
 <template>
     <div>
-        <div class="h3 my-3 text-center" v-if="villageResFieldUpgrades.length > 0 || villageBuildingUpgrades.length > 0">Buildings:</div>
-        
+        <div class="h3 my-3 text-center" v-if="villageResFieldUpgrades.length > 0 || villageBuildingUpgrades.length > 0">Upgrades:</div>        
         <div class="d-flex justify-content-between" v-if="villageResFieldUpgrades.length > 0">
             <h5><img @click="cancelResFieldUpgrade(villageResFieldUpgrades)" style="width: 1.0rem;height: 0.9rem;cursor: pointer;" src="/images/del.gif">
                 {{ resourceInfoLookup[villageResFieldUpgrades[0].fieldType]['name']}} <!-- should NOT be name..should be field type... -->
