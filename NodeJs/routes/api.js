@@ -310,8 +310,9 @@ router.route('/sendResources/:sendResourcesId')
 
 router.route('/reports')
     .post(reportsController.new);
-router.route('/reports/:idReport')
+router.route('/reports/:idVillage')
     .get((req,res,next)     => authenticate(req,res,next), authTools.checkIdVillage, reportsController.view)
+router.route('/reports/:idReport')
     .put((req,res,next)     => authenticate(req,res,next), authTools.checkIdVillage, reportsController.update)
     .patch((req,res,next)   => authenticate(req,res,next), authTools.checkIdVillage, reportsController.update)
     .delete((req,res,next)  => authenticate(req,res,next), authTools.checkIdVillage, reportsController.delete);
