@@ -9,7 +9,7 @@
                 {{ villageData['name'] }} 
                 {{ '(' + villageData['xCoordinate'] + '|' + villageData['yCoordinate'] + ')' }}
             </h1>
-            <table class="table table-borderless">
+            <table class="table table-borderless" aria-describedby="sendTroops">
                 <tbody>
                     <tr style="float: left">
                         <span v-for="(troop, index) in troopInfoLookup[userTribe]" v-bind:key="index">

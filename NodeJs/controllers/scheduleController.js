@@ -96,12 +96,22 @@ exports.new = function (req, res) {
                     }
                     /* TODO */
 
-                    const combatResult = combatScript.calculateCombat(attackingVillageTroops,defendingVillageOwnTroops,constants);
+                    const combatResult = combatScript.calculateCombat(attackingVillageTroops, defendingVillageOwnTroops, constants);
+
+                    const report = createReport(idVillageFrom,
+                        idVillageTo,
+                        attackingVillageTroops,
+                        defendingVillageOwnTroops,
+                        combatResult.attackersTroopsAfter,
+                        combatResult.defendersTroopsAfter);
+
+                    await tools.doApiRequest("reports", "POST", report, true);
 
                     for(let troop of tools.troopInfoLookup[userTribeFrom]){
                         defendingVillageOwnTroops['troop' + troop['id']] = combatResult.defendersTroopsAfter[troop['id']-1];
                         attackingVillageTroops['troop' + troop['id']] = combatResult.attackersTroopsAfter[troop['id']-1];
                     }
+
 
                     await tools.doApiRequest("villageOwnTroops/" + idVillageTo, "PATCH", defendingVillageOwnTroops, true);
                     await tools.doApiRequest("sendTroops/" + taskReqBody.taskData.sendTroopsId, "DELETE", "", false);
@@ -323,4 +333,28 @@ async function createVillage(villageData,userData){
         "lastUpdate": currentUnixTime
     }
     await tools.doApiRequest("villageResources","POST",villageResourcesData,true);
+}
+
+function createReport(idVillageFrom, idVillageTo, attackingVillageTroops, defendingVillageOwnTroops, attackersTroopsAfter, defendersTroopsAfter){
+    let report = {};
+    report["idVillageAttacker"] = idVillageFrom;
+    report["idVillageDefender"] = idVillageTo;
+    report["tribeAttacker"] = attackingVillageTroops.tribe;
+    report["tribeDefender"] = defendingVillageOwnTroops.tribe;
+    report["bountyWood"] = 0;
+    report["bountyClay"] = 0;
+    report["bountyIron"] = 0;
+    report["bountyCrop"] = 0;
+
+    for(let i = 1; i < 11; i++){
+        report["attTroop"+i] = attackingVillageTroops['troop' + i];
+        report["attTroop"+i+"Casualty"] = attackingVillageTroops['troop' + i] - attackersTroopsAfter[i-1];
+
+        report["defTroop"+i] = defendingVillageOwnTroops['troop' + i];
+        report["defTroop"+i+"Casualty"] = defendingVillageOwnTroops['troop' + i] - defendersTroopsAfter[i-1];
+    }
+
+    console.log(report);
+
+    return report;
 }

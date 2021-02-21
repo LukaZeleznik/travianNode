@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12">
                     <div class="h2 text-center mb-5"><strong>Reports</strong></div>
-                    <report v-bind:reportsData="reportsData[0]"></report>
+                    <report v-bind:reportData="userReport" v-for="(userReport, index) in userReports" v-bind:key="index"></report>
                 </div>
             </div>
         </div>
@@ -20,7 +20,7 @@ import { toolsMixins } from '@/mixins/toolsMixins'
 export default {
     data() {
         return {
-            reportsData: []
+            userReports: []
         };
     },
 
@@ -33,12 +33,9 @@ export default {
     methods: {
         loadMethods(){
             if(this.checkIfLoggedIn(true)){
-                this.getReports();
+                this.fetchUserReports();
             }
         },
-        async getReports(){
-            this.reportsData.push({"0":0,"1":1})
-        }
     }
 }
 </script>

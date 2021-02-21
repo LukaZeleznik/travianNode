@@ -3,19 +3,19 @@
         <div class="d-flex justify-content-center" id="villageResources">
         <ul class="list-group list-group-horizontal flex-row">
             <li class="list-group-item">
-                <img style="width: 1.2rem;height: 0.9rem;" src="/images/resources/wood.gif">
+                <img style="width: 1.2rem;height: 0.9rem;" src="/images/resources/wood.gif" alt="wood">
                 <span id="currentWood">{{ parseInt(villageResources[0]) }}</span>/<span id="maxWood">{{ villageMaxResources[0] }}</span>
             </li>
             <li class="list-group-item">
-                <img style="width: 1.2rem;height: 0.9rem;" src="/images/resources/clay.gif">
+                <img style="width: 1.2rem;height: 0.9rem;" src="/images/resources/clay.gif" alt="clay">
                 <span id="currentClay">{{ parseInt(villageResources[1]) }}</span>/<span id="maxClay">{{ villageMaxResources[1] }}</span>
             </li>
             <li class="list-group-item">
-                <img style="width: 1.2rem;height: 0.9rem;" src="/images/resources/iron.gif">
+                <img style="width: 1.2rem;height: 0.9rem;" src="/images/resources/iron.gif" alt="iron">
                 <span id="currentIron">{{ parseInt(villageResources[2]) }}</span>/<span id="maxIron">{{ villageMaxResources[2] }}</span>
             </li>
             <li class="list-group-item">
-                <img style="width: 1.2rem;height: 0.9rem;" src="/images/resources/crop.gif">
+                <img style="width: 1.2rem;height: 0.9rem;" src="/images/resources/crop.gif" alt="crop">
                 <span id="currentCrop">{{ parseInt(villageResources[3]) }}</span>/<span id="maxCrop">{{ villageMaxResources[3] }}</span>
             </li>
         </ul>

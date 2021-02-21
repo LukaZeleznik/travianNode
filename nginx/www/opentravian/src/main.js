@@ -168,6 +168,7 @@ const store = new Vuex.Store({
         researches: [],
         villageOutgoingResources: [],
         villageIncomingResources: [],
+        userReports: [],
     },
 
     mutations: {
@@ -199,6 +200,7 @@ const store = new Vuex.Store({
         setResearches(state, researches)                                        { state.researches = researches; },
         setVillageOutgoingResources(state, villageOutgoingResources)            { state.villageOutgoingResources = villageOutgoingResources; },
         setVillageIncomingResources(state, villageIncomingResources)            { state.villageIncomingResources = villageIncomingResources; },
+        setUserReports(state, userReports)            { state.userReports = userReports; },
 
     },
     actions: {
@@ -516,6 +518,15 @@ const store = new Vuex.Store({
                 })
                 .catch(err => console.log(err));
         },
+        async fetchUserReports(context) {
+            await fetch('http://' + process.env.VUE_APP_BASE_URL + '/api/reports/' + context.getters.getActiveVillageId, {credentials: 'include'})
+                .then(res => res.json())
+                .then(res => {
+                    let userReports = res.data;
+                    context.commit('setUserReports', userReports);
+                })
+                .catch(err => console.log(err));
+        },
     },
     getters: {
         getVillageResources:                state => { return state.villageResources; },
@@ -546,6 +557,7 @@ const store = new Vuex.Store({
         getResearches:                      state => { return state.researches; },
         getVillageOutgoingResources:        state => { return state.villageOutgoingResources; },
         getVillageIncomingResources:        state => { return state.villageIncomingResources; },
+        getUserReports:                     state => { return state.userReports; },
     }
 })
 

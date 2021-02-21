@@ -26,6 +26,7 @@ export const fetchMixins = {
             userTribe:                      this.$store.getters.getUserTribe,
             villageOutgoingResources:       this.$store.getters.getVillageOutgoingResources,
             villageIncomingResources:       this.$store.getters.getVillageIncomingResources,
+            userReports:                    this.$store.getters.getUserReports,
             buildingInfoLookup: [],
             resourceInfoLookup: [],
             troopInfoLookup: [],
@@ -68,6 +69,7 @@ export const fetchMixins = {
         '$store.getters.getUserTribe':                          function() { this.userTribe = this.$store.getters.getUserTribe; },
         '$store.getters.getVillageOutgoingResources':           function() { this.villageOutgoingResources = this.$store.getters.getVillageOutgoingResources; },
         '$store.getters.getVillageIncomingResources':           function() { this.villageIncomingResources = this.$store.getters.getVillageIncomingResources; },
+        '$store.getters.getUserReports':                        function() { this.userReports = this.$store.getters.getUserReports; },
     },
 
     methods: {
@@ -98,6 +100,7 @@ export const fetchMixins = {
         fetchResearches()               { this.$store.dispatch('fetchResearches') },
         fetchUserTribe()                { this.$store.dispatch('fetchUserTribe') },
         fetchVillageResourceMovements() { this.$store.dispatch('fetchVillageResourceMovements') },
+        fetchUserReports()              { this.$store.dispatch('fetchUserReports') },
 
         fetchBuildingData(vbid){
             fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/villageBuildingFields/' + this.activeVillageId, {credentials: 'include'})
