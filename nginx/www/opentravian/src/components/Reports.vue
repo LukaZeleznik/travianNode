@@ -4,7 +4,9 @@
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12">
                     <div class="h2 text-center mb-5"><strong>Reports</strong></div>
-                    <report v-bind:reportData="userReport" v-for="(userReport, index) in userReports" v-bind:key="index"></report>
+                    <div class="accordion" id="accordion">
+                        <report v-bind:reportData="userReport" v-bind:reportDataIndex="index" v-for="(userReport, index) in userReports" v-bind:key="index"></report>
+                    </div>
                 </div>
             </div>
         </div>
