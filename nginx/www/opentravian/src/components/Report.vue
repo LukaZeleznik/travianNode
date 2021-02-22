@@ -92,7 +92,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 .table td, .table th {
     padding: .3rem;
