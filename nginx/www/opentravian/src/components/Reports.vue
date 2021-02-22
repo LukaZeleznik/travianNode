@@ -1,6 +1,6 @@
 <template>
     <div v-if="checkIfLoggedIn(false)">
-        <div class="container mt-4">
+        <div class="container mt-4 mb-4">
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12">
                     <div class="h2 text-center mb-5"><strong>Reports</strong></div>
