@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
 const Schema = mongoose.Schema;
@@ -19,8 +19,9 @@ UserSchema.pre('save',
     async function(next) {
         const user = this;
         if (!user.isModified('password')) return next();
+        
         //const salt = process.env.BCRYPT_SALT ? process.env.BCRYPT_SALT : 10;
-        const hash = await bcrypt.hash(this.password, 10);
+        let hash = bcrypt.hashSync(this.password, 10);
         this.password = hash;
 
         next();

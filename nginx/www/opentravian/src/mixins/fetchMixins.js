@@ -98,6 +98,7 @@ export const fetchMixins = {
         fetchResearches()               { this.$store.dispatch('fetchResearches') },
         fetchUserTribe()                { this.$store.dispatch('fetchUserTribe') },
         fetchVillageResourceMovements() { this.$store.dispatch('fetchVillageResourceMovements') },
+        fetchUserReports()              { this.$store.dispatch('fetchUserReports') },
 
         fetchBuildingData(vbid){
             fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/villageBuildingFields/' + this.activeVillageId, {credentials: 'include'})

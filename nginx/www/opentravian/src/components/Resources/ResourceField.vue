@@ -73,6 +73,7 @@ export default {
     
     created() {
         this.fetchResourceFieldsData(this.$route.params.rfid);
+        this.fetchVillageResFieldUpgrades();
     },
 
     methods: {

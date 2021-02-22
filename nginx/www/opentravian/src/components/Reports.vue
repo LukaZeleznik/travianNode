@@ -33,7 +33,7 @@ export default {
     methods: {
         loadMethods(){
             if(this.checkIfLoggedIn(true)){
-                this.getReports();
+                this.fetchUserReports();
             }
         },
         async getReports(){
