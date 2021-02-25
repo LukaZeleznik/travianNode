@@ -19,7 +19,7 @@ exports.view = function (req, res) {
             doProcessTroopProductions(stableProductions, villageOwnTroops, 'stableProductions');
 
             for(let troop of tools.troopInfoLookup[userTribe]){
-                villageOwnTroops['troop' + troop['id']] = Number(villageOwnTroops['troop' + troop['id']].toFixed(2));
+                villageOwnTroops['troop' + troop['id']] = Math.floor(villageOwnTroops['troop' + troop['id']].toFixed(2));
             }
 
             villageOwnTroops.save(function (err) {
