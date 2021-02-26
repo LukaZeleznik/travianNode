@@ -6,4 +6,4 @@ RUN apt -y install nodejs
 WORKDIR /var/www/opentravian
 COPY ./www/opentravian/package*.json .
 RUN npm install
-COPY ./www/opentravian .
+COPY ./www/opentravian ./
