@@ -32,4 +32,7 @@ Password: password
 ```
 9. Play!
 
+<br>
+<br>
+
 ![OpenAir Travian](https://i.imgur.com/cnzcfUQ.png)
