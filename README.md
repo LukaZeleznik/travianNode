@@ -4,6 +4,7 @@ Full stack web application using Node.js, Express.js, Vue.js, MongoDB and Nginx.
 
 # Requirements
 - Docker
+- Docker Compose
 
 # Usage
 
