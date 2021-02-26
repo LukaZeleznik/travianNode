@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 var tools = require('../tools/tools');
 var config = require('../config.json');
 
@@ -19,6 +20,26 @@ exports.new = async function (req, res) {
         message: 'Installation completed',
         data: ''
     });
+};
+
+exports.delete = async function (req, res) {
+    mongoose.connection.db.dropDatabase(function(err, result) {
+        if(result){
+            res.json({
+                status: 'success',
+                message: 'Database dropped!',
+                data: ''
+            });
+        }
+        else{
+            res.json({
+                status: 'failed',
+                message: 'Database failed to drop',
+                data: err
+            });
+        }
+    });
+
 };
 
 function getRandomVariation(){

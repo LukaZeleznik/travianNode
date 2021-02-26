@@ -116,6 +116,8 @@ router.route('/schedule')
 
 router.route('/install')
     .post(installController.new);
+router.route('/dropDatabase')
+    .get((req,res,next)     => authenticate(req,res,next), authTools.checkIdVillage, installController.delete);
 /*
 router.route('/schedule/:idTask')
     .get(scheduleController.view)
