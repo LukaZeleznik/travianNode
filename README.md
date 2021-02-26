@@ -25,7 +25,11 @@ npm run serve
 http://localhost:81/install
 ```
 
-7. Install and login with `admin@test.com` : `password`
-8. Play!
+7. Install and login with:
+```properties
+Username: admin@test.com
+Password: password
+```
+9. Play!
 
 ![OpenAir Travian](https://i.imgur.com/cnzcfUQ.png)
