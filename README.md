@@ -21,8 +21,9 @@ docker exec -it nginx bash
 npm run serve
 ```
 5. Open up your browser and navigate to:
-
-&nbsp;&nbsp;&nbsp;&nbsp;<http://localhost:81/install>
+```properties
+http://localhost:81/install
+```
 
 7. Install and login with `admin@test.com` : `password`
 8. Play!
