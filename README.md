@@ -8,7 +8,7 @@ Full stack web application using Node.js, Express.js, Vue.js, MongoDB and Nginx.
 # Usage
 
 1. Fork the repository
-2. Open a terminal inside the main folder and run:
+2. Open a terminal inside the root folder and run:
 ```properties
 docker-compose up --build
 ```
