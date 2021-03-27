@@ -13,7 +13,7 @@ const villageResFieldUpgradesSchema = new Schema ({
         cropUsed:       { type: Number, required: true },
         timeStarted:    { type: Number, required: true },
         timeCompleted:  { type: Number, required: true }
-});
+    }, { timestamps: true });
 
 var villageResFieldUpgrades = module.exports = mongoose.model('villageResFieldUpgrades', villageResFieldUpgradesSchema, 'villageResFieldUpgrades');
 

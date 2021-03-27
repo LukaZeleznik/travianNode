@@ -81,7 +81,7 @@ export default {
 
     methods:{
         startTroopMovementsInterval(){
-            setInterval( ()=> {
+            var troopMovementsInterval = setInterval( ()=> {
                 if(this.villageIncomingAttacksTimeLeft[0] > 0){
                     this.$set(this.villageIncomingAttacksTimeLeft, 0, this.villageIncomingAttacksTimeLeft[0]-1);
                 }
@@ -96,6 +96,7 @@ export default {
                 }
                 
                 if(this.villageIncomingAttacksTimeLeft[0] <= 0 || this.villageIncomingReinforcementsTimeLeft[0] <= 0 || this.villageOutgoingAttacksTimeLeft[0] <= 0 || this.villageOutgoingReinforcementsTimeLeft[0] <= 0){
+                    clearInterval(troopMovementsInterval);
                     this.fetchVillageOwnTroops();
                     this.fetchVillageTroopMovements();
                     this.fetchSidebarVillageList();

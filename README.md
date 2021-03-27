@@ -33,6 +33,8 @@ Password: password
 ```
 9. Play!
 
+<b>Extras<b>
+- Connect to MondoDB with 'mongodb://multiHunter:multiHunter1@localhost:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false'
 <br>
 
 ![OpenAir Travian](https://i.imgur.com/cnzcfUQ.png)

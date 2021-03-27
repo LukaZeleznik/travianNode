@@ -46,6 +46,10 @@ exports.update = function (req, res) {
         sendTroops.timeSent = req.body.timeSent;
         sendTroops.timeArrived = req.body.timeArrived;
         sendTroops.troopTribe = req.body.troopTribe;
+        sendTroops.bountyWood = req.body.bountyWood;
+        sendTroops.bountyClay = req.body.bountyClay;
+        sendTroops.bountyIron = req.body.bountyIron;
+        sendTroops.bountyCrop = req.body.bountyCrop;
         for(let troop of tools.troopInfoLookup[req.body.troopTribe]){
             sendTroops['troop' + troop['id'] + 'num'] = req.body['troop' + troop['id'] + 'num'];
         }
@@ -137,9 +141,6 @@ function calculateTroopArrival(req, idVillageToData, idVillageFromData, userTrib
         }
     }
 
-    console.log("distance", distance);
-    console.log("troopSpeed", troopSpeed);
-
     return Number((distance / troopSpeed * 3600) / config.TROOP_SPEED)
 };
 
@@ -168,6 +169,10 @@ async function doSendTroops(req, res, userTribe){
     sendTroops.timeSent = currentUnixTime;
     sendTroops.timeArrived = timeArrived;
     sendTroops.troopTribe = userTribe;
+    sendTroops.bountyWood = req.body.bountyWood;
+    sendTroops.bountyClay = req.body.bountyClay;
+    sendTroops.bountyIron = req.body.bountyIron;
+    sendTroops.bountyCrop = req.body.bountyCrop;
     for(let troop of tools.troopInfoLookup[userTribe]){
         sendTroops['troop' + troop['id'] + 'num'] = req.body['troop' + troop['id'] + 'num'];
     }
@@ -188,6 +193,10 @@ async function doSendTroops(req, res, userTribe){
                     'idVillageFrom': req.body.idVillageFrom,
                     'idVillageTo': req.body.idVillageTo,
                     'troopTribe': userTribe,
+                    'bountyWood': req.body.bountyWood,
+                    'bountyClay': req.body.bountyClay,
+                    'bountyIron': req.body.bountyIron,
+                    'bountyCrop': req.body.bountyCrop
                 }
             };
 

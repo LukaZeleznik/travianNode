@@ -11,7 +11,7 @@ const stableProductionsSchema = new Schema ({
         timeCompleted:  { type: Number, required: true },
         lastUpdate:     { type: Number, required: true },
         troopsDoneAlready: { type: Number, required: true }
-});
+    }, { timestamps: true });
 
 var stableProductions = module.exports = mongoose.model('stableProductions', stableProductionsSchema, 'stableProductions');
 

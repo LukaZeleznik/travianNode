@@ -41,7 +41,7 @@ const villageBuildingFieldsSchema = new Schema ({
         field17Type: { type: Number, required: true },
         field18Type: { type: Number, required: true },
         field19Type: { type: Number, required: true }
-});
+    }, { timestamps: true });
 
 var villageBuildingFields = module.exports = mongoose.model('villageBuildingFields', villageBuildingFieldsSchema, 'villageBuildingFields');
 

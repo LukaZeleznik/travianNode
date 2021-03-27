@@ -1,86 +1,90 @@
 const path = require('path');
-const reportModel = require('../models/reportModel');
+const reportsModel = require('../models/reportsModel');
+var tools = require('../tools/tools');
 
 exports.view = function (req, res) {
-    reportModel.find({$or: [{idVillageAttacker: req.params.idVillage}, {idVillageDefender: req.params.idVillage}] }, function (err, report) {
+    reportsModel.find({$or: [{idVillageAttacker: req.params.idVillage}, {idVillageDefender: req.params.idVillage}] }, function (err, reports) {
         if (err)
             res.send(err);
         res.json({
             message: 'Loading reports data..',
-            data: report
+            data: reports
         });
-    });
+    }).sort({createdAt:-1});
 };
 
-// Handle create report actions
+// Handle create reports actions
 exports.new = function (req, res) {
-    var report = new reportModel();
-    report.idVillageAttacker = req.body.idVillageAttacker;
-    report.idVillageDefender = req.body.idVillageDefender;
-    report.tribeAttacker = req.body.tribeAttacker;
-    report.tribeDefender = req.body.tribeDefender;
-    report.bountyWood = req.body.bountyWood;
-    report.bountyClay = req.body.bountyClay;
-    report.bountyIron = req.body.bountyIron;
-    report.bountyCrop = req.body.bountyCrop;
+    var reports = new reportsModel();
+    reports.idVillageAttacker = req.body.idVillageAttacker;
+    reports.idVillageDefender = req.body.idVillageDefender;
+    reports.tribeAttacker = req.body.tribeAttacker;
+    reports.tribeDefender = req.body.tribeDefender;
+    reports.bountyWood = req.body.bountyWood;
+    reports.bountyClay = req.body.bountyClay;
+    reports.bountyIron = req.body.bountyIron;
+    reports.bountyCrop = req.body.bountyCrop;
+    reports.bountyTotal = req.body.bountyTotal;
+    reports.bountyMax = req.body.bountyMax;
     for(let i = 1; i < 11; i++){
-        report['attTroop'+i] = req.body['attTroop'+i];
-        report['defTroop'+i]  = req.body['defTroop'+i];
-        report['attTroop'+i+'Casualty'] = req.body['attTroop'+i+'Casualty'];
-        report['defTroop'+i+'Casualty'] = req.body['defTroop'+i+'Casualty'];
+        reports['attTroop'+i] = req.body['attTroop'+i];
+        reports['defTroop'+i] = req.body['defTroop'+i];
+        reports['attTroop'+i+'Casualty'] = req.body['attTroop'+i+'Casualty'];
+        reports['defTroop'+i+'Casualty'] = req.body['defTroop'+i+'Casualty'];
     }
 
-    report.save(function (err) {
+    reports.save(function (err) {
         if (err){
             res.json(err);
         }
         else{
             res.json({
-                message: 'report success',
-                data: report
+                message: 'reports success',
+                data: reports
             });
         }
     });
 };
 
 exports.update = function (req, res) {
-    reportModel.findOne({_id: req.params.idReport}, function (err, report) {
+    reportsModel.findOne({_id: req.params.idReport}, function (err, reports) {
         if (err)
             res.send(err);
-        
-        report.idVillageAttacker = req.body.idVillageAttacker;
-        report.idVillageDefender = req.body.idVillageDefender;
-        report.tribeAttacker = req.body.tribeAttacker;
-        report.tribeDefender = req.body.tribeDefender;
-        report.bountyWood = req.body.bountyWood;
-        report.bountyClay = req.body.bountyClay;
-        report.bountyIron = req.body.bountyIron;
-        report.bountyCrop = req.body.bountyCrop;
-        for(let i = 1; i < 10; i++){
-            report['attTroop'+i] = req.body['attTroop'+i];
-            report['defTroop'+i]  = req.body['defTroop'+i];
-            report['attTroop'+i+'Casualty'] = req.body['attTroop'+i+'Casualty'];
-            report['defTroop'+i+'Casualty'] = req.body['defTroop'+i+'Casualty'];
+        reports.idVillageAttacker = req.body.idVillageAttacker;
+        reports.idVillageDefender = req.body.idVillageDefender;
+        reports.tribeAttacker = req.body.tribeAttacker;
+        reports.tribeDefender = req.body.tribeDefender;
+        reports.bountyWood = req.body.bountyWood;
+        reports.bountyClay = req.body.bountyClay;
+        reports.bountyIron = req.body.bountyIron;
+        reports.bountyCrop = req.body.bountyCrop;
+        reports.bountyTotal = req.body.bountyTotal;
+        reports.bountyMax = req.body.bountyMax;
+        for(let i = 1; i < 11; i++){
+            reports['attTroop'+i] = req.body['attTroop'+i];
+            reports['defTroop'+i] = req.body['defTroop'+i];
+            reports['attTroop'+i+'Casualty'] = req.body['attTroop'+i+'Casualty'];
+            reports['defTroop'+i+'Casualty'] = req.body['defTroop'+i+'Casualty'];
         }
 
-        report.save(function (err) {
+        reports.save(function (err) {
             if (err)
                 res.json(err);
             res.json({
-                message: 'report Info updated',
-                data: report
+                message: 'reports Info updated',
+                data: reports
             });
         });
     });
 };
 
 exports.delete = function (req, res) {
-    reportModel.remove({idReport: req.params.idReport}, function (err, report) {
+    reportsModel.remove({idReport: req.params.idReport}, function (err, reports) {
         if (err)
             res.send(err);
         res.json({
             status: "success",
-            message: 'report deleted'
+            message: 'reports deleted'
         });
     });
 };

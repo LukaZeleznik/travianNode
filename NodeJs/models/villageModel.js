@@ -11,7 +11,7 @@ const villageSchema = new Schema({
     population:         {type: Number, required: true, default: 0},
     owner:              {type: String, required: false},
     merchantsAvailable: {type: Number, required: true},
-});
+}, { timestamps: true });
 
 var village = module.exports = mongoose.model('village', villageSchema, 'village');
 

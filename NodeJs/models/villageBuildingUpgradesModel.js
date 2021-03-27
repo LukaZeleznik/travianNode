@@ -13,7 +13,7 @@ const villageBuildingUpgradesSchema = new Schema ({
         cropUsed:       { type: Number, required: true },
         timeStarted:    { type: Number, required: true },
         timeCompleted:  { type: Number, required: true }
-});
+    }, { timestamps: true });
 
 var villageBuildingUpgrades = module.exports = mongoose.model('villageBuildingUpgrades', villageBuildingUpgradesSchema, 'villageBuildingUpgrades');
 

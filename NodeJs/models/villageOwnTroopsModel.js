@@ -14,7 +14,7 @@ const villageOwnTroopsSchema = new Schema ({
         troop8: { type: Number, required: true },
         troop9: { type: Number, required: true },
         troop10: { type: Number, required: true }
-});
+}, { timestamps: true });
 
 var villageOwnTroops = module.exports = mongoose.model('villageOwnTroops', villageOwnTroopsSchema, 'villageOwnTroops');
 

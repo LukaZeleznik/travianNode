@@ -13,7 +13,7 @@ const UserSchema = new Schema({
   capital:      {type: String, required: true, unique: true},
   group:        {type: Number, required: true, default: 1},
   clan:         {type: String, default: ""}
-});
+}, { timestamps: true });
 
 UserSchema.pre('save', 
     async function(next) {

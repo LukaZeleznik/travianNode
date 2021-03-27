@@ -14,7 +14,7 @@ const sendResourcesSchema = new Schema ({
         iron:           { type: Number, required: true, default: 0 },
         crop:           { type: Number, required: true, default: 0 },
         return:         { type: Boolean, required: true},
-});
+    }, { timestamps: true });
 
 var sendResources = module.exports = mongoose.model('sendResources', sendResourcesSchema, 'sendResources');
 

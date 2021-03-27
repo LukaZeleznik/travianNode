@@ -9,7 +9,7 @@ const researchesSchema = new Schema ({
         troopId:        { type: Number, required: true },
         timeStarted:    { type: Number, required: true },
         timeCompleted:  { type: Number, required: true }
-});
+    }, { timestamps: true });
 
 var researches = module.exports = mongoose.model('researches', researchesSchema, 'researches');
 

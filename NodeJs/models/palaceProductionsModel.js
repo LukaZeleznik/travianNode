@@ -11,7 +11,7 @@ const palaceProductionsSchema = new Schema ({
         timeCompleted:  { type: Number, required: true },
         lastUpdate:     { type: Number, required: true },
         troopsDoneAlready: { type: Number, required: true }
-});
+    }, { timestamps: true });
 
 var palaceProductions = module.exports = mongoose.model('palaceProductions', palaceProductionsSchema, 'palaceProductions');
 

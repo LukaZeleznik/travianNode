@@ -37,9 +37,9 @@ exports.new = function (req, res) {
                     let userData = await tools.getUserDataFromIdVillage(idVillage);
 
                     let villageResourceFields = await(await(await tools.doApiRequest("villageResourceFields/" + idVillage, "GET", "", false)).json()).data;
-                    villageResourceFields["field"+resFieldId+"Level"]++;
+                    villageResourceFields['field'+resFieldId+'Level']++;
 
-                    const consumption = tools.resourceInfoLookup[villageResourceFields["field"+resFieldId+"Type"]]['consumption'][villageResourceFields["field"+resFieldId+"Level"]];
+                    const consumption = tools.resourceInfoLookup[villageResourceFields['field'+resFieldId+'Type']]['consumption'][villageResourceFields['field'+resFieldId+'Level']];
                     villageData['population'] += consumption;
                     userData['population'] += consumption;
 
@@ -59,14 +59,14 @@ exports.new = function (req, res) {
                     let userData = await tools.getUserDataFromIdVillage(idVillage);
 
                     let villageBuildingFields = await(await(await tools.doApiRequest("villageBuildingFields/" + idVillage, "GET", "", false)).json()).data;
-                    villageBuildingFields["field"+buildingId+"Level"]++;
+                    villageBuildingFields['field'+buildingId+'Level']++;
 
-                    const consumption = tools.buildingInfoLookup[villageBuildingFields["field"+buildingId+"Type"]]['consumption'][villageBuildingFields["field"+buildingId+"Level"]];
+                    const consumption = tools.buildingInfoLookup[villageBuildingFields['field'+buildingId+'Type']]['consumption'][villageBuildingFields['field'+buildingId+'Level']];
                     villageData['population'] += consumption;
                     userData['population'] += consumption;
 
-                    if (villageBuildingFields["field"+buildingId+"Type"] == MARKETPLACE) { //todo check how many merchants is currently going/coming
-                        villageData['merchantsAvailable'] = villageBuildingFields["field"+buildingId+"Level"];
+                    if (villageBuildingFields['field'+buildingId+'Type'] == MARKETPLACE) { //todo check how many merchants is currently going/coming
+                        villageData['merchantsAvailable'] = villageBuildingFields['field'+buildingId+'Level'];
                     }
 
                     await tools.doApiRequest("users/" + userData['_id'], "PATCH", userData, true);
@@ -97,13 +97,23 @@ exports.new = function (req, res) {
                     /* TODO */
 
                     const combatResult = combatScript.calculateCombat(attackingVillageTroops, defendingVillageOwnTroops, constants);
+                    
+                    let villageToResources = await(await(await tools.doApiRequest("villageResources/" + idVillageTo, "GET", "", false)).json()).data;
+                    const bounty = await calculateBounty(combatResult.attackersTroopsAfter, attackingVillageTroops['tribe'], villageToResources);
+                    villageToResources.currentWood -= bounty['wood'];
+                    villageToResources.currentClay -= bounty['clay'];
+                    villageToResources.currentIron -= bounty['iron'];
+                    villageToResources.currentCrop -= bounty['crop'];
+                    villageToResources.lastUpdate = currentUnixTime;
+                    await tools.doApiRequest("villageResources/" + idVillageTo, "PATCH", villageToResources, true);
 
                     const report = createReport(idVillageFrom,
                         idVillageTo,
                         attackingVillageTroops,
                         defendingVillageOwnTroops,
                         combatResult.attackersTroopsAfter,
-                        combatResult.defendersTroopsAfter);
+                        combatResult.defendersTroopsAfter,
+                        bounty);
 
                     await tools.doApiRequest("reports", "POST", report, true);
 
@@ -111,7 +121,6 @@ exports.new = function (req, res) {
                         defendingVillageOwnTroops['troop' + troop['id']] = combatResult.defendersTroopsAfter[troop['id']-1];
                         attackingVillageTroops['troop' + troop['id']] = combatResult.attackersTroopsAfter[troop['id']-1];
                     }
-
 
                     await tools.doApiRequest("villageOwnTroops/" + idVillageTo, "PATCH", defendingVillageOwnTroops, true);
                     await tools.doApiRequest("sendTroops/" + taskReqBody.taskData.sendTroopsId, "DELETE", "", false);
@@ -123,7 +132,11 @@ exports.new = function (req, res) {
                             "sendType": "return",
                             "idVillageFrom": idVillageTo,
                             "idVillageTo": idVillageFrom,
-                            "troopTribe": attackingVillageTroops["tribe"]
+                            "troopTribe": attackingVillageTroops['tribe'],
+                            'bountyWood': bounty['wood'],
+                            'bountyClay': bounty['clay'],
+                            'bountyIron': bounty['iron'],
+                            'bountyCrop': bounty['crop']
                         };
                         for (let troop of tools.troopInfoLookup[userTribeFrom]){
                             attackingVillageTroopsReturning['troop' + troop['id'] + 'num'] = attackingVillageTroops['troop' + troop['id']];
@@ -145,6 +158,16 @@ exports.new = function (req, res) {
                         villageOwnTroops['troop' + troop['id']] += Number(taskReqBody.taskData['troop' + troop['id'] + 'num']);
                     }
 
+                    if (taskReqBody.taskData['bountyWood']>0 || taskReqBody.taskData['bountyClay']>0 || taskReqBody.taskData['bountyIron']>0 || taskReqBody.taskData['bountyCrop']>0) {
+                        let villageToResources = await(await(await tools.doApiRequest("villageResources/" + idVillageTo, "GET", "", false)).json()).data;
+                        villageToResources.currentWood += taskReqBody.taskData['bountyWood'];
+                        villageToResources.currentClay += taskReqBody.taskData['bountyClay'];
+                        villageToResources.currentIron += taskReqBody.taskData['bountyIron'];
+                        villageToResources.currentCrop += taskReqBody.taskData['bountyCrop'];
+                        villageToResources.lastUpdate = currentUnixTime;
+                        await tools.doApiRequest("villageResources/" + idVillageTo, "PATCH", villageToResources, true);    
+                    }
+                   
                     await tools.doApiRequest("villageOwnTroops/" + idVillageTo, "PATCH", villageOwnTroops, true);
                     await tools.doApiRequest("sendTroops/" + taskReqBody.taskData.sendTroopsId, "DELETE", "", false);
                 })();
@@ -157,13 +180,18 @@ exports.new = function (req, res) {
                     const userData = await tools.getUserDataFromIdVillage(idVillageFrom);
                 
                     const idVillageToData = await tools.getVillageData(idVillageTo);
+                    //TODO remove bounty and make it nice in Model
                     if (idVillageToData['owner'] != ''){
                         let sendTroopsData = {
                             "sendType": "return",
                             "idVillageFrom": idVillageTo,
                             "idVillageTo": idVillageFrom,
                             "troopTribe": troopTribe,
-                            "troop10num": 3
+                            "troop10num": 3,
+                            'bountyWood': 0,
+                            'bountyClay': 0,
+                            'bountyIron': 0,
+                            'bountyCrop': 0
                         }
                         await tools.doApiRequest('sendTroops', 'POST', sendTroopsData, true);
                     }
@@ -335,26 +363,123 @@ async function createVillage(villageData,userData){
     await tools.doApiRequest("villageResources","POST",villageResourcesData,true);
 }
 
-function createReport(idVillageFrom, idVillageTo, attackingVillageTroops, defendingVillageOwnTroops, attackersTroopsAfter, defendersTroopsAfter){
+function createReport(idVillageFrom, idVillageTo, attackingVillageTroops, defendingVillageOwnTroops, attackersTroopsAfter, defendersTroopsAfter, bounty){
     let report = {};
-    report["idVillageAttacker"] = idVillageFrom;
-    report["idVillageDefender"] = idVillageTo;
-    report["tribeAttacker"] = attackingVillageTroops.tribe;
-    report["tribeDefender"] = defendingVillageOwnTroops.tribe;
-    report["bountyWood"] = 0;
-    report["bountyClay"] = 0;
-    report["bountyIron"] = 0;
-    report["bountyCrop"] = 0;
+    report['idVillageAttacker'] = idVillageFrom;
+    report['idVillageDefender'] = idVillageTo;
+    report['tribeAttacker'] = attackingVillageTroops.tribe;
+    report['tribeDefender'] = defendingVillageOwnTroops.tribe;
+    report['bountyWood'] = bounty['wood'];
+    report['bountyClay'] = bounty['clay'];
+    report['bountyIron'] = bounty['iron'];
+    report['bountyCrop'] = bounty['crop'];
+    report['bountyTotal'] = report['bountyWood'] + report['bountyClay'] + report['bountyIron'] + report['bountyCrop'];
+    report['bountyMax'] = 0;
 
     for(let i = 1; i < 11; i++){
-        report["attTroop"+i] = attackingVillageTroops['troop' + i];
-        report["attTroop"+i+"Casualty"] = attackingVillageTroops['troop' + i] - attackersTroopsAfter[i-1];
+        report['attTroop'+i] = attackingVillageTroops['troop'+i];
+        report['attTroop'+i+'Casualty'] = attackingVillageTroops['troop'+i] - attackersTroopsAfter[i-1];
 
-        report["defTroop"+i] = defendingVillageOwnTroops['troop' + i];
-        report["defTroop"+i+"Casualty"] = defendingVillageOwnTroops['troop' + i] - defendersTroopsAfter[i-1];
+        report['defTroop'+i] = defendingVillageOwnTroops['troop'+i];
+        report['defTroop'+i+'Casualty'] = defendingVillageOwnTroops['troop'+i] - defendersTroopsAfter[i-1];
+        if (attackersTroopsAfter[i-1]>0) {
+            report['bountyMax'] += attackersTroopsAfter[i-1] * tools.troopInfoLookup[attackingVillageTroops.tribe][i-1]['capacity'];
+        }        
     }
 
-    console.log(report);
-
     return report;
+}
+
+async function calculateBounty(attackersTroopsAfter, tribe, villageToResources){
+    let bounty = {};
+    bounty['wood'] = 0;
+    bounty['clay'] = 0;
+    bounty['iron'] = 0;
+    bounty['crop'] = 0;
+    currentWood = Math.floor(villageToResources.currentWood);
+    currentClay = Math.floor(villageToResources.currentClay);
+    currentIron = Math.floor(villageToResources.currentIron);
+    currentCrop = Math.floor(villageToResources.currentCrop);
+    let maxBounty = 0;
+
+    for(let i = 0; i < 10; i++){
+        if (attackersTroopsAfter[i]>0) {
+            maxBounty += attackersTroopsAfter[i] * tools.troopInfoLookup[tribe][i]['capacity'];
+        }        
+    }
+    if (maxBounty>0){
+        bounty['wood'] = bounty['clay'] = bounty['iron'] = bounty['crop'] = Math.floor(maxBounty/4);
+
+        //TODO should split evenly not like this
+
+        /*
+        for($i = 0; $i<5; $i++)
+            {
+                for($j=0;$j<4;$j++)
+                {
+                    if(isset($avtotal[$j]))
+                    {
+                        if($avtotal[$j]<1)
+                            unset($avtotal[$j]);
+                    }
+                }
+                if(!$avtotal)
+                {
+                    // echo 'array empty'; *no resources left to take.
+                    break;
+                }
+                if($btotal <1 && $bmod <1)
+                    break;
+                if($btotal<1)
+                {
+                    while($bmod)
+                    {
+                        //random select
+                        $rs = array_rand($avtotal);
+                        if(isset($avtotal[$rs]))
+                        {
+                            $avtotal[$rs] -= 1;
+                            $steal[$rs] += 1;
+                            $bmod -= 1;
+                        }
+                    }
+                }
+                
+                // handle unballanced amounts.
+                $btotal +=$bmod;
+                $bmod = $btotal%count($avtotal);
+                $btotal -=$bmod;
+                $bsplit = $btotal/count($avtotal);
+        
+                $max_steal = (min($avtotal) < $bsplit)? min($avtotal): $bsplit;
+            
+                for($j=0;$j<4;$j++)
+                {
+                    if(isset($avtotal[$j]))
+                    {
+                        $avtotal[$j] -= $max_steal;
+                        $steal[$j] += $max_steal;
+                        $btotal -= $max_steal;
+                    }
+                }
+            }
+        */
+        if (bounty['wood']>currentWood) {
+            bounty['clay'] += bounty['wood'] - currentWood;
+            bounty['wood'] = currentWood;
+        };
+        if (bounty['clay']>currentClay) {
+            bounty['iron'] += bounty['clay'] - currentClay;
+            bounty['clay'] = currentClay;
+        };
+        if (bounty['iron']>currentIron) {
+            bounty['crop'] += bounty['iron'] - currentIron;
+            bounty['iron'] = currentIron;
+        };
+        if (bounty['crop']>currentCrop) {
+            bounty['crop'] = currentCrop;
+        };
+    }
+
+    return bounty;
 }

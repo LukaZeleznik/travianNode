@@ -7,7 +7,7 @@ const villageMaxResourcesSchema = new Schema ({
         maxClay: { type: Number, required: true },
         maxIron: { type: Number, required: true },
         maxCrop: { type: Number, required: true }
-});
+}, { timestamps: true });
 
 var villageMaxResources = module.exports = mongoose.model('villageMaxResources', villageMaxResourcesSchema, 'villageMaxResources');
 
