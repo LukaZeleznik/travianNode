@@ -90,12 +90,12 @@ export default {
     mixins: [toolsMixins,fetchMixins],
 
     created() {
-        this.GetVIllageAndOwnerData();
+        this.GetVillageAndOwnerData();
         this.GetDateTime();
     },
 
     methods: {
-        async GetVIllageAndOwnerData(){
+        async GetVillageAndOwnerData(){
             this.villageDataAttacker = await this.getVillageData(this.reportData.idVillageAttacker);
             this.villageDataDefender = await this.getVillageData(this.reportData.idVillageDefender);
             this.userDataAttacker = await this.getUser(this.villageDataAttacker.owner);
