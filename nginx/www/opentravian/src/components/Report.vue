@@ -90,18 +90,18 @@ export default {
     mixins: [toolsMixins,fetchMixins],
 
     created() {
-        this.GetVillageAndOwnerData();
-        this.GetDateTime();
+        this.getVillageAndOwnerData();
+        this.getDateTime();
     },
 
     methods: {
-        async GetVillageAndOwnerData(){
+        async getVillageAndOwnerData(){
             this.villageDataAttacker = await this.getVillageData(this.reportData.idVillageAttacker);
             this.villageDataDefender = await this.getVillageData(this.reportData.idVillageDefender);
             this.userDataAttacker = await this.getUser(this.villageDataAttacker.owner);
             this.userDataDefender = await this.getUser(this.villageDataDefender.owner);
         },
-        GetDateTime(){
+        getDateTime(){
             const currentDate = new Date();
             const date = new Date(this.reportData.createdAt);
 
