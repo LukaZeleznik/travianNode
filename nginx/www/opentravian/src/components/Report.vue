@@ -2,8 +2,8 @@
 <div class="card">
     <div class="card-header" :id="'heading'+reportDataIndex">
     <h2 class="mb-0">
-        <button class="btn btn-link collapsed d-block m-auto text-success font-weight-bold" type="button" data-toggle="collapse" :data-target="'#collapse'+reportDataIndex" aria-expanded="false" aria-controls="collapseTwo">
-            {{villageDataAttacker.name}} {{reportTypeStr(reportData.type)}} {{villageDataDefender.name}} ({{date}} at {{time}})
+        <button class="btn btn-link collapsed d-block m-auto text-success" v-bind:style="isRead() ? '' : 'font-weight: bold;' " v-on:click="markAsRead()" type="button" data-toggle="collapse" :data-target="'#collapse'+reportDataIndex" aria-expanded="false" aria-controls="collapseTwo">
+            <img style="width: 1rem;height: 1rem;" :src="'/images/reports/' + reportData.type + '.gif'"> {{villageDataAttacker.name}} {{reportTypeStr(reportData.type)}} {{villageDataDefender.name}} ({{date}} at {{time}})
         </button>
     </h2>
     </div>
@@ -137,6 +137,27 @@ export default {
                 default:
                     break;
             }
+        },
+        isRead(){
+            const userId = this.getCookie('userId');
+            switch (userId) {
+                case this.reportData.attackerUserId: return this.reportData.attackerReadFlag;
+                case this.reportData.defenderUserId: return this.reportData.defenderReadFlag;
+                default:
+                    break;
+            }
+            return false;
+        },
+        async markAsRead(){
+            const userId = this.getCookie('userId');
+            let updatedReportdata = this.reportData;
+            switch (userId) {
+                case this.reportData.attackerUserId: updatedReportdata.attackerReadFlag = true; break;
+                case this.reportData.defenderUserId: updatedReportdata.defenderReadFlag = true; break;
+                default:
+                    break;
+            }
+            await this.doApiRequest('reports/' + this.reportData._id, 'PATCH', updatedReportdata, true);
         }
     }
 }
