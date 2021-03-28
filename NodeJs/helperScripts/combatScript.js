@@ -49,15 +49,18 @@ calculateCombat(attacker, defender, constants);
 const troopInfoLookup = require('../infoTables/troopInfoLookup.json');
 module.exports = {
     calculateCombat: function calculateCombat(attacker, defender, constants){
+        const infantryType = "infantry";
+        const cavalryType = "cavalry";
+
         let winner;
 
         let attackerTroops = [];
         let defenderTroops = [];
 
         let totalInfAttPoints = 0;
-        let totalCalAttPoints = 0;
+        let totalCavAttPoints = 0;
         let totalInfDefPoints = 0;
-        let totalCalDefPoints = 0;
+        let totalCavDefPoints = 0;
 
         let casualtiesPercentWinner = 0;
         let casualtiesPercentLoser = 0;
@@ -80,31 +83,26 @@ module.exports = {
         }
 
         for(let i = 0; i < 10; i++){
-            if(attacker.tribe == "teuton"){
-                if(i >= 4 && i <= 5){
-                    totalCalAttPoints += troopInfoLookup["teuton"][i]["attack"] * attackerTroops[i];
-                }
-                else{
-                    totalInfAttPoints += troopInfoLookup["teuton"][i]["attack"] * attackerTroops[i];
-                }
+            if(troopInfoLookup[attacker.tribe][i]['type'] == cavalryType){
+                totalCavAttPoints += troopInfoLookup[attacker.tribe][i]['attack'] * attackerTroops[i];
             }
-
-            if(defender.tribe == "teuton"){
-                totalInfDefPoints += troopInfoLookup["teuton"][i]["infantryDefense"] * defenderTroops[i];
-                totalCalDefPoints += troopInfoLookup["teuton"][i]["cavalryDefense"] * defenderTroops[i];
+            else{
+                totalInfAttPoints += troopInfoLookup[attacker.tribe][i]['attack'] * attackerTroops[i];
             }
+            totalInfDefPoints += troopInfoLookup[defender.tribe][i][infantryType + 'Defense'] * defenderTroops[i];
+            totalCavDefPoints += troopInfoLookup[defender.tribe][i][cavalryType + 'Defense'] * defenderTroops[i];
         }
 
-        let totalAttPoints = totalInfAttPoints + totalCalAttPoints;
-        let totalDefPoints = totalInfDefPoints + totalCalDefPoints;
+        let totalAttPoints = totalInfAttPoints + totalCavAttPoints;
+        let totalDefPoints = totalInfDefPoints + totalCavDefPoints;
 
         let attInfRatio = Number((totalInfAttPoints/totalAttPoints).toFixed(2));
-        let realDefPoints = Math.round(attInfRatio * totalInfDefPoints + (1 - attInfRatio) * totalCalDefPoints);
+        let realDefPoints = Math.round(attInfRatio * totalInfDefPoints + (1 - attInfRatio) * totalCavDefPoints);
 
         realDefPoints += constants.basicDefense;
         realDefPoints += 2 * Math.pow(constants.palaceLevel, 2);
 
-        if(defender.tribe == "teuton"){
+        if(defender.tribe == "teuton"){ // ???
             realDefPoints *= Math.round(Math.pow(1.020,constants.wallLevel));
         }
 
@@ -140,9 +138,9 @@ module.exports = {
         //console.log(casualtiesPercentWinner);
         //console.log(casualtiesPercentLoser);
         //console.log(totalInfAttPoints);
-        //console.log(totalCalAttPoints);
+        //console.log(totalCavAttPoints);
         //console.log(totalInfDefPoints);
-        //console.log(totalCalDefPoints);
+        //console.log(totalCavDefPoints);
 
         let attackersTroopsAfter = [];
         let defendersTroopsAfter = [];

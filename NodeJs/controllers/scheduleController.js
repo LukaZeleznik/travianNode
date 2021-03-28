@@ -174,7 +174,6 @@ exports.new = function (req, res) {
                     const userData = await tools.getUserDataFromIdVillage(idVillageFrom);
                 
                     const idVillageToData = await tools.getVillageData(idVillageTo);
-                    //TODO remove bounty and make it nice in Model
                     if (idVillageToData['owner'] != ''){
                         let sendTroopsData = {
                             "sendType": "return",
