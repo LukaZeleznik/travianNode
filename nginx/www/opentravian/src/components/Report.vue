@@ -3,7 +3,7 @@
     <div class="card-header" :id="'heading'+reportDataIndex">
     <h2 class="mb-0">
         <button class="btn btn-link collapsed d-block m-auto text-success font-weight-bold" type="button" data-toggle="collapse" :data-target="'#collapse'+reportDataIndex" aria-expanded="false" aria-controls="collapseTwo">
-            {{villageDataAttacker.name}} attacked {{villageDataDefender.name}} ({{date}} at {{time}})
+            {{villageDataAttacker.name}} {{reportTypeStr(reportData.type)}} {{villageDataDefender.name}} ({{date}} at {{time}})
         </button>
     </h2>
     </div>
@@ -15,7 +15,7 @@
                         <tbody>
                             <tr>
                                 <th scope="col" class="text-center">Attacker</th>
-                                <th scope="col" colspan="10" class="text-center">User <router-link :to="'/profile/'+ villageDataAttacker.owner" v-bind:class="'text-success'">{{userDataAttacker.nickname}}</router-link> from village <router-link :to="'/map/'+ villageDataAttacker.mapTileId" v-bind:class="'text-success'">{{villageDataAttacker.name}}</router-link></th>
+                                <th scope="col" colspan="10" class="text-center"><router-link :to="'/profile/'+ villageDataAttacker.owner" v-bind:class="'text-success'">{{userDataAttacker.nickname}}</router-link> from the village <router-link :to="'/map/'+ villageDataAttacker.mapTileId" v-bind:class="'text-success'">{{villageDataAttacker.name}}</router-link></th>
                             </tr>
                             <tr>
                                 <th scope="col" class="text-center"></th>
@@ -23,29 +23,33 @@
                             </tr>
                             <tr>
                                 <th scope="col" class="text-center">Troops</th>
-                                <td class="text-center" v-for="index in 10" :key="index">{{reportData["attTroop"+index]}}</td>
+                                <td class="text-center" v-bind:style="reportData['attTroop'+index]>0 ? '' : 'color: lightgrey;'" v-for="index in 10" :key="index">{{ reportData["attTroop"+index] }}</td>
                             </tr>
-                            <tr>
+                            <tr v-if="reportData.type!='reinf'">
                                 <th scope="col" class="text-center">Casualties</th>
-                                <td class="text-center" v-for="index in 10" :key="index">{{reportData["attTroop"+index+"Casualty"]}}</td>
+                                <td class="text-center" v-bind:style="reportData['attTroop'+index+'Casualty']>0 ? '' : 'color: lightgrey;'" v-for="index in 10" :key="index">{{ reportData["attTroop"+index+"Casualty"] }}</td>
                             </tr>
-                            <tr>
+                            <tr v-if="reportData.type!='reinf'">
+                                <th scope="col" class="text-center">Survived</th>
+                                <td class="text-center" v-bind:style="reportData['attTroop'+index]-reportData['attTroop'+index+'Casualty']>0 ? '' : 'color: lightgrey;'" v-for="index in 10" :key="index">{{ reportData['attTroop'+index]-reportData["attTroop"+index+"Casualty"] }}</td>
+                            </tr>
+                            <tr v-if="reportData.type!='reinf'">
                                 <th scope="col" class="text-center">Bounty</th>
                                 <td class="text-center" colspan="2" v-for="resource in ['Wood','Clay','Iron','Crop']" :key="resource">
                                     <img style="width: 1.2rem;height: 0.9rem;" :src="'/images/resources/'+resource.toLowerCase()+'.gif'" :alt="resource"> {{reportData["bounty"+resource]}}
                                 </td>
-                                <td v-if="reportData.bountyMax>0" class="text-center" colspan="2">{{reportData.bountyTotal}}/{{reportData.bountyMax}} ({{Math.round(reportData.bountyTotal/reportData.bountyMax*100)}}%)</td>
-                                <td v-else class="text-center" colspan="2">0/0 (0%)</td>
+                                <td v-if="reportData.bountyMax>0" class="text-center" colspan="2">{{reportData.bountyTotal}} / {{reportData.bountyMax}} ({{Math.round(reportData.bountyTotal/reportData.bountyMax*100)}}%)</td>
+                                <td v-else class="text-center" colspan="2">0 / 0 (0%)</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="table-responsive">
+                <div class="table-responsive" v-if="reportData.type!='reinf'">
                     <table class="table table-bordered mb-0" aria-describedby="report">
                         <tbody>
                             <tr>
                                 <th scope="col" class="text-center">Defender</th>
-                                <th scope="col" colspan="10" class="text-center">User <router-link :to="'/profile/'+ villageDataDefender.owner" v-bind:class="'text-success'">{{userDataDefender.nickname}}</router-link> from village <router-link :to="'/map/'+ villageDataDefender.mapTileId" v-bind:class="'text-success'">{{villageDataDefender.name}}</router-link></th>
+                                <th scope="col" colspan="10" class="text-center"><router-link :to="'/profile/'+ villageDataDefender.owner" v-bind:class="'text-success'">{{userDataDefender.nickname}}</router-link> from the village <router-link :to="'/map/'+ villageDataDefender.mapTileId" v-bind:class="'text-success'">{{villageDataDefender.name}}</router-link></th>
                             </tr>
                             <tr>
                                 <th scope="col" class="text-center"></th>
@@ -53,11 +57,15 @@
                             </tr>
                             <tr>
                                 <th scope="col" class="text-center">Troops</th>
-                                <td class="text-center" v-for="index in 10" :key="index">{{reportData["defTroop"+index]}}</td>
+                                <td class="text-center" v-bind:style="reportData['defTroop'+index]>0 ? '' : 'color: lightgrey;'" v-for="index in 10" :key="index">{{ reportData["defTroop"+index] }}</td>
                             </tr>
                             <tr>
                                 <th scope="col" class="text-center">Casualties</th>
-                                <td class="text-center" v-for="index in 10" :key="index">{{reportData["defTroop"+index+"Casualty"]}}</td>
+                                <td class="text-center" v-bind:style="reportData['defTroop'+index+'Casualty']>0 ? '' : 'color: lightgrey;'" v-for="index in 10" :key="index">{{ reportData["defTroop"+index+"Casualty"] }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="col" class="text-center">Survived</th>
+                                <td class="text-center" v-bind:style="reportData['defTroop'+index]-reportData['defTroop'+index+'Casualty']>0 ? '' : 'color: lightgrey;'" v-for="index in 10" :key="index">{{ reportData["defTroop"+index]-reportData["defTroop"+index+"Casualty"] }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -121,6 +129,14 @@ export default {
             let m = (date.getMinutes()<10?'0':'') + date.getMinutes();
             let s = (date.getSeconds()<10?'0':'') + date.getSeconds();
             this.time = h + ':' + m + ':' + s;
+        },
+        reportTypeStr(type){
+            switch (type) {
+                case "attack":  return "attacked";
+                case "reinf":   return "reinforced";
+                default:
+                    break;
+            }
         }
     }
 }

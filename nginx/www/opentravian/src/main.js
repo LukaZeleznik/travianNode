@@ -149,7 +149,7 @@ const store = new Vuex.Store({
         villageResFieldUpgrades: [],
         villageBuildingUpgrades: [],
         villageOwnTroops: [],
-        villageReinforcements: [],
+        villageReinforcements: {},
         villageIncomingAttacks: [],
         villageIncomingReinforcements: [],
         villageOutgoingAttacks: [],
@@ -200,7 +200,7 @@ const store = new Vuex.Store({
         setResearches(state, researches)                                        { state.researches = researches; },
         setVillageOutgoingResources(state, villageOutgoingResources)            { state.villageOutgoingResources = villageOutgoingResources; },
         setVillageIncomingResources(state, villageIncomingResources)            { state.villageIncomingResources = villageIncomingResources; },
-        setUserReports(state, userReports)            { state.userReports = userReports; },
+        setUserReports(state, userReports)                                      { state.userReports = userReports; },
 
     },
     actions: {
@@ -275,6 +275,7 @@ const store = new Vuex.Store({
             await fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/villageReinforcements/' + context.getters.getActiveVillageId, {credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
+                    console.log("resdata",res.data);
                     let villageReinforcements = res.data;
                     context.commit('setVillageReinforcements', villageReinforcements);
                 })
@@ -303,13 +304,13 @@ const store = new Vuex.Store({
                         if (troopMovement.idVillageFrom == context.getters.getActiveVillageId) {
                             if (troopMovement.sendType == "attack" || troopMovement.sendType == "raid" || troopMovement.sendType == 'settle'){
                                 villageOutgoingAttacks.push(troopMovement);
-                            } else if (troopMovement.sendType == "reinforcement") {
+                            } else if (troopMovement.sendType == "reinf") {
                                 villageOutgoingReinforcements.push(troopMovement);
                             }
                         } else if (troopMovement.idVillageTo == context.getters.getActiveVillageId) {
                             if (troopMovement.sendType == "attack" || troopMovement.sendType == "raid" || troopMovement.sendType == 'settle'){
                                 villageIncomingAttacks.push(troopMovement);
-                            } else if (troopMovement.sendType == "reinforcement" || troopMovement.sendType == "return") {
+                            } else if (troopMovement.sendType == "reinf" || troopMovement.sendType == "return") {
                                 villageIncomingReinforcements.push(troopMovement);
                             }
                         }

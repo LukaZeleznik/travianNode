@@ -4,14 +4,40 @@ var tools = require('../tools/tools');
 var config = require('../config.json');
 
 exports.view = function (req, res) {
-    villageReinforcementsModel.find({$or: [{idVillageFrom: req.params.idVillage}, {idVillage: req.params.idVillage}] }, function (err, villageReinforcements) {
+    villageReinforcementsModel.find({idVillage: req.params.idVillage}, function (err, villageReinforcements) {
+        if (err){
+            res.status(500).json(err);
+            console.log(err);
+            return;
+        }
+        let reinforcements = {};
+        for (let tribe of Object.keys(tools.troopInfoLookup)){
+            reinforcements[tribe] = {};
+            for (let troop of tools.troopInfoLookup[tribe]){
+                reinforcements[tribe]['troop'+troop['id']] = 0;
+            }
+        }
+        for (let villageReinforcement of villageReinforcements) {
+            for (let troop of tools.troopInfoLookup[villageReinforcement.troopTribe]){
+                reinforcements[villageReinforcement.troopTribe]['troop'+troop['id']] += villageReinforcement['troop' + troop['id']];
+            }
+        }
+        res.json({
+            message: 'Loading village reinforcements..',
+            data: reinforcements
+        });
+    });
+};
+
+exports.viewExact = function (req, res) {
+    villageReinforcementsModel.findOne({idVillageFrom: req.params.idVillageFrom, idVillage: req.params.idVillage}, function (err, villageReinforcements) {
         if (err){
             res.status(500).json(err);
             console.log(err);
             return;
         }
         res.json({
-            message: 'Loading resources..',
+            message: 'Loading exact village reinforcements..',
             data: villageReinforcements
         });
     });
@@ -22,8 +48,8 @@ exports.new = function (req, res) {
     var villageReinforcements = new villageReinforcementsModel();
     villageReinforcements.idVillage     = req.body.idVillage;
     villageReinforcements.idVillageFrom = req.body.idVillageFrom;
-    villageReinforcements.tribe         = req.body.tribe;
-    for(let troop of tools.troopInfoLookup[req.body.tribe]){
+    villageReinforcements.troopTribe    = req.body.troopTribe;
+    for(let troop of tools.troopInfoLookup[req.body.troopTribe]){
         villageReinforcements['troop' + troop['id']] = req.body['troop' + troop['id']];
     }
 
@@ -43,18 +69,16 @@ exports.new = function (req, res) {
 };
 
 exports.update = function (req, res) {
-    villageReinforcementsModel.findOne({reinforcementId: req.params.reinforcementId}, function (err, villageReinforcements) {
+    villageReinforcementsModel.findOne({_id: req.params.reinforcementId}, function (err, villageReinforcements) {
         if (err){
             res.status(500).json(err);
             console.log(err);
             return;
         }
-        
-        villageReinforcements.reinforcementId = req.body.reinforcementId;
-        villageReinforcements.idVillage = req.body.idVillage;
+        villageReinforcements.idVillage     = req.body.idVillage;
         villageReinforcements.idVillageFrom = req.body.idVillageFrom;
-        villageReinforcements.tribe = req.body.tribe;
-        for(let troop of tools.troopInfoLookup[req.body.tribe]){
+        villageReinforcements.troopTribe    = req.body.troopTribe;
+        for(let troop of tools.troopInfoLookup[req.body.troopTribe]){
             villageReinforcements['troop' + troop['id']] = req.body['troop' + troop['id']];
         }
 
@@ -75,7 +99,7 @@ exports.update = function (req, res) {
 };
 
 exports.delete = function (req, res) {
-    villageReinforcementsModel.remove({reinforcementId: req.params.reinforcementId}, function (err, villageReinforcements) {
+    villageReinforcementsModel.remove({_id: req.params.reinforcementId}, function (err, villageReinforcements) {
         if (err){
             res.status(500).json(err);
             console.log(err);

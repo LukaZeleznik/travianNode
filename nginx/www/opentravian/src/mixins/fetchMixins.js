@@ -27,6 +27,7 @@ export const fetchMixins = {
             villageOutgoingResources:       this.$store.getters.getVillageOutgoingResources,
             villageIncomingResources:       this.$store.getters.getVillageIncomingResources,
             userReports:                    this.$store.getters.getUserReports,
+            villageReinforcements:          this.$store.getters.getVillageReinforcements,
             buildingInfoLookup: [],
             resourceInfoLookup: [],
             troopInfoLookup: [],

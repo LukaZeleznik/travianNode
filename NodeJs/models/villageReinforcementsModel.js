@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const villageReinforcementsSchema = new Schema ({
         idVillage:              { type: String, required: true},
         idVillageFrom:          { type: String, required: true},
-        tribe:                  { type: String, required: true },
+        troopTribe:             { type: String, required: true },
         troop1:                 { type: Number, required: true },
         troop2:                 { type: Number, required: true },
         troop3:                 { type: Number, required: true },

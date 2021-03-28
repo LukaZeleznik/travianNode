@@ -20,6 +20,7 @@ exports.view = function (req, res) {
 exports.new = function (req, res) {
     var reports = new reportsModel();
     reports.time = req.body.time;
+    reports.type = req.body.type;
     reports.idVillageAttacker = req.body.idVillageAttacker;
     reports.idVillageDefender = req.body.idVillageDefender;
     reports.tribeAttacker = req.body.tribeAttacker;
@@ -60,6 +61,7 @@ exports.update = function (req, res) {
             return;
         }
         reports.time = req.body.time;
+        reports.type = req.body.type;
         reports.idVillageAttacker = req.body.idVillageAttacker;
         reports.idVillageDefender = req.body.idVillageDefender;
         reports.tribeAttacker = req.body.tribeAttacker;

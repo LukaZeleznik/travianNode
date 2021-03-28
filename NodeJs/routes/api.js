@@ -209,6 +209,8 @@ router.route('/villageReinforcements')
     .post(villageReinforcementsController.new);
 router.route('/villageReinforcements/:idVillage')
     .get((req,res,next)     => authenticate(req,res,next), authTools.checkIdVillage, villageReinforcementsController.view);
+router.route('/villageReinforcements/from/:idVillageFrom/:idVillage')
+    .get((req,res,next)     => authenticate(req,res,next), authTools.checkIdVillage, villageReinforcementsController.viewExact);
 router.route('/villageReinforcements/:reinforcementId')
     .put(villageReinforcementsController.update)
     .patch(villageReinforcementsController.update)

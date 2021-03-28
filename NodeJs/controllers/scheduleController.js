@@ -97,7 +97,7 @@ exports.new = function (req, res) {
 
                     const combatResult = combatScript.calculateCombat(attackingVillageTroops, defendingVillageOwnTroops, constants);
                     const bounty = await calculateBounty(idVillageTo, combatResult.attackersTroopsAfter, attackingVillageTroops['tribe']);
-                    const report = createReport(idVillageFrom,
+                    const report = createFullAttackReport(idVillageFrom,
                         idVillageTo,
                         attackingVillageTroops,
                         defendingVillageOwnTroops,
@@ -139,8 +139,37 @@ exports.new = function (req, res) {
                     }
                 })();
                 break;
-            case "reinforcement":
-                (async () => {  
+            case "reinf":
+                (async () => {              
+                    const userTribeFrom = await tools.getTribeFromIdVillage(idVillageFrom);
+                    const userTribeTo = await tools.getTribeFromIdVillage(idVillageTo);
+
+                    let [reinforcementExists, villageReinforcement] = await checkForExistingReinforcements(idVillageFrom, idVillageTo);
+                    if (reinforcementExists){
+                        if (villageReinforcement.troopTribe==userTribeFrom) {
+                            for (let troop of tools.troopInfoLookup[userTribeFrom]){
+                                villageReinforcement['troop' + troop['id']] += parseInt(taskReqBody.taskData['troop' + troop['id'] + 'num']);
+                            }
+                            await tools.doApiRequest("villageReinforcements/" + villageReinforcement._id, "PATCH", villageReinforcement, true);
+                        }
+                    } else {
+                        let villageReinforcement = {};
+                        villageReinforcement['idVillage'] = idVillageTo;
+                        villageReinforcement['idVillageFrom'] = idVillageFrom;
+                        villageReinforcement['troopTribe'] = userTribeFrom;
+                        for (let troop of tools.troopInfoLookup[userTribeFrom]){
+                            villageReinforcement['troop' + troop['id']] = taskReqBody.taskData['troop' + troop['id'] + 'num'];
+                        }
+                        await tools.doApiRequest("villageReinforcements", "POST", villageReinforcement, true);
+                    }
+                    await tools.doApiRequest("sendTroops/" + taskReqBody.taskData.sendTroopsId, "DELETE", "", false);
+
+                    const report = createReinforcementReport(idVillageFrom,
+                        idVillageTo,
+                        userTribeFrom,
+                        userTribeTo,
+                        taskReqBody);
+                    await tools.doApiRequest("reports", "POST", report, true);
                 })();
                 break;
             case "return":
@@ -352,9 +381,10 @@ async function createVillage(villageData,userData){
     await tools.doApiRequest("villageResources","POST",villageResourcesData,true);
 }
 
-function createReport(idVillageFrom, idVillageTo, attackingVillageTroops, defendingVillageOwnTroops, attackersTroopsAfter, defendersTroopsAfter, bounty, timeArrived){
+function createFullAttackReport(idVillageFrom, idVillageTo, attackingVillageTroops, defendingVillageOwnTroops, attackersTroopsAfter, defendersTroopsAfter, bounty, timeArrived){
     let report = {};
     report['time'] = timeArrived;
+    report['type'] = "attack";
     report['idVillageAttacker'] = idVillageFrom;
     report['idVillageDefender'] = idVillageTo;
     report['tribeAttacker'] = attackingVillageTroops.tribe;
@@ -366,7 +396,6 @@ function createReport(idVillageFrom, idVillageTo, attackingVillageTroops, defend
     report['bountyTotal'] = report['bountyWood'] + report['bountyClay'] + report['bountyIron'] + report['bountyCrop'];
     report['bountyMax'] = 0;
 
-    console.log("attackingVillageTroops",attackingVillageTroops,"attackersTroopsAfter",attackersTroopsAfter);
     for(let troop of tools.troopInfoLookup[report['tribeAttacker']]){
         report['attTroop'+troop['id']] = attackingVillageTroops['troop'+troop['id']];
         report['attTroop'+troop['id']+'Casualty'] = attackingVillageTroops['troop'+troop['id']] - attackersTroopsAfter[troop['id']];
@@ -380,6 +409,33 @@ function createReport(idVillageFrom, idVillageTo, attackingVillageTroops, defend
         report['defTroop'+troop['id']+'Casualty'] = defendingVillageOwnTroops['troop'+troop['id']] - defendersTroopsAfter[troop['id']];
     }
 
+
+    return report;
+}
+
+function createReinforcementReport(idVillageFrom, idVillageTo, userTribeFrom, userTribeTo, taskReqBody){
+    let report = {};
+    report['time'] = taskReqBody.taskUnixTime;
+    report['type'] = "reinf";
+    report['idVillageAttacker'] = idVillageFrom;
+    report['idVillageDefender'] = idVillageTo;
+    report['tribeAttacker'] = userTribeFrom;
+    report['tribeDefender'] = userTribeTo;
+    report['bountyWood'] = 0;
+    report['bountyClay'] = 0;
+    report['bountyIron'] = 0;
+    report['bountyCrop'] = 0;
+    report['bountyTotal'] = 0;
+    report['bountyMax'] = 0;
+
+    for(let troop of tools.troopInfoLookup[userTribeFrom]){
+        report['attTroop'+troop['id']] = taskReqBody.taskData['troop' + troop['id'] + 'num'];
+        report['attTroop'+troop['id']+'Casualty'] = 0;
+    }
+    for(let troop of tools.troopInfoLookup[report['tribeDefender']]){
+        report['defTroop'+troop['id']] = 0;
+        report['defTroop'+troop['id']+'Casualty'] = 0;
+    }
 
     return report;
 }
@@ -490,3 +546,13 @@ async function calculateBounty(idVillageTo, attackersTroopsAfter, tribe){
 
     return bounty;
 }
+
+async function checkForExistingReinforcements(idVillageFrom, idVillageTo) {  
+    const villageReinforcements = await(await(await tools.doApiRequest("villageReinforcements/from/" + idVillageFrom + "/" + idVillageTo, "GET", "", false)).json()).data;
+    console.log(villageReinforcements);
+    let exists = false;
+    if (villageReinforcements!=null) {
+        exists = true;
+    }
+    return [exists, villageReinforcements]
+};

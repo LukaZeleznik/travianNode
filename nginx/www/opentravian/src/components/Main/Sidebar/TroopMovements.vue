@@ -99,6 +99,7 @@ export default {
                     clearInterval(troopMovementsInterval);
                     this.fetchVillageOwnTroops();
                     this.fetchVillageTroopMovements();
+                    this.fetchVillageReinforcements();
                     this.fetchSidebarVillageList();
                     this.fetchVillageResources();
                 }

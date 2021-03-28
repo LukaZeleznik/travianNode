@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const reportSchema = new Schema ({
         time:               { type: Number, required: true },
+        type:               { type: String, required: true },
         idVillageAttacker:  { type: String, required: true },
         idVillageDefender:  { type: String, required: true },
         tribeAttacker:      { type: String, required: true },
