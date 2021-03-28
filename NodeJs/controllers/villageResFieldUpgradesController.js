@@ -11,6 +11,7 @@ exports.view = function (req, res) {
     villageResFieldUpgradesModel.find({idVillage: req.params.idVillage}, function (err, villageResFieldUpgrades) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({
@@ -24,6 +25,7 @@ exports.find = function (req, res) {
     villageResFieldUpgradesModel.findOne({_id: req.params.upgradeId}, function (err, villageResFieldUpgrade) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({
@@ -120,6 +122,7 @@ exports.update = function (req, res) {
     villageResFieldUpgradesModel.findOne({_id: req.params.upgradeId}, function (err, villageResFieldUpgrades) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         

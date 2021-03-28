@@ -9,6 +9,7 @@ exports.view = function (req, res) {
     sendResourcesModel.find({$or: [{idVillageFrom: req.params.idVillage}, {idVillageTo: req.params.idVillage}] }, function (err, sendResources) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({
@@ -37,6 +38,7 @@ exports.update = function (req, res) {
     sendResourcesModel.findOne({_id: req.params.sendResourcesId}, function (err, sendResources) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         sendResources.idVillageFrom     = req.body.idVillageFrom;
@@ -71,6 +73,7 @@ exports.delete = function (req, res) {
     sendResourcesModel.deleteOne({_id: req.params.sendResourcesId}, function (err, sendResources) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({
@@ -155,6 +158,7 @@ async function DoSendResources(req, res){
     sendResources.save(async function (err) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         else{
@@ -219,6 +223,7 @@ async function DoSendResourcesReturn(req, res){
     sendResources.save(async function (err) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         else{

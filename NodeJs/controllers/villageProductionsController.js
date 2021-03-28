@@ -73,6 +73,7 @@ exports.new = function (req, res) {
     villageProductions.save(function (err) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         else{
@@ -88,6 +89,7 @@ exports.update = function (req, res) {
     villageProductionsModel.findOne({idVillage: req.params.idVillage}, function (err, villageProductions) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         
@@ -117,6 +119,7 @@ exports.delete = function (req, res) {
     villageProductionsModel.remove({idVillage: req.params.idVillage}, function (err, villageProductions) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({

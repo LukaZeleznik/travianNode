@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const villageOwnReinforcementsSchema = new Schema ({
-        reinforcementId:        { type: Number, required: true, unique: true},
+const villageReinforcementsSchema = new Schema ({
         idVillage:              { type: String, required: true},
         idVillageFrom:          { type: String, required: true},
         tribe:                  { type: String, required: true },
@@ -18,8 +17,8 @@ const villageOwnReinforcementsSchema = new Schema ({
         troop10:                { type: Number, required: true }
 }, { timestamps: true });
 
-var villageOwnReinforcements = module.exports = mongoose.model('villageOwnReinforcements', villageOwnReinforcementsSchema, 'villageOwnReinforcements');
+var villageReinforcements = module.exports = mongoose.model('villageReinforcements', villageReinforcementsSchema, 'villageReinforcements');
 
 module.exports.get = function (callback, limit) {
-        villageOwnReinforcements.find(callback).limit(limit);
+        villageReinforcements.find(callback).limit(limit);
 }

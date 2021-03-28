@@ -39,6 +39,7 @@ exports.new = function (req, res) {
     village.save(function (err) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         else{
@@ -54,6 +55,7 @@ exports.find = function (req, res) {
     villageModel.find(function (err, villages) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({
@@ -67,6 +69,7 @@ exports.findByOwner = function (req, res) {
     villageModel.find({owner: req.params.uid},function (err, villages) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({
@@ -98,6 +101,7 @@ exports.insertMany = function (req, res) {
     villageModel.insertMany(req.body, function (err, villages) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({
@@ -111,6 +115,7 @@ exports.update = function (req, res) {
     villageModel.findOne({mapTileId: req.params.mapTileId}, function (err, village) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         
@@ -138,6 +143,7 @@ exports.delete = function (req, res) {
     villageModel.remove({mapTileId: req.params.mapTileId}, function (err, village) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({

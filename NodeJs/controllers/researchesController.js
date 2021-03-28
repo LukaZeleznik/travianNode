@@ -10,6 +10,7 @@ exports.view = function (req, res) {
     researchesModel.find({idVillage: req.params.idVillage}, function (err, researches) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({
@@ -108,6 +109,7 @@ exports.update = function (req, res) {
     researchesModel.findOne({_id: req.params.researchId}, function (err, researches) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         

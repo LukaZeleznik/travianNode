@@ -7,6 +7,7 @@ exports.view = function (req, res) {
     villageReinforcementsModel.find({$or: [{idVillageFrom: req.params.idVillage}, {idVillage: req.params.idVillage}] }, function (err, villageReinforcements) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({
@@ -19,10 +20,9 @@ exports.view = function (req, res) {
 // Handle create villageReinforcements actions
 exports.new = function (req, res) {
     var villageReinforcements = new villageReinforcementsModel();
-    villageReinforcements.reinforcementId = req.body.reinforcementId;
-    villageReinforcements.idVillage = req.body.idVillage;
+    villageReinforcements.idVillage     = req.body.idVillage;
     villageReinforcements.idVillageFrom = req.body.idVillageFrom;
-    villageReinforcements.tribe = req.body.tribe;
+    villageReinforcements.tribe         = req.body.tribe;
     for(let troop of tools.troopInfoLookup[req.body.tribe]){
         villageReinforcements['troop' + troop['id']] = req.body['troop' + troop['id']];
     }
@@ -30,6 +30,7 @@ exports.new = function (req, res) {
     villageReinforcements.save(function (err) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         else{
@@ -45,6 +46,7 @@ exports.update = function (req, res) {
     villageReinforcementsModel.findOne({reinforcementId: req.params.reinforcementId}, function (err, villageReinforcements) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         
@@ -76,6 +78,7 @@ exports.delete = function (req, res) {
     villageReinforcementsModel.remove({reinforcementId: req.params.reinforcementId}, function (err, villageReinforcements) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({

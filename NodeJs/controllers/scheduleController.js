@@ -105,6 +105,8 @@ exports.new = function (req, res) {
                         combatResult.defendersTroopsAfter,
                         bounty,
                         taskReqBody.taskUnixTime);
+                    
+                    console.log("REPORT DEBUG", report);
 
                     await tools.doApiRequest("reports", "POST", report, true);
 
@@ -366,16 +368,20 @@ function createReport(idVillageFrom, idVillageTo, attackingVillageTroops, defend
     report['bountyTotal'] = report['bountyWood'] + report['bountyClay'] + report['bountyIron'] + report['bountyCrop'];
     report['bountyMax'] = 0;
 
-    for(let i = 1; i < 11; i++){
-        report['attTroop'+i] = attackingVillageTroops['troop'+i];
-        report['attTroop'+i+'Casualty'] = attackingVillageTroops['troop'+i] - attackersTroopsAfter[i-1];
+    for(let troop of tools.troopInfoLookup[report['tribeAttacker']]){
+        console.log(attackingVillageTroops['troop'+troop['id']]," attackingVillageTroops['troop'+troop['id']]");
+        report['attTroop'+troop['id']] = attackingVillageTroops['troop'+troop['id']];
+        report['attTroop'+troop['id']+'Casualty'] = attackingVillageTroops['troop'+troop['id']] - attackersTroopsAfter[troop['id']];
+        if (attackersTroopsAfter[troop['id']]>0) {
+            report['bountyMax'] += attackersTroopsAfter[troop['id']] * tools.troopInfoLookup[attackingVillageTroops.tribe][troop['id']]['capacity'];
+        } 
 
-        report['defTroop'+i] = defendingVillageOwnTroops['troop'+i];
-        report['defTroop'+i+'Casualty'] = defendingVillageOwnTroops['troop'+i] - defendersTroopsAfter[i-1];
-        if (attackersTroopsAfter[i-1]>0) {
-            report['bountyMax'] += attackersTroopsAfter[i-1] * tools.troopInfoLookup[attackingVillageTroops.tribe][i-1]['capacity'];
-        }        
     }
+    for(let troop of tools.troopInfoLookup[report['tribeDefender']]){
+        report['defTroop'+troop['id']] = defendingVillageOwnTroops['troop'+troop['id']];
+        report['defTroop'+troop['id']+'Casualty'] = defendingVillageOwnTroops['troop'+troop['id']] - defendersTroopsAfter[troop['id']];
+    }
+
 
     return report;
 }
@@ -395,6 +401,8 @@ async function calculateBounty(idVillageTo, attackersTroopsAfter, tribe){
             maxBounty += attackersTroopsAfter[i] * tools.troopInfoLookup[tribe][i]['capacity'];
         }        
     }
+
+    // Return bounty = 0 if units are not able to carry anything
     if (maxBounty==0) return bounty;
 
     let villageToResources = await(await(await tools.doApiRequest("villageResources/" + idVillageTo, "GET", "", false)).json()).data;

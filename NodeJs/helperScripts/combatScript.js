@@ -66,9 +66,11 @@ module.exports = {
         let casualtiesPercentLoser = 0;
 
 
-        for(let i = 1; i < 11; i++){
-            attackerTroops.push(attacker["troop"+i]);
-            defenderTroops.push(defender["troop"+i]);
+        for(let troop of troopInfoLookup[attacker.tribe]){
+            attackerTroops.push(attacker['troop'+troop['id']]);
+        }
+        for(let troop of troopInfoLookup[defender.tribe]){
+            defenderTroops.push(defender['troop'+troop['id']]);
         }
 
         let totalAttTroops = attackerTroops.reduce((a, b) => a + b, 0);
@@ -82,16 +84,18 @@ module.exports = {
             constants.troopsNumCoef = 1.2578;
         }
 
-        for(let i = 0; i < 10; i++){
-            if(troopInfoLookup[attacker.tribe][i]['type'] == cavalryType){
-                totalCavAttPoints += troopInfoLookup[attacker.tribe][i]['attack'] * attackerTroops[i];
+        for(let troop of troopInfoLookup[attacker.tribe]){
+            if (troop['type'] == cavalryType){
+                totalCavAttPoints += troop['attack'] * attackerTroops[troop['id']];
             }
             else{
-                totalInfAttPoints += troopInfoLookup[attacker.tribe][i]['attack'] * attackerTroops[i];
+                totalInfAttPoints += troop['attack'] * attackerTroops[troop['id']];
             }
-            totalInfDefPoints += troopInfoLookup[defender.tribe][i][infantryType + 'Defense'] * defenderTroops[i];
-            totalCavDefPoints += troopInfoLookup[defender.tribe][i][cavalryType + 'Defense'] * defenderTroops[i];
         }
+        for(let troop of troopInfoLookup[defender.tribe]){
+            totalInfDefPoints += troop[infantryType + 'Defense'] * defenderTroops[troop['id']];
+            totalCavDefPoints += troop[cavalryType + 'Defense'] * defenderTroops[troop['id']];
+        }       
 
         let totalAttPoints = totalInfAttPoints + totalCavAttPoints;
         let totalDefPoints = totalInfDefPoints + totalCavDefPoints;
@@ -146,15 +150,19 @@ module.exports = {
         let defendersTroopsAfter = [];
 
         if(winner == "attacker"){
-            for(let i = 0; i < 10; i++){
-                attackersTroopsAfter[i] =  Math.round((attackerTroops[i]*(1-casualtiesPercentWinner)));
-                defendersTroopsAfter[i] =  Math.round((defenderTroops[i]*(1-casualtiesPercentLoser)));
+            for(let troop of troopInfoLookup[attacker.tribe]){
+                attackersTroopsAfter[troop['id']] =  Math.round((attackerTroops[troop['id']]*(1-casualtiesPercentWinner)));
+            }
+            for(let troop of troopInfoLookup[defender.tribe]){
+                defendersTroopsAfter[troop['id']] =  Math.round((defenderTroops[troop['id']]*(1-casualtiesPercentLoser)));
             }
         }
         else if(winner == "defender"){
-            for(let i = 0; i < 10; i++){
-                attackersTroopsAfter[i] =  Math.round((attackerTroops[i]*(1-casualtiesPercentLoser)));
-                defendersTroopsAfter[i] =  Math.round((defenderTroops[i]*(1-casualtiesPercentWinner)));
+            for(let troop of troopInfoLookup[attacker.tribe]){
+                attackersTroopsAfter[troop['id']] =  Math.round((attackerTroops[troop['id']]*(1-casualtiesPercentLoser)));
+            }
+            for(let troop of troopInfoLookup[attacker.tribe]){
+                defendersTroopsAfter[troop['id']] =  Math.round((defenderTroops[troop['id']]*(1-casualtiesPercentWinner)));
             }
         }
 

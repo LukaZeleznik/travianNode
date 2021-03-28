@@ -49,6 +49,7 @@ exports.new = async function (req, res) {
     villageOwnTroops.save(function (err) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         else{
@@ -64,6 +65,7 @@ exports.update = function (req, res) {
     villageOwnTroopsModel.findOne({idVillage: req.params.idVillage}, async function (err, villageOwnTroops) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
 
@@ -95,6 +97,7 @@ exports.delete = function (req, res) {
     villageOwnTroopsModel.remove({idVillage: req.params.idVillage}, function (err, villageOwnTroops) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({

@@ -105,6 +105,7 @@ exports.new = async function (req, res) {
     stableProductions.save(function (err) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         else{
@@ -120,6 +121,7 @@ exports.update = function (req, res) {
     stableProductionsModel.findOne({_id: req.params.stableProdId}, function (err, stableProductions) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }        
         
@@ -153,6 +155,7 @@ exports.delete = function (req, res) {
     stableProductionsModel.remove({_id: req.params.stableProdId}, function (err, stableProductions) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({

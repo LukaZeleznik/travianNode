@@ -27,6 +27,7 @@ exports.view = function (req, res) {
     villageBuildingUpgradesModel.find({idVillage: req.params.idVillage}, function (err, villageBuildingUpgrades) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({
@@ -40,6 +41,7 @@ exports.find = function (req, res) {
     villageBuildingUpgradesModel.findOne({_id: req.params.upgradeId}, function (err, villageBuildingUpgrade) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({
@@ -203,6 +205,7 @@ exports.update = function (req, res) {
     villageBuildingUpgradesModel.findOne({_id: req.params.upgradeId}, function (err, villageBuildingUpgrades) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         

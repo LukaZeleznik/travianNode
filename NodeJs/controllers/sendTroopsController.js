@@ -9,6 +9,7 @@ exports.view = function (req, res) {
     sendTroopsModel.find({$or: [{idVillageFrom: req.params.idVillage}, {idVillageTo: req.params.idVillage}] }, function (err, sendTroops) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({
@@ -42,6 +43,7 @@ exports.update = function (req, res) {
     sendTroopsModel.findOne({_id: req.params.sendTroopsId}, function (err, sendTroops) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         sendTroops.sendType = req.body.sendType;
@@ -78,6 +80,7 @@ exports.delete = function (req, res) {
     sendTroopsModel.deleteOne({_id: req.params.sendTroopsId}, function (err, sendTroops) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({
@@ -193,6 +196,7 @@ async function doSendTroops(req, res, userTribe){
     sendTroops.save(async function (err, sendTroopsId) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         else{

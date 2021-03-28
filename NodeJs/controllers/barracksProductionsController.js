@@ -107,6 +107,7 @@ exports.new = async function (req, res) {
     barracksProductions.save(function (err) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         else{
@@ -122,6 +123,7 @@ exports.update = function (req, res) {
     barracksProductionsModel.findOne({_id: req.params.barrProdId}, function (err, barracksProductions) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }        
         
@@ -155,6 +157,7 @@ exports.delete = function (req, res) {
     barracksProductionsModel.remove({_id: req.params.barrProdId}, function (err, barracksProductions) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({

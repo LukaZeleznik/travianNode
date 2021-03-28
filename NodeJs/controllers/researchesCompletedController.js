@@ -8,6 +8,7 @@ exports.view = function (req, res) {
     researchesCompletedModel.findOne({idVillage: req.params.idVillage}, function (err, researchesCompleted) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({
@@ -33,6 +34,7 @@ exports.new = async function (req, res) {
     researchesCompleted.save(function (err) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         else{
@@ -48,6 +50,7 @@ exports.update = function (req, res) {
     researchesCompletedModel.findOne({idVillage: req.params.idVillage}, async function (err, researchesCompleted) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
 
@@ -80,6 +83,7 @@ exports.delete = function (req, res) {
     researchesCompletedModel.remove({idVillage: req.params.idVillage}, function (err, researchesCompleted) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({

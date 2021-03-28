@@ -5,6 +5,7 @@ exports.view = function (req, res) {
     villageBuildingFieldsModel.findOne({idVillage: req.params.idVillage}, function (err, villageBuildingFields) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({
@@ -26,6 +27,7 @@ exports.new = function (req, res) {
     villageBuildingFields.save(function (err) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         else{
@@ -41,6 +43,7 @@ exports.update = function (req, res) {
     villageBuildingFieldsModel.findOne({idVillage: req.params.idVillage}, function (err, villageBuildingFields) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
             villageBuildingFields.idVillage = req.body.idVillage;
@@ -69,6 +72,7 @@ exports.delete = function (req, res) {
     villageBuildingFieldsModel.remove({idVillage: req.params.idVillage}, function (err, villageBuildingFields) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({

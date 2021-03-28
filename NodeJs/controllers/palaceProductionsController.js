@@ -120,6 +120,7 @@ exports.new = async function (req, res) {
     palaceProductions.save(function (err) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         else{
@@ -135,6 +136,7 @@ exports.update = function (req, res) {
     palaceProductionsModel.findOne({_id: req.params.palaceProdId}, function (err, palaceProductions) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }        
         
@@ -168,6 +170,7 @@ exports.delete = function (req, res) {
     palaceProductionsModel.remove({_id: req.params.palaceProdId}, function (err, palaceProductions) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({

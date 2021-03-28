@@ -5,6 +5,7 @@ exports.find = function (req, res) {
     userModel.findOne({_id: req.params.uid}, function (err, user) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({
@@ -40,6 +41,7 @@ exports.new = function (req, res) {
     user.save(function (err) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         else{
@@ -55,6 +57,7 @@ exports.update = function (req, res) {
     userModel.findById(req.params.uid, function (err, user) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         
@@ -87,6 +90,7 @@ exports.delete = function (req, res) {
     userModel.findById(req.params.id, function (err, user) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({

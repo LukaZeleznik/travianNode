@@ -6,6 +6,7 @@ exports.view = function (req, res) {
     reportsModel.find({$or: [{idVillageAttacker: req.params.idVillage}, {idVillageDefender: req.params.idVillage}] }, function (err, reports) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({
@@ -39,6 +40,7 @@ exports.new = function (req, res) {
     reports.save(function (err) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         else{
@@ -54,6 +56,7 @@ exports.update = function (req, res) {
     reportsModel.findOne({_id: req.params.idReport}, function (err, reports) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         reports.time = req.body.time;
@@ -94,6 +97,7 @@ exports.delete = function (req, res) {
     reportsModel.remove({idReport: req.params.idReport}, function (err, reports) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({

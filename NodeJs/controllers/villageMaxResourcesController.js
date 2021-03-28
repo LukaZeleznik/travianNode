@@ -63,6 +63,7 @@ exports.new = function (req, res) {
     villageMaxResources.save(function (err) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         else{
@@ -78,6 +79,7 @@ exports.update = function (req, res) {
     villageMaxResourcesModel.findOne({idVillage: req.params.idVillage}, function (err, villageMaxResources) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         
@@ -107,6 +109,7 @@ exports.delete = function (req, res) {
     villageMaxResourcesModel.remove({idVillage: req.params.idVillage}, function (err, villageMaxResources) {
         if (err){
             res.status(500).json(err);
+            console.log(err);
             return;
         }
         res.json({
