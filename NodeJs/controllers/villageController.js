@@ -38,7 +38,8 @@ exports.new = function (req, res) {
 
     village.save(function (err) {
         if (err){
-            res.json(err);
+            res.status(500).json(err);
+            return;
         }
         else{
             res.json({
@@ -51,8 +52,10 @@ exports.new = function (req, res) {
 
 exports.find = function (req, res) {
     villageModel.find(function (err, villages) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             message: 'Loading village..',
             data: villages
@@ -62,8 +65,10 @@ exports.find = function (req, res) {
 
 exports.findByOwner = function (req, res) {
     villageModel.find({owner: req.params.uid},function (err, villages) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             message: 'Loading village..',
             data: villages
@@ -91,8 +96,10 @@ exports.findByCoords = function (req, res) {
 
 exports.insertMany = function (req, res) {
     villageModel.insertMany(req.body, function (err, villages) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             message: 'Villages inserted..',
             data: villages
@@ -102,8 +109,10 @@ exports.insertMany = function (req, res) {
 
 exports.update = function (req, res) {
     villageModel.findOne({mapTileId: req.params.mapTileId}, function (err, village) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         
         village.mapTileId           = req.body.mapTileId;
         village.xCoordinate         = req.body.xCoordinate;
@@ -127,8 +136,10 @@ exports.update = function (req, res) {
 
 exports.delete = function (req, res) {
     villageModel.remove({mapTileId: req.params.mapTileId}, function (err, village) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             message: 'Village deleted',
             data: village

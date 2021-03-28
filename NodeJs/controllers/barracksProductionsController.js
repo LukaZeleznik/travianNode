@@ -9,7 +9,8 @@ const BARRACKS = 1;
 exports.view = function (req, res) {
     barracksProductionsModel.find({idVillage: req.params.idVillage}, function (err, barracksProductions) {
         if (err){
-            res.send(err);
+            res.status(400).send(err);
+            return;
         }
         else{
             res.json({
@@ -105,7 +106,8 @@ exports.new = async function (req, res) {
 
     barracksProductions.save(function (err) {
         if (err){
-            res.json(err);
+            res.status(500).json(err);
+            return;
         }
         else{
             res.json({
@@ -118,8 +120,10 @@ exports.new = async function (req, res) {
 
 exports.update = function (req, res) {
     barracksProductionsModel.findOne({_id: req.params.barrProdId}, function (err, barracksProductions) {
-        if (err)
-            res.send(err);        
+        if (err){
+            res.status(500).json(err);
+            return;
+        }        
         
         barracksProductions.idVillage = req.body.idVillage;
         barracksProductions.troopName = req.body.troopName;
@@ -132,8 +136,13 @@ exports.update = function (req, res) {
         barracksProductions.troopsDoneAlready = req.body.troopsDoneAlready;
 
         barracksProductions.save(function (err) {
-            if (err)
-                res.json(err);
+            if (err) {
+                res.status(500).json({
+                    message: err.toString(),
+                    data: ""
+                });
+                return;
+            }
             res.json({
                 message: 'barracksProductions Info updated',
                 data: barracksProductions
@@ -144,8 +153,10 @@ exports.update = function (req, res) {
 
 exports.delete = function (req, res) {
     barracksProductionsModel.remove({_id: req.params.barrProdId}, function (err, barracksProductions) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             status: "success",
             message: 'barracksProductions deleted'

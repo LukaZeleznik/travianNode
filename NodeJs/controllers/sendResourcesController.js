@@ -7,8 +7,10 @@ var uuid = require('uuid-random');
 
 exports.view = function (req, res) {
     sendResourcesModel.find({$or: [{idVillageFrom: req.params.idVillage}, {idVillageTo: req.params.idVillage}] }, function (err, sendResources) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             message: 'Loading sendResources..',
             data: sendResources
@@ -33,8 +35,10 @@ exports.new = async function (req, res) {
 
 exports.update = function (req, res) {
     sendResourcesModel.findOne({_id: req.params.sendResourcesId}, function (err, sendResources) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         sendResources.idVillageFrom     = req.body.idVillageFrom;
         sendResources.idVillageTo       = req.body.idVillageTo;
         sendResources.villageFromName   = req.body.villageFromName;
@@ -48,8 +52,13 @@ exports.update = function (req, res) {
         sendResources.return            = req.body.return;
 
         sendResources.save(function (err) {
-            if (err)
-                res.json(err);
+            if (err) {
+                res.status(500).json({
+                    message: err.toString(),
+                    data: ""
+                });
+                return;
+            }
             res.json({
                 message: 'sendResources Info updated',
                 data: sendResources
@@ -60,8 +69,10 @@ exports.update = function (req, res) {
 
 exports.delete = function (req, res) {
     sendResourcesModel.deleteOne({_id: req.params.sendResourcesId}, function (err, sendResources) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             status: 'success',
             message: 'sendResources deleted'
@@ -143,7 +154,8 @@ async function DoSendResources(req, res){
 
     sendResources.save(async function (err) {
         if (err){
-            res.json(err);
+            res.status(500).json(err);
+            return;
         }
         else{
             villageFromData['merchantsAvailable'] -= merchantsRequired;
@@ -206,7 +218,8 @@ async function DoSendResourcesReturn(req, res){
 
     sendResources.save(async function (err) {
         if (err){
-            res.json(err);
+            res.status(500).json(err);
+            return;
         }
         else{
             let scheduleData = {

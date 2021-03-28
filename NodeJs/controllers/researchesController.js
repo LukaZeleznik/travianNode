@@ -8,8 +8,10 @@ var config = require('../config.json');
 
 exports.view = function (req, res) {
     researchesModel.find({idVillage: req.params.idVillage}, function (err, researches) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             message: 'Loading researches..',
             data: researches
@@ -104,8 +106,10 @@ exports.new = async function (req, res) {
 
 exports.update = function (req, res) {
     researchesModel.findOne({_id: req.params.researchId}, function (err, researches) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         
             researches.idVillage = req.body.idVillage;
             researches.researchType = req.body.researchType;
@@ -128,7 +132,8 @@ exports.update = function (req, res) {
 exports.delete = async function (req, res) {
     researchesModel.deleteOne({_id: req.params.researchId}, function (err, researches) {
         if (err){
-            res.send(err);
+            res.status(400).send(err);
+            return;
         } else {
             res.json({
                 status: "success",

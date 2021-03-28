@@ -4,8 +4,10 @@ var tools = require('../tools/tools');
 
 exports.view = function (req, res) {
     reportsModel.find({$or: [{idVillageAttacker: req.params.idVillage}, {idVillageDefender: req.params.idVillage}] }, function (err, reports) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             message: 'Loading reports data..',
             data: reports
@@ -36,7 +38,8 @@ exports.new = function (req, res) {
 
     reports.save(function (err) {
         if (err){
-            res.json(err);
+            res.status(500).json(err);
+            return;
         }
         else{
             res.json({
@@ -49,8 +52,10 @@ exports.new = function (req, res) {
 
 exports.update = function (req, res) {
     reportsModel.findOne({_id: req.params.idReport}, function (err, reports) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         reports.time = req.body.time;
         reports.idVillageAttacker = req.body.idVillageAttacker;
         reports.idVillageDefender = req.body.idVillageDefender;
@@ -70,8 +75,13 @@ exports.update = function (req, res) {
         }
 
         reports.save(function (err) {
-            if (err)
-                res.json(err);
+            if (err) {
+                res.status(500).json({
+                    message: err.toString(),
+                    data: ""
+                });
+                return;
+            }
             res.json({
                 message: 'reports Info updated',
                 data: reports
@@ -82,8 +92,10 @@ exports.update = function (req, res) {
 
 exports.delete = function (req, res) {
     reportsModel.remove({idReport: req.params.idReport}, function (err, reports) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             status: "success",
             message: 'reports deleted'

@@ -5,8 +5,10 @@ var config = require('../config.json');
 
 exports.view = function (req, res) {
     villageResourceFieldsModel.findOne({idVillage: req.params.idVillage}, function (err, villageResourceFields) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             message: 'Loading resources..',
             data: villageResourceFields
@@ -24,7 +26,8 @@ exports.new = function (req, res) {
 
     villageResourceFields.save(function (err) {
         if (err){
-            res.json(err);
+            res.status(500).json(err);
+            return;
         }
         else{
             res.json({
@@ -37,8 +40,10 @@ exports.new = function (req, res) {
 
 exports.update = function (req, res) {
     villageResourceFieldsModel.findOne({idVillage: req.params.idVillage}, function (err, villageResourceFields) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         
         villageResourceFields.idVillage = req.body.idVillage;
         for(let l = 1; l < 19; l++){
@@ -47,8 +52,13 @@ exports.update = function (req, res) {
         }
 
         villageResourceFields.save(function (err) {
-            if (err)
-                res.json(err);
+            if (err) {
+                res.status(500).json({
+                    message: err.toString(),
+                    data: ""
+                });
+                return;
+            }
             res.json({
                 message: 'villageResourceFields Info updated',
                 data: villageResourceFields
@@ -59,8 +69,10 @@ exports.update = function (req, res) {
 
 exports.delete = function (req, res) {
     villageResourceFieldsModel.remove({idVillage: req.params.idVillage}, function (err, villageResourceFields) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             status: "success",
             message: 'villageResourceFields deleted'

@@ -8,7 +8,8 @@ const STABLE = 4;
 exports.view = function (req, res) {
     stableProductionsModel.find({idVillage: req.params.idVillage}, function (err, stableProductions) {
         if (err){
-            res.send(err);
+            res.status(400).send(err);
+            return;
         }
         else{
             res.json({
@@ -103,7 +104,8 @@ exports.new = async function (req, res) {
 
     stableProductions.save(function (err) {
         if (err){
-            res.json(err);
+            res.status(500).json(err);
+            return;
         }
         else{
             res.json({
@@ -116,22 +118,29 @@ exports.new = async function (req, res) {
 
 exports.update = function (req, res) {
     stableProductionsModel.findOne({_id: req.params.stableProdId}, function (err, stableProductions) {
-        if (err)
-            res.send(err);        
+        if (err){
+            res.status(500).json(err);
+            return;
+        }        
         
-            stableProductions.idVillage = req.body.idVillage;
-            stableProductions.troopName = req.body.troopName;
-            stableProductions.troopId = req.body.troopId;
-            stableProductions.troopCount = req.body.troopCount;
-            stableProductions.troopProdTime = req.body.troopProdTime;
-            stableProductions.timeStarted = req.body.timeStarted;
-            stableProductions.timeCompleted = req.body.timeCompleted;
-            stableProductions.lastUpdate = req.body.lastUpdate;
-            stableProductions.troopsDoneAlready = req.body.troopsDoneAlready;
+        stableProductions.idVillage = req.body.idVillage;
+        stableProductions.troopName = req.body.troopName;
+        stableProductions.troopId = req.body.troopId;
+        stableProductions.troopCount = req.body.troopCount;
+        stableProductions.troopProdTime = req.body.troopProdTime;
+        stableProductions.timeStarted = req.body.timeStarted;
+        stableProductions.timeCompleted = req.body.timeCompleted;
+        stableProductions.lastUpdate = req.body.lastUpdate;
+        stableProductions.troopsDoneAlready = req.body.troopsDoneAlready;
 
-            stableProductions.save(function (err) {
-            if (err)
-                res.json(err);
+        stableProductions.save(function (err) {
+            if (err) {
+                res.status(500).json({
+                    message: err.toString(),
+                    data: ""
+                });
+                return;
+            }
             res.json({
                 message: 'stableProductions Info updated',
                 data: stableProductions
@@ -142,8 +151,10 @@ exports.update = function (req, res) {
 
 exports.delete = function (req, res) {
     stableProductionsModel.remove({_id: req.params.stableProdId}, function (err, stableProductions) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             status: "success",
             message: 'stableProductions deleted'

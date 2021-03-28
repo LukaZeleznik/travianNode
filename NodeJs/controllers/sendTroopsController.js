@@ -7,8 +7,10 @@ var uuid = require('uuid-random');
 
 exports.view = function (req, res) {
     sendTroopsModel.find({$or: [{idVillageFrom: req.params.idVillage}, {idVillageTo: req.params.idVillage}] }, function (err, sendTroops) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             message: 'Loading sendTroops..',
             data: sendTroops
@@ -38,8 +40,10 @@ exports.new = async function (req, res) {
 
 exports.update = function (req, res) {
     sendTroopsModel.findOne({_id: req.params.sendTroopsId}, function (err, sendTroops) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         sendTroops.sendType = req.body.sendType;
         sendTroops.idVillageFrom = req.body.idVillageFrom;
         sendTroops.idVillageTo = req.body.idVillageTo;
@@ -55,8 +59,13 @@ exports.update = function (req, res) {
         }
 
         sendTroops.save(function (err) {
-            if (err)
-                res.json(err);
+            if (err) {
+                res.status(500).json({
+                    message: err.toString(),
+                    data: ""
+                });
+                return;
+            }
             res.json({
                 message: 'sendTroops Info updated',
                 data: sendTroops
@@ -67,8 +76,10 @@ exports.update = function (req, res) {
 
 exports.delete = function (req, res) {
     sendTroopsModel.deleteOne({_id: req.params.sendTroopsId}, function (err, sendTroops) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             status: 'success',
             message: 'sendTroops deleted'
@@ -181,7 +192,8 @@ async function doSendTroops(req, res, userTribe){
 
     sendTroops.save(async function (err, sendTroopsId) {
         if (err){
-            res.json(err);
+            res.status(500).json(err);
+            return;
         }
         else{
             let scheduleData = {

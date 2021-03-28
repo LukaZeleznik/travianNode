@@ -5,8 +5,10 @@ var config = require('../config.json');
 
 exports.view = function (req, res) {
     villageReinforcementsModel.find({$or: [{idVillageFrom: req.params.idVillage}, {idVillage: req.params.idVillage}] }, function (err, villageReinforcements) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             message: 'Loading resources..',
             data: villageReinforcements
@@ -27,7 +29,8 @@ exports.new = function (req, res) {
 
     villageReinforcements.save(function (err) {
         if (err){
-            res.json(err);
+            res.status(500).json(err);
+            return;
         }
         else{
             res.json({
@@ -40,8 +43,10 @@ exports.new = function (req, res) {
 
 exports.update = function (req, res) {
     villageReinforcementsModel.findOne({reinforcementId: req.params.reinforcementId}, function (err, villageReinforcements) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         
         villageReinforcements.reinforcementId = req.body.reinforcementId;
         villageReinforcements.idVillage = req.body.idVillage;
@@ -52,8 +57,13 @@ exports.update = function (req, res) {
         }
 
         villageReinforcements.save(function (err) {
-            if (err)
-                res.json(err);
+            if (err) {
+                res.status(500).json({
+                    message: err.toString(),
+                    data: ""
+                });
+                return;
+            }
             res.json({
                 message: 'villageReinforcements Info updated',
                 data: villageReinforcements
@@ -64,8 +74,10 @@ exports.update = function (req, res) {
 
 exports.delete = function (req, res) {
     villageReinforcementsModel.remove({reinforcementId: req.params.reinforcementId}, function (err, villageReinforcements) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             status: "success",
             message: 'villageReinforcements deleted'

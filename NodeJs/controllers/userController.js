@@ -3,8 +3,10 @@ const userModel = require('../models/userModel');
 
 exports.find = function (req, res) {
     userModel.findOne({_id: req.params.uid}, function (err, user) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             message: 'Finding user..',
             data: user
@@ -37,7 +39,8 @@ exports.new = function (req, res) {
 
     user.save(function (err) {
         if (err){
-            res.json(err);
+            res.status(500).json(err);
+            return;
         }
         else{
             res.json({
@@ -50,8 +53,10 @@ exports.new = function (req, res) {
 
 exports.update = function (req, res) {
     userModel.findById(req.params.uid, function (err, user) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         
         user.email = req.body.email;
         user.password = req.body.password;
@@ -63,8 +68,13 @@ exports.update = function (req, res) {
         user.clan = req.body.clan ? req.body.clan : user.clan;
 
         user.save(function (err) {
-            if (err)
-                res.json(err);
+            if (err) {
+                res.status(500).json({
+                    message: err.toString(),
+                    data: ""
+                });
+                return;
+            }
             res.json({
                 message: 'User info updated',
                 data: user
@@ -75,8 +85,10 @@ exports.update = function (req, res) {
 
 exports.delete = function (req, res) {
     userModel.findById(req.params.id, function (err, user) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             message: 'User deleted',
             data: user,

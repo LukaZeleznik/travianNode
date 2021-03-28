@@ -9,7 +9,8 @@ const GRANARY = 3;
 exports.view = function (req, res) {
     villageMaxResourcesModel.findOne({idVillage: req.params.idVillage}, function (err, villageMaxResources) {
         if (err){
-            res.send(err);
+            res.status(400).send(err);
+            return;
         }
         else{ 
             (async () => {  
@@ -61,7 +62,8 @@ exports.new = function (req, res) {
 
     villageMaxResources.save(function (err) {
         if (err){
-            res.json(err);
+            res.status(500).json(err);
+            return;
         }
         else{
             res.json({
@@ -74,8 +76,10 @@ exports.new = function (req, res) {
 
 exports.update = function (req, res) {
     villageMaxResourcesModel.findOne({idVillage: req.params.idVillage}, function (err, villageMaxResources) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         
         villageMaxResources.idVillage = req.body.idVillage;
         villageMaxResources.maxWood = req.body.maxWood;
@@ -84,8 +88,13 @@ exports.update = function (req, res) {
         villageMaxResources.maxCrop = req.body.maxCrop;
 
         villageMaxResources.save(function (err) {
-            if (err)
-                res.json(err);
+            if (err) {
+                res.status(500).json({
+                    message: err.toString(),
+                    data: ""
+                });
+                return;
+            }
             res.json({
                 message: 'villageMaxResources Info updated',
                 data: villageMaxResources
@@ -96,8 +105,10 @@ exports.update = function (req, res) {
 
 exports.delete = function (req, res) {
     villageMaxResourcesModel.remove({idVillage: req.params.idVillage}, function (err, villageMaxResources) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             status: "success",
             message: 'villageMaxResources deleted'

@@ -9,8 +9,10 @@ var config = require('../config.json');
 
 exports.view = function (req, res) {
     villageResFieldUpgradesModel.find({idVillage: req.params.idVillage}, function (err, villageResFieldUpgrades) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             message: 'Loading resources..',
             data: villageResFieldUpgrades
@@ -20,8 +22,10 @@ exports.view = function (req, res) {
 
 exports.find = function (req, res) {
     villageResFieldUpgradesModel.findOne({_id: req.params.upgradeId}, function (err, villageResFieldUpgrade) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             message: 'Loading resources..',
             data: villageResFieldUpgrade
@@ -114,8 +118,10 @@ exports.new = async function (req, res) {
 
 exports.update = function (req, res) {
     villageResFieldUpgradesModel.findOne({_id: req.params.upgradeId}, function (err, villageResFieldUpgrades) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         
         villageResFieldUpgrades.idVillage = req.body.idVillage;
         villageResFieldUpgrades.rfid = req.body.rfid;
@@ -125,8 +131,13 @@ exports.update = function (req, res) {
         villageResFieldUpgrades.timeCompleted = req.body.timeCompleted;
 
         villageResFieldUpgrades.save(function (err) {
-            if (err)
-                res.json(err);
+            if (err) {
+                res.status(500).json({
+                    message: err.toString(),
+                    data: ""
+                });
+                return;
+            }
             res.json({
                 message: 'villageResFieldUpgrades Info updated',
                 data: villageResFieldUpgrades
@@ -138,7 +149,8 @@ exports.update = function (req, res) {
 exports.delete = async function (req, res) {
     villageResFieldUpgradesModel.deleteOne({_id: req.params.upgradeId}, function (err, villageResFieldUpgrades) {
         if (err){
-            res.send(err);
+            res.status(400).send(err);
+            return;
         } else {
             res.json({
                 status: "success",
@@ -153,7 +165,8 @@ exports.cancel = async function (req, res) {
 
     villageResFieldUpgradesModel.deleteOne({_id: req.params.upgradeId}, function (err, villageResFieldUpgrades) {
         if (err){
-            res.send(err);
+            res.status(400).send(err);
+            return;
         } else if (villageResFieldUpgrades.deletedCount > 0){
             (async () => {
                 

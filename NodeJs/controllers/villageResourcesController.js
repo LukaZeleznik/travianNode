@@ -8,8 +8,10 @@ var config = require('../config.json');
 
 exports.view = function (req, res) {
     villageResourcesModel.findOne({idVillage: req.params.idVillage}, function (err, villageResources) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         else{
             (async () => {
                 const idVillage = req.params.idVillage;
@@ -74,7 +76,8 @@ exports.new = function (req, res) {
 
     villageResources.save(function (err) {
         if (err){
-            res.json(err);
+            res.status(500).json(err);
+            return;
         }
         else{
             res.json({
@@ -101,8 +104,13 @@ exports.update = function (req, res) {
         villageResources.lastUpdate = currentTime;
 
         villageResources.save(function (err) {
-            if (err)
-                res.json(err);
+            if (err) {
+                res.status(500).json({
+                    message: err.toString(),
+                    data: ""
+                });
+                return;
+            }
             res.json({
                 message: 'villageResources Info updated',
                 data: villageResources
@@ -113,8 +121,10 @@ exports.update = function (req, res) {
 
 exports.delete = function (req, res) {
     villageResourcesModel.remove({idVillage: req.params.idVillage}, function (err, villageResources) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             status: "success",
             message: 'villageResources deleted'

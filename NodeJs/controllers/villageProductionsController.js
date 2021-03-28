@@ -20,7 +20,8 @@ const SAWMILL = 12;
 exports.view = function (req, res) {
     villageProductionsModel.findOne({idVillage: req.params.idVillage}, function (err, villageProductions) {
         if (err){
-            res.send(err);
+            res.status(400).send(err);
+            return;
         }
         else{     
             (async () => {    
@@ -71,7 +72,8 @@ exports.new = function (req, res) {
 
     villageProductions.save(function (err) {
         if (err){
-            res.json(err);
+            res.status(500).json(err);
+            return;
         }
         else{
             res.json({
@@ -84,8 +86,10 @@ exports.new = function (req, res) {
 
 exports.update = function (req, res) {
     villageProductionsModel.findOne({idVillage: req.params.idVillage}, function (err, villageProductions) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         
         villageProductions.idVillage = req.body.idVillage;
         villageProductions.productionWood = req.body.productionWood;
@@ -94,8 +98,13 @@ exports.update = function (req, res) {
         villageProductions.productionCrop = req.body.productionCrop;
 
         villageProductions.save(function (err) {
-            if (err)
-                res.json(err);
+            if (err) {
+                res.status(500).json({
+                    message: err.toString(),
+                    data: ""
+                });
+                return;
+            }
             res.json({
                 message: 'villageProductions Info updated',
                 data: villageProductions
@@ -106,8 +115,10 @@ exports.update = function (req, res) {
 
 exports.delete = function (req, res) {
     villageProductionsModel.remove({idVillage: req.params.idVillage}, function (err, villageProductions) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             status: "success",
             message: 'villageProductions deleted'

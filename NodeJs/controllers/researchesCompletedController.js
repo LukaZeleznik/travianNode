@@ -6,8 +6,10 @@ var config = require('../config.json');
 
 exports.view = function (req, res) {
     researchesCompletedModel.findOne({idVillage: req.params.idVillage}, function (err, researchesCompleted) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             message: 'Loading researchesCompleted data..',
             data: researchesCompleted
@@ -30,7 +32,8 @@ exports.new = async function (req, res) {
 
     researchesCompleted.save(function (err) {
         if (err){
-            res.json(err);
+            res.status(500).json(err);
+            return;
         }
         else{
             res.json({
@@ -43,8 +46,10 @@ exports.new = async function (req, res) {
 
 exports.update = function (req, res) {
     researchesCompletedModel.findOne({idVillage: req.params.idVillage}, async function (err, researchesCompleted) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
 
         let userTribe = await tools.getTribeFromIdVillage(req.body.idVillage);
         researchesCompleted.idVillage = req.body.idVillage;
@@ -55,8 +60,13 @@ exports.update = function (req, res) {
         }
 
         researchesCompleted.save(function (err) {
-            if (err)
-                res.json(err);
+            if (err) {
+                res.status(500).json({
+                    message: err.toString(),
+                    data: ""
+                });
+                return;
+            }
             res.json({
                 status: 'success',
                 message: 'researchesCompleted updated',
@@ -68,8 +78,10 @@ exports.update = function (req, res) {
 
 exports.delete = function (req, res) {
     researchesCompletedModel.remove({idVillage: req.params.idVillage}, function (err, researchesCompleted) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             status: "success",
             message: 'researchesCompleted deleted'

@@ -8,7 +8,8 @@ const PALACE = 13;
 exports.view = function (req, res) {
     palaceProductionsModel.find({idVillage: req.params.idVillage}, function (err, palaceProductions) {
         if (err){
-            res.send(err);
+            res.status(400).send(err);
+            return;
         }
         else{
             res.json({
@@ -118,7 +119,8 @@ exports.new = async function (req, res) {
 
     palaceProductions.save(function (err) {
         if (err){
-            res.json(err);
+            res.status(500).json(err);
+            return;
         }
         else{
             res.json({
@@ -131,8 +133,10 @@ exports.new = async function (req, res) {
 
 exports.update = function (req, res) {
     palaceProductionsModel.findOne({_id: req.params.palaceProdId}, function (err, palaceProductions) {
-        if (err)
-            res.send(err);        
+        if (err){
+            res.status(500).json(err);
+            return;
+        }        
         
             palaceProductions.idVillage = req.body.idVillage;
             palaceProductions.troopName = req.body.troopName;
@@ -145,8 +149,13 @@ exports.update = function (req, res) {
             palaceProductions.troopsDoneAlready = req.body.troopsDoneAlready;
 
             palaceProductions.save(function (err) {
-            if (err)
-                res.json(err);
+            if (err) {
+                res.status(500).json({
+                    message: err.toString(),
+                    data: ""
+                });
+                return;
+            }
             res.json({
                 message: 'palaceProductions Info updated',
                 data: palaceProductions
@@ -157,8 +166,10 @@ exports.update = function (req, res) {
 
 exports.delete = function (req, res) {
     palaceProductionsModel.remove({_id: req.params.palaceProdId}, function (err, palaceProductions) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             status: "success",
             message: 'palaceProductions deleted'

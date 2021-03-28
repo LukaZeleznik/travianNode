@@ -7,7 +7,8 @@ var config = require('../config.json');
 exports.view = function (req, res) {
     villageOwnTroopsModel.findOne({idVillage: req.params.idVillage}, async function (err, villageOwnTroops) {
         if (err){
-            res.send(err);
+            res.status(400).send(err);
+            return;
         }
         else{
             var idVillage = req.params.idVillage;
@@ -47,7 +48,8 @@ exports.new = async function (req, res) {
 
     villageOwnTroops.save(function (err) {
         if (err){
-            res.json(err);
+            res.status(500).json(err);
+            return;
         }
         else{
             res.json({
@@ -60,8 +62,10 @@ exports.new = async function (req, res) {
 
 exports.update = function (req, res) {
     villageOwnTroopsModel.findOne({idVillage: req.params.idVillage}, async function (err, villageOwnTroops) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
 
         let userTribe = await tools.getTribeFromIdVillage(req.body.idVillage);
         villageOwnTroops.idVillage = req.body.idVillage;
@@ -71,8 +75,13 @@ exports.update = function (req, res) {
         }
 
         villageOwnTroops.save(function (err) {
-            if (err)
-                res.json(err);
+            if (err) {
+                res.status(500).json({
+                    message: err.toString(),
+                    data: ""
+                });
+                return;
+            }
             res.json({
                 status: 'success',
                 message: 'villageOwnTroops updated',
@@ -84,8 +93,10 @@ exports.update = function (req, res) {
 
 exports.delete = function (req, res) {
     villageOwnTroopsModel.remove({idVillage: req.params.idVillage}, function (err, villageOwnTroops) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             status: "success",
             message: 'villageOwnTroops deleted'

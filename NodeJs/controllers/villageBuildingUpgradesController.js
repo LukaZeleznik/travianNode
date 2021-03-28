@@ -25,8 +25,10 @@ const CROPLAND = 3;
 
 exports.view = function (req, res) {
     villageBuildingUpgradesModel.find({idVillage: req.params.idVillage}, function (err, villageBuildingUpgrades) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             message: 'Loading resources..',
             data: villageBuildingUpgrades
@@ -36,8 +38,10 @@ exports.view = function (req, res) {
 
 exports.find = function (req, res) {
     villageBuildingUpgradesModel.findOne({_id: req.params.upgradeId}, function (err, villageBuildingUpgrade) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         res.json({
             message: 'Loading resources..',
             data: villageBuildingUpgrade
@@ -197,8 +201,10 @@ exports.new = async function (req, res) {
 
 exports.update = function (req, res) {
     villageBuildingUpgradesModel.findOne({_id: req.params.upgradeId}, function (err, villageBuildingUpgrades) {
-        if (err)
-            res.send(err);
+        if (err){
+            res.status(500).json(err);
+            return;
+        }
         
             villageBuildingUpgrades.idVillage = req.body.idVillage;
             villageBuildingUpgrades.vbid = req.body.vbid;
@@ -208,8 +214,13 @@ exports.update = function (req, res) {
             villageBuildingUpgrades.timeCompleted = req.body.timeCompleted;
 
             villageBuildingUpgrades.save(function (err) {
-            if (err)
-                res.json(err);
+            if (err) {
+                res.status(500).json({
+                    message: err.toString(),
+                    data: ""
+                });
+                return;
+            }
             res.json({
                 message: 'villageBuildingUpgrades Info updated',
                 data: villageBuildingUpgrades
@@ -221,7 +232,8 @@ exports.update = function (req, res) {
 exports.delete = async function (req, res) { 
     villageBuildingUpgradesModel.deleteOne({_id: req.params.upgradeId}, function (err, villageBuildingUpgrades) {
         if (err){
-            res.send(err);
+            res.status(400).send(err);
+            return;
         } else {
             res.json({
                 status: "success",
@@ -236,7 +248,8 @@ exports.cancel = async function (req, res) {
 
     villageBuildingUpgradesModel.deleteOne({_id: req.params.upgradeId}, function (err, villageBuildingUpgrades) {
         if (err){
-            res.send(err);
+            res.status(400).send(err);
+            return;
         } else if (villageBuildingUpgrades.deletedCount > 0){
             (async () => {
                 const currentUnixTime =  Math.round(new Date().getTime()/1000);
