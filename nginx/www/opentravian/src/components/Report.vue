@@ -34,7 +34,8 @@
                                 <td class="text-center" colspan="2" v-for="resource in ['Wood','Clay','Iron','Crop']" :key="resource">
                                     <img style="width: 1.2rem;height: 0.9rem;" :src="'/images/resources/'+resource.toLowerCase()+'.gif'" :alt="resource"> {{reportData["bounty"+resource]}}
                                 </td>
-                                <td class="text-center" colspan="2">{{reportData.bountyTotal}}/{{reportData.bountyMax}} ({{Math.round(reportData.bountyTotal/reportData.bountyMax*100)}}%)</td>
+                                <td v-if="reportData.bountyMax>0" class="text-center" colspan="2">{{reportData.bountyTotal}}/{{reportData.bountyMax}} ({{Math.round(reportData.bountyTotal/reportData.bountyMax*100)}}%)</td>
+                                <td v-else class="text-center" colspan="2">0/0 (0%)</td>
                             </tr>
                         </tbody>
                     </table>

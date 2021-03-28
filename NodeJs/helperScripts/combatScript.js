@@ -54,8 +54,8 @@ module.exports = {
 
         let winner;
 
-        let attackerTroops = [];
-        let defenderTroops = [];
+        let attackerTroops = {};
+        let defenderTroops = {};
 
         let totalInfAttPoints = 0;
         let totalCavAttPoints = 0;
@@ -67,14 +67,14 @@ module.exports = {
 
 
         for(let troop of troopInfoLookup[attacker.tribe]){
-            attackerTroops.push(attacker['troop'+troop['id']]);
+            attackerTroops[troop['id']] = attacker['troop'+troop['id']];
         }
         for(let troop of troopInfoLookup[defender.tribe]){
-            defenderTroops.push(defender['troop'+troop['id']]);
+            defenderTroops[troop['id']] = defender['troop'+troop['id']];
         }
 
-        let totalAttTroops = attackerTroops.reduce((a, b) => a + b, 0);
-        let totalDefTroops = defenderTroops.reduce((a, b) => a + b, 0);
+        let totalAttTroops = Object.values(attackerTroops).reduce((a, b) => a + b, 0);
+        let totalDefTroops = Object.values(defenderTroops).reduce((a, b) => a + b, 0);
         let totalTroops = totalAttTroops + totalDefTroops;
 
         if(totalTroops > 1000 && totalTroops < 1000000000){

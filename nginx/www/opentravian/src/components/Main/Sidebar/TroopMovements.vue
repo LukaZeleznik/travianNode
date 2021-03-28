@@ -100,6 +100,7 @@ export default {
                     this.fetchVillageOwnTroops();
                     this.fetchVillageTroopMovements();
                     this.fetchSidebarVillageList();
+                    this.fetchVillageResources();
                 }
             }, 1000);
         }

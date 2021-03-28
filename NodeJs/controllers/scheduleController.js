@@ -106,16 +106,14 @@ exports.new = function (req, res) {
                         bounty,
                         taskReqBody.taskUnixTime);
                     
-                    console.log("REPORT DEBUG", report);
-
                     await tools.doApiRequest("reports", "POST", report, true);
 
                     let updateDefenderTroops = false;
                     for(let troop of tools.troopInfoLookup[userTribeFrom]){
-                        if (defendingVillageOwnTroops['troop' + troop['id']] != combatResult.defendersTroopsAfter[troop['id']-1]) updateDefenderTroops = true;
+                        if (defendingVillageOwnTroops['troop' + troop['id']] != combatResult.defendersTroopsAfter[troop['id']]) updateDefenderTroops = true;
 
-                        defendingVillageOwnTroops['troop' + troop['id']] = combatResult.defendersTroopsAfter[troop['id']-1];
-                        attackingVillageTroops['troop' + troop['id']] = combatResult.attackersTroopsAfter[troop['id']-1];
+                        defendingVillageOwnTroops['troop' + troop['id']] = combatResult.defendersTroopsAfter[troop['id']];
+                        attackingVillageTroops['troop' + troop['id']] = combatResult.attackersTroopsAfter[troop['id']];
                     }
 
                     if (updateDefenderTroops) await tools.doApiRequest("villageOwnTroops/" + idVillageTo, "PATCH", defendingVillageOwnTroops, true);
@@ -368,8 +366,8 @@ function createReport(idVillageFrom, idVillageTo, attackingVillageTroops, defend
     report['bountyTotal'] = report['bountyWood'] + report['bountyClay'] + report['bountyIron'] + report['bountyCrop'];
     report['bountyMax'] = 0;
 
+    console.log("attackingVillageTroops",attackingVillageTroops,"attackersTroopsAfter",attackersTroopsAfter);
     for(let troop of tools.troopInfoLookup[report['tribeAttacker']]){
-        console.log(attackingVillageTroops['troop'+troop['id']]," attackingVillageTroops['troop'+troop['id']]");
         report['attTroop'+troop['id']] = attackingVillageTroops['troop'+troop['id']];
         report['attTroop'+troop['id']+'Casualty'] = attackingVillageTroops['troop'+troop['id']] - attackersTroopsAfter[troop['id']];
         if (attackersTroopsAfter[troop['id']]>0) {
