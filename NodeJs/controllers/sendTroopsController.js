@@ -46,10 +46,10 @@ exports.update = function (req, res) {
         sendTroops.timeSent = req.body.timeSent;
         sendTroops.timeArrived = req.body.timeArrived;
         sendTroops.troopTribe = req.body.troopTribe;
-        sendTroops.bountyWood = req.body.bountyWood;
-        sendTroops.bountyClay = req.body.bountyClay;
-        sendTroops.bountyIron = req.body.bountyIron;
-        sendTroops.bountyCrop = req.body.bountyCrop;
+        sendTroops.bountyWood = req.body.bountyWood ? req.body.bountyWood : 0;
+        sendTroops.bountyClay = req.body.bountyClay ? req.body.bountyClay : 0;
+        sendTroops.bountyIron = req.body.bountyIron ? req.body.bountyIron : 0;
+        sendTroops.bountyCrop = req.body.bountyCrop ? req.body.bountyCrop : 0;
         for(let troop of tools.troopInfoLookup[req.body.troopTribe]){
             sendTroops['troop' + troop['id'] + 'num'] = req.body['troop' + troop['id'] + 'num'];
         }
@@ -169,10 +169,10 @@ async function doSendTroops(req, res, userTribe){
     sendTroops.timeSent = currentUnixTime;
     sendTroops.timeArrived = timeArrived;
     sendTroops.troopTribe = userTribe;
-    sendTroops.bountyWood = req.body.bountyWood;
-    sendTroops.bountyClay = req.body.bountyClay;
-    sendTroops.bountyIron = req.body.bountyIron;
-    sendTroops.bountyCrop = req.body.bountyCrop;
+    sendTroops.bountyWood = req.body.bountyWood ? req.body.bountyWood : 0;
+    sendTroops.bountyClay = req.body.bountyClay ? req.body.bountyClay : 0;
+    sendTroops.bountyIron = req.body.bountyIron ? req.body.bountyIron : 0;
+    sendTroops.bountyCrop = req.body.bountyCrop ? req.body.bountyCrop : 0;
     for(let troop of tools.troopInfoLookup[userTribe]){
         sendTroops['troop' + troop['id'] + 'num'] = req.body['troop' + troop['id'] + 'num'];
     }

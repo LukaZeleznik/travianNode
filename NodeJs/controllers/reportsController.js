@@ -16,16 +16,17 @@ exports.view = function (req, res) {
 // Handle create reports actions
 exports.new = function (req, res) {
     var reports = new reportsModel();
+    reports.time = req.body.time;
     reports.idVillageAttacker = req.body.idVillageAttacker;
     reports.idVillageDefender = req.body.idVillageDefender;
     reports.tribeAttacker = req.body.tribeAttacker;
     reports.tribeDefender = req.body.tribeDefender;
-    reports.bountyWood = req.body.bountyWood;
-    reports.bountyClay = req.body.bountyClay;
-    reports.bountyIron = req.body.bountyIron;
-    reports.bountyCrop = req.body.bountyCrop;
-    reports.bountyTotal = req.body.bountyTotal;
-    reports.bountyMax = req.body.bountyMax;
+    reports.bountyWood = req.body.bountyWood ? req.body.bountyWood : 0;
+    reports.bountyClay = req.body.bountyClay ? req.body.bountyClay : 0;
+    reports.bountyIron = req.body.bountyIron ? req.body.bountyIron : 0;
+    reports.bountyCrop = req.body.bountyCrop ? req.body.bountyCrop : 0;
+    reports.bountyTotal = req.body.bountyTotal ? req.body.bountyTotal : 0;
+    reports.bountyMax = req.body.bountyMax ? req.body.bountyMax : 0;
     for(let i = 1; i < 11; i++){
         reports['attTroop'+i] = req.body['attTroop'+i];
         reports['defTroop'+i] = req.body['defTroop'+i];
@@ -50,16 +51,17 @@ exports.update = function (req, res) {
     reportsModel.findOne({_id: req.params.idReport}, function (err, reports) {
         if (err)
             res.send(err);
+        reports.time = req.body.time;
         reports.idVillageAttacker = req.body.idVillageAttacker;
         reports.idVillageDefender = req.body.idVillageDefender;
         reports.tribeAttacker = req.body.tribeAttacker;
         reports.tribeDefender = req.body.tribeDefender;
-        reports.bountyWood = req.body.bountyWood;
-        reports.bountyClay = req.body.bountyClay;
-        reports.bountyIron = req.body.bountyIron;
-        reports.bountyCrop = req.body.bountyCrop;
-        reports.bountyTotal = req.body.bountyTotal;
-        reports.bountyMax = req.body.bountyMax;
+        reports.bountyWood = req.body.bountyWood ? req.body.bountyWood : 0;
+        reports.bountyClay = req.body.bountyClay ? req.body.bountyClay : 0;
+        reports.bountyIron = req.body.bountyIron ? req.body.bountyIron : 0;
+        reports.bountyCrop = req.body.bountyCrop ? req.body.bountyCrop : 0;
+        reports.bountyTotal = req.body.bountyTotal ? req.body.bountyTotal : 0;
+        reports.bountyMax = req.body.bountyMax ? req.body.bountyMax : 0;
         for(let i = 1; i < 11; i++){
             reports['attTroop'+i] = req.body['attTroop'+i];
             reports['defTroop'+i] = req.body['defTroop'+i];

@@ -103,7 +103,7 @@ export default {
         },
         getDateTime(){
             const currentDate = new Date();
-            const date = new Date(this.reportData.createdAt);
+            const date = new Date(this.reportData.time*1000);
 
             if (currentDate.getDate()==date.getDate() && currentDate.getMonth()==date.getMonth() && currentDate.getFullYear()==date.getFullYear()) {
                 this.date = "Today";

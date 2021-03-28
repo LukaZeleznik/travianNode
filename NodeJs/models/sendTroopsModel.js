@@ -18,10 +18,10 @@ const sendTroopsSchema = new Schema ({
         troop8num:      { type: Number, required: true },
         troop9num:      { type: Number, required: true },
         troop10num:     { type: Number, required: true },
-        bountyWood:     { type: Number, required: true, default: 0},
-        bountyClay:     { type: Number, required: true, default: 0},
-        bountyIron:     { type: Number, required: true, default: 0},
-        bountyCrop:     { type: Number, required: true, default: 0},
+        bountyWood:     { type: Number, required: true },
+        bountyClay:     { type: Number, required: true },
+        bountyIron:     { type: Number, required: true },
+        bountyCrop:     { type: Number, required: true },
 }, { timestamps: true });
 
 var sendTroops = module.exports = mongoose.model('sendTroops', sendTroopsSchema, 'sendTroops');

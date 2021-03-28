@@ -148,10 +148,6 @@ export default {
                 'idVillageFrom': idVillageFrom,
                 'idVillageTo': idVillageTo,
                 'troopTribe': this.userTribe,
-                'bountyWood': 0,
-                'bountyClay': 0,
-                'bountyIron': 0,
-                'bountyCrop': 0
             }
 
             for (let i = 1; i < 11; i++) {
