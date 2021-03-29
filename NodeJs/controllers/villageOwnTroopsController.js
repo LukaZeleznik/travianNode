@@ -120,7 +120,7 @@ function doProcessTroopProductions(productions, villageOwnTroops, path){
 
         if(troopsProduced+production.troopsDoneAlready >= production.troopCount){
 
-            villageOwnTroops["troop"+production.troopId] += troopsProduced;
+            villageOwnTroops["troop"+production.troopId] += production.troopCount - production.troopsDoneAlready;
             villageOwnTroops["troop"+production.troopId] = Number(villageOwnTroops["troop"+production.troopId].toFixed(0));
             await tools.doApiRequest(path + "/" + production._id, "DELETE", "", false);
         }
