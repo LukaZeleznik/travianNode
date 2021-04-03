@@ -114,7 +114,8 @@ async function createNewUser(email,password,nickname,tribe,village){
         "password": password,
         "nickname": nickname,
         "tribe": tribe,
-        "population": 0,
+        "population": 1,
+        "villages": 1,
         "group": 1,
         "capital": village['_id'],
     }

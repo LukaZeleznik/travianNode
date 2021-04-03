@@ -200,7 +200,7 @@ exports.new = function (req, res) {
                     const idVillageFrom = taskReqBody.taskData.idVillageFrom;
                     const idVillageTo = taskReqBody.taskData.idVillageTo;
                     const troopTribe = taskReqBody.taskData.troopTribe;
-                    const userData = await tools.getUserDataFromIdVillage(idVillageFrom);
+                    let userData = await tools.getUserDataFromIdVillage(idVillageFrom);
                 
                     const idVillageToData = await tools.getVillageData(idVillageTo);
                     if (idVillageToData['owner'] != ''){
@@ -212,9 +212,11 @@ exports.new = function (req, res) {
                             "troop10num": 3,
                         }
                         await tools.doApiRequest('sendTroops', 'POST', sendTroopsData, true);
-                    }
-
-                    await createVillage(idVillageToData, userData);
+                    } else {
+                        await createVillage(idVillageToData, userData);
+                        userData['villages'] += 1;
+                        await tools.doApiRequest("users","PATCH",userData,true);
+                    }                    
                     await tools.doApiRequest("sendTroops/" + taskReqBody.taskData.sendTroopsId, "DELETE", "", false);
                 })();
                 break;

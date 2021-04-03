@@ -5,7 +5,13 @@
                 <div class="col-sm-12 col-md-12 col-lg-12">
                     <div class="h2 text-center mb-5"><strong>Reports</strong></div>
                     <div class="accordion" id="accordion">
-                        <report v-bind:reportData="userReport" v-bind:reportDataIndex="index" v-for="(userReport, index) in userReports" v-bind:key="index"></report>
+                        <template v-if="userReports.length>0">
+                            <report v-bind:reportData="userReport" v-bind:reportDataIndex="index" v-for="(userReport, index) in userReports" v-bind:key="index"></report>
+                        </template>
+                        <template v-else>
+                            <!-- Make it nicer.. -->
+                            <center>No reports</center>
+                        </template>
                     </div>
                 </div>
             </div>

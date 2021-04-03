@@ -10,6 +10,7 @@ const UserSchema = new Schema({
   nickname:     {type: String, required: true, unique: true},
   tribe:        {type: String, required: true},
   population:   {type: Number, required: true, default: 0},
+  villages:     {type: Number, required: true, default: 1},
   capital:      {type: String, required: true, unique: true},
   group:        {type: Number, required: true, default: 1},
   clan:         {type: String, default: ""}

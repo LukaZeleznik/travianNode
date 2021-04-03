@@ -12,7 +12,7 @@ exports.new = async function (req, res) {
     /* CREATE NEW USER */
     const adminTile = Math.ceil((height*width-(Math.floor(height/2)))/2);
     const villageData = await(await(await tools.doApiRequest("villages/" + adminTile, "GET", "", false)).json()).data;
-    await createNewUser("admin@test.com", "password", "Admin", "teuton", villageData);
+    await createAdminUser("admin@test.com", "password", "Admin", "teuton", villageData);
 
     //assume always is success..for now
     res.json({
@@ -78,7 +78,7 @@ async function generateMap(width,height){
     await tools.doApiRequest("generateMapVillages", "POST", villageData, true);
 }
 
-async function createNewUser(email, password, nickname, tribe, village){
+async function createAdminUser(email, password, nickname, tribe, village){
     const currentUnixTime = Math.round(new Date().getTime()/1000);
     let villageBuildingFieldsData = {};
     let villageResFieldsData = {};
@@ -91,8 +91,9 @@ async function createNewUser(email, password, nickname, tribe, village){
         "password": password,
         "nickname": nickname,
         "tribe": tribe,
-        "population": 200,
-        "group": 2,
+        "population": 0,
+        "villages": 1,
+        "group": 9,
         "capital": village['_id'],
     }
     let adminDataResponse = await(await(await tools.doApiRequest("users", "POST", adminData, true)).json()).data
