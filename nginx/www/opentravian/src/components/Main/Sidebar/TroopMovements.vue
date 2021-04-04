@@ -102,6 +102,7 @@ export default {
                     this.fetchVillageReinforcements();
                     this.fetchSidebarVillageList();
                     this.fetchVillageResources();
+                    this.fetchReportNotifications();
                 }
             }, 1000);
         }

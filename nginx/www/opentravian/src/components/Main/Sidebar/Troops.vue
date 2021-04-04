@@ -8,7 +8,16 @@
                         {{ Math.floor(villageOwnTroop)}} {{ troopInfoLookup[userTribe][index]['name'] }} 
                     </h5>
                 </div>
-                <span v-if="hasReinforcements()">Reinforcements:</span>
+            </div>
+            <div class="h5" v-else>
+                <div class="text-center">
+                    <h5>None</h5>
+                </div>
+            </div>
+        </div>
+        <div v-if="hasReinforcements()">
+            <div class="h5">
+                <div class="h3 mt-3">Reinforcements:</div>
                 <div v-for="(troops, tribe) in villageReinforcements" :key="tribe">
                     <div class="d-flex align-center" v-for="(troop, index) of troops" :key="index">
                         <h5 v-if="Math.floor(troop)"><img :src="'/images/troops/' + tribe + '/' + (parseInt(index.match(/\d/g).join(''), 10)) + '.gif'">
@@ -17,11 +26,6 @@
                     </div>
                 </div>
             </div>  
-            <div class="h5" v-else>
-                <div class="text-center">
-                    <h5>None</h5>
-                </div>
-            </div>
         </div>
     </div>
 </template>
@@ -53,7 +57,7 @@ export default {
                     return true;
             }
             return false;
-        }
+        },
     }
 }
 </script>

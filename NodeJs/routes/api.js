@@ -314,8 +314,10 @@ router.route('/sendResources/:sendResourcesId')
 
 router.route('/reports')
     .post(reportsController.new);
-router.route('/reports/:idVillage')
+router.route('/reports/:mailboxUserId')
     .get((req,res,next)     => authenticate(req,res,next), authTools.checkIdVillage, reportsController.view)
+router.route('/reports/:mailboxUserId/:readFlag')
+    .get((req,res,next)     => authenticate(req,res,next), authTools.checkIdVillage, reportsController.viewByReadFlag)
 router.route('/reports/:idReport')
     .put((req,res,next)     => authenticate(req,res,next), authTools.checkIdVillage, reportsController.update)
     .patch((req,res,next)   => authenticate(req,res,next), authTools.checkIdVillage, reportsController.update)

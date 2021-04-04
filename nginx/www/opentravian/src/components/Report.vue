@@ -2,7 +2,7 @@
 <div class="card">
     <div class="card-header" :id="'heading'+reportDataIndex">
     <h2 class="mb-0">
-        <button class="btn btn-link collapsed d-block m-auto text-success" v-bind:style="isRead() ? '' : 'font-weight: bold;' " v-on:click="markAsRead()" type="button" data-toggle="collapse" :data-target="'#collapse'+reportDataIndex" aria-expanded="false" aria-controls="collapseTwo">
+        <button class="btn btn-link collapsed d-block m-auto text-success" v-bind:style="reportData.readFlag>0 ? '' : 'font-weight: bold;' " v-on:click="markAsRead()" type="button" data-toggle="collapse" :data-target="'#collapse'+reportDataIndex" aria-expanded="false" aria-controls="collapseTwo">
             <img style="width: 1rem;height: 1rem;" :src="'/images/reports/' + reportData.type + '.gif'"> {{villageDataAttacker.name}} {{reportTypeStr(reportData.type)}} {{villageDataDefender.name}} ({{date}} at {{time}})
         </button>
     </h2>
@@ -19,7 +19,7 @@
                             </tr>
                             <tr>
                                 <th scope="col" class="text-center"></th>
-                                <th scope="col" class="text-center" v-for="index in 10" :key="index"><img :src="'/images/troops/'+reportData.tribeAttacker.toLowerCase()+'/'+index+'.gif'" :alt="index" /></th>
+                                <th scope="col" class="text-center" v-for="index in 10" :key="index"><img :src="'/images/troops/'+reportData.tribeSender.toLowerCase()+'/'+index+'.gif'" :alt="index" /></th>
                             </tr>
                             <tr>
                                 <th scope="col" class="text-center">Troops</th>
@@ -53,7 +53,7 @@
                             </tr>
                             <tr>
                                 <th scope="col" class="text-center"></th>
-                                <th scope="col" class="text-center" v-for="index in 10" :key="index"><img :src="'/images/troops/'+reportData.tribeDefender+'/'+index+'.gif'" :alt="index" /></th>
+                                <th scope="col" class="text-center" v-for="index in 10" :key="index"><img :src="'/images/troops/'+reportData.tribeReceiver+'/'+index+'.gif'" :alt="index" /></th>
                             </tr>
                             <tr>
                                 <th scope="col" class="text-center">Troops</th>
@@ -105,8 +105,8 @@ export default {
 
     methods: {
         async getVillageAndOwnerData(){
-            this.villageDataAttacker = await this.getVillageData(this.reportData.idVillageAttacker);
-            this.villageDataDefender = await this.getVillageData(this.reportData.idVillageDefender);
+            this.villageDataAttacker = await this.getVillageData(this.reportData.idVillageSender);
+            this.villageDataDefender = await this.getVillageData(this.reportData.idVillageReceiver);
             this.userDataAttacker = await this.getUser(this.villageDataAttacker.owner);
             this.userDataDefender = await this.getUser(this.villageDataDefender.owner);
         },
@@ -138,26 +138,10 @@ export default {
                     break;
             }
         },
-        isRead(){
-            const userId = this.getCookie('userId');
-            switch (userId) {
-                case this.reportData.attackerUserId: return this.reportData.attackerReadFlag;
-                case this.reportData.defenderUserId: return this.reportData.defenderReadFlag;
-                default:
-                    break;
-            }
-            return false;
-        },
         async markAsRead(){
-            const userId = this.getCookie('userId');
-            let updatedReportdata = this.reportData;
-            switch (userId) {
-                case this.reportData.attackerUserId: updatedReportdata.attackerReadFlag = true; break;
-                case this.reportData.defenderUserId: updatedReportdata.defenderReadFlag = true; break;
-                default:
-                    break;
-            }
-            await this.doApiRequest('reports/' + this.reportData._id, 'PATCH', updatedReportdata, true);
+            this.reportData['readFlag'] = true;
+            await this.doApiRequest('reports/' + this.reportData._id, 'PATCH', this.reportData, true);
+            this.fetchReportNotifications();
         }
     }
 }

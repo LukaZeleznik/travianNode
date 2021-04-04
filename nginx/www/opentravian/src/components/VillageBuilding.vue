@@ -26,6 +26,7 @@ export default {
 
     created() {
         this.fetchBuildingData(this.$route.params.vbid);
+        this.fetchReportNotifications();
     },
 
     methods: {}

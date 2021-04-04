@@ -22,7 +22,7 @@
                     <router-link class="nav-link" :to="{ name: 'stats' }">Stats</router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link class="nav-link" :to="{ name: 'reports' }">Reports</router-link>
+                    <router-link class="nav-link" :to="{ name: 'reports' }">Reports <span v-if="reportNotifications>0" class="badge bg-danger ms-2">{{ reportNotifications }}</span></router-link>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#"><strike>Messages</strike></a>
@@ -37,13 +37,20 @@
 </template>
 
 <script>
+import { fetchMixins } from '@/mixins/fetchMixins'
 import { toolsMixins } from '@/mixins/toolsMixins'
 
 export default {
-    created() {     
+    data() {
+        return {
+        };
     },
 
-    mixins: [toolsMixins],
+    created() {
+        this.loadMethods();
+    },
+
+    mixins: [toolsMixins, fetchMixins],
 
     methods: {
         logout() {   
@@ -60,7 +67,12 @@ export default {
             document.cookie = 'jwt=; Max-Age=-99999999;domain=' + process.env.VUE_APP_BASE_URL + ';path=/;';
             document.cookie = 'userId=; Max-Age=-99999999;domain=' + process.env.VUE_APP_BASE_URL + ';path=/;';
             this.$router.push({ name: 'login' });
-        }
+        },
+        loadMethods(){
+            if(this.checkIfLoggedIn(true)){
+                this.fetchReportNotifications();
+            }
+        },
     }
 }
 </script>

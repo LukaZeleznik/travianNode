@@ -76,12 +76,14 @@ exports.new = function (req, res) {
                 break;
             case "attack":
                 (async () => {  
+                    const senderData = await tools.getUserDataFromIdVillage(idVillageFrom);
+                    const receiverData = await tools.getUserDataFromIdVillage(idVillageTo);
+
                     let defendingVillageOwnTroops = await(await(await tools.doApiRequest("villageOwnTroops/" + idVillageTo, "GET", "", false)).json()).data;
-                    const userTribeFrom = await tools.getTribeFromIdVillage(idVillageFrom);
 
                     let attackingVillageTroops = {};
-                    attackingVillageTroops['tribe'] = userTribeFrom;
-                    for(let troop of tools.troopInfoLookup[userTribeFrom]){
+                    attackingVillageTroops['tribe'] = senderData['tribe'];
+                    for(let troop of tools.troopInfoLookup[senderData['tribe']]){
                         attackingVillageTroops['troop' + troop['id']] = taskReqBody.taskData['troop' + troop['id'] + 'num'];
                     }
 
@@ -97,19 +99,24 @@ exports.new = function (req, res) {
 
                     const combatResult = combatScript.calculateCombat(attackingVillageTroops, defendingVillageOwnTroops, constants);
                     const bounty = await calculateBounty(idVillageTo, combatResult.attackersTroopsAfter, attackingVillageTroops['tribe']);
-                    const report = await createFullAttackReport(idVillageFrom,
+                    let report = await createFullAttackReport(idVillageFrom,
                         idVillageTo,
                         attackingVillageTroops,
                         defendingVillageOwnTroops,
                         combatResult.attackersTroopsAfter,
                         combatResult.defendersTroopsAfter,
                         bounty,
-                        taskReqBody.taskUnixTime);
-                    
+                        taskReqBody.taskUnixTime,
+                        senderData['_id'],
+                        receiverData['_id']);
+
+                    report['mailboxUserId'] = senderData['_id'];
+                    await tools.doApiRequest("reports", "POST", report, true);
+                    report['mailboxUserId'] = receiverData['_id'];
                     await tools.doApiRequest("reports", "POST", report, true);
 
                     let updateDefenderTroops = false;
-                    for(let troop of tools.troopInfoLookup[userTribeFrom]){
+                    for(let troop of tools.troopInfoLookup[senderData['tribe']]){
                         if (defendingVillageOwnTroops['troop' + troop['id']] != combatResult.defendersTroopsAfter[troop['id']]) updateDefenderTroops = true;
 
                         defendingVillageOwnTroops['troop' + troop['id']] = combatResult.defendersTroopsAfter[troop['id']];
@@ -132,7 +139,7 @@ exports.new = function (req, res) {
                             'bountyIron': bounty['iron'],
                             'bountyCrop': bounty['crop']
                         };
-                        for (let troop of tools.troopInfoLookup[userTribeFrom]){
+                        for (let troop of tools.troopInfoLookup[senderData['tribe']]){
                             attackingVillageTroopsReturning['troop' + troop['id'] + 'num'] = attackingVillageTroops['troop' + troop['id']];
                         }
                         await tools.doApiRequest("sendTroops", "POST", attackingVillageTroopsReturning, true);
@@ -141,13 +148,13 @@ exports.new = function (req, res) {
                 break;
             case "reinf":
                 (async () => {              
-                    const userTribeFrom = await tools.getTribeFromIdVillage(idVillageFrom);
-                    const userTribeTo = await tools.getTribeFromIdVillage(idVillageTo);
+                    const senderData = await tools.getUserDataFromIdVillage(idVillageFrom);
+                    const receiverData = await tools.getUserDataFromIdVillage(idVillageTo);
 
                     let [reinforcementExists, villageReinforcement] = await checkForExistingReinforcements(idVillageFrom, idVillageTo);
                     if (reinforcementExists){
-                        if (villageReinforcement.troopTribe==userTribeFrom) {
-                            for (let troop of tools.troopInfoLookup[userTribeFrom]){
+                        if (villageReinforcement.troopTribe==senderData['tribe']) {
+                            for (let troop of tools.troopInfoLookup[senderData['tribe']]){
                                 villageReinforcement['troop' + troop['id']] += parseInt(taskReqBody.taskData['troop' + troop['id'] + 'num']);
                             }
                             await tools.doApiRequest("villageReinforcements/" + villageReinforcement._id, "PATCH", villageReinforcement, true);
@@ -156,19 +163,25 @@ exports.new = function (req, res) {
                         let villageReinforcement = {};
                         villageReinforcement['idVillage'] = idVillageTo;
                         villageReinforcement['idVillageFrom'] = idVillageFrom;
-                        villageReinforcement['troopTribe'] = userTribeFrom;
-                        for (let troop of tools.troopInfoLookup[userTribeFrom]){
+                        villageReinforcement['troopTribe'] = senderData['tribe'];
+                        for (let troop of tools.troopInfoLookup[senderData['tribe']]){
                             villageReinforcement['troop' + troop['id']] = taskReqBody.taskData['troop' + troop['id'] + 'num'];
                         }
                         await tools.doApiRequest("villageReinforcements", "POST", villageReinforcement, true);
                     }
                     await tools.doApiRequest("sendTroops/" + taskReqBody.taskData.sendTroopsId, "DELETE", "", false);
 
-                    const report = await createReinforcementReport(idVillageFrom,
+                    let report = await createReinforcementReport(idVillageFrom,
                         idVillageTo,
-                        userTribeFrom,
-                        userTribeTo,
-                        taskReqBody);
+                        senderData['tribe'],
+                        receiverData['tribe'],
+                        taskReqBody,
+                        senderData['_id'],
+                        receiverData['_id']);
+
+                    report['mailboxUserId'] = senderData['_id'];
+                    await tools.doApiRequest("reports", "POST", report, true);
+                    report['mailboxUserId'] = receiverData['_id'];
                     await tools.doApiRequest("reports", "POST", report, true);
                 })();
                 break;
@@ -383,19 +396,17 @@ async function createVillage(villageData,userData){
     await tools.doApiRequest("villageResources","POST",villageResourcesData,true);
 }
 
-async function createFullAttackReport(idVillageFrom, idVillageTo, attackingVillageTroops, defendingVillageOwnTroops, attackersTroopsAfter, defendersTroopsAfter, bounty, timeArrived){
-    const attackerUserId = await tools.getVillageOwnerFromIdVillage(idVillageFrom);
-    const defenderUserId = await tools.getVillageOwnerFromIdVillage(idVillageTo);
-
+async function createFullAttackReport(idVillageFrom, idVillageTo, attackingVillageTroops, defendingVillageOwnTroops, attackersTroopsAfter, 
+                                      defendersTroopsAfter, bounty, timeArrived, senderUserId, receiverUserId){
     let report = {};
     report['time'] = timeArrived;
     report['type'] = "attack";
-    report['attackerUserId'] = attackerUserId;
-    report['defenderUserId'] = defenderUserId;
-    report['idVillageAttacker'] = idVillageFrom;
-    report['idVillageDefender'] = idVillageTo;
-    report['tribeAttacker'] = attackingVillageTroops.tribe;
-    report['tribeDefender'] = defendingVillageOwnTroops.tribe;
+    report['senderUserId'] = senderUserId;
+    report['receiverUserId'] = receiverUserId;
+    report['idVillageSender'] = idVillageFrom;
+    report['idVillageReceiver'] = idVillageTo;
+    report['tribeSender'] = attackingVillageTroops.tribe;
+    report['tribeReceiver'] = defendingVillageOwnTroops.tribe;
     report['bountyWood'] = bounty['wood'];
     report['bountyClay'] = bounty['clay'];
     report['bountyIron'] = bounty['iron'];
@@ -403,7 +414,7 @@ async function createFullAttackReport(idVillageFrom, idVillageTo, attackingVilla
     report['bountyTotal'] = report['bountyWood'] + report['bountyClay'] + report['bountyIron'] + report['bountyCrop'];
     report['bountyMax'] = 0;
 
-    for(let troop of tools.troopInfoLookup[report['tribeAttacker']]){
+    for(let troop of tools.troopInfoLookup[report['tribeSender']]){
         report['attTroop'+troop['id']] = attackingVillageTroops['troop'+troop['id']];
         report['attTroop'+troop['id']+'Casualty'] = attackingVillageTroops['troop'+troop['id']] - attackersTroopsAfter[troop['id']];
         if (attackersTroopsAfter[troop['id']]>0) {
@@ -411,7 +422,7 @@ async function createFullAttackReport(idVillageFrom, idVillageTo, attackingVilla
         } 
 
     }
-    for(let troop of tools.troopInfoLookup[report['tribeDefender']]){
+    for(let troop of tools.troopInfoLookup[report['tribeReceiver']]){
         report['defTroop'+troop['id']] = defendingVillageOwnTroops['troop'+troop['id']];
         report['defTroop'+troop['id']+'Casualty'] = defendingVillageOwnTroops['troop'+troop['id']] - defendersTroopsAfter[troop['id']];
     }
@@ -420,19 +431,16 @@ async function createFullAttackReport(idVillageFrom, idVillageTo, attackingVilla
     return report;
 }
 
-async function createReinforcementReport(idVillageFrom, idVillageTo, userTribeFrom, userTribeTo, taskReqBody){
-    const attackerUserId = await tools.getVillageOwnerFromIdVillage(idVillageFrom);
-    const defenderUserId = await tools.getVillageOwnerFromIdVillage(idVillageTo);
-
+async function createReinforcementReport(idVillageFrom, idVillageTo, userTribeFrom, userTribeTo, taskReqBody, senderUserId, receiverUserId){
     let report = {};
     report['time'] = taskReqBody.taskUnixTime;
     report['type'] = "reinf";
-    report['attackerUserId'] = attackerUserId;
-    report['defenderUserId'] = defenderUserId;
-    report['idVillageAttacker'] = idVillageFrom;
-    report['idVillageDefender'] = idVillageTo;
-    report['tribeAttacker'] = userTribeFrom;
-    report['tribeDefender'] = userTribeTo;
+    report['senderUserId'] = senderUserId;
+    report['receiverUserId'] = receiverUserId;
+    report['idVillageSender'] = idVillageFrom;
+    report['idVillageReceiver'] = idVillageTo;
+    report['tribeSender'] = userTribeFrom;
+    report['tribeReceiver'] = userTribeTo;
 
     for(let troop of tools.troopInfoLookup[userTribeFrom]){
         report['attTroop'+troop['id']] = taskReqBody.taskData['troop' + troop['id'] + 'num'];

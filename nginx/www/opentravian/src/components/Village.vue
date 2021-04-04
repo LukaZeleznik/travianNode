@@ -54,6 +54,7 @@ export default {
                 this.fetchVillageResources();
                 this.fetchSidebarVillageList();
                 this.getActiveVillageName();
+                this.fetchReportNotifications();
             }
         },
     }

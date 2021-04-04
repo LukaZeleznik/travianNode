@@ -42,6 +42,7 @@ export default {
         loadMethods(){
             if(this.checkIfLoggedIn(true)){
                 this.fetchUserReports();
+                this.fetchReportNotifications();
             }
         },
     }

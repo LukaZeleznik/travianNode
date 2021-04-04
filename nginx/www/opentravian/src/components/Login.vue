@@ -48,9 +48,13 @@ import { fetchMixins } from '@/mixins/fetchMixins'
 
                     this.$store.commit('setActiveVillageId', response.capital);
                     this.$store.commit('setUserTribe', response.userTribe);
+                    this.loadMethods();
                     this.$router.push({ name: 'resources' });
                 }
             },
+            loadMethods() {
+                this.fetchReportNotifications();
+            }
         }
     }
 

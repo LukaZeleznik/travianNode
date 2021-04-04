@@ -3,7 +3,26 @@ const reportsModel = require('../models/reportsModel');
 var tools = require('../tools/tools');
 
 exports.view = function (req, res) {
-    reportsModel.find({$or: [{idVillageAttacker: req.params.idVillage}, {idVillageDefender: req.params.idVillage}] }, function (err, reports) {
+    reportsModel.find({mailboxUserId: req.params.mailboxUserId}, function (err, reports) {
+        if (err){
+            res.status(500).json(err);
+            console.log(err);
+            return;
+        }
+        res.json({
+            message: 'Loading reports data..',
+            data: reports
+        });
+    }).sort({createdAt:-1});
+};
+
+
+exports.viewByReadFlag = function (req, res) {
+    reportsModel.find({
+        $and: [
+            { mailboxUserId: req.params.mailboxUserId },
+            { readFlag: req.params.readFlag }
+        ] }, function (err, reports) {
         if (err){
             res.status(500).json(err);
             console.log(err);
@@ -21,14 +40,14 @@ exports.new = function (req, res) {
     var reports = new reportsModel();
     reports.time = req.body.time;
     reports.type = req.body.type;
-    reports.attackerUserId = req.body.attackerUserId;
-    reports.defenderUserId = req.body.defenderUserId;
-    reports.idVillageAttacker = req.body.idVillageAttacker;
-    reports.idVillageDefender = req.body.idVillageDefender;
-    reports.tribeAttacker = req.body.tribeAttacker;
-    reports.tribeDefender = req.body.tribeDefender;
-    reports.attackerReadFlag = req.body.attackerReadFlag ? req.body.attackerReadFlag : false;
-    reports.defenderReadFlag = req.body.defenderReadFlag ? req.body.defenderReadFlag : false;
+    reports.senderUserId = req.body.senderUserId;
+    reports.receiverUserId = req.body.receiverUserId;
+    reports.idVillageSender = req.body.idVillageSender;
+    reports.idVillageReceiver = req.body.idVillageReceiver;
+    reports.tribeSender = req.body.tribeSender;
+    reports.tribeReceiver = req.body.tribeReceiver;
+    reports.mailboxUserId = req.body.mailboxUserId;
+    reports.readFlag = req.body.readFlag ? req.body.readFlag : false;
     reports.bountyWood = req.body.bountyWood ? req.body.bountyWood : 0;
     reports.bountyClay = req.body.bountyClay ? req.body.bountyClay : 0;
     reports.bountyIron = req.body.bountyIron ? req.body.bountyIron : 0;
@@ -66,13 +85,13 @@ exports.update = function (req, res) {
         }
         reports.time = req.body.time;
         reports.type = req.body.type;
-        reports.attackerUserId = req.body.attackerUserId;
-        reports.defenderUserId = req.body.defenderUserId;
-        reports.idVillageDefender = req.body.idVillageDefender;
-        reports.tribeAttacker = req.body.tribeAttacker;
-        reports.tribeDefender = req.body.tribeDefender;
-        reports.attackerReadFlag = req.body.attackerReadFlag ? req.body.attackerReadFlag : false;
-        reports.defenderReadFlag = req.body.defenderReadFlag ? req.body.defenderReadFlag : false;
+        reports.senderUserId = req.body.senderUserId;
+        reports.receiverUserId = req.body.receiverUserId;
+        reports.idVillageReceiver = req.body.idVillageReceiver;
+        reports.tribeSender = req.body.tribeSender;
+        reports.tribeReceiver = req.body.tribeReceiver;
+        reports.readFlag = req.body.readFlag ? req.body.readFlag : false;
+        reports.mailboxUserId = req.body.mailboxUserId;
         reports.bountyWood = req.body.bountyWood ? req.body.bountyWood : 0;
         reports.bountyClay = req.body.bountyClay ? req.body.bountyClay : 0;
         reports.bountyIron = req.body.bountyIron ? req.body.bountyIron : 0;

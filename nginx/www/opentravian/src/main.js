@@ -169,6 +169,7 @@ const store = new Vuex.Store({
         villageOutgoingResources: [],
         villageIncomingResources: [],
         userReports: [],
+        reportNotifications: 0
     },
 
     mutations: {
@@ -201,6 +202,7 @@ const store = new Vuex.Store({
         setVillageOutgoingResources(state, villageOutgoingResources)            { state.villageOutgoingResources = villageOutgoingResources; },
         setVillageIncomingResources(state, villageIncomingResources)            { state.villageIncomingResources = villageIncomingResources; },
         setUserReports(state, userReports)                                      { state.userReports = userReports; },
+        setReportNotifications(state, reportNotifications)                      { state.reportNotifications = reportNotifications; },
 
     },
     actions: {
@@ -520,11 +522,21 @@ const store = new Vuex.Store({
                 .catch(err => console.log(err));
         },
         async fetchUserReports(context) {
-            await fetch('http://' + process.env.VUE_APP_BASE_URL + '/api/reports/' + context.getters.getActiveVillageId, {credentials: 'include'})
+            await fetch('http://' + process.env.VUE_APP_BASE_URL + '/api/reports/' + getCookie('userId'), {credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
                     let userReports = res.data;
+                    console.log(res.data);
                     context.commit('setUserReports', userReports);
+                })
+                .catch(err => console.log(err));
+        },
+        async fetchReportNotifications(context) {
+            await fetch('http://' + process.env.VUE_APP_BASE_URL + '/api/reports/' + getCookie('userId') + "/" + 0, {credentials: 'include'})
+                .then(res => res.json())
+                .then(res => {
+                    let reportNotifications = res.data.length;
+                    context.commit('setReportNotifications', reportNotifications);
                 })
                 .catch(err => console.log(err));
         },
@@ -559,6 +571,7 @@ const store = new Vuex.Store({
         getVillageOutgoingResources:        state => { return state.villageOutgoingResources; },
         getVillageIncomingResources:        state => { return state.villageIncomingResources; },
         getUserReports:                     state => { return state.userReports; },
+        getReportNotifications:             state => { return state.reportNotifications; },
     }
 })
 

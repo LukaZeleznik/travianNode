@@ -60,6 +60,7 @@ export default {
                 //this.loadMapTiles();
                 this.loadTileData();
                 this.defaulTileData();
+                this.fetchReportNotifications();
             }
         },
         defaulTileData(){
