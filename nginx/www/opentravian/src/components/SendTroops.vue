@@ -16,31 +16,51 @@
                 <table class="table" aria-describedby="report">
                     <tbody>
                         <tr>
-                            <th scope="col" class="text-center" v-for="index in 5" :key="index"><img :src="'/images/troops/'+userTribe+'/'+index+'.gif'" :alt="index" /></th>
+                            <th scope="col" class="text-center" v-for="index in 5" :key="index"><img class="troopIcon" :src="'/images/troops/'+userTribe+'/'+index+'.gif'" :alt="index" /></th>
                         </tr>
                         <tr>
                             <td class="text-center" v-for="index in 5" v-bind:key="index">
                                 <input :disabled="villageData['owner'] == ''" type="number" class="form-control mr-2 text-center" min="0" aria-label="Small" :id="'troop' + index" aria-describedby="inputGroup-sizing-sm" value="0">
-                                <div @click="insertTroops(index);" href="#" style="color:green; cursor: pointer"><strong>(<span :id="'maxTroops' + index">{{ villageOwnTroops[index-1] }}</span>)</strong></div>
+                                <div class="pt-1" @click="insertTroops(index);" href="#" style="color:green; cursor: pointer"><strong>(<span :id="'maxTroops' + index">{{ villageOwnTroops[index-1] }}</span>)</strong></div>
                             </td>
                         </tr>
                         <tr>
-                            <th scope="col" class="text-center" v-for="index in 5" :key="index"><img :src="'/images/troops/'+userTribe+'/'+(index+5)+'.gif'" :alt="index" /></th>
+                            <th scope="col" class="text-center" v-for="index in 5" :key="index"><img class="troopIcon" :src="'/images/troops/'+userTribe+'/'+(index+5)+'.gif'" :alt="index" /></th>
                         </tr>
                         <tr>
                             <td class="text-center" v-for="index in 5" v-bind:key="index">
                                 <input :disabled="villageData['owner'] == ''" type="number" class="form-control mr-2 text-center" min="0" aria-label="Small" :id="'troop' + (index+5)" aria-describedby="inputGroup-sizing-sm" value="0">
-                                <div @click="insertTroops(index+5);" href="#" style="color:green; cursor: pointer"><strong>(<span :id="'maxTroops' + (index+5)">{{ villageOwnTroops[index+4] }}</span>)</strong></div>
+                                <div class="pt-1" @click="insertTroops(index+5);" href="#" style="color:green; cursor: pointer"><strong>(<span :id="'maxTroops' + (index+5)">{{ villageOwnTroops[index+4] }}</span>)</strong></div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 <div class="row justify-content-center">
                     <div class="">
-                        <div v-if="villageData['owner'] == ''"><input :checked="villageData['owner'] == ''" type="radio" id="sendTroops" name="attackType" value="settle"> <label>Settle new village</label><br></div>
-                        <input type="radio" id="sendTroops" name="attackType" value="reinf" :disabled="villageData['owner'] == ''"> <label>Reinforcement</label><br>
-                        <input type="radio" id="sendTroops" name="attackType" value="attack" :disabled="villageData['owner'] == ''" :checked="villageData['owner'] != ''"> <label>Attack: Full</label><br>
-                        <input type="radio" id="sendTroops" name="attackType" value="raid" :disabled="villageData['owner'] == ''"> <label>Attack: Raid</label>                        
+                        <div v-if="villageData['owner'] == ''" class="form-check">
+                            <input class="form-check-input" type="radio" id="sendTroopsSettle" name="attackType" value="settle" :disabled="villageData['owner'] == ''">
+                            <label class="form-check-label" for="sendTroopsSettle">
+                                Settle new village
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="sendTroopsReinf" name="attackType" value="reinf" :disabled="villageData['owner'] == ''">
+                            <label class="form-check-label" for="sendTroopsReinf">
+                                Reinforcement
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="sendTroopsAttack" name="attackType" value="attack" :disabled="villageData['owner'] == ''" :checked="villageData['owner'] != ''">
+                            <label class="form-check-label" for="sendTroopsAttack">
+                                Attack: Full
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="sendTroopsRaid" name="attackType" value="raid" :disabled="villageData['owner'] == ''">
+                            <label class="form-check-label" for="sendTroopsRaid">
+                                Attack: Raid
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -52,49 +72,6 @@
         <h5 class="mt-4 text-danger" id="errorMessage"></h5>
     </div>
 </div>
-<!-- <table class="table table-borderless" aria-describedby="sendTroops">
-    <tbody>
-        <tr style="float: left">
-            <span v-for="(troop, index) in troopInfoLookup[userTribe]" v-bind:key="index">
-                <span v-if="troop['id'] == 1 || troop['id'] == 4 || troop['id'] == 7 || troop['id'] == 9">
-                    <td><img :src="'../images/troops/' + userTribe + '/' + troop['id'] +'.gif'"></td>
-                    <td>
-                        <div class="input-group input-group-sm align-middle">
-                            <input :disabled="villageData['owner'] == ''" type="number" class="form-control mr-2" min="0" aria-label="Small" :id="'troop' + troop['id']" aria-describedby="inputGroup-sizing-sm">
-                            <a @click="insertTroops(troop['id']);" href="#" style="color:green"><strong>(<span :id="'maxTroops' + troop['id']">{{ villageOwnTroops[index] }}</span>)</strong></a>
-                        </div>
-                    </td>
-                </span>
-            </span>
-        </tr>
-        <tr style="float: left">
-            <span v-for="(troop, index) in troopInfoLookup[userTribe]" v-bind:key="index">
-                <span v-if="troop['id'] == 2 || troop['id'] == 5 || troop['id'] == 8 || troop['id'] == 10">
-                    <td><img :src="'../images/troops/' + userTribe + '/' + troop['id'] +'.gif'"></td>
-                    <td>
-                        <div class="input-group input-group-sm align-middle">
-                            <input :disabled="villageData['owner'] == '' && troop['id'] != 10" type="number" class="form-control mr-2" min="0" aria-label="Small" :id="'troop' + troop['id']" aria-describedby="inputGroup-sizing-sm">
-                            <a @click="insertTroops(troop['id']);" href="#" style="color:green"><strong>(<span :id="'maxTroops' + troop['id']">{{ villageOwnTroops[index] }}</span>)</strong></a>
-                        </div>
-                    </td>
-                </span>
-            </span>
-        </tr>
-        <tr style="float: left">
-            <span v-for="(troop, index) in troopInfoLookup[userTribe]" v-bind:key="index">
-                <span v-if="troop['id'] == 3 || troop['id'] == 6">
-                    <td><img :src="'../images/troops/' + userTribe + '/' + troop['id'] +'.gif'"></td>
-                    <td>
-                        <div class="input-group input-group-sm align-middle">
-                            <input :disabled="villageData['owner'] == ''" type="number" class="form-control mr-2" min="0" aria-label="Small" :id="'troop' + troop['id']" aria-describedby="inputGroup-sizing-sm">
-                            <a @click="insertTroops(troop['id']);" href="#" style="color:green"><strong>(<span :id="'maxTroops' + troop['id']">{{ villageOwnTroops[index] }}</span>)</strong></a>
-                        </div>
-                    </td>
-                </span>
-            </span>
-        </tr>
-    </tbody>
-</table> -->
 </template>
 
 <script>
@@ -178,17 +155,22 @@ export default {
 </script>
 
 <style scoped>
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none !important;
-    margin: 0;
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none !important;
+        margin: 0;
 
-}
+    }
 
-/* Firefox */
-input[type=number] {
-    -moz-appearance: textfield;
-}
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+    .troopIcon{
+        width: 21px;
+        height: 21px;
+    }
 
 </style>

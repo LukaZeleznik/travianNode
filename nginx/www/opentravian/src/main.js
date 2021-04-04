@@ -277,7 +277,6 @@ const store = new Vuex.Store({
             await fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/villageReinforcements/' + context.getters.getActiveVillageId, {credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
-                    console.log("resdata",res.data);
                     let villageReinforcements = res.data;
                     context.commit('setVillageReinforcements', villageReinforcements);
                 })

@@ -452,108 +452,88 @@ async function createReinforcementReport(idVillageFrom, idVillageTo, userTribeFr
 async function calculateBounty(idVillageTo, attackersTroopsAfter, tribe){
     let maxBounty = 0;
     let bounty = {};
-    const currentUnixTime = Math.round(new Date().getTime()/1000);
-    
-    bounty['wood'] = 0;
-    bounty['clay'] = 0;
-    bounty['iron'] = 0;
-    bounty['crop'] = 0;
-    
-    for (let i = 0; i < 10; i++){
-        if (attackersTroopsAfter[i]>0) {
-            maxBounty += attackersTroopsAfter[i] * tools.troopInfoLookup[tribe][i]['capacity'];
-        }        
-    }
-
-    // Return bounty = 0 if units are not able to carry anything
-    if (maxBounty==0) return bounty;
+    const currentUnixTime = Math.round(new Date().getTime()/1000);    
 
     let villageToResources = await(await(await tools.doApiRequest("villageResources/" + idVillageTo, "GET", "", false)).json()).data;
     currentWood = Math.floor(villageToResources.currentWood);
     currentClay = Math.floor(villageToResources.currentClay);
     currentIron = Math.floor(villageToResources.currentIron);
     currentCrop = Math.floor(villageToResources.currentCrop);
-    
-    bounty['wood'] = bounty['clay'] = bounty['iron'] = bounty['crop'] = Math.floor(maxBounty/4);
 
-    if (bounty['wood']>currentWood) {
-        bounty['clay'] += bounty['wood'] - currentWood;
-        bounty['wood'] = currentWood;
-    };
-    if (bounty['clay']>currentClay) {
-        bounty['iron'] += bounty['clay'] - currentClay;
-        bounty['clay'] = currentClay;
-    };
-    if (bounty['iron']>currentIron) {
-        bounty['crop'] += bounty['iron'] - currentIron;
-        bounty['iron'] = currentIron;
-    };
-    if (bounty['crop']>currentCrop) {
-        bounty['crop'] = currentCrop;
-    };
-
-    //TODO should split evenly not like this
-    /*
-    for($i = 0; $i<5; $i++)
-        {
-            for($j=0;$j<4;$j++)
-            {
-                if(isset($avtotal[$j]))
-                {
-                    if($avtotal[$j]<1)
-                        unset($avtotal[$j]);
-                }
-            }
-            if(!$avtotal)
-            {
-                // echo 'array empty'; *no resources left to take.
-                break;
-            }
-            if($btotal <1 && $bmod <1)
-                break;
-            if($btotal<1)
-            {
-                while($bmod)
-                {
-                    //random select
-                    $rs = array_rand($avtotal);
-                    if(isset($avtotal[$rs]))
-                    {
-                        $avtotal[$rs] -= 1;
-                        $steal[$rs] += 1;
-                        $bmod -= 1;
-                    }
-                }
-            }
-            
-            // handle unballanced amounts.
-            $btotal +=$bmod;
-            $bmod = $btotal%count($avtotal);
-            $btotal -=$bmod;
-            $bsplit = $btotal/count($avtotal);
+    for (let i = 0; i < 10; i++){
+        if (attackersTroopsAfter[i] > 0) {
+            maxBounty += attackersTroopsAfter[i] * tools.troopInfoLookup[tribe][i]['capacity'];
+        }        
+    }
     
-            $max_steal = (min($avtotal) < $bsplit)? min($avtotal): $bsplit;
-        
-            for($j=0;$j<4;$j++)
-            {
-                if(isset($avtotal[$j]))
-                {
-                    $avtotal[$j] -= $max_steal;
-                    $steal[$j] += $max_steal;
-                    $btotal -= $max_steal;
-                }
-            }
+    let bountyTotal = {};
+
+    bounty['wood'] = bounty['clay'] = bounty['iron'] = bounty['crop'] = maxBounty;
+    bountyTotal['wood'] = bountyTotal['clay'] = bountyTotal['iron'] = bountyTotal['crop'] = 0;
+
+    let maxIterations = 1000;
+
+    while (maxIterations > 0 && maxBounty > 0 && (currentWood > 0 || currentClay > 0 || currentIron > 0 || currentCrop > 0)) {
+        let notZero = 0;
+        if( currentWood > 0) notZero++;
+        if( currentClay > 0) notZero++;
+        if( currentIron > 0) notZero++;
+        if( currentCrop > 0) notZero++;
+
+        bounty['wood'] = bounty['clay'] = bounty['iron'] = bounty['crop'] = Math.floor(maxBounty / notZero);
+
+        if (bounty['wood'] >= currentWood) {
+            bounty['wood'] = currentWood;
+            maxBounty -= currentWood
+            currentWood = 0;
+        } else{
+            currentWood -= bounty['wood'];
+            maxBounty -= bounty['wood'];
         }
-    */
 
-    villageToResources.currentWood -= bounty['wood'];
-    villageToResources.currentClay -= bounty['clay'];
-    villageToResources.currentIron -= bounty['iron'];
-    villageToResources.currentCrop -= bounty['crop'];
+        if (bounty['clay'] >= currentClay) {
+            maxBounty -= currentClay
+            bounty['clay'] = currentClay;
+            currentClay = 0;
+        } else{
+            currentClay -= bounty['clay'];
+            maxBounty -= bounty['clay'];
+        }
+
+        if (bounty['iron'] >= currentIron) {
+            maxBounty -= currentIron
+            bounty['iron'] = currentIron;
+            currentIron = 0;
+        } else{
+            currentIron -= bounty['iron'];
+            maxBounty -= bounty['iron'];
+        }
+
+        if (bounty['crop'] >= currentCrop) {
+            maxBounty -= currentCrop
+            bounty['crop'] = currentCrop;
+            currentCrop = 0;
+        } else{
+            currentCrop -= bounty['crop'];
+            maxBounty -= bounty['crop'];
+        }
+
+        bountyTotal['wood'] += bounty['wood'];
+        bountyTotal['clay'] += bounty['clay'];
+        bountyTotal['iron'] += bounty['iron'];
+        bountyTotal['crop'] += bounty['crop'];
+
+        maxIterations--;
+    }
+
+    villageToResources.currentWood -= bountyTotal['wood'];
+    villageToResources.currentClay -= bountyTotal['clay'];
+    villageToResources.currentIron -= bountyTotal['iron'];
+    villageToResources.currentCrop -= bountyTotal['crop'];
     villageToResources.lastUpdate = currentUnixTime;
     await tools.doApiRequest("villageResources/" + idVillageTo, "PATCH", villageToResources, true);
 
-    return bounty;
+    return bountyTotal;
 }
 
 async function checkForExistingReinforcements(idVillageFrom, idVillageTo) {  

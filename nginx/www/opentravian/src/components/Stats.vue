@@ -17,7 +17,7 @@
                                 <router-link :to="{ path: '/profile/' + user['_id'] }">
                                     {{ user['nickname'] }} 
                                         <template v-if="user['group']==9">
-                                            <i class="bi bi-patch-check"></i>
+                                            <i class="bi bi-patch-check-fill"></i>
                                         </template>
                                 </router-link>
                         </td>

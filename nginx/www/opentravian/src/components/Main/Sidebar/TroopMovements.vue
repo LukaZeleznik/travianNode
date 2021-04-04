@@ -61,27 +61,39 @@ export default {
             if(this.villageOutgoingReinforcements.length > 0){  
                 this.villageOutgoingReinforcementsTimeLeft[0] = (this.villageOutgoingReinforcements[0].timeArrived - Math.floor(new Date().getTime()/1000));
             }
+            else{
+                this.villageOutgoingReinforcementsTimeLeft = [];
+            }
         },
         'villageIncomingReinforcements': function(){
             if(this.villageIncomingReinforcements.length > 0){  
                 this.villageIncomingReinforcementsTimeLeft[0] = (this.villageIncomingReinforcements[0].timeArrived - Math.floor(new Date().getTime()/1000));
+            }
+            else{
+                this.villageIncomingReinforcementsTimeLeft = [];
             }
         },
         'villageIncomingAttacks': function(){
             if(this.villageIncomingAttacks.length > 0){         
                 this.villageIncomingAttacksTimeLeft[0] = (this.villageIncomingAttacks[0].timeArrived - Math.floor(new Date().getTime()/1000));
             }
+            else{
+                this.villageIncomingAttacksTimeLeft = [];
+            }
         },
         'villageOutgoingAttacks': function(){
             if(this.villageOutgoingAttacks.length > 0){         
                 this.villageOutgoingAttacksTimeLeft[0] = (this.villageOutgoingAttacks[0].timeArrived - Math.floor(new Date().getTime()/1000));
+            }
+            else{
+                this.villageOutgoingAttacksTimeLeft = [];
             }
         }
     },
 
     methods:{
         startTroopMovementsInterval(){
-            var troopMovementsInterval = setInterval( ()=> {
+            setInterval( ()=> {
                 if(this.villageIncomingAttacksTimeLeft[0] > 0){
                     this.$set(this.villageIncomingAttacksTimeLeft, 0, this.villageIncomingAttacksTimeLeft[0]-1);
                 }
@@ -95,8 +107,9 @@ export default {
                     this.$set(this.villageOutgoingReinforcementsTimeLeft, 0, this.villageOutgoingReinforcementsTimeLeft[0]-1);
                 }
                 
-                if(this.villageIncomingAttacksTimeLeft[0] <= 0 || this.villageIncomingReinforcementsTimeLeft[0] <= 0 || this.villageOutgoingAttacksTimeLeft[0] <= 0 || this.villageOutgoingReinforcementsTimeLeft[0] <= 0){
-                    clearInterval(troopMovementsInterval);
+                if(this.villageIncomingAttacksTimeLeft[0] == 0 || this.villageIncomingReinforcementsTimeLeft[0] == 0 || this.villageOutgoingAttacksTimeLeft[0] == 0 || this.villageOutgoingReinforcementsTimeLeft[0] == 0){
+                    //clearInterval(troopMovementsInterval);
+                    console.log("Cleared");
                     this.fetchVillageOwnTroops();
                     this.fetchVillageTroopMovements();
                     this.fetchVillageReinforcements();
