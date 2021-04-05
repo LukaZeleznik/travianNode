@@ -71,8 +71,8 @@
                     </table>
                 </div>
                 <h4 class="mt-1">
-                    <span style="float: left;padding-right: 20px;padding-left: 10px;cursor: pointer;white-space: nowrap;" v-on:click="deleteReport(reportData['_id'])" class="bi bi-trash" title="Delete report"></span>
-                    <span style="float: left;cursor: pointer;white-space: nowrap;" class="bi bi-envelope" v-on:click="changeReadFlag(false)" title="Mark report as unread" data-toggle="collapse" :data-target="'#collapse'+reportDataIndex"></span>
+                    <span style="float: left;padding-right: 20px;padding-left: 10px;cursor: pointer;white-space: nowrap;" v-on:click="deleteReport(reportData['_id'])" class="bi bi-trash" v-tooltip="{ content: 'Delete', delay: { show: 500, hide: 300 }}"></span>
+                    <span style="float: left;cursor: pointer;white-space: nowrap;" class="bi bi-envelope" v-on:click="changeReadFlag(false)" v-tooltip="{ content: 'Mark as unread', delay: { show: 500, hide: 300 }}" data-toggle="collapse" :data-target="'#collapse'+reportDataIndex"></span>
                 </h4>
             </div>
         </div>
