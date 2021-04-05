@@ -22,20 +22,12 @@
                                 <li class="hex" v-for="index in 22" :key="index">
                                     <div class=" " v-if="index == 1 || index == 5 || index == 19"></div>
                                     <div class="hexIn" v-else-if="index == 12">
-                                        <router-link class="hexLink" :to="{ name: 'village' }">
-                                            <div class='img' v-bind:style="'background-color: White'">
-                                                <p style="top:35%;opacity:1;color:black"></p>
-                                            </div>
-                                            <h1 id="demo1"></h1>
-                                            <p id="demo2"></p>
-                                        </router-link>
+                                        <div class="hexLink"></div>
                                     </div>
                                     <div class="hexIn" v-else>
                                         <div class="hexLink">
                                             <div class='img' v-bind:style="'background-color:' + fieldsColors[realIndexes[index]-1]">
                                             </div>
-                                            <h1 id="demo1"></h1>
-                                            <p id="demo2"></p>
                                         </div>
                                     </div>
                                 </li>
@@ -45,8 +37,10 @@
                 </div>
                 <div class="col-md-4 text-center mb-3 rightSide">
                     <div>
+                        <img v-if="villageData['owner']" style="width: 5rem;height: 5rem;" class="mt-5" src="/images/map/village.png">
+                        <img v-else style="width: 5rem;height: 5rem; opacity: 1;" class="mt-5" src="/images/map/trees.svg">
                         <div class="h3 mt-3 text-center" v-if="villageData">
-                            <span v-if="villageData.name">{{ villageData.name }}</span> 
+                            <span v-if="villageData['owner']">{{ villageData.name }}</span> 
                             <span v-else>Abandoned valley</span>
                             ({{ villageData.xCoordinate }}|{{ villageData.yCoordinate }})
                         </div>
