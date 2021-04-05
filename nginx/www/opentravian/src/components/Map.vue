@@ -12,12 +12,16 @@
                         <p class="h2 text-center"></p>
                         <div class="grid">
                             <ul id="hexGrid" style="padding-left: 0px;">
-                                <!-- Row 1 -->
-                                <li class="hex hexMap" v-for="(mapTile, index) in mapTiles" :key="index">
-                                    <div class="hexIn" v-if="tileData[index]">
+                                <li class="hex hexMap" v-for="(tile, index) in tileData" :key="index">
+                                    <div class="hexIn" v-tooltip="{ 
+                                            content: tooltipData(tile),
+                                            delay: {
+                                                show: 500,
+                                                hide: 300,
+                                            }}">
                                         <router-link class="hexLink" :to="{ path: '/map/' + (index+1) }">
-                                            <div class='img' v-bind:style="tileData[index]['owner'] != '' ? 'background-color: orange' : 'background-color: green'">
-                                                <p style="top:35%;opacity:1;color:black">{{ mapTiles[index] }}</p>
+                                            <div class='img' v-bind:style="getTileColour(tile)">
+                                                <p style="top:35%;opacity:1;color:black">{{ tile['xCoordinate'] }},{{ tile['yCoordinate'] }}</p>
                                             </div>
                                             <h1 id="demo1"></h1>
                                             <p id="demo2"></p>
@@ -39,11 +43,9 @@
 import { fetchMixins } from '@/mixins/fetchMixins'
 import { toolsMixins } from '@/mixins/toolsMixins'
 
-
 export default {
     data() {
         return {
-            mapTiles: ["-5,4","-4,4","-3,4","-2,4","-1,4","0,4","1,4","2,4","3,4","4,4","5,4","-5,3","-4,3","-3,3","-2,3","-1,3","0,3","1,3","2,3","3,3","4,3","-5,2","-4,2","-3,2","-2,2","-1,2","0,2","1,2","2,2","3,2","4,2","5,2","-5,1","-4,1","-3,1","-2,1","-1,1","0,1","1,1","2,1","3,1","4,1","-5,0","-4,0","-3,0","-2,0","-1,0","0,0","1,0","2,0","3,0","4,0","5,0","-5,-1","-4,-1","-3,-1","-2,-1","-1,-1","0,-1","1,-1","2,-1","3,-1","4,-1","-5,-2","-4,-2","-3,-2","-2,-2","-1,-2","0,-2","1,-2","2,-2","3,-2","4,-2","5,-2","-5,-3","-4,-3","-3,-3","-2,-3","-1,-3","0,-3","1,-3","2,-3","3,-3","4,-3","-5,-4","-4,-4","-3,-4","-2,-4","-1,-4","0,-4","1,-4","2,-4","3,-4","4,-4","5,-4"],
             tileData: [],
         };
     },
@@ -57,41 +59,29 @@ export default {
     methods: {
         loadMethods(){
             if(this.checkIfLoggedIn(true)){
-                //this.loadMapTiles();
                 this.loadTileData();
-                this.defaulTileData();
                 this.fetchReportNotifications();
             }
         },
-        defaulTileData(){
-            for(let l = 1; l < 96; l++){
-                this.tileData.push({
-                    "owner": ''
-                })
-            }
-        },
-        /*
-        loadMapTiles(){
-            let testTiles = [];
-            let width = 11;
-            let height = 9;
-            let increment = 0;
-
-            for(let y = 0; y < height; y++){
-                testTiles[y] = [];
-                for(let x = 0; x < width; x++){
-                    if (y % 2 && x == width-1) break;
-                    testTiles[y][x] = (x - Math.floor(width/2)) + ", " + -(y - Math.floor(height/2));
-                    this.mapTiles[increment] = testTiles[y][x];
-                    increment++;
-                }
-            }
-            console.log(this.mapTiles);
-            this.loadTileData();
-        },*/
         async loadTileData(){
             this.tileData = await(await(await this.doApiRequest("villages","GET","",false)).json()).data;
+        },
+        getTileColour(tile){
+            const userId = this.getCookie('userId');
+            let style = 'background-color:';
+
+            if (tile['owner']=='') return style += 'green';
+            if (tile['owner']==userId) {
+                return style += 'CornflowerBlue';
+            } else {
+                return style += 'orange';
+            }
+        },
+        tooltipData(tile){
+            if (tile['name']=='') return 'Abandoned valley';
+            return tile['name'];
         }
+        
     }
 }
 

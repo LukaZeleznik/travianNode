@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
+import VTooltip from 'v-tooltip'
 import './registerServiceWorker'
 
 import Register from './components/Register.vue';
@@ -66,6 +67,7 @@ Vue.component('report', require('./components/Report.vue').default);
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
+Vue.use(VTooltip);
 
 const router = new VueRouter({
     mode: 'history',
@@ -525,7 +527,6 @@ const store = new Vuex.Store({
                 .then(res => res.json())
                 .then(res => {
                     let userReports = res.data;
-                    console.log(res.data);
                     context.commit('setUserReports', userReports);
                 })
                 .catch(err => console.log(err));

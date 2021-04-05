@@ -465,8 +465,9 @@ async function calculateBounty(idVillageTo, attackersTroopsAfter, tribe){
             maxBounty += attackersTroopsAfter[i] * tools.troopInfoLookup[tribe][i]['capacity'];
         }        
     }
-    
+
     let bountyTotal = {};
+    if (maxBounty==0) return bountyTotal;
 
     bounty['wood'] = bounty['clay'] = bounty['iron'] = bounty['crop'] = maxBounty;
     bountyTotal['wood'] = bountyTotal['clay'] = bountyTotal['iron'] = bountyTotal['crop'] = 0;
