@@ -35,7 +35,9 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="row justify-content-center">
+            </div>
+            <div class="table-responsive col-lg-10 col-md-12 card mt-3 p-3">
+                <div class="row justify-content-left ml-1">
                     <div class="">
                         <div v-if="villageData['owner'] == ''" class="form-check">
                             <input class="form-check-input" type="radio" id="sendTroopsSettle" name="attackType" value="settle" :disabled="villageData['owner'] == ''">
@@ -64,7 +66,7 @@
                     </div>
                 </div>
             </div>
-            <div class="btn-group col-lg-10 col-md-12 px-0" role="group" aria-label="SendTroops">
+            <div class="btn-group col-lg-10 col-md-12 px-0 mt-1" role="group" aria-label="SendTroops">
                 <button type="button" class="btn btn-success" id="sendType" @click="sendTroops()">Send</button>
             </div>
         </div>

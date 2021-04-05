@@ -28,7 +28,6 @@ import { toolsMixins } from '@/mixins/toolsMixins'
 export default {
     data() {
         return {
-            userReports: []
         };
     },
 

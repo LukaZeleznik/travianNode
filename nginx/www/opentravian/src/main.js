@@ -508,7 +508,7 @@ const store = new Vuex.Store({
             await fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/researchesCompleted/' + context.getters.getActiveVillageId, {credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
-                    let researchesCompleted = res.data;
+                    const researchesCompleted = res.data;
                     context.commit('setResearchesCompleted', researchesCompleted);
                 })
                 .catch(err => console.log(err));
@@ -517,7 +517,7 @@ const store = new Vuex.Store({
             await fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/researches/' + context.getters.getActiveVillageId, {credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
-                    let researches = res.data;
+                    const researches = res.data;
                     context.commit('setResearches', researches);
                 })
                 .catch(err => console.log(err));
@@ -526,7 +526,7 @@ const store = new Vuex.Store({
             await fetch('http://' + process.env.VUE_APP_BASE_URL + '/api/reports/' + getCookie('userId'), {credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
-                    let userReports = res.data;
+                    const userReports = res.data;
                     context.commit('setUserReports', userReports);
                 })
                 .catch(err => console.log(err));
@@ -535,7 +535,7 @@ const store = new Vuex.Store({
             await fetch('http://' + process.env.VUE_APP_BASE_URL + '/api/reports/' + getCookie('userId') + "/" + 0, {credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
-                    let reportNotifications = res.data.length;
+                    const reportNotifications = res.data.length;
                     context.commit('setReportNotifications', reportNotifications);
                 })
                 .catch(err => console.log(err));
