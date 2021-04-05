@@ -7,7 +7,7 @@
         </button>
     </h2>
     </div>
-    <div :id="'collapse'+reportDataIndex" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+    <div v-if="reportData.type=='reinf' || reportData.type=='attack'" :id="'collapse'+reportDataIndex" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
         <div class="container">
             <div class="row">
                 <div class="table-responsive">
@@ -66,6 +66,34 @@
                             <tr>
                                 <th scope="col" class="text-center">Survived</th>
                                 <td class="text-center" v-bind:style="reportData['defTroop'+index]-reportData['defTroop'+index+'Casualty']>0 ? '' : 'color: lightgrey;'" v-for="index in 10" :key="index">{{ reportData["defTroop"+index]-reportData["defTroop"+index+"Casualty"] }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h4 class="mt-1">
+                    <span style="float: left;padding-right: 20px;padding-left: 10px;cursor: pointer;white-space: nowrap;" v-on:click="deleteReport(reportData['_id'],reportDataIndex)" class="bi bi-trash" v-tooltip="{ content: 'Delete', delay: { show: 500, hide: 300 }}"></span>
+                    <span style="float: left;cursor: pointer;white-space: nowrap;" class="bi bi-envelope" v-on:click="changeReadFlag(false)" v-tooltip="{ content: 'Mark as unread', delay: { show: 500, hide: 300 }}" data-toggle="collapse" :data-target="'#collapse'+reportDataIndex"></span>
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div v-else :id="'collapse'+reportDataIndex" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+        <div class="container">
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-bordered" aria-describedby="report">
+                        <tbody>
+                            <tr>
+                                <th scope="col" class="text-center">Sender</th>
+                                <th scope="col" colspan="10" class="text-center"><router-link :to="'/profile/'+ villageDataAttacker.owner" v-bind:class="'text-success'">{{userDataAttacker.nickname}}</router-link> from the village <router-link :to="'/map/'+ villageDataAttacker.mapTileId" v-bind:class="'text-success'">{{villageDataAttacker.name}}</router-link></th>
+                            </tr>
+                            <tr>
+                                <th scope="col" class="text-center"></th>
+                                <th scope="col" class="text-center" v-for="resource in ['Wood','Clay','Iron','Crop']" :key="resource"><img :src="'/images/resources/'+resource.toLowerCase()+'.gif'" :alt="index" /></th>
+                            </tr>
+                            <tr>
+                                <th scope="col" class="text-center">Resources</th>
+                                <td class="text-center" v-for="resource in ['Wood','Clay','Iron','Crop']" :key="resource">{{ reportData['bounty'+resource] }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -137,8 +165,9 @@ export default {
         },
         reportTypeStr(type){
             switch (type) {
-                case "attack":  return "attacked";
-                case "reinf":   return "reinforced";
+                case "attack":          return "attacked";
+                case "reinf":           return "reinforced";
+                case "sendResources":   return "sent resources to"
                 default:
                     break;
             }

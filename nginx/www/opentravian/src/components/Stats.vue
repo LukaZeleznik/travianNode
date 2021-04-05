@@ -4,10 +4,11 @@
             <table class="table table-striped table-hover table-bordered border-dark">
                 <thead>
                 <tr>
-                    <th scope="col">Rank</th>
+                    <th scope="col"></th>
                     <th scope="col">Username</th>
-                    <th scope="col">Villages</th>
+                    <th scope="col">Clan</th>
                     <th scope="col">Population</th>
+                    <th scope="col">Villages</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -21,8 +22,9 @@
                                         </template>
                                 </router-link>
                         </td>
-                        <td>{{ user['villages'] }}</td>
-                        <td>{{ user['population'] }}</td>
+                        <td>-</td>
+                        <td style="text-align: center;">{{ user['population'] }}</td>
+                        <td style="text-align: center;">{{ user['villages'] }}</td>
                     </tr>
                 </tbody>
 

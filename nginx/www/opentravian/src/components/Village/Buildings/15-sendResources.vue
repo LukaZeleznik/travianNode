@@ -212,25 +212,25 @@ export default {
             }
         },
         startCountdownIntervals(){
-            var outgoingIntervals = setInterval( ()=> {
+            setInterval( ()=> {
                 for(let i = 0; i < this.villageOutgoingResourcesTimeLeft.length; i++){
                     this.$set(this.villageOutgoingResourcesTimeLeft, i, this.villageOutgoingResourcesTimeLeft[i] - 1);
                     if(this.villageOutgoingResourcesTimeLeft[i] <= 0){
                         this.fetchVillageResources();
                         this.fetchVillageResourceMovements();
                         this.getMerchantAvailability();
-                        clearInterval(outgoingIntervals);
+                        this.fetchReportNotifications();
                     }
                 }
             }, 1000);
-            var incomingIntervals = setInterval ( ()=> {
+            setInterval ( ()=> {
                 for(let i = 0; i < this.villageIncomingResourcesTimeLeft.length; i++){
                     this.$set(this.villageIncomingResourcesTimeLeft, i, this.villageIncomingResourcesTimeLeft[i] - 1);
                     if(this.villageIncomingResourcesTimeLeft[i] <= 0){
                         this.fetchVillageResources();
                         this.fetchVillageResourceMovements();
                         this.getMerchantAvailability();
-                        clearInterval(incomingIntervals);
+                        this.fetchReportNotifications();
                     }
                 }
             }, 1000);
