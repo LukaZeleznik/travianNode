@@ -2,7 +2,7 @@
 <div class="card">
     <div class="card-header" :id="'heading'+reportDataIndex">
     <h2 class="mb-0">
-        <button class="btn btn-link collapsed d-block m-auto text-success" v-bind:style="reportData.readFlag>0 ? '' : 'font-weight: bold;' " v-on:click="markAsRead()" type="button" data-toggle="collapse" :data-target="'#collapse'+reportDataIndex" aria-expanded="false" aria-controls="collapseTwo">
+        <button class="btn btn-link collapsed d-block m-auto text-success" v-bind:style="reportData.readFlag>0 ? '' : 'font-weight: bold;' " v-on:click="changeReadFlag(true)" type="button" data-toggle="collapse" :data-target="'#collapse'+reportDataIndex" aria-expanded="false" aria-controls="collapseTwo">
             <img style="width: 1rem;height: 1rem;" :src="'/images/reports/' + reportData.type + '.gif'"> {{villageDataAttacker.name}} {{reportTypeStr(reportData.type)}} {{villageDataDefender.name}} ({{date}} at {{time}})
         </button>
     </h2>
@@ -69,11 +69,11 @@
                             </tr>
                         </tbody>
                     </table>
-                    <h4 class="mt-1">
-                        <span style="float: right; padding-left: 2%; cursor: pointer;" v-on:click="deleteReport(reportData['_id'])" class="bi bi-trash"></span>
-                        <span style="float: right; padding-left: 2%; cursor: pointer;" class="bi bi-envelope"></span>
-                    </h4>
                 </div>
+                <h4 class="mt-1">
+                    <span style="float: left;padding-right: 20px;padding-left: 10px;cursor: pointer;white-space: nowrap;" v-on:click="deleteReport(reportData['_id'])" class="bi bi-trash" title="Delete report"></span>
+                    <span style="float: left;cursor: pointer;white-space: nowrap;" class="bi bi-envelope" v-on:click="changeReadFlag(false)" title="Mark report as unread" data-toggle="collapse" :data-target="'#collapse'+reportDataIndex"></span>
+                </h4>
             </div>
         </div>
     </div>
@@ -142,8 +142,8 @@ export default {
                     break;
             }
         },
-        async markAsRead(){
-            this.reportData['readFlag'] = true;
+        async changeReadFlag(readFlag){
+            this.reportData['readFlag'] = readFlag;
             await this.doApiRequest('reports/' + this.reportData._id, 'PATCH', this.reportData, true);
             this.fetchReportNotifications();
         },
