@@ -53,8 +53,12 @@
                         </div>
                     </div>
                     <div class="mt-3" v-if="villageData['_id'] != activeVillageId">
-                            <router-link v-if="villageData['owner'] == '' && canSettle || villageData['owner'] != ''" class="btn btn-success" :to="{ path: '/sendTroops/' + $route.params.tileid }">Send troops</router-link>
-                            <button v-else class="btn btn-secondary" style="cursor: default">No available units</button>
+                        <router-link v-if="villageData['owner'] == '' && canSettle || villageData['owner'] != ''" class="btn btn-success" :to="{ path: '/sendTroops/' + $route.params.tileid }">Send troops</router-link>
+                        <button v-else class="btn btn-secondary" style="cursor: default">No available units</button>
+                    </div>
+                    <div class="mt-3" v-if="villageData['_id'] != activeVillageId && villageData['owner'] != ''">
+                        <router-link v-if="canSendResources" class="btn btn-success" :to="{ path: '/villageBuilding/'+marketplaceFieldId, query: { xCoordinate: villageData['xCoordinate'], yCoordinate: villageData['yCoordinate']}}">Send resources</router-link>
+                        <button v-else class="btn btn-secondary" style="cursor: default">Missing Marketplace</button>
                     </div>
                 </div>
             </div>
@@ -77,6 +81,8 @@ import { toolsMixins } from '@/mixins/toolsMixins'
                 villageData: [],
                 fieldDistribution: [0,0,0,0],
                 canSettle: false,
+                canSendResources: false,
+                marketplaceFieldId: 0,
             };
         },
 
@@ -89,6 +95,7 @@ import { toolsMixins } from '@/mixins/toolsMixins'
         created(){
             this.getFieldData();
             this.fetchVillageOwnTroops();
+            this.hasMarketplace();
         },
         methods: {
             async getFieldData(){
@@ -116,12 +123,21 @@ import { toolsMixins } from '@/mixins/toolsMixins'
                     this.userData = await(await(await this.doApiRequest("users/" + this.villageData.owner,"GET","",false)).json()).data;
                 }
             },  
-            async hasSettlers(){
-                console.log(this.villageOwnTroops);
-                const settlers = this.villageOwnTroops[9];
-                console.log("settlers", settlers);
-                this.canSettle = settlers >= 3 ? true : false;
-            }
+            hasSettlers(){
+                this.canSettle = this.villageOwnTroops[9] >= 3 ? true : false;
+            },
+            async hasMarketplace(){
+                const villageBuildingFields = await(await(await this.doApiRequest("villageBuildingFields/" + this.activeVillageId, "GET", "", false)).json()).data;
+                for(let i = 1; i <= Object.keys(villageBuildingFields).length; i++){
+                    if(villageBuildingFields['field'+i+'Type'] == 15){ //Marketplace
+                        if (villageBuildingFields['field'+i+'Level']>0) {
+                            this.marketplaceFieldId = i;
+                            this.canSendResources = true;
+                        }
+                        break;
+                    }
+                }
+            },
         }
 
     }

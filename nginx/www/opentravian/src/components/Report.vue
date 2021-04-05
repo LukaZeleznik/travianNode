@@ -89,7 +89,7 @@
                             </tr>
                             <tr>
                                 <th scope="col" class="text-center"></th>
-                                <th scope="col" class="text-center" v-for="resource in ['Wood','Clay','Iron','Crop']" :key="resource"><img :src="'/images/resources/'+resource.toLowerCase()+'.gif'" :alt="index" /></th>
+                                <th scope="col" class="text-center" v-for="resource in ['Wood','Clay','Iron','Crop']" :key="resource"><img :src="'/images/resources/'+resource.toLowerCase()+'.gif'" :alt="resource" /></th>
                             </tr>
                             <tr>
                                 <th scope="col" class="text-center">Resources</th>
@@ -133,7 +133,6 @@ export default {
     created() {
         this.getVillageAndOwnerData();
         this.getDateTime();
-        this.updateAccordion(1);
     },
 
     methods: {
@@ -149,7 +148,7 @@ export default {
 
             if (currentDate.getDate()==date.getDate() && currentDate.getMonth()==date.getMonth() && currentDate.getFullYear()==date.getFullYear()) {
                 this.date = "Today";
-            } else if (currentDate.getDate()+1==date.getDate() && currentDate.getMonth()==date.getMonth() && currentDate.getFullYear()==date.getFullYear()) {
+            } else if (currentDate.getDate()-1==date.getDate() && currentDate.getMonth()==date.getMonth() && currentDate.getFullYear()==date.getFullYear()) {
                 this.date = "Yesterday";
             } else {
                 let dd = String(date.getDate()).padStart(2, '0');

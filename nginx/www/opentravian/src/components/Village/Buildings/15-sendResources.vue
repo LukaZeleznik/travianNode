@@ -11,7 +11,7 @@
                 </div>
                 <div class="col-1"></div>
                 <div class="col-1">X:</div>
-                <div class="col-2"><input type="number" class="form-control mr-2" min="0" aria-label="Small" id="xCoordinate" aria-describedby="inputGroup-sizing-sm"></div>
+                <div class="col-2"><input type="number" class="form-control mr-2" min="0" aria-label="Small" id="xCoordinate" aria-describedby="inputGroup-sizing-sm" :value="$route.query.xCoordinate"></div>
                 <div class="col-5"></div>
             </div>
             <div class="row mb-2">
@@ -24,7 +24,7 @@
                 </div>
                 <div class="col-1"></div>
                 <div class="col-1">Y:</div>
-                <div class="col-2"><input type="number" class="form-control mr-2" min="0" aria-label="Small" id="yCoordinate" aria-describedby="inputGroup-sizing-sm"></div>
+                <div class="col-2"><input type="number" class="form-control mr-2" min="0" aria-label="Small" id="yCoordinate" aria-describedby="inputGroup-sizing-sm" :value="$route.query.yCoordinate"></div>
                 <div class="col-3">Merchants: {{ merchantsAvailable + " / " + merchantsTotal }}</div>
                 <div class="col-3"></div>
             </div>
@@ -242,6 +242,8 @@ export default {
             document.getElementById("resource1").value = "";
             document.getElementById("resource2").value = "";
             document.getElementById("resource3").value = "";
+            this.$route.query.xCoordinate = "";
+            this.$route.query.yCoordinate = "";
         },
         async getMerchantAvailability(){
             this.merchantsAvailable = await(await(await this.doApiRequest("villages/" + this.activeVillageId, "GET", "", false)).json()).data.merchantsAvailable;

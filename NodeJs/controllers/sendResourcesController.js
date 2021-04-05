@@ -112,7 +112,21 @@ function calculateMerchantArrival(idVillageToData, idVillageFromData, userTribe)
     return Number((distance / merchantSpeed * 3600) / config.MERCHANT_SPEED)
 };
 
+async function hasMarketplace(idVillageFrom){
+    const villageBuildingFields = await(await(await tools.doApiRequest("villageBuildingFields/" + idVillageFrom, "GET", "", false)).json()).data;
+    for(let i = 1; i <= Object.keys(villageBuildingFields).length; i++){
+        if(villageBuildingFields['field'+i+'Type'] == 15){ //Marketplace
+            if (villageBuildingFields['field'+i+'Level']>0) return true;
+            break;
+        }
+    }
+    return false;
+}
+
 async function DoSendResources(req, res){
+
+    if (!await hasMarketplace(req.body.idVillageFrom)) return;
+
     const currentUnixTime = Math.round(new Date().getTime()/1000);
     const userTribe = await tools.getTribeFromIdVillage(req.body.idVillageFrom);
     const villageToData = await tools.getVillageData(req.body.idVillageTo);

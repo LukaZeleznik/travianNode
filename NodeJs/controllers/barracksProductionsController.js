@@ -29,10 +29,10 @@ exports.new = async function (req, res) {
     
     const currentUnixTime = Math.round(new Date().getTime()/1000);
 
-    const villageResources =          await(await(await tools.doApiRequest("villageResources/" + idVillage, "GET", "", false)).json()).data;
-    const villageBuildingFields =   await(await(await tools.doApiRequest("villageBuildingFields/" + idVillage, "GET", "", false)).json()).data;
-    const barracksProduction =      await(await(await tools.doApiRequest("barracksProductions/" + idVillage, "GET", "", false)).json()).data;
-    const researchesCompleted =     await(await(await tools.doApiRequest("researchesCompleted/" + idVillage, "GET", "", false)).json()).data;
+    const villageResources      = await(await(await tools.doApiRequest("villageResources/" + idVillage, "GET", "", false)).json()).data;
+    const villageBuildingFields = await(await(await tools.doApiRequest("villageBuildingFields/" + idVillage, "GET", "", false)).json()).data;
+    const barracksProduction    = await(await(await tools.doApiRequest("barracksProductions/" + idVillage, "GET", "", false)).json()).data;
+    const researchesCompleted   = await(await(await tools.doApiRequest("researchesCompleted/" + idVillage, "GET", "", false)).json()).data;
 
     let villageBuildingLevel = 0;
     for(let i = 1; i <= Object.keys(villageBuildingFields).length; i++){
