@@ -8,7 +8,7 @@ module.exports = {
         if (req.user._id == village.owner || req.user.email == "admin@test.com"){
             return next();
         } else{
-            res.json({
+            res.status(403).json({
                 message: 'Authentication failed',
                 data: ""
             });
@@ -19,10 +19,12 @@ module.exports = {
         if (req.user.email == "admin@test.com") return next();
         let villageBuildingUpgrade = await(await(await tools.doApiRequest("villageBuildingUpgrade/" + req.params.upgradeId, "GET", "", false)).json()).data;    
         let village = await(await(await tools.doApiRequest("villages/" + villageBuildingUpgrade.idVillage, "GET", "", false)).json()).data;
+        console.log("req.user._id", req.user._id);
+        console.log("village.owner", village.owner);
         if (req.user._id == village.owner || req.user.email == "admin@test.com"){
             return next();
         } else{
-            res.json({
+            res.status(403).json({
                 message: 'Authentication failed',
                 data: ""
             });
@@ -36,7 +38,7 @@ module.exports = {
         if (req.user._id == village.owner || req.user.email == "admin@test.com"){
             return next();
         } else{
-            res.json({
+            res.status(403).json({
                 message: 'Authentication failed',
                 data: ""
             });

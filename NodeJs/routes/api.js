@@ -331,9 +331,9 @@ function authenticate(req, res, next){
             req.user = user;
             return next();
         } else {
-            console.log(req,res)
+            console.log(req, res)
             console.log("UNAUTHORIZED - JWT INVALID");
-            res.json({
+            res.status(401).json({
                 message:'Unauthorized',
                 data:""
             });

@@ -53,7 +53,7 @@ export const toolsMixins = {
                     body: JSON.stringify(data),
                 });
             } else {
-                response = await fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/' + path, { method: method });
+                response = await fetch('http://' + process.env.VUE_APP_BASE_URL + ':8080/api/' + path, { method: method, credentials: 'include' });
             }
             return response;
         },
