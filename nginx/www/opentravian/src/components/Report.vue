@@ -147,11 +147,15 @@ export default {
             await this.doApiRequest('reports/' + this.reportData._id, 'PATCH', this.reportData, true);
             this.fetchReportNotifications();
         },
-        async deleteReport(report) {
-            const deleteReport = await(await this.doApiRequest("reports/" + report, "DELETE", "", false)).json();
+        async deleteReport(reportId) {
+            console.log("report._id", reportId)
+            const deleteReport = await(await this.doApiRequest("reports/" + reportId, "DELETE", "", false)).json();
 
             if(deleteReport.status == "success"){
                 this.fetchUserReports();
+                this.fetchReportNotifications();
+                this.getVillageAndOwnerData();
+                this.getDateTime();
             }
         }
     }

@@ -45,4 +45,20 @@ module.exports = {
             return;
         }
     },
+    checkReportId: async function(req, res, next) {
+        if (req.user.email == "admin@test.com") return next();
+        let report = await(await(await tools.doApiRequest("reports/id/" + req.params.reportId, "GET", "", false)).json()).data;
+        let villageSender = await(await(await tools.doApiRequest("villages/" + report.idVillageSender, "GET", "", false)).json()).data;
+        let villageReceiver = await(await(await tools.doApiRequest("villages/" + report.idVillageReceiver, "GET", "", false)).json()).data;
+        
+        if (req.user._id == villageSender.owner || req.user._id == villageReceiver.owner || req.user.email == "admin@test.com"){
+            return next();
+        } else{
+            res.status(403).json({
+                message: 'Authentication failed',
+                data: ""
+            });
+            return;
+        }
+    },
 };

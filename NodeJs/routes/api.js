@@ -316,12 +316,14 @@ router.route('/reports')
     .post(reportsController.new);
 router.route('/reports/:mailboxUserId')
     .get((req,res,next)     => authenticate(req,res,next), authTools.checkIdVillage, reportsController.view)
+router.route('/reports/id/:reportId')
+    .get((req,res,next)     => authenticate(req,res,next), authTools.checkIdVillage, reportsController.findOne)
 router.route('/reports/:mailboxUserId/:readFlag')
     .get((req,res,next)     => authenticate(req,res,next), authTools.checkIdVillage, reportsController.viewByReadFlag)
 router.route('/reports/:reportId')
-    .put((req,res,next)     => authenticate(req,res,next), authTools.checkIdVillage, reportsController.update)
-    .patch((req,res,next)   => authenticate(req,res,next), authTools.checkIdVillage, reportsController.update)
-    .delete((req,res,next)  => authenticate(req,res,next), authTools.checkIdVillage, reportsController.delete);
+    .put((req,res,next)     => authenticate(req,res,next), authTools.checkReportId, reportsController.update)
+    .patch((req,res,next)   => authenticate(req,res,next), authTools.checkReportId, reportsController.update)
+    .delete((req,res,next)  => authenticate(req,res,next), authTools.checkReportId, reportsController.delete);
 
 module.exports = router;
 

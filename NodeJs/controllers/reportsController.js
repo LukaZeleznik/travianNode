@@ -35,6 +35,20 @@ exports.viewByReadFlag = function (req, res) {
     }).sort({createdAt:-1});
 };
 
+exports.findOne = function (req, res) {
+    reportsModel.findOne({_id: req.params.reportId}, function (err, report) {
+        if (err){
+            res.status(500).json(err);
+            console.log(err);
+            return;
+        }
+        res.json({
+            message: 'Loading reports data..',
+            data: report
+        });
+    }).sort({createdAt:-1});
+};
+
 // Handle create reports actions
 exports.new = function (req, res) {
     var reports = new reportsModel();
@@ -122,7 +136,7 @@ exports.update = function (req, res) {
 };
 
 exports.delete = function (req, res) {
-    reportsModel.deleteOne({reportId: req.params.reportId}, function (err, reports) {
+    reportsModel.deleteOne({_id: req.params.reportId}, function (err, report) {
         if (err){
             res.status(500).json(err);
             console.log(err);
@@ -130,7 +144,8 @@ exports.delete = function (req, res) {
         }
         res.json({
             status: "success",
-            message: 'reports deleted'
+            message: 'report deleted',
+            data: report
         });
     });
 };
