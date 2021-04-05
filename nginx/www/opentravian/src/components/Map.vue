@@ -22,7 +22,7 @@
                                         <router-link class="hexLink" :to="{ path: '/map/' + (index+1) }">
                                             <div class='img' v-bind:style="getTileColour(tile)">
                                                 <img v-if="tile['owner']" style="width: 2.5rem;height: 2.5rem;" class="mt-4" src="/images/map/village.png">
-                                                <img v-else style="width: 2rem;height: 2rem; opacity: .5;" class="mt-4" src="/images/map/trees.svg">
+                                                <img v-else style="width: 2rem;height: 2rem; opacity: .2;" class="mt-4" src="/images/map/trees.svg">
                                             </div>
                                             <h1 id="demo1"></h1>
                                             <p id="demo2"></p>
