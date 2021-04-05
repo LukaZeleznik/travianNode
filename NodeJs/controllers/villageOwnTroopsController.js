@@ -20,12 +20,18 @@ exports.view = function (req, res) {
             doProcessTroopProductions(stableProductions, villageOwnTroops, 'stableProductions');
 
             for(let troop of tools.troopInfoLookup[userTribe]){
-                villageOwnTroops['troop' + troop['id']] = Math.floor(villageOwnTroops['troop' + troop['id']].toFixed(2));
+                villageOwnTroops['troop' + troop['id']] = villageOwnTroops['troop' + troop['id']].toFixed(2);
             }
 
             villageOwnTroops.save(function (err) {
-                if (err)
-                    res.json(err);
+                if (err){
+                    res.status(500).json(err);
+                    return;
+                }
+                //Return floored values of troops
+                for(let troop of tools.troopInfoLookup[userTribe]){
+                    villageOwnTroops['troop' + troop['id']] = Math.floor(villageOwnTroops['troop' + troop['id']].toFixed(2));
+                }
                 res.json({
                     message: 'villageOwnTroops Info updated',
                     data: villageOwnTroops
@@ -118,7 +124,9 @@ function doProcessTroopProductions(productions, villageOwnTroops, path){
         let troopsProduced = timeDiff / production.troopProdTime;
         let troopsProducedAlready = timeDiffFromStart / production.troopProdTime;
 
-        if(troopsProduced+production.troopsDoneAlready >= production.troopCount){
+        console.log("troopsProduced", troopsProduced)
+
+        if(troopsProduced + production.troopsDoneAlready >= production.troopCount){
 
             villageOwnTroops["troop"+production.troopId] += production.troopCount - production.troopsDoneAlready;
             villageOwnTroops["troop"+production.troopId] = Number(villageOwnTroops["troop"+production.troopId].toFixed(0));
@@ -128,11 +136,10 @@ function doProcessTroopProductions(productions, villageOwnTroops, path){
             villageOwnTroops["troop"+production.troopId] += troopsProduced;
             if(troopsProducedAlready < 0) troopsProducedAlready = 0;
             production.troopsDoneAlready = troopsProducedAlready;
-
             production.lastUpdate = currentUnixTime;
 
             await tools.doApiRequest(path + "/" + production._id, "PATCH", production, true);
         }
-        villageOwnTroops["troop"+production.troopId] = Number(villageOwnTroops["troop"+production.troopId].toFixed(2));
+        villageOwnTroops["troop"+production.troopId] = villageOwnTroops["troop"+production.troopId].toFixed(2);
     });
 }
