@@ -152,7 +152,7 @@ exports.update = function (req, res) {
 };
 
 exports.delete = function (req, res) {
-    stableProductionsModel.remove({_id: req.params.stableProdId}, function (err, stableProductions) {
+    stableProductionsModel.deleteOne({_id: req.params.stableProdId}, function (err, stableProductions) {
         if (err){
             res.status(500).json(err);
             console.log(err);

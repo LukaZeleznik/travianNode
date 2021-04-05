@@ -106,7 +106,7 @@ exports.update = function (req, res) {
 };
 
 exports.delete = function (req, res) {
-    villageMaxResourcesModel.remove({idVillage: req.params.idVillage}, function (err, villageMaxResources) {
+    villageMaxResourcesModel.deleteOne({idVillage: req.params.idVillage}, function (err, villageMaxResources) {
         if (err){
             res.status(500).json(err);
             console.log(err);

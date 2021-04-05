@@ -154,7 +154,7 @@ exports.update = function (req, res) {
 };
 
 exports.delete = function (req, res) {
-    barracksProductionsModel.remove({_id: req.params.barrProdId}, function (err, barracksProductions) {
+    barracksProductionsModel.deleteOne({_id: req.params.barrProdId}, function (err, barracksProductions) {
         if (err){
             res.status(500).json(err);
             console.log(err);

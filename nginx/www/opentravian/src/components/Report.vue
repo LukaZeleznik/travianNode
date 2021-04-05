@@ -69,6 +69,10 @@
                             </tr>
                         </tbody>
                     </table>
+                    <h4 class="mt-1">
+                        <span style="float: right; padding-left: 2%; cursor: pointer;" v-on:click="deleteReport(reportData['_id'])" class="bi bi-trash"></span>
+                        <span style="float: right; padding-left: 2%; cursor: pointer;" class="bi bi-envelope"></span>
+                    </h4>
                 </div>
             </div>
         </div>
@@ -142,6 +146,13 @@ export default {
             this.reportData['readFlag'] = true;
             await this.doApiRequest('reports/' + this.reportData._id, 'PATCH', this.reportData, true);
             this.fetchReportNotifications();
+        },
+        async deleteReport(report) {
+            const deleteReport = await(await this.doApiRequest("reports/" + report, "DELETE", "", false)).json();
+
+            if(deleteReport.status == "success"){
+                this.fetchUserReports();
+            }
         }
     }
 }

@@ -116,7 +116,7 @@ exports.update = function (req, res) {
 };
 
 exports.delete = function (req, res) {
-    villageProductionsModel.remove({idVillage: req.params.idVillage}, function (err, villageProductions) {
+    villageProductionsModel.deleteOne({idVillage: req.params.idVillage}, function (err, villageProductions) {
         if (err){
             res.status(500).json(err);
             console.log(err);

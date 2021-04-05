@@ -77,7 +77,7 @@ exports.new = function (req, res) {
 };
 
 exports.update = function (req, res) {
-    reportsModel.findOne({_id: req.params.idReport}, function (err, reports) {
+    reportsModel.findOne({_id: req.params.reportId}, function (err, reports) {
         if (err){
             res.status(500).json(err);
             console.log(err);
@@ -122,7 +122,7 @@ exports.update = function (req, res) {
 };
 
 exports.delete = function (req, res) {
-    reportsModel.remove({idReport: req.params.idReport}, function (err, reports) {
+    reportsModel.deleteOne({reportId: req.params.reportId}, function (err, reports) {
         if (err){
             res.status(500).json(err);
             console.log(err);

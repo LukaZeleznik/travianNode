@@ -318,7 +318,7 @@ router.route('/reports/:mailboxUserId')
     .get((req,res,next)     => authenticate(req,res,next), authTools.checkIdVillage, reportsController.view)
 router.route('/reports/:mailboxUserId/:readFlag')
     .get((req,res,next)     => authenticate(req,res,next), authTools.checkIdVillage, reportsController.viewByReadFlag)
-router.route('/reports/:idReport')
+router.route('/reports/:reportId')
     .put((req,res,next)     => authenticate(req,res,next), authTools.checkIdVillage, reportsController.update)
     .patch((req,res,next)   => authenticate(req,res,next), authTools.checkIdVillage, reportsController.update)
     .delete((req,res,next)  => authenticate(req,res,next), authTools.checkIdVillage, reportsController.delete);
@@ -331,6 +331,7 @@ function authenticate(req, res, next){
             req.user = user;
             return next();
         } else {
+            console.log(req,res)
             console.log("UNAUTHORIZED - JWT INVALID");
             res.json({
                 message:'Unauthorized',

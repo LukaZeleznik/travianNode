@@ -140,7 +140,7 @@ exports.update = function (req, res) {
 };
 
 exports.delete = function (req, res) {
-    villageModel.remove({mapTileId: req.params.mapTileId}, function (err, village) {
+    villageModel.deleteOne({mapTileId: req.params.mapTileId}, function (err, village) {
         if (err){
             res.status(500).json(err);
             console.log(err);

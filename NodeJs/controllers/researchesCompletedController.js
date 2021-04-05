@@ -80,7 +80,7 @@ exports.update = function (req, res) {
 };
 
 exports.delete = function (req, res) {
-    researchesCompletedModel.remove({idVillage: req.params.idVillage}, function (err, researchesCompleted) {
+    researchesCompletedModel.deleteOne({idVillage: req.params.idVillage}, function (err, researchesCompleted) {
         if (err){
             res.status(500).json(err);
             console.log(err);

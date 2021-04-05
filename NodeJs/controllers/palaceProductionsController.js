@@ -167,7 +167,7 @@ exports.update = function (req, res) {
 };
 
 exports.delete = function (req, res) {
-    palaceProductionsModel.remove({_id: req.params.palaceProdId}, function (err, palaceProductions) {
+    palaceProductionsModel.deleteOne({_id: req.params.palaceProdId}, function (err, palaceProductions) {
         if (err){
             res.status(500).json(err);
             console.log(err);

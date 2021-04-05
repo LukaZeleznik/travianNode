@@ -99,7 +99,7 @@ exports.update = function (req, res) {
 };
 
 exports.delete = function (req, res) {
-    villageReinforcementsModel.remove({_id: req.params.reinforcementId}, function (err, villageReinforcements) {
+    villageReinforcementsModel.deleteOne({_id: req.params.reinforcementId}, function (err, villageReinforcements) {
         if (err){
             res.status(500).json(err);
             console.log(err);
