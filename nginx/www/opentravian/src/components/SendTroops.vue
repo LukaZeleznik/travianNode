@@ -20,7 +20,7 @@
                         </tr>
                         <tr>
                             <td class="text-center" v-for="index in 5" v-bind:key="index">
-                                <input :disabled="villageData['owner'] == ''" type="number" class="form-control mr-2 text-center" min="0" aria-label="Small" :id="'troop' + index" aria-describedby="inputGroup-sizing-sm" value="0">
+                                <input :disabled="villageData['owner'] == ''" type="number" class="form-control mr-2 text-center" min="0" aria-label="Small" :id="'troop' + index" aria-describedby="inputGroup-sizing-sm">
                                 <div class="pt-1" @click="insertTroops(index);" href="#" style="color:green; cursor: pointer"><strong>(<span :id="'maxTroops' + index">{{ villageOwnTroops[index-1] }}</span>)</strong></div>
                             </td>
                         </tr>
@@ -29,7 +29,7 @@
                         </tr>
                         <tr>
                             <td class="text-center" v-for="index in 5" v-bind:key="index">
-                                <input :disabled="villageData['owner'] == ''" type="number" class="form-control mr-2 text-center" min="0" aria-label="Small" :id="'troop' + (index+5)" aria-describedby="inputGroup-sizing-sm" value="0">
+                                <input :disabled="villageData['owner'] == ''" type="number" class="form-control mr-2 text-center" min="0" aria-label="Small" :id="'troop' + (index+5)" aria-describedby="inputGroup-sizing-sm">
                                 <div class="pt-1" @click="insertTroops(index+5);" href="#" style="color:green; cursor: pointer"><strong>(<span :id="'maxTroops' + (index+5)">{{ villageOwnTroops[index+4] }}</span>)</strong></div>
                             </td>
                         </tr>

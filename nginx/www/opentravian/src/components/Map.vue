@@ -21,7 +21,8 @@
                                             }}">
                                         <router-link class="hexLink" :to="{ path: '/map/' + (index+1) }">
                                             <div class='img' v-bind:style="getTileColour(tile)">
-                                                <p style="top:35%;opacity:1;color:black">{{ tile['xCoordinate'] }},{{ tile['yCoordinate'] }}</p>
+                                                <img v-if="tile['owner']" style="width: 2.5rem;height: 2.5rem;" class="mt-4" src="/images/map/village.png">
+                                                <img v-else style="width: 2rem;height: 2rem; opacity: .5;" class="mt-4" src="/images/map/trees.svg">
                                             </div>
                                             <h1 id="demo1"></h1>
                                             <p id="demo2"></p>
@@ -70,7 +71,7 @@ export default {
             const userId = this.getCookie('userId');
             let style = 'background-color:';
 
-            if (tile['owner']=='') return style += 'green';
+            if (tile['owner']=='') return style += '#14bd58';
             if (tile['owner']==userId) {
                 return style += 'CornflowerBlue';
             } else {
@@ -78,8 +79,10 @@ export default {
             }
         },
         tooltipData(tile){
-            if (tile['name']=='') return 'Abandoned valley';
-            return tile['name'];
+            let tooltipHTML = '(' + tile['xCoordinate'] + '|' + tile['yCoordinate'] + ')';
+            tooltipHTML += '</br>';
+            if (tile['name']=='') return tooltipHTML += 'Abandoned valley';
+            return tooltipHTML += tile['name'];
         }
         
     }
