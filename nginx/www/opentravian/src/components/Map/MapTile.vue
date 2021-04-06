@@ -1,6 +1,6 @@
 <template>  
     <div v-if="checkIfLoggedIn(false)">  
-        <div class="container mt-4">
+        <div class="container mt-4" v-if="villageData['_id']">
             <div class="row">
                 <div class="col-md-8 col-sm-12 col-12">
                     <div class="h2 text-center mb-5">
