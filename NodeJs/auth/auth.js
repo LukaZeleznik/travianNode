@@ -124,6 +124,7 @@ async function createNewUser(email,password,nickname,tribe,village){
     /* Update Village with userId */
     village['owner'] = userDataResponse['_id'];
     village['name']  = userDataResponse['nickname'] + "'s Village";
+    village['isCapital'] = true;
     await tools.doApiRequest("villages/" + village['mapTileId'],"PATCH",village,true);
     
 

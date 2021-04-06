@@ -424,15 +424,15 @@ const store = new Vuex.Store({
 
                     let villageBuildingColors = villageBuildingTypes.map(type => {
                         switch(type) {
-                            case 0: return "SlateGray";
-                            case 1: return "Orange";        //Barracks
-                            case 2: return "Brown";         //Warehouse
-                            case 3: return "Yellow";        //Granary
-                            case 4: return "Pink";          //Stable
-                            case 5: return "SaddleBrown";   //Earth Wall
-                            case 6: return "SaddleBrown";   //City Wall
-                            case 7: return "SaddleBrown";   //Palisade
-                            default: return "SlateGray";
+                            case 0: return "Gainsboro";
+                            // case 1: return "Orange";        //Barracks
+                            // case 2: return "Brown";         //Warehouse
+                            // case 3: return "Yellow";        //Granary
+                            // case 4: return "Pink";          //Stable
+                            // case 5: return "SaddleBrown";   //Earth Wall
+                            // case 6: return "SaddleBrown";   //City Wall
+                            // case 7: return "SaddleBrown";   //Palisade
+                            default: return "#4B9B22";
                         }
                     });
 

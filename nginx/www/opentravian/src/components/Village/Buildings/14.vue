@@ -5,7 +5,7 @@
             <thead>
                 <tr>
                 <th scope="col">Troop</th>
-                <th scope="col" style="max-width:100px">Quantity</th>
+                <th scope="col" style="max-width:100px"></th>
                 </tr>
             </thead>
             <tbody>

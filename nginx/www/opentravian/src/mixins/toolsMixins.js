@@ -82,6 +82,6 @@ export const toolsMixins = {
         },
         async getVillageData(idVillage){
             return await(await(await this.doApiRequest("villages/" + idVillage, "GET", "", false)).json()).data;
-        },
+        }
     }
 }

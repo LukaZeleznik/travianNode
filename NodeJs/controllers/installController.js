@@ -73,6 +73,7 @@ async function generateMap(width,height){
             "owner": "",
             "name": "",
             "merchantsAvailable": 0,
+            "isCapital": false,
         })
     }
     await tools.doApiRequest("generateMapVillages", "POST", villageData, true);
@@ -102,6 +103,7 @@ async function createAdminUser(email, password, nickname, tribe, village){
     village['owner'] = adminDataResponse['_id'];
     village['name']  = adminDataResponse['nickname'] + "'s Village";
     village['fieldVariation'] = 0;
+    village['isCapital'] = true;
     await tools.doApiRequest("villages/" + village['mapTileId'], "PATCH", village,true);
     
 

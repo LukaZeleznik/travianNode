@@ -35,6 +35,7 @@ exports.new = function (req, res) {
     village.owner               = req.body.owner;
     village.name                = req.body.name;
     village.merchantsAvailable  = req.body.merchantsAvailable;
+    village.isCapital           = req.body.isCapital;
 
     village.save(function (err) {
         if (err){
@@ -127,6 +128,7 @@ exports.update = function (req, res) {
         village.owner               = req.body.owner;
         village.name                = req.body.name;
         village.merchantsAvailable  = req.body.merchantsAvailable;
+        village.isCapital           = req.body.isCapital;
 
         village.save(function (err2) {
             if (err2)
