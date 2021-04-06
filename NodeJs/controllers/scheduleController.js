@@ -410,8 +410,10 @@ async function createFullAttackReport(idVillageFrom, idVillageTo, attackingVilla
     report['mailboxUserId'] = senderData['_id'];
     await tools.doApiRequest("reports", "POST", report, true);
 
-    report['mailboxUserId'] = receiverData['_id'];
-    await tools.doApiRequest("reports", "POST", report, true);
+    if (senderData['_id']!=receiverData['_id']) {
+        report['mailboxUserId'] = receiverData['_id'];
+        await tools.doApiRequest("reports", "POST", report, true);
+    }
 }
 
 async function createSendResourcesReport(idVillageFrom, idVillageTo, senderData, receiverData, taskReqBody){
@@ -433,8 +435,10 @@ async function createSendResourcesReport(idVillageFrom, idVillageTo, senderData,
     report['mailboxUserId'] = senderData['_id'];
     await tools.doApiRequest("reports", "POST", report, true);
 
-    report['mailboxUserId'] = receiverData['_id'];
-    await tools.doApiRequest("reports", "POST", report, true);
+    if (senderData['_id']!=receiverData['_id']) {
+        report['mailboxUserId'] = receiverData['_id'];
+        await tools.doApiRequest("reports", "POST", report, true);
+    }
 }
 
 async function createReinforcementReport(idVillageFrom, idVillageTo, senderData, receiverData, taskReqBody){
@@ -457,8 +461,10 @@ async function createReinforcementReport(idVillageFrom, idVillageTo, senderData,
     report['mailboxUserId'] = senderData['_id'];
     await tools.doApiRequest("reports", "POST", report, true);
 
-    report['mailboxUserId'] = receiverData['_id'];
-    await tools.doApiRequest("reports", "POST", report, true);
+    if (senderData['_id']!=receiverData['_id']) {
+        report['mailboxUserId'] = receiverData['_id'];
+        await tools.doApiRequest("reports", "POST", report, true);
+    }
 }
 
 async function calculateBounty(idVillageTo, attackersTroopsAfter, tribe){

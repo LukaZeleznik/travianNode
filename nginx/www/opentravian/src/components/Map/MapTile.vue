@@ -47,7 +47,7 @@
                         <div class="h5 text-center">
                             <div v-if="villageData.owner">
                                 <h5 style="text-transform: capitalize;">Tribe: {{ userData.tribe }}</h5>
-                                <h5>Owner: {{ userData.nickname }}</h5>
+                                <h5>Owner: <router-link :to="{ path: '/profile/' + userData['_id'] }">{{ userData.nickname }} <i v-if="userData.group==9" class="bi bi-patch-check-fill"></i></router-link></h5>
                                 <h5>Population: {{ villageData.population }}</h5>
                             </div>
                         </div>

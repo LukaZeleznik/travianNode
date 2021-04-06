@@ -29,7 +29,7 @@
                         </tr>
                         <tr>
                             <td class="text-center" v-for="index in 5" v-bind:key="index">
-                                <input :disabled="villageData['owner'] == ''" type="number" class="form-control mr-2 text-center" min="0" aria-label="Small" :id="'troop' + (index+5)" aria-describedby="inputGroup-sizing-sm">
+                                <input :disabled="villageData['owner'] == '' && index != 5" type="number" class="form-control mr-2 text-center" min="0" aria-label="Small" :id="'troop' + (index+5)" aria-describedby="inputGroup-sizing-sm">
                                 <div class="pt-1" @click="insertTroops(index+5);" href="#" style="color:green; cursor: pointer"><strong>(<span :id="'maxTroops' + (index+5)">{{ villageOwnTroops[index+4] }}</span>)</strong></div>
                             </td>
                         </tr>
@@ -40,7 +40,7 @@
                 <div class="row justify-content-left ml-1">
                     <div class="">
                         <div v-if="villageData['owner'] == ''" class="form-check">
-                            <input class="form-check-input" type="radio" id="sendTroopsSettle" name="attackType" value="settle" :disabled="villageData['owner'] == ''">
+                            <input class="form-check-input" type="radio" id="sendTroopsSettle" name="attackType" value="settle" :checked="villageData['owner'] == ''" :disabled="villageData['owner'] != ''">
                             <label class="form-check-label" for="sendTroopsSettle">
                                 Settle new village
                             </label>

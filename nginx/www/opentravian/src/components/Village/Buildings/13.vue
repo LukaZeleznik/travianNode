@@ -1,6 +1,6 @@
 <template>
     <div>
-        <table class="table table-bordered m-auto" v-if="$parent.villageBuildingLevel > 0">
+        <table class="table table-bordered m-auto" v-if="$parent.villageBuildingLevel > 0 && researchedTroops.length > 0">
             <thead>
                 <tr>
                 <th scope="col">Name</th>
@@ -33,7 +33,7 @@
 
             </tbody>
         </table>
-        <div class="btn-group my-4 w-100" role="group" aria-label="Train" v-if="$parent.villageBuildingLevel > 0">
+        <div class="btn-group my-4 w-100" role="group" aria-label="Train" v-if="$parent.villageBuildingLevel >= 10 && researchedTroops.length > 0">
             <button type="button" class="btn btn-success m-auto mt-3" @click="train();">Train</button>
         </div>
         <h5 class="mt-4 text-danger" id="errorMessage"></h5>                
@@ -164,14 +164,16 @@ export default {
             this.researchedTroops = researchedTroops;
         },
         async getMaxAvailableTroops(){
+            let allowed = 0;
             if(this.$parent.villageBuildingLevel >= 10){
-                var allowed = 1 + Math.floor((this.$parent.villageBuildingLevel - 10) / 5);
+                allowed = 1 + Math.floor((this.$parent.villageBuildingLevel - 10) / 5);
+                console.log(allowed,"allowed")
             }
             const existingTroops = await this.getExistingTroops();
             const trained = existingTroops[0] + (existingTroops[1] / 3);
-            const troop9avail = Math.floor(allowed - trained) ? Math.floor(allowed - trained) : 3;
-            const troop10avail = Math.floor(allowed - trained) ? Math.floor(allowed - trained) * 3 : 3 * 3;
-
+            const troop9avail = Math.floor(allowed - trained);
+            const troop10avail = Math.floor((allowed - trained) * 3);
+            
             return [troop9avail,troop10avail];
         },
         async getExistingTroops(){
