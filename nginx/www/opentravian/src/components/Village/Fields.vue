@@ -47,8 +47,8 @@
                     </div>
                     <div class="hexIn" v-else>
                         <router-link v-tooltip="{ content: villageBuildingTooltip(realIndexes[index]-1), delay: { show: 500, hide: 300 }}" class="hexLink" :to="{ path: '/villageBuilding/' + realIndexes[index] }">
-                            <div class='img' v-bind:style="'background-color:' + villageBuildingColors[realIndexes[index]-1]">
-                                <img v-if="villageBuildingTypes[realIndexes[index]-1]>0 && villageBuildingLevels[realIndexes[index]-1] > 0" style="width: 5rem; height: 6.5rem;" v-bind:src="'/images/buildings/' + villageBuildingTypes[realIndexes[index]-1] + '.gif'">
+                            <div class='img' v-bind:style="'background-color: #ccd2d7'">
+                                <img v-if="villageBuildingTypes[realIndexes[index]-1]>0 && villageBuildingLevels[realIndexes[index]-1] > 0" style="width: 85%; height: 85%;" v-bind:src="'/images/buildings/' + villageBuildingTypes[realIndexes[index]-1] + '.png'">
                                 <img v-else-if="villageBuildingTypes[realIndexes[index]-1]>0 && villageBuildingLevels[realIndexes[index]-1] == 0" style="width: 5rem; height: 6.5rem;" v-bind:src="'/images/buildings/' + villageBuildingTypes[realIndexes[index]-1] + 'b.gif'">
                                 <!-- <p style="top:35%;opacity:1;color:black" v-if="villageBuildingTypes[realIndexes[index]-1] > 0">{{ villageBuildingNames[realIndexes[index]-1] }} ({{ villageBuildingLevels[realIndexes[index]-1] }})</p> -->
                             </div>

@@ -124,8 +124,6 @@ function doProcessTroopProductions(productions, villageOwnTroops, path){
         let troopsProduced = timeDiff / production.troopProdTime;
         let troopsProducedAlready = timeDiffFromStart / production.troopProdTime;
 
-        console.log("troopsProduced", troopsProduced)
-
         if(troopsProduced + production.troopsDoneAlready >= production.troopCount){
 
             villageOwnTroops["troop"+production.troopId] += production.troopCount - production.troopsDoneAlready;
